@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>人事测评管理系统</title>
-<script type="text/javascript" src="../../js/jquery-1.12.3.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.12.3.min.js"></script>
 <style type="text/css">
 BODY {
 	FONT-SIZE: 12px;
@@ -26,27 +26,28 @@ TD {
 		obj.src="/jc/code?t="+t;
 	}
 	
-	function submitForm(){
+	function submitBefore(){
+		var submitFlag = true;
+		
 		$("#RequiredFieldtxtName").hide();
 		$("#RequiredFieldtxtPwd").hide();
+		$("#RequiredFieldtxtCode").hide();
+		$("#message").html("");
 		
 		if($("#txtName").val() ==""){
 			$("#RequiredFieldtxtName").show();
-			$("#txtName").focus();
-			return;
+			submitFlag =  false;
 		}
 		if($("#txtPwd").val() ==""){
 			$("#RequiredFieldtxtPwd").show();
-			$("#txtPwd").focus();
-			return;
+			submitFlag =  false;
 		}
 		if($("#txtcode").val() =="") {
-			alert("请输入验证码!");
-			$("#txtcode").focus();
-			return;
+			$("#RequiredFieldtxtCode").show();
+			submitFlag =  false;
 		}
 		
-		$("#form1").submit();
+		return submitFlag;
 	}
 	
 </script>
@@ -57,11 +58,11 @@ TD {
 		<TABLE cellSpacing=0 cellPadding=0 width=900 align=center border=0>
 			<TBODY>
 				<TR>
-					<TD style="HEIGHT: 105px"><IMG src="../../image/login.jpg"
+					<TD style="HEIGHT: 105px"><IMG src="${pageContext.request.contextPath}/image/login.jpg"
 						border=0></TD>
 				</TR>
 				<TR>
-					<TD background=../../image/login_2.jpg height=300>
+					<TD background=${pageContext.request.contextPath}/image/login_2.jpg height=300>
 						<TABLE height=300 cellPadding=0 width=900 border=0>
 							<TBODY>
 								<TR>
@@ -70,7 +71,7 @@ TD {
 								<TR>
 									<TD width=360></TD>
 									<TD>
-										<form action="/jc/adminLogin" method="post" id="form1">
+										<form action="/jc/adminLogin" method="post" id="form1" onsubmit="return submitBefore()">
 											<TABLE cellSpacing=0 cellPadding=2 border=0>
 												<TBODY>
 														<TR>
@@ -79,7 +80,7 @@ TD {
 																style="WIDTH: 130px" name=txtName></TD>
 															<TD style="HEIGHT: 28px" width=370><SPAN
 																id=RequiredFieldtxtName
-																style="FONT-WEIGHT: bold; VISIBILITY: hidden; COLOR: white">请输入登录名</SPAN></TD>
+																style="FONT-WEIGHT: bold; display: none; COLOR: red">请输入登录名</SPAN></TD>
 														</TR>
 														<TR>
 															<TD style="HEIGHT: 28px">登录密码：</TD>
@@ -87,25 +88,27 @@ TD {
 																style="WIDTH: 130px" type=password name=txtPwd></TD>
 															<TD style="HEIGHT: 28px"><SPAN
 																id=RequiredFieldtxtPwd
-																style="FONT-WEIGHT: bold; VISIBILITY: hidden; COLOR: white">请输入密码</SPAN></TD>
+																style="FONT-WEIGHT: bold; display: none; COLOR: red">请输入密码</SPAN></TD>
 														</TR>
 														<TR>
 															<TD style="HEIGHT: 28px">验证码：</TD>
 															<TD style="HEIGHT: 28px"><INPUT id=txtcode
 																style="WIDTH: 130px" name=txtcode ></TD>
-															<TD style="HEIGHT: 28px"><img src="/jc/code" onclick="refreshCode(this)"/></TD>
+															<TD style="HEIGHT: 28px"><img src="/jc/code" onclick="refreshCode(this)"/><SPAN
+																id=RequiredFieldtxtCode
+																style="FONT-WEIGHT: bold; display: none; COLOR: red;">&nbsp;请输入验证码</SPAN></TD>
 														</TR>
 														<TR>
-															<TD style="HEIGHT: 18px"></TD>
-															<TD style="HEIGHT: 18px"></TD>
-															<TD style="HEIGHT: 18px"></TD>
+															<TD style="HEIGHT: 18px" colspan="2" align="center"><SPAN
+																id=message
+																style="FONT-WEIGHT: bold; COLOR: red" >${message}</SPAN></TD>
+															<TD style="HEIGHT: 28px"></TD>
 														</TR>
 														<TR>
 															<TD></TD>
 															<TD><INPUT id=btn
 																style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px"
-																onclick='submitForm()'
-																type=image src="../../image/login_button.gif" name=btn>
+																type=image src="${pageContext.request.contextPath}/image/login_button.gif" name=btn>
 															</TD>
 														</TR>
 												</TBODY>
@@ -118,7 +121,7 @@ TD {
 					</TD>
 				</TR>
 				<TR>
-					<TD><IMG src="../../image/login_3.jpg" border=0></TD>
+					<TD><IMG src="${pageContext.request.contextPath}/image/login_3.jpg" border=0></TD>
 				</TR>
 			</TBODY>
 		</TABLE>

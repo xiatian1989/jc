@@ -114,11 +114,11 @@ A.active {
 	<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
 		<TBODY>
 			<TR>
-				<TD width=15><IMG src="../../image/new_019.jpg"
+				<TD width=15><IMG src="${pageContext.request.contextPath}/image/new_019.jpg"
 					border=0></TD>
-				<TD width="100%" background=../../image/new_020.jpg
+				<TD width="100%" background=${pageContext.request.contextPath}/image/new_020.jpg
 					height=20></TD>
-				<TD width=15><IMG src="../../image/new_021.jpg"
+				<TD width=15><IMG src="${pageContext.request.contextPath}/image/new_021.jpg"
 					border=0></TD>
 			</TR>
 		</TBODY>
@@ -126,8 +126,8 @@ A.active {
 	<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
 		<TBODY>
 			<TR>
-				<TD width=15 background=../../image/new_022.jpg><IMG
-					src="../../image/new_022.jpg" border=0></TD>
+				<TD width=15 background=${pageContext.request.contextPath}/image/new_022.jpg><IMG
+					src="${pageContext.request.contextPath}/image/new_022.jpg" border=0></TD>
 				<TD vAlign=top width="100%" bgColor=#ffffff>
 					<TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
 						<TR>
@@ -199,7 +199,7 @@ A.active {
 												style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 												<TD>longlikai1</TD>
 												<TD><A href="#" target=_blank>金币网</A></TD>
-												<TD><IMG alt=申请通过 src="../../image/start.gif"
+												<TD><IMG alt=申请通过 src="${pageContext.request.contextPath}/image/start.gif"
 													border=0></TD>
 												<TD>惠普基地</TD>
 												<TD>2008-12-18 15:48:36</TD>
@@ -212,7 +212,7 @@ A.active {
 												style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 												<TD>longlikai1</TD>
 												<TD><A href="#" target=_blank>金币网</A></TD>
-												<TD><IMG alt=申请通过 src="../../image/start.gif"
+												<TD><IMG alt=申请通过 src="${pageContext.request.contextPath}/image/start.gif"
 													border=0></TD>
 												<TD>纽曼网上商城</TD>
 												<TD>2008-12-18 15:28:41</TD>
@@ -225,7 +225,7 @@ A.active {
 												style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 												<TD>dama2003</TD>
 												<TD><A href="#" target=_blank>网狐科技</A></TD>
-												<TD><IMG alt=申请通过 src="../../image/start.gif"
+												<TD><IMG alt=申请通过 src="${pageContext.request.contextPath}/image/start.gif"
 													border=0></TD>
 												<TD>联想在线</TD>
 												<TD>2008-12-17 19:09:16</TD>
@@ -238,7 +238,7 @@ A.active {
 												style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 												<TD>liyiyan</TD>
 												<TD><A href="#" target=_blank>网龙公司VIP商城</A></TD>
-												<TD><IMG alt=申请通过 src="../../image/start.gif"
+												<TD><IMG alt=申请通过 src="${pageContext.request.contextPath}/image/start.gif"
 													border=0></TD>
 												<TD>惠普基地</TD>
 												<TD>2008-12-17 12:05:29</TD>
@@ -251,7 +251,7 @@ A.active {
 												style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 												<TD>liyiyan</TD>
 												<TD><A href="#" target=_blank>网龙公司VIP商城</A></TD>
-												<TD><IMG alt=申请通过 src="../../image/start.gif"
+												<TD><IMG alt=申请通过 src="${pageContext.request.contextPath}/image/start.gif"
 													border=0></TD>
 												<TD>海尔之星</TD>
 												<TD>2008-12-17 12:05:24</TD>
@@ -264,7 +264,7 @@ A.active {
 												style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 												<TD>liyiyan</TD>
 												<TD><A href="#" target=_blank>网龙公司VIP商城</A></TD>
-												<TD><IMG alt=申请通过 src="../../image/start.gif"
+												<TD><IMG alt=申请通过 src="${pageContext.request.contextPath}/image/start.gif"
 													border=0></TD>
 												<TD>纽曼网上商城</TD>
 												<TD>2008-12-17 12:05:14</TD>
@@ -277,7 +277,7 @@ A.active {
 												style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 												<TD>dama2003</TD>
 												<TD><A href="#" target=_blank>网狐科技</A></TD>
-												<TD><IMG alt=申请通过 src="../../image/start.gif"
+												<TD><IMG alt=申请通过 src="${pageContext.request.contextPath}/image/start.gif"
 													border=0></TD>
 												<TD>纽曼网上商城</TD>
 												<TD>2008-11-28 16:02:21</TD>
@@ -290,7 +290,7 @@ A.active {
 												style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 												<TD>weiyi11</TD>
 												<TD><A href="#" target=_blank>唯一</A></TD>
-												<TD><IMG alt=申请通过 src="../../image/start.gif"
+												<TD><IMG alt=申请通过 src="${pageContext.request.contextPath}/image/start.gif"
 													border=0></TD>
 												<TD>罗宝网</TD>
 												<TD>2008-11-10 12:44:27</TD>
@@ -303,7 +303,7 @@ A.active {
 												style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 												<TD>weiyi11</TD>
 												<TD><A href="#" target=_blank>唯一</A></TD>
-												<TD><IMG alt=申请通过 src="../../image/start.gif"
+												<TD><IMG alt=申请通过 src="${pageContext.request.contextPath}/image/start.gif"
 													border=0></TD>
 												<TD>欧酷行货手机网</TD>
 												<TD>2008-11-10 12:44:16</TD>
@@ -316,7 +316,7 @@ A.active {
 												style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 												<TD>eqifa</TD>
 												<TD><A href="#" target=_blank>亿起发</A></TD>
-												<TD><IMG alt=申请通过 src="../../image/start.gif"
+												<TD><IMG alt=申请通过 src="${pageContext.request.contextPath}/image/start.gif"
 													border=0></TD>
 												<TD>佑一良品网</TD>
 												<TD>2008-11-5 9:44:09</TD>
@@ -329,7 +329,7 @@ A.active {
 												style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 												<TD>dama2003</TD>
 												<TD><A href="#" target=_blank>网狐科技</A></TD>
-												<TD><IMG alt=申请通过 src="../../image/start.gif"
+												<TD><IMG alt=申请通过 src="${pageContext.request.contextPath}/image/start.gif"
 													border=0></TD>
 												<TD>欧酷行货手机网</TD>
 												<TD>2008-10-30 16:58:43</TD>
@@ -343,7 +343,7 @@ A.active {
 												style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 												<TD>chanet</TD>
 												<TD><A href="#" target=_blank>CHANet成果网</A></TD>
-												<TD><IMG alt=申请通过 src="../../image/start.gif"
+												<TD><IMG alt=申请通过 src="${pageContext.request.contextPath}/image/start.gif"
 													border=0></TD>
 												<TD>罗宝网</TD>
 												<TD>2008-9-17 16:38:28</TD>
@@ -356,7 +356,7 @@ A.active {
 												style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 												<TD>chanet</TD>
 												<TD><A href="#" target=_blank>CHANet成果网</A></TD>
-												<TD><IMG alt=申请通过 src="../../image/start.gif"
+												<TD><IMG alt=申请通过 src="${pageContext.request.contextPath}/image/start.gif"
 													border=0></TD>
 												<TD>海尔之星</TD>
 												<TD>2008-9-17 16:38:08</TD>
@@ -369,7 +369,7 @@ A.active {
 												style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 												<TD>lanhen</TD>
 												<TD><A href="http://www.mycodes.net/" target=_blank>源码之家</A></TD>
-												<TD><IMG alt=申请通过 src="../../image/start.gif"
+												<TD><IMG alt=申请通过 src="${pageContext.request.contextPath}/image/start.gif"
 													border=0></TD>
 												<TD>罗宝网</TD>
 												<TD>2008-9-4 19:51:32</TD>
@@ -410,19 +410,19 @@ A.active {
 						</TBODY>
 					</TABLE>
 				</TD>
-				<TD width=15 background=../../image/new_023.jpg><IMG
-					src="../../image/new_023.jpg" border=0></TD>
+				<TD width=15 background=${pageContext.request.contextPath}/image/new_023.jpg><IMG
+					src="${pageContext.request.contextPath}/image/new_023.jpg" border=0></TD>
 			</TR>
 		</TBODY>
 	</TABLE>
 	<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
 		<TBODY>
 			<TR>
-				<TD width=15><IMG src="../../image/new_024.jpg"
+				<TD width=15><IMG src="${pageContext.request.contextPath}/image/new_024.jpg"
 					border=0></TD>
 				<TD align=middle width="100%"
-					background=../../image/new_025.jpg height=15></TD>
-				<TD width=15><IMG src="../../image/new_026.jpg"
+					background=${pageContext.request.contextPath}/image/new_025.jpg height=15></TD>
+				<TD width=15><IMG src="${pageContext.request.contextPath}/image/new_026.jpg"
 					border=0></TD>
 			</TR>
 		</TBODY>

@@ -7,10 +7,10 @@
 <title>人事测评管理系统</title>
 </head>
 <FRAMESET frameSpacing="0" rows="80,*">
-	<FRAME name="top" src="top.jsp" frameBorder="0" noResize scrolling="no">
+	<FRAME name="top" src="${pageContext.request.contextPath}/admin/index/top.jsp" frameBorder="0" noResize scrolling="no">
 	<FRAMESET frameSpacing="0"  cols="220,*">
-		<FRAME name="menu" src="menu.jsp"  noResize>
-		<FRAME name=“main” src="main.jsp" >
+		<FRAME name="menu" src="${pageContext.request.contextPath}/admin/index/menu.jsp"  noResize>
+		<FRAME name=“main” src="${pageContext.request.contextPath}/admin/index/main.jsp" >
 	</FRAMESET>
 	<NOFRAMES>
 		<p>
