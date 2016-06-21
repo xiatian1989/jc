@@ -1,406 +1,103 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Insert title here</title>
-<STYLE type=text/css>
-BODY {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; BACKGROUND-COLOR: #2a8dc8
+<title>jQuery可展开收缩三级下拉菜单代码 - 站长素材</title>
+<style type="text/css">
+*{margin: 0;padding: 0}
+body{font-size: 12px;font-family: "宋体","微软雅黑";}
+ul,li{list-style: none;}
+a:link,a:visited{text-decoration: none;}
+.list{width: 210px;border-bottom:solid 1px #316a91;margin:40px auto 0 auto;}
+.list ul li{background-color:#467ca2; border:solid 1px #316a91; border-bottom:0;}
+.list ul li a{padding-left: 10px;color: #fff; font-size:12px; display: block; font-weight:bold; height:36px;line-height: 36px;position: relative;
 }
-BODY {
-	FONT-SIZE: 11px; COLOR: #003366; FONT-FAMILY: Verdana
-}
-TD {
-	FONT-SIZE: 11px; COLOR: #003366; FONT-FAMILY: Verdana
-}
-DIV {
-	FONT-SIZE: 11px; COLOR: #003366; FONT-FAMILY: Verdana
-}
-P {
-	FONT-SIZE: 11px; COLOR: #003366; FONT-FAMILY: Verdana
-}
-.mainMenu {
-	FONT-WEIGHT: bold; FONT-SIZE: 14px; CURSOR: hand; COLOR: #000000
-}
-A.style2:link {
-	PADDING-LEFT: 4px; COLOR: #0055bb; TEXT-DECORATION: none
-}
-A.style2:visited {
-	PADDING-LEFT: 4px; COLOR: #0055bb; TEXT-DECORATION: none
-}
-A.style2:hover {
-	PADDING-LEFT: 4px; COLOR: #ff0000; TEXT-DECORATION: none
-}
-A.active {
-	PADDING-LEFT: 4px; COLOR: #ff0000; TEXT-DECORATION: none
-}
-.span {
-	COLOR: #ff0000
-}
-</STYLE>
+.list ul li .inactive{ background:url(images/off.png) no-repeat 184px center;}
+.list ul li .inactives{background:url(images/on.png) no-repeat 184px center;} 
+.list ul li ul{display: none;}
+.list ul li ul li { border-left:0; border-right:0; background-color:#6196bb; border-color:#467ca2;}
+.list ul li ul li ul{display: none;}
+.list ul li ul li a{ padding-left:20px;}
+.list ul li ul li ul li { background-color:#d6e6f1; border-color:#6196bb; }
+.last{ background-color:#d6e6f1; border-color:#6196bb; }
+.list ul li ul li ul li a{ color:#316a91; padding-left:30px;}
+</style>
+<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.inactive').click(function(){
+		if($(this).siblings('ul').css('display')=='none'){
+			$(this).parent('li').siblings('li').removeClass('inactives');
+			$(this).addClass('inactives');
+			$(this).siblings('ul').slideDown(100).children('li');
+			if($(this).parents('li').siblings('li').children('ul').css('display')=='block'){
+				$(this).parents('li').siblings('li').children('ul').parent('li').children('a').removeClass('inactives');
+				$(this).parents('li').siblings('li').children('ul').slideUp(100);
 
-<SCRIPT language=javascript>
-		function MenuDisplay(obj)
-		{
-		    for(var i=1;i<=9;i++)
-		    {
-		        document.getElementById('table_'+i).style.display='none';
-				document.getElementById('table_'+i+'Span').innerText='＋';
-		    }
-			if(document.getElementById(obj).style.display=='none')
-			{
-				document.getElementById(obj).style.display='block';
-				document.getElementById(obj+'Span').innerText='－';
 			}
-			else
-			{
-				document.getElementById(obj).style.display='none';
-				document.getElementById(obj+'Span').innerText='＋';
-			}
+		}else{
+			//控制自身变成+号
+			$(this).removeClass('inactives');
+			//控制自身菜单下子菜单隐藏
+			$(this).siblings('ul').slideUp(100);
+			//控制自身子菜单变成+号
+			$(this).siblings('ul').children('li').children('ul').parent('li').children('a').addClass('inactives');
+			//控制自身菜单下子菜单隐藏
+			$(this).siblings('ul').children('li').children('ul').slideUp(100);
+
+			//控制同级菜单只保持一个是展开的（-号显示）
+			$(this).siblings('ul').children('li').children('a').removeClass('inactives');
 		}
- </SCRIPT>
- 
+	})
+});
+</script>
 </head>
 <body>
-	<FORM id=form1 name=form1 action=YHMenu.aspx method=post>
-		<TABLE cellSpacing=0 cellPadding=0 width=210 align=center border=0>
-			<TBODY>
-				<TR>
-					<TD width=15><IMG src="${pageContext.request.contextPath}/image/new_005.jpg" border=0></TD>
-					<TD align=middle width=180 background=${pageContext.request.contextPath}/image/new_006.jpg
-						height=35><B>人力资源 －功能菜单</B></TD>
-					<TD width=15><IMG src="${pageContext.request.contextPath}/image/new_007.jpg" border=0></TD>
-				</TR>
-			</TBODY>
-		</TABLE>
-		<TABLE cellSpacing=0 cellPadding=0 width=210 align=center border=0>
-			<TBODY>
-				<TR>
-					<TD width=15 background=${pageContext.request.contextPath}/image/new_008.jpg></TD>
-					<TD vAlign=top width=180 bgColor=#ffffff>
-						<TABLE cellSpacing=0 cellPadding=3 width=165 align=center border=0>
-							<TBODY>
-								<TR>
-									<TD class=mainMenu onClick="MenuDisplay('table_1');"><SPAN
-										class=span id=table_1Span>＋</SPAN> 渠道商</TD>
-								</TR>
-								<TR>
-									<TD>
-										<TABLE id=table_1 style="DISPLAY: none" cellSpacing=0
-											cellPadding=2 width=155 align=center border=0>
-											<TBODY>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 渠道商列表</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 新增渠道商</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 渠道商广告申请</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 渠道商价格管理</A></TD>
-												</TR>
-											</TBODY>
-										</TABLE>
-									</TD>
-								</TR>
-								<TR>
-									<TD background=${pageContext.request.contextPath}/image/new_027.jpg height=1></TD>
-								</TR>
-								<TR>
-									<TD class=mainMenu onClick="MenuDisplay('table_2');"><SPAN
-										class=span id=table_2Span>＋</SPAN> 广告商</TD>
-								</TR>
-								<TR>
-									<TD>
-										<TABLE id=table_2 style="DISPLAY: none" cellSpacing=0
-											cellPadding=2 width=155 align=center border=0>
-											<TBODY>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 新增广告商</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 广告商列表</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 广告申请列表</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 广告列表</A></TD>
-												</TR>
-											</TBODY>
-										</TABLE>
-									</TD>
-								</TR>
-								<TR>
-									<TD background=${pageContext.request.contextPath}/image/new_027.jpg height=1></TD>
-								</TR>
-								<TR>
-									<TD class=mainMenu onClick="MenuDisplay('table_3');"><SPAN
-										class=span id=table_3Span>＋</SPAN> 广告管理</TD>
-								</TR>
-								<TR>
-									<TD>
-										<TABLE id=table_3 style="DISPLAY: none" cellSpacing=0
-											cellPadding=2 width=155 align=center border=0>
-											<TBODY>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 新增广告</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 广告列表</A></TD>
-												</TR>
-											</TBODY>
-										</TABLE>
-									</TD>
-								</TR>
-								<TR>
-									<TD background=${pageContext.request.contextPath}/image/new_027.jpg height=1></TD>
-								</TR>
-								<TR>
-									<TD class=mainMenu onClick="MenuDisplay('table_4');"><SPAN
-										class=span id=table_4Span>＋</SPAN> 数据</TD>
-								</TR>
-								<TR>
-									<TD>
-										<TABLE id=table_4 style="DISPLAY: none" cellSpacing=0
-											cellPadding=2 width=155 align=center border=0>
-											<TBODY>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 数据统计</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 订单详细</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 订单数据修正</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 导出报表数据</A></TD>
-												</TR>
-											</TBODY>
-										</TABLE>
-									</TD>
-								</TR>
-								<TR>
-									<TD background=${pageContext.request.contextPath}/image/new_027.jpg height=1></TD>
-								</TR>
-								<TR>
-									<TD class=mainMenu onClick="MenuDisplay('table_5');"><SPAN
-										class=span id=table_5Span>＋</SPAN> 财务管理</TD>
-								</TR>
-								<TR>
-									<TD>
-										<TABLE id=table_5 style="DISPLAY: none" cellSpacing=0
-											cellPadding=2 width=155 align=center border=0>
-											<TBODY>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 广告商财务</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 渠道商财务</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 费用结算</A></TD>
-												</TR>
-											</TBODY>
-										</TABLE>
-									</TD>
-								</TR>
-								<TR>
-									<TD background=${pageContext.request.contextPath}/image/new_027.jpg height=1></TD>
-								</TR>
-								<TR>
-									<TD class=mainMenu onClick="MenuDisplay('table_6');"><SPAN
-										class=span id=table_6Span>＋</SPAN> 系统辅助</TD>
-								</TR>
-								<TR>
-									<TD>
-										<TABLE id=table_6 style="DISPLAY: none" cellSpacing=0
-											cellPadding=2 width=155 align=center border=0>
-											<TBODY>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 新增状态设置</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 状态设置</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 新增公告</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 公告管理</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 新增网站调用文件</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 网站调用文件管理</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 网站文件管理</A></TD>
-												</TR>
-											</TBODY>
-										</TABLE>
-									</TD>
-								</TR>
-								<TR>
-									<TD background=${pageContext.request.contextPath}/image/new_027.jpg height=1></TD>
-								</TR>
-								<TR>
-									<TD class=mainMenu onClick="MenuDisplay('table_7');"><SPAN
-										class=span id=table_7Span>＋</SPAN> 帮助中心</TD>
-								</TR>
-								<TR>
-									<TD>
-										<TABLE id=table_7 style="DISPLAY: none" cellSpacing=0
-											cellPadding=2 width=155 align=center border=0>
-											<TBODY>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 新增渠道商帮助</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 渠道商帮助管理</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 新增广告商帮助</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 广告商帮助管理</A></TD>
-												</TR>
-											</TBODY>
-										</TABLE>
-									</TD>
-								</TR>
-								<TR>
-									<TD background=${pageContext.request.contextPath}/image/new_027.jpg height=1></TD>
-								</TR>
-								<TR>
-									<TD class=mainMenu onClick="MenuDisplay('table_8');"><SPAN
-										class=span id=table_8Span>＋</SPAN> 广告展示页管理</TD>
-								</TR>
-								<TR>
-									<TD>
-										<TABLE id=table_8 style="DISPLAY: none" cellSpacing=0
-											cellPadding=2 width=155 align=center border=0>
-											<TBODY>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 新增最新信息</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 最新信息管理</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 新增广告商活动</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 广告商活动管理</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 新增广告图片展示</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 广告图片展示管理</A></TD>
-												</TR>
-											</TBODY>
-										</TABLE>
-									</TD>
-								</TR>
-								<TR>
-									<TD background=${pageContext.request.contextPath}/image/new_027.jpg height=1></TD>
-								</TR>
-								<TR>
-									<TD class=mainMenu onClick="MenuDisplay('table_9');"><SPAN
-										class=span id=table_9Span>＋</SPAN> 系统管理</TD>
-								</TR>
-								<TR>
-									<TD>
-										<TABLE id=table_9 style="DISPLAY: none" cellSpacing=0
-											cellPadding=2 width=155 align=center border=0>
-											<TBODY>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 系统设置</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 新增管理员</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 管理员列表</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 执行数据库语句</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 接口日志</A></TD>
-												</TR>
-												<TR>
-													<TD class=menuSmall><A class=style2 href="#"
-														target=dmMain>－ 系统日志</A></TD>
-												</TR>
-											</TBODY>
-										</TABLE>
-									</TD>
-								</TR>
-							</TBODY>
-						</TABLE>
-					</TD>
-					<TD width=15 background=${pageContext.request.contextPath}/image/new_009.jpg></TD>
-				</TR>
-			</TBODY>
-		</TABLE>
-		<TABLE cellSpacing=0 cellPadding=0 width=210 align=center border=0>
-			<TBODY>
-				<TR>
-					<TD width=15><IMG src="${pageContext.request.contextPath}/image/new_010.jpg" border=0></TD>
-					<TD align=middle width=180 background=${pageContext.request.contextPath}/image/new_011.jpg
-						height=15></TD>
-					<TD width=15><IMG src="${pageContext.request.contextPath}/image/new_012.jpg" border=0></TD>
-				</TR>
-			</TBODY>
-		</TABLE>
-	</FORM>
+<div class="list">
+	<ul class="yiji">
+		<li><a href="#">中国美协章程</a></li>
+		<li><a href="#" class="inactive">团体会员</a>
+			<ul style="display: none">
+				<li><a href="#" class="inactive active">美协机关</a>
+					<ul>
+						<li><a href="#">办公室</a></li>
+						<li><a href="#">人事处</a></li>
+						<li><a href="#">组联部</a></li>
+						<li><a href="#">外联部</a></li>
+						<li><a href="#">研究部</a></li>
+						<li><a href="#">维权办</a></li>
+					</ul>
+				</li> 
+				<li class="last"><a href="#">《美术》杂志社</a></li> 
+			</ul>
+		</li>
+		<li><a href="#" class="inactive">组织机构</a>
+			<ul style="display: none">
+				<li><a href="#" class="inactive active">美协机关</a>
+					<ul>
+						<li><a href="#">办公室</a></li>
+						<li><a href="#">人事处</a></li>
+						<li><a href="#">组联部</a></li>
+						<li><a href="#">外联部</a></li>
+						<li><a href="#">研究部</a></li>
+						<li><a href="#">维权办</a></li>
+					</ul>
+				</li> 
+				<li><a href="#" class="inactive active">中国文联美术艺术中心</a>   
+					<ul>
+						<li><a href="#">综合部</a></li>
+						<li><a href="#">大型活动部</a></li>
+						<li><a href="#">展览部</a></li>
+						<li><a href="#">艺委会工作部</a></li>
+						<li><a href="#">信息资源部</a></li>
+						<li><a href="#">双年展办公室</a></li>
+					</ul>
+				</li> 
+				<li class="last"><a href="#">《美术》杂志社</a></li> 
+			</ul>
+		</li>
+	</ul>
+</div>
 </body>
-
 </html>
