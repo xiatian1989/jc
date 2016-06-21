@@ -74,12 +74,12 @@ A.active {
 	COLOR: #ff0000
 }
 </STYLE>
-<LINK href="css/Style.css" type=text/css rel=stylesheet>
-<LINK href="css/Manage.css" type=text/css
+<LINK href="${pageContext.request.contextPath}/css/Style.css" type=text/css rel=stylesheet>
+<LINK href="${pageContext.request.contextPath}/css/Manage.css" type=text/css
 	rel=stylesheet>
-<SCRIPT language=javascript src="js/FrameDiv.js"></SCRIPT>
+<SCRIPT language=javascript src="${pageContext.request.contextPath}/js/FrameDiv.js"></SCRIPT>
 
-<SCRIPT language=javascript src="js/Common.js"></SCRIPT>
+<SCRIPT language=javascript src="${pageContext.request.contextPath}/js/Common.js"></SCRIPT>
 
 <SCRIPT language=javascript>
         function selectallbox()

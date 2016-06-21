@@ -6,40 +6,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>人事测评管理系统 </title>
-<STYLE type=text/css>
-BODY {
-	PADDING-RIGHT: 0px;
-	PADDING-LEFT: 0px;
-	PADDING-BOTTOM: 0px;
-	MARGIN: 0px;
-	PADDING-TOP: 0px;
-	BACKGROUND-COLOR: #2a8dc8
-}
-
-BODY {
-	FONT-SIZE: 12px;
-	COLOR: #003366;
-	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
-}
-
-TD {
-	FONT-SIZE: 12px;
-	COLOR: #003366;
-	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
-}
-
-DIV {
-	FONT-SIZE: 12px;
-	COLOR: #003366;
-	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
-}
-
-P {
-	FONT-SIZE: 12px;
-	COLOR: #003366;
-	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
-}
-</STYLE>
 </head>
 <body>
 	<FORM id=form1 name=form1 action=YHTop.aspx method=post>
@@ -47,7 +13,7 @@ P {
 			<TBODY>
 				<TR>
 					<TD width=10><IMG src="${pageContext.request.contextPath}/image/new_001.jpg" border=0></TD>
-					<TD background=image/new_002.jpg><FONT size=4><B>人事测评管理系统
+					<TD background=${pageContext.request.contextPath}image/new_002.jpg><FONT size=4><B>人事测评管理系统
 								管理中心</B></FONT></TD>
 					<TD background=image/new_002.jpg>
 						<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>

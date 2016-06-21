@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
-<title>jQuery可展开收缩三级下拉菜单代码 - 站长素材</title>
+<title>人事测评管理系统</title>
 <style type="text/css">
 *{margin: 0;padding: 0}
 body{font-size: 12px;font-family: "宋体","微软雅黑";}
@@ -13,8 +13,8 @@ a:link,a:visited{text-decoration: none;}
 .list ul li{background-color:#467ca2; border:solid 1px #316a91; border-bottom:0;}
 .list ul li a{padding-left: 10px;color: #fff; font-size:12px; display: block; font-weight:bold; height:36px;line-height: 36px;position: relative;
 }
-.list ul li .inactive{ background:url(images/off.png) no-repeat 184px center;}
-.list ul li .inactives{background:url(images/on.png) no-repeat 184px center;} 
+.list ul li .inactive{ background:url(${pageContext.request.contextPath}/image/off.png) no-repeat 184px center;}
+.list ul li .inactives{background:url(${pageContext.request.contextPath}/image/on.png) no-repeat 184px center;} 
 .list ul li ul{display: none;}
 .list ul li ul li { border-left:0; border-right:0; background-color:#6196bb; border-color:#467ca2;}
 .list ul li ul li ul{display: none;}
@@ -23,7 +23,7 @@ a:link,a:visited{text-decoration: none;}
 .last{ background-color:#d6e6f1; border-color:#6196bb; }
 .list ul li ul li ul li a{ color:#316a91; padding-left:30px;}
 </style>
-<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.12.3.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 	$('.inactive').click(function(){
