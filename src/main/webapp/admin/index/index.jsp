@@ -172,13 +172,14 @@ $(document).ready(function() {
 </head>
 <body>
 	<div id="top">
-		<span id="log">人事测评管理系统管理中心</span>
+		<span id="log">人事测评管理系统</span>
 		<span id="logout">安全退出</span>
 	</div>
 	<div id="content">
 		<div id="left" class="list">
 				<ul class="yiji">
-		<li><a href="#">中国美协章程</a></li>
+		<li><a href="#">组织管理</a></li>
+		<li><a href="#">管理员管理</a></li>
 		<li><a href="#" class="inactive">团体会员</a>
 			<ul style="display: none">
 				<li><a href="#" class="inactive active">美协机关</a>
