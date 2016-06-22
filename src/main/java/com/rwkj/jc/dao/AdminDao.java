@@ -1,8 +1,12 @@
 package com.rwkj.jc.dao;
 
+import java.util.List;
+
 import com.rwkj.jc.domain.Admin;
 
 public interface AdminDao {
+	
+	List<Admin> getAdmins();
 	
     int deleteByPrimaryKey(String id);
 

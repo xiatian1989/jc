@@ -13,6 +13,8 @@ public class Admin {
     private Byte level;
 
     private Byte status;
+    
+    private Organization organization;
 
     public String getId() {
         return id;
@@ -61,4 +63,12 @@ public class Admin {
     public void setStatus(Byte status) {
         this.status = status;
     }
+
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
 }

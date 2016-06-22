@@ -20,7 +20,7 @@ public class AdminLoginController {
 	private AdminService adminService;
 	
 	@RequestMapping("adminLogin")
-	public ModelAndView AdminLogin(HttpServletRequest req){
+	public ModelAndView adminLogin(HttpServletRequest req){
 		
 		ModelAndView modelAndView = new ModelAndView();
 		String username = req.getParameter("txtName");

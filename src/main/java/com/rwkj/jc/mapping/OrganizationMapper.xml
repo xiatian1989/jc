@@ -10,11 +10,22 @@
   <sql id="Base_Column_List" >
     id, organization_name, sequence, status
   </sql>
+  <select id="getOrganizationList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_organization
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from jc_organization
     where id = #{id,jdbcType=CHAR}
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jc_organization
+    where organization_name = #{organization_name,jdbcType=CHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from jc_organization

@@ -26,6 +26,12 @@
 	window.onload = function() {
 		altRows('alternatecolor');
 	}
+	
+	function addOrganization() {
+		var newRow = "<tr><td>新行第一列</td><td>新行第二列</td><td>新行第三列</td><td>新行第四列</td><td>新行第五列</td></tr>";
+		$("#alternatecolor tr:last").after(newRow);
+		
+	}
 </script>
 <style type="text/css">
 table.altrowstable {
@@ -61,20 +67,38 @@ table.altrowstable td {
 </style>
 </head>
 <body>
+	<input type="button" value="添加组织" onclick="addOrganization()" id="addOrganization">
 	<table class="altrowstable" id="alternatecolor">
 		<tr>
 			<th>组织名称</th>
-			<th>用户名称</th>
-			<th>角色类别</th>
-			<th>用户类别</th>
-			<th>用户状态</th>
+			<th>组织状态</th>
 			<th>操作</th>
 		</tr>
-		<c:forEach items="adminList" var="admin">
+		<c:forEach items="organizationList" var="Organization">
 			<tr>
-				<td>Text 1A</td>
-				<td>Text 1B</td>
-				<td>Text 1C</td>
+				<td><input type="text" value="${Organization.organizationName}"></td>
+				<td>
+					<c:choose>
+						<c:when test="${Organization.status==1}">
+							<span>启用</span>
+						</c:when>
+						<c:otherwise>
+							<span>禁用</span>
+						</c:otherwise>
+					</c:choose>
+				</td>
+				<td>
+					<c:choose>
+						<c:when test="${Organization.status==1}">
+							<input type="button" value="禁用">
+						</c:when>
+						<c:otherwise>
+							<input type="button" value="启用">
+						</c:otherwise>
+					</c:choose>
+					<input type="button" value="编辑">
+					<input type="button" value="删除">
+				</td>
 			</tr>
 		</c:forEach>
 	</table>
