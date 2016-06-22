@@ -13,4 +13,5 @@ public interface AdminService {
 	int updateOrganization(Organization organization);
 	int deleteOrganization(String id);
 	boolean checkOrganizationName(String name);
+	int getMaxSequence();
 }

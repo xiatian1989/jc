@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.rwkj.jc.dao.AdminDao;
 import com.rwkj.jc.dao.OrganizationDao;
@@ -51,5 +52,12 @@ public class AdminServiceImpl implements AdminService {
 			return true;
 		}
 		return false;
+	}
+
+	public int getMaxSequence() {
+		if(CollectionUtils.isEmpty(organizationDao.getOrganizationList())) {
+			return 0;
+		}
+		return organizationDao.getMaxSequence();
 	}
 }

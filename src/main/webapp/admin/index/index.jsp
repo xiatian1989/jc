@@ -178,7 +178,7 @@ $(document).ready(function() {
 	<div id="content">
 		<div id="left" class="list">
 				<ul class="yiji">
-		<li><a href="#">组织管理</a></li>
+		<li><a href="${pageContext.request.contextPath}/organizationList" target="mainContent">组织管理</a></li>
 		<li><a href="#">管理员管理</a></li>
 		<li><a href="#" class="inactive">团体会员</a>
 			<ul style="display: none">
