@@ -41,17 +41,17 @@
 			count = $("#alternatecolor tr:last td:first").html()
 		}
 		if(count=='序号'){
-			var newRow = "<tr><td>1</td><td><input type='text' value=''></td><td><select><option>启用</option><option>禁用</option></select></td><td><input type='button' value='确定' onclick='addOrganization()'></td></tr>";
+			var newRow = "<tr><td>1</td><td><input type='text' value=''></td><td><select><option>启用</option><option>禁用</option></select></td><td><input type='button' value='确定' onclick='addOrganization()'/></td></tr>";
 		}else{
 			count =  parseInt(count)+1
-			var newRow = "<tr><td>"+count+"</td><td><input type='text' value=''></td><td><select><option>启用</option><option>禁用</option></select></td><td><input type='button' value='确定' onclick='addOrganization()'></td></tr>";
+			var newRow = "<tr><td>"+count+"</td><td><input type='text' value=''></td><td><select><option>启用</option><option>禁用</option></select></td><td><input type='button' value='确定' onclick='addOrganization()'/></td></tr>";
 		}
 		$("#alternatecolor tr:last").after(newRow);
 	}
 	
 	function addOrganization(){
-		var organizationName = $("#alternatecolor tr:last td:eq(1)").text();
-		var statusText = $("#alternatecolor tr:last td:eq(2)").text();
+		var organizationName = $("#alternatecolor tr:last td:eq(1) input").val();
+		var statusText = $("#alternatecolor tr:last td:eq(2) select").val();
 		var status =true;
 		if(statusText=="禁用") {
 			status=false
@@ -66,12 +66,112 @@
 		       alert('添加失败');   
 		    },   
 		    success:function(msg){
-		    	if(msg.result=="success") {
-		    		window.location.href=='"${pageContext.request.contextPath}/organizationList"';
+		    	var obj = jQuery.parseJSON(msg);
+		    	if(obj.result=="success") {
+		    		window.location.href=window.location.href;
+		    	}else{
+		    		alert('添加失败'); 
 		    	}
 		    }
 		});
 		
+	}
+	
+	function disabledOrganization(id){
+		$("#"+id+" td:eq(2) span").html("禁用");
+		$("#disabledButton"+id).hide();
+		$("#enabledButton"+id).show();
+		var data = 'organization.id='+id+"&organization.status="+false;
+		updateOrganization(data);
+	}
+	
+	function enabledOrganization(id){
+		$("#"+id+" td:eq(2) span").html("启用");
+		$("#enabledButton"+id).hide();
+		$("#disabledButton"+id).show();
+		var data = 'organization.id='+id+"&organization.status="+true;
+		updateOrganization(data);
+	}
+	
+	function updateOrganization(data){
+		$.ajax({   
+		    url:'${pageContext.request.contextPath}/updateOrganization',   
+		    type:'post',   
+		    data:data,   
+		    async : false, //默认为true 异步   
+		    error:function(){   
+		       alert('更新失败');   
+		    },   
+		    success:function(msg){
+		    	var obj = jQuery.parseJSON(msg);
+		    	if(obj.result=="success") {
+		    		window.location.href=window.location.href;
+		    	}else{
+		    		alert('更新失败'); 
+		    	}
+		    }
+		});
+	}
+	
+	function deleteOrganization(id) {
+		$.ajax({   
+		    url:'${pageContext.request.contextPath}/deleteOrganization',   
+		    type:'post',   
+		    data:'id='+id,   
+		    async : false, //默认为true 异步   
+		    error:function(){   
+		       alert('删除失败');   
+		    },   
+		    success:function(msg){
+		    	var obj = jQuery.parseJSON(msg);
+		    	if(obj.result=="success") {
+		    		window.location.href=window.location.href;
+		    	}else{
+		    		alert('删除失败'); 
+		    	}
+		    }
+		});
+	}
+	function editOrganizationBefore(id){
+		$("#disabledButton"+id).hide();
+		$("#enabledButton"+id).hide();
+		$("#editButton"+id).hide();
+		$("#deleteButton"+id).hide();
+		$("#OKButton"+id).show();
+		$("#"+id+" td:eq(1) input").removeAttr("disabled");
+		$("#"+id+" td:eq(2)").html("<select><option>启用</option><option>禁用</option></select>");
+	}
+	
+	function editOrganization(id){
+		var organizationName = $("#"+id+" td:eq(1) input").val();
+		var statusText = $("#"+id+" td:eq(2) select").val();
+		var status =true;
+		if(statusText=="禁用") {
+			status=false
+		}
+		var data = 'organization.id='+id+"&organization.status="+status+"&organization.organizationName="+organizationName;
+		updateOrganization(data);
+	}
+	
+	function checkUniqName(id,object) {
+		var organizationName = $("#"+id+" td:eq(1) input").val();
+		$.ajax({   
+		    url:'${pageContext.request.contextPath}/checkOrganizationName',   
+		    type:'post',   
+		    data:'name='+organizationName,   
+		    async : false, //默认为true 异步   
+		    error:function(){   
+		       alert('用户名已经存在！');   
+		    },   
+		    success:function(msg){
+		    	var obj = jQuery.parseJSON(msg);
+		    	if(obj.result=="failed") {
+		    		debugger;
+		    		alert('用户名已经存在！');
+		    		$(object).focus().select();
+		    	}
+		    }
+		});
 	}
 </script>
 <style type="text/css">
@@ -117,30 +217,31 @@ table.altrowstable td {
 			<th>操作</th>
 		</tr>
 		<c:forEach items="${organizationList }" var="organization" varStatus="status">
-			<tr>
+			<tr id="${organization.id}">
 				<td>${status.index+1 }</td>
-				<td><input type="text" value="${organization.organizationName}" id="${organization.id}" disabled="disabled"></td>
+				<td><input type="text" value="${organization.organizationName}"  disabled="disabled" onblur="checkUniqName('${organization.id}',this)"/></td>
 				<td>
 					<c:choose>
 						<c:when test="${organization.status}">
-							<span>启用${organization.status}</span>
+							<span>启用</span>
 						</c:when>
 						<c:otherwise>
-							<span>禁用${organization.status}</span>
+							<span>禁用</span>
 						</c:otherwise>
 					</c:choose>
 				</td>
 				<td>
 					<c:choose>
 						<c:when test="${organization.status}">
-							<input type="button" value="禁用">
+							<input type="button" value="禁用" onclick="disabledOrganization('${organization.id}')" id="disabledButton${organization.id}"/>
 						</c:when>
 						<c:otherwise>
-							<input type="button" value="启用">
+							<input type="button" value="启用" onclick="enabledOrganization('${organization.id}')" id="enabledButton${organization.id}"/>
 						</c:otherwise>
 					</c:choose>
-					<input type="button" value="编辑">
-					<input type="button" value="删除">
+					<input type="button" value="编辑" onclick="editOrganizationBefore('${organization.id}')" id="editButton${organization.id}"/>
+					<input type="button" value="删除" onclick="deleteOrganization('${organization.id}')" id="deleteButton${organization.id}"/>
+					<input type="button" value="确定" onclick="editOrganization('${organization.id}')" style="display: none" id="OKButton${organization.id}"/>
 				</td>
 			</tr>
 		</c:forEach>

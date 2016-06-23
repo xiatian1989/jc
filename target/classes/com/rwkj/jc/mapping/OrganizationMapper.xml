@@ -15,7 +15,7 @@
     <include refid="Base_Column_List" />
     from jc_organization
   </select>
-  <select id="getMaxSequence">
+  <select id="getMaxSequence" resultType="java.lang.Integer">
     select 
     max(sequence)
     from jc_organization

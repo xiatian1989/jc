@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.rwkj.jc.domain.Admin;
 import com.rwkj.jc.domain.Organization;
 import com.rwkj.jc.service.AdminService;
+import com.rwkj.jc.util.CommonUtils;
 
 @Controller
 public class AdminManagerController {
@@ -53,6 +54,8 @@ public class AdminManagerController {
 	@RequestMapping("addOrganization")
 	public @ResponseBody Map<String,String> addOrganization(@ModelAttribute Organization organization){
 		Map<String,String> map = new HashMap<String,String>();
+		organization.setId(CommonUtils.getUUID());
+		organization.setSequence(adminService.getMaxSequence()+1);
 		int count = adminService.addOrganization(organization);
 		if(count>0){
 			map.put("result", "success");
