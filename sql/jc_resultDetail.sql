@@ -10,29 +10,22 @@ Target Server Type    : MYSQL
 Target Server Version : 50087
 File Encoding         : 65001
 
-Date: 2016-06-24 17:36:03
+Date: 2016-06-24 17:35:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for jc_user
+-- Table structure for jc_resultdetail
 -- ----------------------------
-DROP TABLE IF EXISTS `jc_user`;
-CREATE TABLE `jc_user` (
+DROP TABLE IF EXISTS `jc_resultdetail`;
+CREATE TABLE `jc_resultdetail` (
   `id` varchar(50) NOT NULL,
-  `depart_no` varchar(50) NOT NULL,
-  `trueName` varchar(50) NOT NULL,
-  `userno` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `leader_no` varchar(50) default NULL,
-  `sex` tinyint(1) NOT NULL,
-  `phone` char(11) NOT NULL,
-  `wechat` varchar(50) NOT NULL,
-  `createTime` datetime NOT NULL,
-  `status` tinyint(1) NOT NULL
+  `questionNO` varchar(50) NOT NULL,
+  `questionAnswer` varchar(50) NOT NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of jc_user
+-- Records of jc_resultdetail
 -- ----------------------------

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50087
 File Encoding         : 65001
 
-Date: 2016-06-20 17:41:41
+Date: 2016-06-24 17:34:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,3 +30,5 @@ CREATE TABLE `jc_organization` (
 -- ----------------------------
 -- Records of jc_organization
 -- ----------------------------
+INSERT INTO `jc_organization` VALUES ('7183ac0e68e64bc2bbf7af4c1a2e5d86', '中国中老年组织', '2', '0');
+INSERT INTO `jc_organization` VALUES ('ae7591af487146819ad747e4eb79586d', '中国青少年组织', '1', '1');
