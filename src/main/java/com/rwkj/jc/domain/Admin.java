@@ -1,7 +1,6 @@
 package com.rwkj.jc.domain;
 
 public class Admin {
-	
     private String id;
 
     private String organizationId;
@@ -10,9 +9,9 @@ public class Admin {
 
     private String password;
 
-    private Byte level;
+    private Boolean level;
 
-    private Byte status;
+    private Boolean status;
     
     private Organization organization;
 
@@ -48,19 +47,19 @@ public class Admin {
         this.password = password == null ? null : password.trim();
     }
 
-    public Byte getLevel() {
+    public Boolean getLevel() {
         return level;
     }
 
-    public void setLevel(Byte level) {
+    public void setLevel(Boolean level) {
         this.level = level;
     }
 
-    public Byte getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 

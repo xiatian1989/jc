@@ -179,7 +179,7 @@ $(document).ready(function() {
 		<div id="left" class="list">
 				<ul class="yiji">
 		<li><a href="${pageContext.request.contextPath}/organizationList" target="mainContent">组织管理</a></li>
-		<li><a href="#">管理员管理</a></li>
+		<li><a href="${pageContext.request.contextPath}/adminList" target="mainContent">管理员管理</a></li>
 		<li><a href="#" class="inactive">团体会员</a>
 			<ul style="display: none">
 				<li><a href="#" class="inactive active">美协机关</a>

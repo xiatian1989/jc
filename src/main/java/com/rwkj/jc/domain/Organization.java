@@ -1,7 +1,6 @@
 package com.rwkj.jc.domain;
 
 public class Organization {
-	
     private String id;
 
     private String organizationName;

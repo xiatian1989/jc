@@ -29,6 +29,25 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.getAdmins();
 	}
 
+	public int addAdmin(Admin admin) {
+		return adminDao.insert(admin);
+	}
+
+	public int updateAdmin(Admin admin) {
+		return adminDao.updateByPrimaryKeySelective(admin);
+	}
+
+	public int deleteAdmin(String id) {
+		return adminDao.deleteByPrimaryKey(id);
+	}
+
+	public boolean checkAdminName(String name) {
+		if(adminDao.selectByUserName(name) != null) {
+			return true;
+		}
+		return false;
+	}
+
 	public List<Organization> getOrganizationList() {
 		return organizationDao.getOrganizationList();
 	}
@@ -60,4 +79,5 @@ public class AdminServiceImpl implements AdminService {
 		}
 		return organizationDao.getMaxSequence();
 	}
+
 }

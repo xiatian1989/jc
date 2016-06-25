@@ -41,6 +41,58 @@ public class AdminManagerController {
 		return modelAndView;
 	}
 	
+	@RequestMapping("addAdmin")
+	public @ResponseBody Map<String,String> addAdmin(@ModelAttribute Admin admin){
+		Map<String,String> map = new HashMap<String,String>();
+		admin.setId(CommonUtils.getUUID());
+		String password = admin.getPassword();
+		admin.setPassword(CommonUtils.getMD5Pssword(password));
+		admin.setLevel(false);;
+		int count = adminService.addAdmin(admin);
+		if(count>0){
+			map.put("result", "success");
+		}else {
+			map.put("result", "failed");
+		}
+		return map;
+	}
+	
+	@RequestMapping("updateAdmin")
+	public@ResponseBody Map<String,String> updateAdminn(@ModelAttribute Admin admin){
+		Map<String,String> map = new HashMap<String,String>();
+		int count = adminService.updateAdmin(admin);
+		if(count>0){
+			map.put("result", "success");
+		}else {
+			map.put("result", "failed");
+		}
+		return map;
+	}
+	
+	@RequestMapping("deleteAdmin")
+	public @ResponseBody Map<String,String> deleteAdmin(@RequestParam("id") String id){
+		Map<String,String> map = new HashMap<String,String>();
+		int count = adminService.deleteAdmin(id);
+		if(count>0){
+			map.put("result", "success");
+		}else {
+			map.put("result", "failed");
+		}
+		return map;
+	}
+	
+	
+	@RequestMapping("checkAdminName")
+	public @ResponseBody Map<String,String> checkAdminName(@RequestParam("name") String name){
+		Map<String,String> map = new HashMap<String,String>();
+		if(adminService.checkAdminName(name)){
+			map.put("result", "failed");
+		}else{
+			map.put("result", "success");
+		}
+		return map;
+	}
+	
 	@RequestMapping("organizationList")
 	public ModelAndView getOrganizationList(){
 		
@@ -50,6 +102,7 @@ public class AdminManagerController {
 		modelAndView.setViewName("admin/index/organizationList");
 		return modelAndView;
 	}
+	
 	
 	@RequestMapping("addOrganization")
 	public @ResponseBody Map<String,String> addOrganization(@ModelAttribute Organization organization){
