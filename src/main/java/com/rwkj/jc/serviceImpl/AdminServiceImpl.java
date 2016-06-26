@@ -80,4 +80,12 @@ public class AdminServiceImpl implements AdminService {
 		return organizationDao.getMaxSequence();
 	}
 
+	public List<Organization> getNoConnectedOrganizationList() {
+		return organizationDao.getNoConnectedOrganizationList();
+	}
+
+	public Admin selectByPrimaryKey(String id) {
+		return adminDao.selectByPrimaryKey(id);
+	}
+
 }

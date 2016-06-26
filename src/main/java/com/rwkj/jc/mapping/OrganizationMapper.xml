@@ -13,7 +13,12 @@
   <select id="getOrganizationList" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jc_organization
+    from jc_organization order by sequence
+  </select>
+  <select id="getNoConnectedOrganizationList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_organization jo where not EXISTS (SELECT * from jc_admin ja where ja.organization_id = jo.id ) order by sequence
   </select>
   <select id="getMaxSequence" resultType="java.lang.Integer">
     select 

@@ -6,7 +6,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery-ui.min.css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.12.3.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	function altRows(id) {
 		if (document.getElementsByTagName) {
@@ -82,18 +84,18 @@
 		$("#disabledButton"+id).hide();
 		$("#enabledButton"+id).show();
 		var data = 'organization.id='+id+"&organization.status="+false;
-		updateOrganization(data);
+		updateOrganization(data,false);
 	}
 	
 	function enabledOrganization(id){
 		$("#"+id+" td:eq(2) span").html("启用");
-		$("#enabledButton"+id).hide();
 		$("#disabledButton"+id).show();
+		$("#enabledButton"+id).hide();
 		var data = 'organization.id='+id+"&organization.status="+true;
-		updateOrganization(data);
+		updateOrganization(data,false);
 	}
 	
-	function updateOrganization(data){
+	function updateOrganization(data,flag){
 		$.ajax({   
 		    url:'${pageContext.request.contextPath}/updateOrganization',   
 		    type:'post',   
@@ -105,7 +107,9 @@
 		    success:function(msg){
 		    	var obj = jQuery.parseJSON(msg);
 		    	if(obj.result=="success") {
-		    		window.location.href=window.location.href;
+		    		if(flag) {
+			    		window.location.href=window.location.href;
+		    		}
 		    	}else{
 		    		alert('更新失败'); 
 		    	}
@@ -150,11 +154,16 @@
 			status=false
 		}
 		var data = 'organization.id='+id+"&organization.status="+status+"&organization.organizationName="+organizationName;
-		updateOrganization(data);
+		updateOrganization(data,true);
 	}
 	
 	function checkUniqName(id,object) {
 		var organizationName = $("#"+id+" td:eq(1) input").val();
+		var oldOrganizationName = $("#"+id+" td:eq(1) input").attr("title");
+		if(organizationName == oldOrganizationName) {
+			return;
+		}
+		
 		$.ajax({   
 		    url:'${pageContext.request.contextPath}/checkOrganizationName',   
 		    type:'post',   
@@ -166,7 +175,7 @@
 		    success:function(msg){
 		    	var obj = jQuery.parseJSON(msg);
 		    	if(obj.result=="failed") {
-		    		debugger;
+		    		
 		    		alert('用户名已经存在！');
 		    		$(object).focus().select();
 		    	}
@@ -208,7 +217,7 @@ table.altrowstable td {
 </style>
 </head>
 <body>
-	<input type="button" value="添加组织" onclick="addOrganizationBefore()" id="addOrganization">
+	<button onclick="addOrganizationBefore()" id="addOrganization">添加组织</button>
 	<table class="altrowstable" id="alternatecolor">
 		<tr>
 			<th>序号</th>
@@ -219,7 +228,7 @@ table.altrowstable td {
 		<c:forEach items="${organizationList }" var="organization" varStatus="status">
 			<tr id="${organization.id}">
 				<td>${status.index+1 }</td>
-				<td><input type="text" value="${organization.organizationName}"  disabled="disabled" onblur="checkUniqName('${organization.id}',this)"/></td>
+				<td><input type="text" value="${organization.organizationName}"  disabled="disabled" title="${organization.organizationName}" onblur="checkUniqName('${organization.id}',this)"/></td>
 				<td>
 					<c:choose>
 						<c:when test="${organization.status}">
@@ -234,9 +243,11 @@ table.altrowstable td {
 					<c:choose>
 						<c:when test="${organization.status}">
 							<input type="button" value="禁用" onclick="disabledOrganization('${organization.id}')" id="disabledButton${organization.id}"/>
+							<input type="button" value="启用" onclick="enabledOrganization('${organization.id}')" id="enabledButton${organization.id}" style="display:none"/>
 						</c:when>
 						<c:otherwise>
 							<input type="button" value="启用" onclick="enabledOrganization('${organization.id}')" id="enabledButton${organization.id}"/>
+							<input type="button" value="禁用" onclick="disabledOrganization('${organization.id}')" id="disabledButton${organization.id}" style="display:none"/>
 						</c:otherwise>
 					</c:choose>
 					<input type="button" value="编辑" onclick="editOrganizationBefore('${organization.id}')" id="editButton${organization.id}"/>

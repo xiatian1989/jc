@@ -23,4 +23,6 @@ public interface OrganizationDao {
     int updateByPrimaryKey(Organization record);
     
     int getMaxSequence();
+    
+    List<Organization> getNoConnectedOrganizationList();
 }

@@ -16,7 +16,7 @@
   <select id="getAdmins" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jc_admin
+    from jc_admin order by level desc
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

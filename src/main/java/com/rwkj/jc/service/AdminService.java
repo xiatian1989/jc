@@ -13,9 +13,11 @@ public interface AdminService {
 	int deleteAdmin(String id);
 	boolean checkAdminName(String name);
 	List<Organization> getOrganizationList();
+	List<Organization> getNoConnectedOrganizationList();
 	int addOrganization(Organization organization);
 	int updateOrganization(Organization organization);
 	int deleteOrganization(String id);
 	boolean checkOrganizationName(String name);
 	int getMaxSequence();
+	Admin selectByPrimaryKey(String id);
 }

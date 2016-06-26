@@ -30,6 +30,10 @@ public class AdminManagerController {
     public void initBinder1(WebDataBinder binder) {    
             binder.setFieldDefaultPrefix("organization.");    
     }    
+	@InitBinder("admin")    
+	public void initBinder2(WebDataBinder binder) {    
+		binder.setFieldDefaultPrefix("admin.");    
+	}    
 	
 	@RequestMapping("adminList")
 	public ModelAndView getAdminList(){
@@ -41,32 +45,52 @@ public class AdminManagerController {
 		return modelAndView;
 	}
 	
+	@RequestMapping("addAdminBefore")
+	public @ResponseBody ModelAndView addAdminBefore(){
+		ModelAndView modelAndView = new ModelAndView();
+		List<Organization> organizationList= adminService.getNoConnectedOrganizationList();
+		modelAndView.addObject("organizationList", organizationList);
+		modelAndView.addObject("result", "success");
+		return modelAndView;
+	}
 	@RequestMapping("addAdmin")
-	public @ResponseBody Map<String,String> addAdmin(@ModelAttribute Admin admin){
-		Map<String,String> map = new HashMap<String,String>();
+	public ModelAndView addAdmin(@ModelAttribute Admin admin){
+		ModelAndView modelAndView = new ModelAndView();
 		admin.setId(CommonUtils.getUUID());
 		String password = admin.getPassword();
 		admin.setPassword(CommonUtils.getMD5Pssword(password));
 		admin.setLevel(false);;
-		int count = adminService.addAdmin(admin);
-		if(count>0){
-			map.put("result", "success");
-		}else {
-			map.put("result", "failed");
+		adminService.addAdmin(admin);
+		modelAndView.setViewName("admin/index/adminList");
+		modelAndView.addObject("adminList", adminService.getAdminList());
+		return modelAndView;
+	}
+	
+	@RequestMapping("editAdminBefore")
+	public@ResponseBody ModelAndView editAdminBefore(@RequestParam("id") String id){
+		ModelAndView modelAndView = new ModelAndView();
+		Admin admin = adminService.selectByPrimaryKey(id);
+		modelAndView.addObject("username", admin.getUsername());
+		modelAndView.addObject("status", admin.getStatus());
+		modelAndView.addObject("id", admin.getId());
+		List<Organization> organizationList= adminService.getNoConnectedOrganizationList();
+		Organization organization = new Organization();
+		if(organization != null) {
+			organizationList.add(0, admin.getOrganization());
 		}
-		return map;
+		modelAndView.addObject("organizationList", organizationList);
+		modelAndView.addObject("result", "success");
+		return modelAndView;
 	}
 	
 	@RequestMapping("updateAdmin")
-	public@ResponseBody Map<String,String> updateAdminn(@ModelAttribute Admin admin){
-		Map<String,String> map = new HashMap<String,String>();
-		int count = adminService.updateAdmin(admin);
-		if(count>0){
-			map.put("result", "success");
-		}else {
-			map.put("result", "failed");
-		}
-		return map;
+	public ModelAndView updateAdmin(@ModelAttribute Admin admin){
+		ModelAndView modelAndView = new ModelAndView();
+		adminService.updateAdmin(admin);
+		modelAndView.setViewName("admin/index/adminList");
+		modelAndView.addObject("adminList", adminService.getAdminList());
+		modelAndView.addObject("result", "success");
+		return modelAndView;
 	}
 	
 	@RequestMapping("deleteAdmin")
