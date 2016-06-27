@@ -20,4 +20,5 @@ public interface AdminService {
 	boolean checkOrganizationName(String name);
 	int getMaxSequence();
 	Admin selectByPrimaryKey(String id);
+	boolean initOperationEnvironment(int sequence);
 }

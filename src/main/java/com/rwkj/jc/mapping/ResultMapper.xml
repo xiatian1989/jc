@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rwkj.jc.dao.ResultMapper" >
+  <resultMap id="BaseResultMap" type="com.rwkj.jc.domain.Result" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="relation_id" property="relationId" jdbcType="VARCHAR" />
+    <result column="Aproportion" property="aproportion" jdbcType="INTEGER" />
+    <result column="Bproportion" property="bproportion" jdbcType="INTEGER" />
+    <result column="Cproportion" property="cproportion" jdbcType="INTEGER" />
+    <result column="Dproportion" property="dproportion" jdbcType="INTEGER" />
+    <result column="Eproportion" property="eproportion" jdbcType="INTEGER" />
+    <result column="Fproportion" property="fproportion" jdbcType="INTEGER" />
+    <result column="Answerproportion" property="answerproportion" jdbcType="INTEGER" />
+    <result column="resultMessage" property="resultmessage" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, relation_id, Aproportion, Bproportion, Cproportion, Dproportion, Eproportion, 
+    Fproportion, Answerproportion, resultMessage, createTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jc_result
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from jc_result
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.rwkj.jc.domain.Result" >
+    insert into jc_result (id, relation_id, Aproportion, 
+      Bproportion, Cproportion, Dproportion, 
+      Eproportion, Fproportion, Answerproportion, 
+      resultMessage, createTime)
+    values (#{id,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}, #{aproportion,jdbcType=INTEGER}, 
+      #{bproportion,jdbcType=INTEGER}, #{cproportion,jdbcType=INTEGER}, #{dproportion,jdbcType=INTEGER}, 
+      #{eproportion,jdbcType=INTEGER}, #{fproportion,jdbcType=INTEGER}, #{answerproportion,jdbcType=INTEGER}, 
+      #{resultmessage,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rwkj.jc.domain.Result" >
+    insert into jc_result
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="relationId != null" >
+        relation_id,
+      </if>
+      <if test="aproportion != null" >
+        Aproportion,
+      </if>
+      <if test="bproportion != null" >
+        Bproportion,
+      </if>
+      <if test="cproportion != null" >
+        Cproportion,
+      </if>
+      <if test="dproportion != null" >
+        Dproportion,
+      </if>
+      <if test="eproportion != null" >
+        Eproportion,
+      </if>
+      <if test="fproportion != null" >
+        Fproportion,
+      </if>
+      <if test="answerproportion != null" >
+        Answerproportion,
+      </if>
+      <if test="resultmessage != null" >
+        resultMessage,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null" >
+        #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="aproportion != null" >
+        #{aproportion,jdbcType=INTEGER},
+      </if>
+      <if test="bproportion != null" >
+        #{bproportion,jdbcType=INTEGER},
+      </if>
+      <if test="cproportion != null" >
+        #{cproportion,jdbcType=INTEGER},
+      </if>
+      <if test="dproportion != null" >
+        #{dproportion,jdbcType=INTEGER},
+      </if>
+      <if test="eproportion != null" >
+        #{eproportion,jdbcType=INTEGER},
+      </if>
+      <if test="fproportion != null" >
+        #{fproportion,jdbcType=INTEGER},
+      </if>
+      <if test="answerproportion != null" >
+        #{answerproportion,jdbcType=INTEGER},
+      </if>
+      <if test="resultmessage != null" >
+        #{resultmessage,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rwkj.jc.domain.Result" >
+    update jc_result
+    <set >
+      <if test="relationId != null" >
+        relation_id = #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="aproportion != null" >
+        Aproportion = #{aproportion,jdbcType=INTEGER},
+      </if>
+      <if test="bproportion != null" >
+        Bproportion = #{bproportion,jdbcType=INTEGER},
+      </if>
+      <if test="cproportion != null" >
+        Cproportion = #{cproportion,jdbcType=INTEGER},
+      </if>
+      <if test="dproportion != null" >
+        Dproportion = #{dproportion,jdbcType=INTEGER},
+      </if>
+      <if test="eproportion != null" >
+        Eproportion = #{eproportion,jdbcType=INTEGER},
+      </if>
+      <if test="fproportion != null" >
+        Fproportion = #{fproportion,jdbcType=INTEGER},
+      </if>
+      <if test="answerproportion != null" >
+        Answerproportion = #{answerproportion,jdbcType=INTEGER},
+      </if>
+      <if test="resultmessage != null" >
+        resultMessage = #{resultmessage,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rwkj.jc.domain.Result" >
+    update jc_result
+    set relation_id = #{relationId,jdbcType=VARCHAR},
+      Aproportion = #{aproportion,jdbcType=INTEGER},
+      Bproportion = #{bproportion,jdbcType=INTEGER},
+      Cproportion = #{cproportion,jdbcType=INTEGER},
+      Dproportion = #{dproportion,jdbcType=INTEGER},
+      Eproportion = #{eproportion,jdbcType=INTEGER},
+      Fproportion = #{fproportion,jdbcType=INTEGER},
+      Answerproportion = #{answerproportion,jdbcType=INTEGER},
+      resultMessage = #{resultmessage,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

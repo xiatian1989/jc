@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50087
 File Encoding         : 65001
 
-Date: 2016-06-27 01:26:55
+Date: 2016-06-27 23:25:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -70,6 +70,8 @@ CREATE TABLE `jc_organization` (
 -- Records of jc_organization
 -- ----------------------------
 INSERT INTO `jc_organization` VALUES ('016440c0e633440d955452b8150bde28', '中国青年组织', '1', '1');
+INSERT INTO `jc_organization` VALUES ('3f9707c783e3461ab601891d67c99a6b', '中国儿童组织', '5', '1');
+INSERT INTO `jc_organization` VALUES ('c6f38dc45c01402199a62329e0f672bf', '中国少年组织', '4', '1');
 INSERT INTO `jc_organization` VALUES ('d0b5c24ee50243a5bb9d882499bfd926', '中国中年组织', '3', '1');
 INSERT INTO `jc_organization` VALUES ('e67838a55c6348fca88e00b797c5d178', '中国老年组织', '2', '1');
 
@@ -79,7 +81,7 @@ INSERT INTO `jc_organization` VALUES ('e67838a55c6348fca88e00b797c5d178', '中�
 DROP TABLE IF EXISTS `jc_paper`;
 CREATE TABLE `jc_paper` (
   `id` varchar(50) NOT NULL,
-  `paperDetail_id` varchar(50) NOT NULL,
+  `sequence` int(4) NOT NULL,
   `paperTitle` varchar(500) NOT NULL,
   `isPublish` tinyint(1) NOT NULL,
   `createPerson` varchar(50) NOT NULL,
@@ -181,7 +183,6 @@ DROP TABLE IF EXISTS `jc_result`;
 CREATE TABLE `jc_result` (
   `id` varchar(50) NOT NULL,
   `relation_id` varchar(50) NOT NULL,
-  `resultDetail_id` varchar(50) NOT NULL,
   `Aproportion` int(2) default NULL,
   `Bproportion` int(2) default NULL,
   `Cproportion` int(2) default NULL,
@@ -219,6 +220,7 @@ CREATE TABLE `jc_resultdetail` (
 DROP TABLE IF EXISTS `jc_testformessage`;
 CREATE TABLE `jc_testformessage` (
   `id` varchar(50) NOT NULL,
+  `organization_id` varchar(50) NOT NULL,
   `relation_id` varchar(50) NOT NULL,
   `isUse` tinyint(1) NOT NULL,
   `createTime` varchar(255) NOT NULL,
@@ -235,6 +237,7 @@ CREATE TABLE `jc_testformessage` (
 DROP TABLE IF EXISTS `jc_user`;
 CREATE TABLE `jc_user` (
   `id` varchar(50) NOT NULL,
+  `organization_id` varchar(50) NOT NULL,
   `depart_no` varchar(50) NOT NULL,
   `trueName` varchar(50) NOT NULL,
   `userno` varchar(50) NOT NULL,

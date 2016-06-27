@@ -132,8 +132,10 @@ public class AdminManagerController {
 	public @ResponseBody Map<String,String> addOrganization(@ModelAttribute Organization organization){
 		Map<String,String> map = new HashMap<String,String>();
 		organization.setId(CommonUtils.getUUID());
-		organization.setSequence(adminService.getMaxSequence()+1);
+		int maxSequence = adminService.getMaxSequence()+1;
+		organization.setSequence(maxSequence);
 		int count = adminService.addOrganization(organization);
+		adminService.initOperationEnvironment(maxSequence);
 		if(count>0){
 			map.put("result", "success");
 		}else {

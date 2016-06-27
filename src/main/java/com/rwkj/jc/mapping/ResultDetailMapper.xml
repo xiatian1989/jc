@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rwkj.jc.dao.ResultDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.rwkj.jc.domain.ResultDetail" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="questionNO" property="questionno" jdbcType="INTEGER" />
+    <result column="questionAnswer" property="questionanswer" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, questionNO, questionAnswer
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jc_resultdetail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from jc_resultdetail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.rwkj.jc.domain.ResultDetail" >
+    insert into jc_resultdetail (id, questionNO, questionAnswer
+      )
+    values (#{id,jdbcType=VARCHAR}, #{questionno,jdbcType=INTEGER}, #{questionanswer,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rwkj.jc.domain.ResultDetail" >
+    insert into jc_resultdetail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="questionno != null" >
+        questionNO,
+      </if>
+      <if test="questionanswer != null" >
+        questionAnswer,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="questionno != null" >
+        #{questionno,jdbcType=INTEGER},
+      </if>
+      <if test="questionanswer != null" >
+        #{questionanswer,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rwkj.jc.domain.ResultDetail" >
+    update jc_resultdetail
+    <set >
+      <if test="questionno != null" >
+        questionNO = #{questionno,jdbcType=INTEGER},
+      </if>
+      <if test="questionanswer != null" >
+        questionAnswer = #{questionanswer,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rwkj.jc.domain.ResultDetail" >
+    update jc_resultdetail
+    set questionNO = #{questionno,jdbcType=INTEGER},
+      questionAnswer = #{questionanswer,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

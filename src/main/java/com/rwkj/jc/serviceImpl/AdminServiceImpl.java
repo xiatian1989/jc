@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.rwkj.jc.dao.AdminDao;
+import com.rwkj.jc.dao.DepartDao;
 import com.rwkj.jc.dao.OrganizationDao;
 import com.rwkj.jc.domain.Admin;
 import com.rwkj.jc.domain.Organization;
@@ -20,6 +21,8 @@ public class AdminServiceImpl implements AdminService {
 	private AdminDao adminDao;
 	@Resource
 	private OrganizationDao organizationDao;
+	@Resource
+	private DepartDao departDao;
 	
 	public Admin getAdminByUserName(String username) {
 		return adminDao.selectByUserName(username);
@@ -87,5 +90,19 @@ public class AdminServiceImpl implements AdminService {
 	public Admin selectByPrimaryKey(String id) {
 		return adminDao.selectByPrimaryKey(id);
 	}
-
+	
+	public boolean initOperationEnvironment(int sequence){
+		
+		//String[] tableNames = {"jc_depart","jc_paperdetail","jc_paper","jc_plan","jc_questionType","jc_relation","jc_result","jc_user"};
+		
+		String tableName = "jc_depart"+"_"+sequence;
+		
+		if(departDao.existTable(tableName)>0){
+			departDao.dropTable(tableName);
+			departDao.createNewTable(tableName);
+		}else{
+			departDao.createNewTable(tableName);
+		}
+		return false;
+	}
 }
