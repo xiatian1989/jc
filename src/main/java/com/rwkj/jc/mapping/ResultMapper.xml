@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rwkj.jc.dao.ResultMapper" >
+<mapper namespace="com.rwkj.jc.dao.ResultDao" >
   <resultMap id="BaseResultMap" type="com.rwkj.jc.domain.Result" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="relation_id" property="relationId" jdbcType="VARCHAR" />
@@ -21,15 +21,15 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from jc_result
+    from ${tableName}
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from jc_result
+    delete from ${tableName}
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.rwkj.jc.domain.Result" >
-    insert into jc_result (id, relation_id, Aproportion, 
+    insert into ${tableName} (id, relation_id, Aproportion, 
       Bproportion, Cproportion, Dproportion, 
       Eproportion, Fproportion, Answerproportion, 
       resultMessage, createTime)
@@ -39,7 +39,7 @@
       #{resultmessage,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.rwkj.jc.domain.Result" >
-    insert into jc_result
+    insert into ${tableName}
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -112,7 +112,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.rwkj.jc.domain.Result" >
-    update jc_result
+    update ${tableName}
     <set >
       <if test="relationId != null" >
         relation_id = #{relationId,jdbcType=VARCHAR},
@@ -148,7 +148,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.rwkj.jc.domain.Result" >
-    update jc_result
+    update ${tableName}
     set relation_id = #{relationId,jdbcType=VARCHAR},
       Aproportion = #{aproportion,jdbcType=INTEGER},
       Bproportion = #{bproportion,jdbcType=INTEGER},
@@ -161,4 +161,28 @@
       createTime = #{createtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+    <select id="existTable" parameterType="String" resultType="Integer">
+        SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_NAME=#{tableName}
+    </select>
+    <update id="dropTable">
+        drop table ${tableName}
+    </update>
+
+    <update id="createNewTable" parameterType="String">
+		CREATE TABLE ${tableName} (
+		  `id` varchar(50) NOT NULL,
+		  `relation_id` varchar(50) NOT NULL,
+		  `Aproportion` int(2) default NULL,
+		  `Bproportion` int(2) default NULL,
+		  `Cproportion` int(2) default NULL,
+		  `Dproportion` int(2) default NULL,
+		  `Eproportion` int(2) default NULL,
+		  `Fproportion` int(2) default NULL,
+		  `Answerproportion` int(2) NOT NULL,
+		  `resultMessage` varchar(200) NOT NULL,
+		  `createTime` datetime NOT NULL,
+		  PRIMARY KEY  (`id`)
+		)
+    </update>
 </mapper>

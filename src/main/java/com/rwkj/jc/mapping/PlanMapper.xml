@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rwkj.jc.dao.PlanMapper" >
+<mapper namespace="com.rwkj.jc.dao.PlanDao" >
   <resultMap id="BaseResultMap" type="com.rwkj.jc.domain.Plan" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="planTitle" property="plantitle" jdbcType="VARCHAR" />
@@ -16,15 +16,15 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from jc_plan
+    from ${tableName}
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from jc_plan
+    delete from ${tableName}
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.rwkj.jc.domain.Plan" >
-    insert into jc_plan (id, planTitle, beginTime, 
+    insert into ${tableName} (id, planTitle, beginTime, 
       endTime, isFinish, createTime, 
       status)
     values (#{id,jdbcType=VARCHAR}, #{plantitle,jdbcType=VARCHAR}, #{begintime,jdbcType=TIMESTAMP}, 
@@ -32,7 +32,7 @@
       #{status,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.rwkj.jc.domain.Plan" >
-    insert into jc_plan
+    insert into ${tableName}
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -81,7 +81,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.rwkj.jc.domain.Plan" >
-    update jc_plan
+    update ${tableName}
     <set >
       <if test="plantitle != null" >
         planTitle = #{plantitle,jdbcType=VARCHAR},
@@ -105,7 +105,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.rwkj.jc.domain.Plan" >
-    update jc_plan
+    update ${tableName}
     set planTitle = #{plantitle,jdbcType=VARCHAR},
       beginTime = #{begintime,jdbcType=TIMESTAMP},
       endTime = #{endtime,jdbcType=TIMESTAMP},
@@ -114,4 +114,23 @@
       status = #{status,jdbcType=BIT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="existTable" parameterType="String" resultType="Integer">
+        SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_NAME=#{tableName}
+    </select>
+    <update id="dropTable">
+        drop table ${tableName}
+    </update>
+
+    <update id="createNewTable" parameterType="String">
+		CREATE TABLE ${tableName} (
+		  `id` varchar(50) NOT NULL,
+		  `planTitle` varchar(100) NOT NULL,
+		  `beginTime` datetime NOT NULL,
+		  `endTime` datetime NOT NULL,
+		  `isFinish` tinyint(1) NOT NULL,
+		  `createTime` datetime NOT NULL,
+		  `status` tinyint(1) NOT NULL,
+		  PRIMARY KEY  (`id`)
+		)
+    </update>
 </mapper>

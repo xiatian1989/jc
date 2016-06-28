@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rwkj.jc.dao.RelationMapper" >
+<mapper namespace="com.rwkj.jc.dao.RelationDao" >
   <resultMap id="BaseResultMap" type="com.rwkj.jc.domain.Relation" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="plan_id" property="planId" jdbcType="VARCHAR" />
@@ -17,15 +17,15 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from jc_relation
+    from ${tableName}
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from jc_relation
+    delete from ${tableName}
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.rwkj.jc.domain.Relation" >
-    insert into jc_relation (id, plan_id, testPerson, 
+    insert into ${tableName} (id, plan_id, testPerson, 
       beTestedPerson, isFinish, paper_id, 
       createTime, status)
     values (#{id,jdbcType=VARCHAR}, #{planId,jdbcType=VARCHAR}, #{testperson,jdbcType=VARCHAR}, 
@@ -33,7 +33,7 @@
       #{createtime,jdbcType=TIMESTAMP}, #{status,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.rwkj.jc.domain.Relation" >
-    insert into jc_relation
+    insert into ${tableName}
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -88,7 +88,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.rwkj.jc.domain.Relation" >
-    update jc_relation
+    update ${tableName}
     <set >
       <if test="planId != null" >
         plan_id = #{planId,jdbcType=VARCHAR},
@@ -115,7 +115,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.rwkj.jc.domain.Relation" >
-    update jc_relation
+    update ${tableName}
     set plan_id = #{planId,jdbcType=VARCHAR},
       testPerson = #{testperson,jdbcType=VARCHAR},
       beTestedPerson = #{betestedperson,jdbcType=VARCHAR},
@@ -125,4 +125,25 @@
       status = #{status,jdbcType=BIT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+   <select id="existTable" parameterType="String" resultType="Integer">
+        SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_NAME=#{tableName}
+    </select>
+    <update id="dropTable">
+        drop table ${tableName}
+    </update>
+
+    <update id="createNewTable" parameterType="String">
+		CREATE TABLE ${tableName} (
+		  `id` varchar(50) NOT NULL,
+		  `plan_id` varchar(50) NOT NULL,
+		  `testPerson` varchar(50) NOT NULL,
+		  `beTestedPerson` varchar(50) NOT NULL,
+		  `isFinish` tinyint(1) NOT NULL,
+		  `paper_id` varchar(50) NOT NULL,
+		  `createTime` datetime NOT NULL,
+		  `status` tinyint(1) NOT NULL,
+		  PRIMARY KEY  (`id`)
+		)
+    </update>
 </mapper>

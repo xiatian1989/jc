@@ -3,6 +3,7 @@ package com.rwkj.jc.dao;
 import com.rwkj.jc.domain.TestForMessage;
 
 public interface TestForMessageDao {
+	
     int deleteByPrimaryKey(String id);
 
     int insert(TestForMessage record);

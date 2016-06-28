@@ -1,17 +1,25 @@
 package com.rwkj.jc.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.rwkj.jc.domain.QuestionType;
 
 public interface QuestionTypeDao {
-    int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKey(@Param("tableName") String tableName,String id);
 
-    int insert(QuestionType record);
+    int insert(@Param("tableName") String tableName,QuestionType record);
 
-    int insertSelective(QuestionType record);
+    int insertSelective(@Param("tableName") String tableName,QuestionType record);
 
-    QuestionType selectByPrimaryKey(String id);
+    QuestionType selectByPrimaryKey(@Param("tableName") String tableName,String id);
 
-    int updateByPrimaryKeySelective(QuestionType record);
+    int updateByPrimaryKeySelective(@Param("tableName") String tableName,QuestionType record);
 
-    int updateByPrimaryKey(QuestionType record);
+    int updateByPrimaryKey(@Param("tableName") String tableName,QuestionType record);
+    
+    int createNewTable(@Param("tableName") String tableName);
+    
+    int dropTable(@Param("tableName") String tableName);
+    
+    int existTable(String tableName);
 }

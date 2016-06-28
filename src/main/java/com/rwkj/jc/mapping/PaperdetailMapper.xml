@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rwkj.jc.dao.PaperdetailMapper" >
+<mapper namespace="com.rwkj.jc.dao.PaperdetailDao" >
   <resultMap id="BaseResultMap" type="com.rwkj.jc.domain.Paperdetail" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="questionNO" property="questionno" jdbcType="INTEGER" />
@@ -33,15 +33,15 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from jc_paperdetail
+    from ${tableName}
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from jc_paperdetail
+    delete from ${tableName}
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.rwkj.jc.domain.Paperdetail" >
-    insert into jc_paperdetail (id, questionNO, questionType, 
+    insert into ${tableName} (id, questionNO, questionType, 
       optionA, optionAScore, optionB, 
       optionBScore, optionC, optionCScore, 
       optionD, optionDScore, optionE, 
@@ -55,7 +55,7 @@
       #{question,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.rwkj.jc.domain.Paperdetail" >
-    insert into jc_paperdetail
+    insert into ${tableName}
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -158,7 +158,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.rwkj.jc.domain.Paperdetail" >
-    update jc_paperdetail
+    update ${tableName}
     <set >
       <if test="questionno != null" >
         questionNO = #{questionno,jdbcType=INTEGER},
@@ -209,7 +209,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.rwkj.jc.domain.Paperdetail" >
-    update jc_paperdetail
+    update ${tableName}
     set questionNO = #{questionno,jdbcType=INTEGER},
       questionType = #{questiontype,jdbcType=SMALLINT},
       optionA = #{optiona,jdbcType=VARCHAR},
@@ -228,7 +228,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.rwkj.jc.domain.Paperdetail" >
-    update jc_paperdetail
+    update ${tableName}
     set questionNO = #{questionno,jdbcType=INTEGER},
       questionType = #{questiontype,jdbcType=SMALLINT},
       optionA = #{optiona,jdbcType=VARCHAR},
@@ -245,4 +245,33 @@
       optionFScore = #{optionfscore,jdbcType=SMALLINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="existTable" parameterType="String" resultType="Integer">
+        SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_NAME=#{tableName}
+    </select>
+    <update id="dropTable">
+        drop table ${tableName}
+    </update>
+
+    <update id="createNewTable" parameterType="String">
+		CREATE TABLE ${tableName} (
+		  `id` varchar(50) NOT NULL,
+		  `questionNO` int(4) NOT NULL,
+		  `questionType` smallint(2) NOT NULL,
+		  `question` text NOT NULL,
+		  `optionA` varchar(200) NOT NULL,
+		  `optionAScore` smallint(2) NOT NULL,
+		  `optionB` varchar(200) NOT NULL,
+		  `optionBScore` smallint(2) NOT NULL,
+		  `optionC` varchar(200) NOT NULL,
+		  `optionCScore` smallint(2) NOT NULL,
+		  `optionD` varchar(200) NOT NULL,
+		  `optionDScore` smallint(2) NOT NULL,
+		  `optionE` varchar(200) NOT NULL,
+		  `optionEScore` smallint(2) NOT NULL,
+		  `optionF` varchar(200) NOT NULL,
+		  `optionFScore` smallint(2) NOT NULL,
+		  PRIMARY KEY  (`id`)
+		)
+    </update>
 </mapper>
