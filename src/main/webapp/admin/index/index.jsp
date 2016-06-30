@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -126,14 +127,20 @@ html, body {
 }
 
 #log {
-	text-indent: 2em;
-	padding-top: 12px;
+	text-indent: 3em;
+	padding-top: 1em;
+	font-size : 24px;
+	font-weight:bold;
 }
 
 #logout {
-	padding-top: 12px;
+	padding-top: 2em;
 	margin-right: 2em;
+	font-size : 18px;
 	float: right;
+	color:#00F;
+	text-decoration:underline;
+	cursor:pointer
 }
 
 span {
@@ -172,52 +179,46 @@ $(document).ready(function() {
 </head>
 <body>
 	<div id="top">
-		<span id="log">人事测评管理系统</span>
-		<span id="logout">安全退出</span>
+		<span id="log">人事测评管理系统>>
+			<c:choose>
+				<c:when test="${Admin.organization !=null}">${Admin.organization.organizationName}</c:when>
+			<c:otherwise>超级管理员</c:otherwise>
+			</c:choose>
+		</span>
+		<span id="logout" onclick="javascript:window.location.href='${pageContext.request.contextPath}/adminLogout'">安全退出</span>
 	</div>
 	<div id="content">
 		<div id="left" class="list">
 				<ul class="yiji">
-		<li><a href="${pageContext.request.contextPath}/organizationList" target="mainContent">组织管理</a></li>
-		<li><a href="${pageContext.request.contextPath}/adminList" target="mainContent">管理员管理</a></li>
-		<li><a href="#" class="inactive">团体会员</a>
+		<li><a href="${pageContext.request.contextPath}/organizationList" target="mainContent">用户管理</a></li>
+		<li><a href="${pageContext.request.contextPath}/adminList" target="mainContent">账号管理</a></li>
+		<li><a href="#">模板管理</a></li>
+		<li><a href="#" class="inactive">信息管理</a>
 			<ul style="display: none">
-				<li><a href="#" class="inactive active">美协机关</a>
+				<li><a href="#" class="inactive active">数据管理</a>
 					<ul>
-						<li><a href="#">办公室</a></li>
-						<li><a href="#">人事处</a></li>
-						<li><a href="#">组联部</a></li>
-						<li><a href="#">外联部</a></li>
-						<li><a href="#">研究部</a></li>
-						<li><a href="#">维权办</a></li>
+						<li><a href="#">部门管理</a></li>
+						<li><a href="#">职员管理</a></li>
 					</ul>
 				</li> 
-				<li class="last"><a href="#">《美术》杂志社</a></li> 
+				<li class="last"><a href="#">问卷管理</a></li> 
 			</ul>
 		</li>
-		<li><a href="#" class="inactive">组织机构</a>
+		<li><a href="#" class="inactive">考核管理</a>
 			<ul style="display: none">
-				<li><a href="#" class="inactive active">美协机关</a>
+				<li><a href="#" class="inactive active">考核定制</a>
 					<ul>
-						<li><a href="#">办公室</a></li>
-						<li><a href="#">人事处</a></li>
-						<li><a href="#">组联部</a></li>
-						<li><a href="#">外联部</a></li>
-						<li><a href="#">研究部</a></li>
-						<li><a href="#">维权办</a></li>
+						<li><a href="#">考核计划做成</a></li>
+						<li><a href="#">考核关系定制</a></li>
 					</ul>
 				</li> 
-				<li><a href="#" class="inactive active">中国文联美术艺术中心</a>   
+				<li><a href="#" class="inactive active">统计分析</a>   
 					<ul>
-						<li><a href="#">综合部</a></li>
-						<li><a href="#">大型活动部</a></li>
-						<li><a href="#">展览部</a></li>
-						<li><a href="#">艺委会工作部</a></li>
-						<li><a href="#">信息资源部</a></li>
-						<li><a href="#">双年展办公室</a></li>
+						<li><a href="#">答卷管理</a></li>
+						<li><a href="#">结果统计</a></li>
 					</ul>
 				</li> 
-				<li class="last"><a href="#">《美术》杂志社</a></li> 
+				<li class="last"><a href="#">短信推送</a></li> 
 			</ul>
 		</li>
 	</ul>

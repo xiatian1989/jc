@@ -31,12 +31,12 @@ public class AdminLoginController {
 		String sessionCode = (String)session.getAttribute("code");
 		
 		if(StringUtils.isNullOrEmpty(sessionCode)){
-			modelAndView.setViewName("admin/index/login");
+			modelAndView.setViewName("admin/login");
 			modelAndView.addObject("message","验证码已经过期，请刷新页面以后登录！");
 			return modelAndView;
 		}
 		if(!sessionCode.equalsIgnoreCase(code)) {
-			modelAndView.setViewName("admin/index/login");
+			modelAndView.setViewName("admin/login");
 			modelAndView.addObject("message","验证码错误！");
 			return modelAndView;
 		}
@@ -44,12 +44,21 @@ public class AdminLoginController {
 		Admin admin = adminService.getAdminByUserName(username);
 		
 		if(!CommonUtils.getMD5Pssword(password).equals(admin.getPassword())) {
-			modelAndView.setViewName("admin/index/login");
+			modelAndView.setViewName("admin/login");
 			modelAndView.addObject("message","密码或者验证码错误！");
 		}else {
 			session.setAttribute("Admin", admin);
 			modelAndView.setViewName("admin/index/index");
 		}
+		return modelAndView;
+	}
+	
+	@RequestMapping("adminLogout")
+	public ModelAndView adminLogout(HttpServletRequest req){
+		ModelAndView modelAndView = new ModelAndView();
+		HttpSession session = req.getSession(true);
+		session.setAttribute("Admin", null);
+		modelAndView.setViewName("admin/login");
 		return modelAndView;
 	}
 }

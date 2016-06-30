@@ -72,7 +72,7 @@ TD {
 								<TR>
 									<TD width=360></TD>
 									<TD>
-										<form action="/${pageContext.request.contextPath}/adminLogin" method="post" id="form1" onsubmit="return submitBefore()">
+										<form action="${pageContext.request.contextPath}/adminLogin" method="post" id="form1" onsubmit="return submitBefore()">
 											<TABLE cellSpacing=0 cellPadding=2 border=0>
 												<TBODY>
 														<TR>

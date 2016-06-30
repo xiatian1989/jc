@@ -54,6 +54,11 @@
 	function addOrganization(){
 		var organizationName = $("#alternatecolor tr:last td:eq(1) input").val();
 		var statusText = $("#alternatecolor tr:last td:eq(2) select").val();
+		if(organizationName == ''){
+			alert("请输入用户名称！")
+			$("#alternatecolor tr:last td:eq(1) input").focus().select();
+			return;
+		}
 		var status =true;
 		if(statusText=="禁用") {
 			status=false
@@ -217,7 +222,7 @@ table.altrowstable td {
 </style>
 </head>
 <body>
-	<button onclick="addOrganizationBefore()" id="addOrganization">添加组织</button>
+	<button onclick="addOrganizationBefore()" id="addOrganization">添加用户</button>
 	<table class="altrowstable" id="alternatecolor">
 		<tr>
 			<th>序号</th>

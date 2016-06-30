@@ -244,7 +244,7 @@ table.altrowstable td {
 </style>
 </head>
 <body>
-	<button id="addAdminBefore">添加管理员</button>
+	<button id="addAdminBefore">添加账号</button>
 	<table class="altrowstable" id="alternatecolor">
 		<tr>
 			<th>序号</th>
