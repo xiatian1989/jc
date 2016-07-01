@@ -127,15 +127,15 @@ html, body {
 }
 
 #log {
-	text-indent: 3em;
-	padding-top: 1em;
+	text-indent: 1em;
+	padding-top:10px;
 	font-size : 24px;
 	font-weight:bold;
 }
 
 #logout {
-	padding-top: 2em;
-	margin-right: 2em;
+	padding-top: 1em;
+	margin-right: 1em;
 	font-size : 18px;
 	float: right;
 	color:#00F;
@@ -190,41 +190,53 @@ $(document).ready(function() {
 	<div id="content">
 		<div id="left" class="list">
 				<ul class="yiji">
-		<li><a href="${pageContext.request.contextPath}/organizationList" target="mainContent">用户管理</a></li>
-		<li><a href="${pageContext.request.contextPath}/adminList" target="mainContent">账号管理</a></li>
-		<li><a href="#">模板管理</a></li>
-		<li><a href="#" class="inactive">信息管理</a>
-			<ul style="display: none">
-				<li><a href="#" class="inactive active">数据管理</a>
-					<ul>
-						<li><a href="#">部门管理</a></li>
-						<li><a href="#">职员管理</a></li>
-					</ul>
-				</li> 
-				<li class="last"><a href="#">问卷管理</a></li> 
-			</ul>
-		</li>
-		<li><a href="#" class="inactive">考核管理</a>
-			<ul style="display: none">
-				<li><a href="#" class="inactive active">考核定制</a>
-					<ul>
-						<li><a href="#">考核计划做成</a></li>
-						<li><a href="#">考核关系定制</a></li>
-					</ul>
-				</li> 
-				<li><a href="#" class="inactive active">统计分析</a>   
-					<ul>
-						<li><a href="#">答卷管理</a></li>
-						<li><a href="#">结果统计</a></li>
-					</ul>
-				</li> 
-				<li class="last"><a href="#">短信推送</a></li> 
-			</ul>
-		</li>
+		<c:if test="${Admin.level}">
+			<li><a href="${pageContext.request.contextPath}/organizationList" target="mainContent">用户管理</a></li>
+			<li><a href="${pageContext.request.contextPath}/adminList" target="mainContent">账号管理</a></li>
+			<li><a href="#">模板管理</a></li>
+		</c:if>
+		<c:if test="${!Admin.level}">
+			<li><a href="#" class="inactive">信息管理</a>
+				<ul style="display: none">
+					<li><a href="#" class="inactive active">数据管理</a>
+						<ul>
+							<li><a href="#">部门管理</a></li>
+							<li><a href="#">人员管理</a></li>
+						</ul>
+					</li> 
+					<li class="last"><a href="#">问卷管理</a></li> 
+				</ul>
+			</li>
+			<li><a href="#" class="inactive">测评管理</a>
+				<ul style="display: none">
+					<li><a href="#" class="inactive active">测评关系定义</a>
+						<ul>
+							<li><a href="#">测评计划管理</a></li>
+							<li><a href="#">测评关系管理</a></li>
+							<li><a href="#">测评方式管理</a></li>
+						</ul>
+					</li> 
+					<li><a href="#" class="inactive active">推送与监控</a>   
+						<ul>
+							<li><a href="#">短信发送</a></li>
+							<li><a href="#">回收查询</a></li>
+						</ul>
+					</li> 
+					<li><a href="#" class="inactive active">统计分析</a>   
+						<ul>
+							<li><a href="#">答卷管理</a></li>
+							<li><a href="#">结果生成</a></li>
+							<li><a href="#">统计分析</a></li>
+							<li><a href="#">结果导出</a></li>
+						</ul>
+					</li> 
+				</ul>
+			</li>
+		</c:if>
 	</ul>
 		</div>
 		<div id="right">
-			<iframe src="${pageContext.request.contextPath}/admin/index/main.jsp" scrolling="auto" width="100%"  height="100%" style="border: 0" name="mainContent"></iframe>
+			<iframe src="${pageContext.request.contextPath}/admin/index/systemInfo.jsp" scrolling="auto" width="100%"  height="100%" style="border: 0" name="mainContent"></iframe>
 		</div>
 	</div>
 	<div id="footer">

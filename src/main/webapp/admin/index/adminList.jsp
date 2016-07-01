@@ -248,7 +248,7 @@ table.altrowstable td {
 	<table class="altrowstable" id="alternatecolor">
 		<tr>
 			<th>序号</th>
-			<th>组织名称</th>
+			<th>用户名称</th>
 			<th>管理员名称</th>
 			<th>管理员类别</th>
 			<th>管理员状态</th>
@@ -332,7 +332,7 @@ table.altrowstable td {
 						</select></td>
 					</tr>
 					<tr>
-						<td class=“left” width=40% align="right">关联组织：</td>
+						<td class=“left” width=40% align="right">关联用户：</td>
 						<td><select id="organization" name="organizationId">
 						</select></td>
 					</tr>
@@ -373,7 +373,7 @@ table.altrowstable td {
 						</select></td>
 					</tr>
 					<tr>
-						<td class=“left” width=40% align="right">关联组织：</td>
+						<td class=“left” width=40% align="right">关联用户：</td>
 						<td><select id="organizationp" name="organizationId">
 						</select></td>
 					</tr>

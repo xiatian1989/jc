@@ -1,5 +1,8 @@
 package com.rwkj.jc.controller;
 
+import java.net.InetAddress;
+import java.util.Date;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mysql.jdbc.StringUtils;
 import com.rwkj.jc.domain.Admin;
+import com.rwkj.jc.domain.SystemInfo;
 import com.rwkj.jc.service.AdminService;
 import com.rwkj.jc.util.CommonUtils;
 
@@ -48,7 +52,31 @@ public class AdminLoginController {
 			modelAndView.addObject("message","密码或者验证码错误！");
 		}else {
 			session.setAttribute("Admin", admin);
+			
 			modelAndView.setViewName("admin/index/index");
+			
+			SystemInfo systemInfo = new SystemInfo();
+			
+			systemInfo.setoS(System.getenv("OS"));
+			systemInfo.setServerName(System.getenv("COMPUTERNAME"));
+			systemInfo.setJavaHome(System.getenv("JAVA_HOME"));
+			systemInfo.setServerInfo(req.getServletContext().getServerInfo());
+			systemInfo.setContextPath(req.getServletContext().getContextPath());
+			
+			String localIp = "";
+			try{
+				InetAddress ia = InetAddress.getLocalHost();
+				localIp = ia.getHostAddress();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			systemInfo.setServerHostIP(localIp);
+			systemInfo.setProtocol(req.getProtocol());
+			systemInfo.setServerPort(req.getServerPort()+"");
+			systemInfo.setServerTime(new Date(System.currentTimeMillis()).toString());
+			
+			session.setAttribute("systemInfo", systemInfo);
+			
 		}
 		return modelAndView;
 	}
