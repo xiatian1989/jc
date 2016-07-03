@@ -7,6 +7,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.rwkj.jc.dao.AdminDao;
 import com.rwkj.jc.dao.DepartDao;
 import com.rwkj.jc.dao.OrganizationDao;
@@ -28,8 +30,10 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.selectByUserName(username);
 	}
 
-	public List<Admin> getAdminList() {
-		return adminDao.getAdmins();
+	public PageInfo<Admin> getAdminList(Integer pageNo,Integer pageSize) {
+		PageHelper.startPage(pageNo, pageSize);
+		PageInfo<Admin> page = new PageInfo<Admin>(adminDao.getAdmins());
+		return page;
 	}
 
 	public int addAdmin(Admin admin) {
@@ -51,8 +55,10 @@ public class AdminServiceImpl implements AdminService {
 		return false;
 	}
 
-	public List<Organization> getOrganizationList() {
-		return organizationDao.getOrganizationList();
+	public PageInfo<Organization> getOrganizationList(Integer pageNo,Integer pageSize) {
+		PageHelper.startPage(pageNo, pageSize);
+		PageInfo<Organization> page = new PageInfo<Organization>(organizationDao.getOrganizationList());
+		return page;
 	}
 
 	public int addOrganization(Organization organization) {

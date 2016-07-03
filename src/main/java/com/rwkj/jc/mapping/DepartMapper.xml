@@ -13,6 +13,17 @@
   <sql id="Base_Column_List" >
     id, depart_no, depart_name, parent_no, node_path, isLeaf, status
   </sql>
+  <select id="getDeparts" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${tableName}
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${tableName}
+    where depart_name = #{name,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

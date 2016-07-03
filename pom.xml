@@ -151,7 +151,12 @@
             <groupId>commons-codec</groupId>  
             <artifactId>commons-codec</artifactId>  
             <version>1.9</version>  
-        </dependency> 
+        </dependency>
+        <dependency>
+   			<groupId>com.github.pagehelper</groupId>
+    		<artifactId>pagehelper</artifactId>
+   			 <version>4.1.6</version>
+		</dependency>
   </dependencies>
   <build>
     <finalName>jc</finalName>

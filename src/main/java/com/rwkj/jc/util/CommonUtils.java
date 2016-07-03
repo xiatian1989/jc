@@ -2,6 +2,9 @@ package com.rwkj.jc.util;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 public class CommonUtils {
@@ -29,5 +32,24 @@ public class CommonUtils {
         // 去掉"-"符号  
         String temp = str.substring(0, 8) + str.substring(9, 13) + str.substring(14, 18) + str.substring(19, 23) + str.substring(24);  
         return temp;
+	}
+	
+	public static String getyyyymmddHHmmssTime() {
+		
+		//使用默认时区和语言环境获得一个日历  
+		Calendar cale = Calendar.getInstance();  
+		//将Calendar类型转换成Date类型  
+		Date tasktime=cale.getTime();  
+		//设置日期输出的格式  
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		//格式化输出  
+		return df.format(tasktime);  
+	}
+	public static String getyyyymmddHHmmssTime(Date date) {
+		
+		//设置日期输出的格式  
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		//格式化输出  
+		return df.format(date);  
 	}
 }

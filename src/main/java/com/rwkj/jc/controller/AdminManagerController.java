@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.pagehelper.PageInfo;
+import com.mysql.jdbc.StringUtils;
 import com.rwkj.jc.domain.Admin;
 import com.rwkj.jc.domain.Organization;
 import com.rwkj.jc.service.AdminService;
@@ -36,11 +39,17 @@ public class AdminManagerController {
 	}    
 	
 	@RequestMapping("adminList")
-	public ModelAndView getAdminList(){
+	public ModelAndView getAdminList(HttpServletRequest req){
+		
+		String pageNum =req.getParameter("pageNum");
+		int pageNumInt = 1;
+		if(!StringUtils.isNullOrEmpty(pageNum)) {
+			pageNumInt = Integer.parseInt(pageNum);
+		}
 		
 		ModelAndView modelAndView = new ModelAndView();
-		List<Admin> adminList = adminService.getAdminList();
-		modelAndView.addObject("adminList", adminList);
+		PageInfo<Admin> page = adminService.getAdminList(pageNumInt,2);
+		modelAndView.addObject("page", page);
 		modelAndView.setViewName("admin/index/adminList");
 		return modelAndView;
 	}
@@ -53,6 +62,7 @@ public class AdminManagerController {
 		modelAndView.addObject("result", "success");
 		return modelAndView;
 	}
+	
 	@RequestMapping("addAdmin")
 	public ModelAndView addAdmin(@ModelAttribute Admin admin){
 		ModelAndView modelAndView = new ModelAndView();
@@ -61,8 +71,10 @@ public class AdminManagerController {
 		admin.setPassword(CommonUtils.getMD5Pssword(password));
 		admin.setLevel(false);;
 		adminService.addAdmin(admin);
+		
 		modelAndView.setViewName("admin/index/adminList");
-		modelAndView.addObject("adminList", adminService.getAdminList());
+		modelAndView.addObject("page", adminService.getAdminList(1, 2));
+		
 		return modelAndView;
 	}
 	
@@ -73,6 +85,7 @@ public class AdminManagerController {
 		modelAndView.addObject("username", admin.getUsername());
 		modelAndView.addObject("status", admin.getStatus());
 		modelAndView.addObject("id", admin.getId());
+		modelAndView.addObject("level", admin.getLevel()?1:0);
 		List<Organization> organizationList= adminService.getNoConnectedOrganizationList();
 		Organization organization = new Organization();
 		if(organization != null) {
@@ -88,7 +101,7 @@ public class AdminManagerController {
 		ModelAndView modelAndView = new ModelAndView();
 		adminService.updateAdmin(admin);
 		modelAndView.setViewName("admin/index/adminList");
-		modelAndView.addObject("adminList", adminService.getAdminList());
+		modelAndView.addObject("page", adminService.getAdminList(1, 2));
 		modelAndView.addObject("result", "success");
 		return modelAndView;
 	}
@@ -118,11 +131,16 @@ public class AdminManagerController {
 	}
 	
 	@RequestMapping("organizationList")
-	public ModelAndView getOrganizationList(){
+	public ModelAndView getOrganizationList(HttpServletRequest req){
+		
+		String pageNum =req.getParameter("pageNum");
+		int pageNumInt = 1;
+		if(!StringUtils.isNullOrEmpty(pageNum)) {
+			pageNumInt = Integer.parseInt(pageNum);
+		}
 		
 		ModelAndView modelAndView = new ModelAndView();
-		List<Organization> organizationList = adminService.getOrganizationList();
-		modelAndView.addObject("organizationList", organizationList);
+		modelAndView.addObject("page", adminService.getOrganizationList(pageNumInt, 2));
 		modelAndView.setViewName("admin/index/organizationList");
 		return modelAndView;
 	}

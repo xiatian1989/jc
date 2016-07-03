@@ -75,7 +75,7 @@
 		    success:function(msg){
 		    	var obj = jQuery.parseJSON(msg);
 		    	if(obj.result=="success") {
-		    		window.location.href=window.location.href;
+		    		window.location.href="${pageContext.request.contextPath}/organizationList";
 		    	}else{
 		    		alert('添加失败'); 
 		    	}
@@ -113,7 +113,7 @@
 		    	var obj = jQuery.parseJSON(msg);
 		    	if(obj.result=="success") {
 		    		if(flag) {
-			    		window.location.href=window.location.href;
+			    		window.location.href="${pageContext.request.contextPath}/organizationList";
 		    		}
 		    	}else{
 		    		alert('更新失败'); 
@@ -134,7 +134,7 @@
 		    success:function(msg){
 		    	var obj = jQuery.parseJSON(msg);
 		    	if(obj.result=="success") {
-		    		window.location.href=window.location.href;
+		    		window.location.href="${pageContext.request.contextPath}/organizationList";
 		    	}else{
 		    		alert('删除失败'); 
 		    	}
@@ -210,6 +210,7 @@ table.altrowstable td {
 	padding: 8px;
 	border-style: solid;
 	border-color: #a9c6c9;
+	text-align: center;
 }
 
 .oddrowcolor {
@@ -219,21 +220,57 @@ table.altrowstable td {
 .evenrowcolor {
 	background-color: #c3dde0;
 }
+
+.page {
+	PADDING-RIGHT: 3px;
+	PADDING-LEFT: 3px;
+	PADDING-BOTTOM: 3px;
+	MARGIN: 3px;
+	PADDING-TOP: 3px;
+	TEXT-ALIGN: center
+}
+
+a {
+	position: relative;
+	text-decoration: none;
+	border-bottom: 1px dotted #ccc;
+	padding-bottom: 5px;
+}
+
+a em {
+	display: none;
+	position: absolute;
+	padding: 5px;
+	border: 1px solid #ccc;
+	left: 20px;
+	top: 30px;
+	width: 60px;
+}
+
+a:hover {
+	border-bottom: 1px solid #ccc;
+}
+
+a:hover em {
+	display: block;
+}
 </style>
 </head>
 <body>
-	<button onclick="addOrganizationBefore()" id="addOrganization">添加用户</button>
-	<table class="altrowstable" id="alternatecolor">
+	<div>
+		<button onclick="addOrganizationBefore()" id="addOrganization">添加用户</button>
+	</div>
+	<table class="altrowstable" id="alternatecolor" width="100%">
 		<tr>
-			<th>序号</th>
-			<th>组织名称</th>
-			<th>组织状态</th>
-			<th>操作</th>
+			<th width="100px">序号</th>
+			<th>用户名称</th>
+			<th width="100px">用户状态</th>
+			<th width="150px">操作</th>
 		</tr>
-		<c:forEach items="${organizationList }" var="organization" varStatus="status">
+		<c:forEach items="${page.list }" var="organization" varStatus="status">
 			<tr id="${organization.id}">
 				<td>${status.index+1 }</td>
-				<td><input type="text" value="${organization.organizationName}"  disabled="disabled" title="${organization.organizationName}" onblur="checkUniqName('${organization.id}',this)"/></td>
+				<td><input type="text" value="${organization.organizationName}"  disabled="disabled" title="${organization.organizationName}" onblur="checkUniqName('${organization.id}',this)" style="width:99%;word-break:break-all"/></td>
 				<td>
 					<c:choose>
 						<c:when test="${organization.status}">
@@ -262,5 +299,36 @@ table.altrowstable td {
 			</tr>
 		</c:forEach>
 	</table>
+	<div class="page">
+		<span style="padding-right:10px;">总记录数为${page.total},共${page.pages}页</span>
+		<c:choose>
+			<c:when test="${page.pageNum == 1}">
+				<a>上一页</a>
+			</c:when>
+			<c:otherwise>
+				<a href="organizationList?pageNum=${page.pageNum - 1}">上一页</a>
+			</c:otherwise>
+		</c:choose>
+		<c:if test="${pages != 1}">
+			<c:forEach var="pageIndex" begin="1" end="${page.pages}">
+				<c:choose>
+					<c:when test="${page.pageNum == pageIndex}">
+						<a>${pageIndex}</a>
+					</c:when>
+					<c:otherwise>
+						<a href="organizationList?pageNum=${pageIndex}">${pageIndex}</a>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+		</c:if>
+		<c:choose>
+			<c:when test="${page.pageNum == page.pages}">
+					<a>下一页</a>
+				</c:when>
+				<c:otherwise>
+					<a href="organizationList?pageNum=${page.pageNum+1}">下一页</a>
+			</c:otherwise>
+		</c:choose>
+	</div>
 </body>
 </html>
