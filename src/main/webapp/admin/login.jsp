@@ -63,7 +63,7 @@ TD {
 						border=0></TD>
 				</TR>
 				<TR>
-					<TD background=${pageContext.request.contextPath}/image/login_2.jpg height=300>
+					<TD background="${pageContext.request.contextPath}/image/login_2.jpg" height=300>
 						<TABLE height=300 cellPadding=0 width=900 border=0>
 							<TBODY>
 								<TR>
@@ -95,7 +95,7 @@ TD {
 															<TD style="HEIGHT: 28px">验证码：</TD>
 															<TD style="HEIGHT: 28px"><INPUT id=txtcode
 																style="WIDTH: 130px" name=txtcode ></TD>
-															<TD style="HEIGHT: 28px"><img src="/jc/code" onclick="refreshCode(this)"/><SPAN
+															<TD style="HEIGHT: 28px"><img src="${pageContext.request.contextPath}/code" onclick="refreshCode(this)"/><SPAN
 																id=RequiredFieldtxtCode
 																style="FONT-WEIGHT: bold; display: none; COLOR: red;">&nbsp;请输入验证码</SPAN></TD>
 														</TR>

@@ -16,7 +16,7 @@
   <select id="getDeparts" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from ${tableName}
+    from ${tableName} order by depart_no
   </select>
   <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

@@ -1,7 +1,5 @@
 package com.rwkj.jc.Bean;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class DepartBean {
 
@@ -18,8 +16,8 @@ public class DepartBean {
     private Boolean isleaf;
 
     private Boolean status;
-     
-    private List<DepartBean> treeChildren = new ArrayList<DepartBean>();
+    
+    private String parentName;
 
     public String getId() {
         return id;
@@ -77,12 +75,11 @@ public class DepartBean {
         this.status = status;
     }
 
-	public List<DepartBean> getTreeChildren() {
-		return treeChildren;
+	public String getParentName() {
+		return parentName;
 	}
 
-	public void setTreeChildren(List<DepartBean> treeChildren) {
-		this.treeChildren = treeChildren;
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
 	}
-
 }

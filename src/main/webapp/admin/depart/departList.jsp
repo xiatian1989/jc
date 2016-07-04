@@ -7,8 +7,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery-ui.min.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.treetable.theme.default.css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.12.3.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.treeTable.js" > </script>
 <script type="text/javascript">
 	function altRows(id) {
 		if (document.getElementsByTagName) {
@@ -95,58 +97,6 @@
 			});
 		}
 	}
-	$(function() {
-		$("#add-form").dialog({
-			autoOpen : false,
-			height : 300,
-			width : 350,
-			modal : true,
-			buttons : {
-				"OK" : function() {
-					$("#addAdmin").submit();
-				},
-				Cancel : function() {
-					$(this).dialog("close");
-				}
-			}
-
-		});
-		$("#update-form").dialog({
-			autoOpen : false,
-			height : 300,
-			width : 350,
-			modal : true,
-			buttons : {
-				"OK" : function() {
-					$("#updateAdmin").submit();
-				},
-				Cancel : function() {
-					$(this).dialog("close");
-				}
-			}
-
-		});	
-		$("#addAdminBefore").button().click(function() {
-			$.ajax({   
-			    url:'${pageContext.request.contextPath}/addAdminBefore',   
-			    type:'post',   
-			    async : false, //默认为true 异步   
-			    success:function(msg){
-			    	var obj = jQuery.parseJSON(msg);
-			    	if(obj.model.result=="success") {
-			    		
-			    		$("#add-form").dialog("open");
-			    		var html="";
-			    		for ( var i = 0; i < obj.model.organizationList.length; i++) {
-			    			html = html+ ("<option value=\"" + obj.model.organizationList[i].id +
-			    					"\">" + obj.model.organizationList[i].organizationName+ "</option>");
-			    		}
-			    		$("#organization").html(html);
-			    	}
-			    }
-			});
-		});
-	});
 	function checkInput(type){
 		if(type=='0') {
 			var userName = $("#userName").val();
@@ -177,39 +127,6 @@
 				return false;
 			}
 		}
-	}
-	function editAdminBefore(id,flag){
-		$.ajax({   
-		    url:'${pageContext.request.contextPath}/editAdminBefore',   
-		    type:'post',   
-		    async : false, //默认为true 异步   
-		    data:'id='+id,  
-		    success:function(msg){
-		    	var obj = jQuery.parseJSON(msg);
-		    	if(obj.model.result=="success") {
-		    		$("#update-form").dialog("open");
-		    		$("#userNamep").val(obj.model.username);
-		    		$("#idp").val(obj.model.id);
-		    		if(obj.model.level == '1') {
-		    			$("#statusp").attr("disabled","disabled")
-		    		}
-		    		if(obj.model.status) {
-		    			$("#statusp").val("1");
-		    		}else {
-		    			$("#statusp").val("0");
-		    		}
-		    		if(!flag) {
-		    			debugger;
-			    		var html="";
-			    		for ( var i = 0; i < obj.model.organizationList.length; i++) {
-			    			html = html+ ("<option value=\"" + obj.model.organizationList[i].id +
-			    					"\">" + obj.model.organizationList[i].organizationName+ "</option>");
-			    		}
-			    		$("#organizationp").html(html);
-		    		}
-		    	}
-		    }
-		});
 	}
 	
 </script>
@@ -281,40 +198,36 @@ a:hover em {
 </style>
 </head>
 <body>
-	<button id="addAdminBefore">添加账号</button>
+	<button id="addDepartBefore">添加部门</button>
 	<table class="altrowstable" id="alternatecolor" width="100%">
 		<tr>
+			<th></th>
 			<th width="100px">序号</th>
-			<th>用户名称</th>
-			<th>管理员名称</th>
-			<th width="120px">管理员类别</th>
-			<th width="100px">管理员状态</th>
+			<th>部门编号</th>
+			<th>部门名称</th>
+			<th>父部门编号</th>
+			<th>父部门名称</th>
 			<th width="150px">操作</th>
 		</tr>
-		<c:forEach items="${page.list }" var="admin" varStatus="status">
-			<tr id="${admin.id}">
+		<c:forEach items="${page.list }" var="depart" varStatus="status">
+			<tr id="${depart.id}">
+				<td><input type="checkbox" alt="${depart.id}"></td>
 				<td>${status.index+1}</td>
 				<td>
-					<c:if test="${admin.organization != null }">
-						${admin.organization.organizationName}
-					</c:if>
+					${depart.departNo}
 				</td>
 				<td>
-					${admin.username}
+					${depart.departName}
 				</td>
 				<td>
-					<c:choose>
-						<c:when test="${admin.level}">
-							<span>超级管理员</span>
-						</c:when>
-						<c:otherwise>
-							<span>普通管理员</span>
-						</c:otherwise>
-					</c:choose>
+					${depart.parentNo}
+				</td>
+				<td>
+					${depart.parentName}
 				</td>
 				<td>
 					<c:choose>
-						<c:when test="${admin.status}">
+						<c:when test="${depart.status}">
 							<span>启用</span>
 						</c:when>
 						<c:otherwise>
@@ -324,17 +237,17 @@ a:hover em {
 				</td>
 				<td>
 					<c:choose>
-						<c:when test="${admin.status}">
-							<input type="button" value="禁用" onclick="disabledAdmin('${admin.id}',${admin.level})" id="disabledButton${admin.id}"/>
-							<input type="button" value="启用" onclick="enabledAdmin('${admin.id}')" id="enabledButton${admin.id}" style="display:none"/>
+						<c:when test="${depart.status}">
+							<input type="button" value="禁用" onclick="disabledDepart('${depart.id}')" id="disabledButton${depart.id}"/>
+							<input type="button" value="启用" onclick="enabledDepart('${depart.id}')" id="enabledButton${depart.id}" style="display:none"/>
 						</c:when>
 						<c:otherwise>
-							<input type="button" value="启用" onclick="enabledAdmin('${admin.id}')" id="enabledButton${admin.id}"/>
-							<input type="button" value="禁用" onclick="disabledAdmin('${admin.id}',${admin.level})" id="disabledButton${admin.id}" style="display:none"/>
+							<input type="button" value="启用" onclick="enabledDepart('${depart.id}')" id="enabledButton${depart.id}"/>
+							<input type="button" value="禁用" onclick="disabledDepart('${depart.id}')" id="disabledButton${depart.id}" style="display:none"/>
 						</c:otherwise>
 					</c:choose>
-					<input type="button" value="编辑" onclick="editAdminBefore('${admin.id}',${admin.level})" id="editButton${admin.id}"/>
-					<input type="button" value="删除" onclick="deleteAdmin('${admin.id}',${admin.level})" id="deleteButton${admin.id}"/>
+					<input type="button" value="编辑" onclick="editDepartBefore('${depart.id}')" id="editButton${depart.id}"/>
+					<input type="button" value="删除" onclick="deleteDepart('${depart.id}')" id="deleteButton${depart.id}"/>
 				</td>
 			</tr>
 		</c:forEach>
@@ -369,88 +282,6 @@ a:hover em {
 					<a href="adminList?pageNum=${page.pageNum+1}">下一页</a>
 			</c:otherwise>
 		</c:choose>
-	</div>
-	
-    <div id="add-form" title="创建新用户">
-	 	<form action="${pageContext.request.contextPath}/addAdmin" method="post" onsubmit="return checkInput(0);" id="addAdmin">
-			<table width=100%>
-				<tbody>
-					<tr>
-						<td class=“left” width=40% align="right"><label for="userName">姓
-								名：</label></td>
-						<td class="right"><input type="text" id="userName" name=username></td>
-					</tr>
-					<tr>
-						<td class=“left” width=40% align="right"><label
-							for="password">密 码：</label></td>
-						<td class="right"><input id="password" type="password"
-							name="password" /></td>
-					</tr>
-					<tr>
-						<td class=“left” width=40% align="right"><label
-							for="rePassword">确认密 码：</label></td>
-						<td class="right"><input id="rePassword" type="password"
-							name="rePassword" /></td>
-					</tr>
-					<tr>
-						<td class=“left” width=40% align="right">状态：</td>
-						<td><select id="status" name="status">
-								<option value="1">启用</option>
-								<option value="0">禁用</option>
-						</select></td>
-					</tr>
-					<tr>
-						<td class=“left” width=40% align="right">关联用户：</td>
-						<td><select id="organization" name="organizationId">
-						</select></td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
-	</div>
-    <div id="update-form" title="更新管理员信息">
-	 	<form action="${pageContext.request.contextPath}/updateAdmin" method="post" onsubmit="return checkInput(1);" id="updateAdmin">
-			<table width=100%>
-				<tbody>
-					<tr style="display:none">
-						<td class=“left” width=40% align="right"></td>
-						<td class="right"><input type="text" name="id" id="idp"></td>
-					</tr>
-					<tr>
-						<td class=“left” width=40% align="right"><label for="userNamep">姓
-								名：</label></td>
-						<td class="right"><input type="text" id="userNamep" name="username"></td>
-					</tr>
-					<tr>
-						<td class=“left” width=40% align="right"><label
-							for="passwordp">密 码：</label></td>
-						<td class="right"><input id="passwordp" type="password"
-							name="password" /></td>
-					</tr>
-					<tr>
-						<td class=“left” width=40% align="right"><label
-							for="repasswordp">确认密 码：</label></td>
-						<td class="right"><input id="repasswordp" type="password"
-							name="repassword" /></td>
-					</tr>
-					<tr>
-						<td class=“left” width=40% align="right">状态：</td>
-						<td>
-							<select id="statusp" name="status">
-									<option value="1">启用</option>
-									<option value="0">禁用</option>
-							</select>
-								
-						</td>
-					</tr>
-					<tr>
-						<td class=“left” width=40% align="right">关联用户：</td>
-						<td><select id="organizationp" name="organizationId">
-						</select></td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
 	</div>
 </body>
 </html>

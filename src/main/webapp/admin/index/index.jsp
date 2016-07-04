@@ -191,16 +191,16 @@ $(document).ready(function() {
 		<div id="left" class="list">
 				<ul class="yiji">
 		<c:if test="${Admin.level}">
-			<li><a href="${pageContext.request.contextPath}/organizationList" target="mainContent" id="organizationList">用户管理</a></li>
-			<li><a href="${pageContext.request.contextPath}/adminList" target="mainContent" id="adminList">账号管理</a></li>
-			<li><a href="${pageContext.request.contextPath}/templetList" target="mainContent" id="templetList">模板管理</a></li>
+			<li><a href="${pageContext.request.contextPath}/organizationList" target="mainContent">用户管理</a></li>
+			<li><a href="${pageContext.request.contextPath}/adminList" target="mainContent">账号管理</a></li>
+			<li><a href="${pageContext.request.contextPath}/templetList" target="mainContent">模板管理</a></li>
 		</c:if>
 		<c:if test="${!Admin.level}">
 			<li><a href="#" class="inactive">信息管理</a>
 				<ul style="display: none">
 					<li><a href="#" class="inactive active">数据管理</a>
 						<ul>
-							<li><a href="#">部门管理</a></li>
+							<li><a href="${pageContext.request.contextPath}/departList" target="mainContent">部门管理</a></li>
 							<li><a href="#">人员管理</a></li>
 						</ul>
 					</li> 

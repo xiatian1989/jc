@@ -1,7 +1,9 @@
 package com.rwkj.jc.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -27,10 +29,15 @@ public class DepartManagerServiceImpl implements DepartManagerService{
 		List<Depart> departs = departDao.getDeparts(tableName);
 		List<DepartBean> departBeans = new ArrayList<DepartBean>();
 		DepartBean departBean = null;
+		Map<String,DepartBean> mapDepartBean = new HashMap<String,DepartBean>();
 		for(Depart depart:departs) {
 			departBean = new DepartBean();
 			BeanUtils.copyProperties(depart, departBean);
+			mapDepartBean.put(departBean.getDepartNo(), departBean);
 			departBeans.add(departBean);
+		}
+		for(DepartBean tempDepartBean:departBeans) {
+			tempDepartBean.setParentName(mapDepartBean.get(tempDepartBean.getParentNo()).getDepartName());
 		}
 		PageInfo<DepartBean> page = new PageInfo<DepartBean>(departBeans);
 		return page;

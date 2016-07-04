@@ -99,6 +99,8 @@ public class AdminManagerController {
 	@RequestMapping("updateAdmin")
 	public ModelAndView updateAdmin(@ModelAttribute Admin admin){
 		ModelAndView modelAndView = new ModelAndView();
+		String password = admin.getPassword();
+		admin.setPassword(CommonUtils.getMD5Pssword(password));
 		adminService.updateAdmin(admin);
 		modelAndView.setViewName("admin/index/adminList");
 		modelAndView.addObject("page", adminService.getAdminList(1, 2));

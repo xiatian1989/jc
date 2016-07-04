@@ -37,7 +37,7 @@ public class DepartManagerController {
 		ModelAndView modelAndView = new ModelAndView();
 		PageInfo<DepartBean> page = departManagerService.getDeparts(tableName, pageNumInt, Constant.pagesize);
 		modelAndView.addObject("page", page);
-		modelAndView.setViewName("admin/index/departList");
+		modelAndView.setViewName("admin/depart/departList");
 		return modelAndView;
 	}
 }
