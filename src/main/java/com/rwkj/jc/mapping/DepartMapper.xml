@@ -13,6 +13,11 @@
   <sql id="Base_Column_List" >
     id, depart_no, depart_name, parent_no, node_path, isLeaf, status
   </sql>
+   <select id="getMaxDepartNo" resultType="java.lang.Integer">
+    select 
+    max(depart_no+0)
+    from ${tableName}
+  </select>
   <select id="getDeparts" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -138,7 +143,7 @@
 		  `id` varchar(50) NOT NULL,
 		  `depart_no` varchar(50) NOT NULL,
 		  `depart_name` varchar(100) NOT NULL,
-		  `parent_no` varchar(50) NOT NULL,
+		  `parent_no` varchar(50),
 		  `node_path` varchar(500) NOT NULL,
 		  `isLeaf` tinyint(1) NOT NULL,
 		  `status` tinyint(1) NOT NULL,

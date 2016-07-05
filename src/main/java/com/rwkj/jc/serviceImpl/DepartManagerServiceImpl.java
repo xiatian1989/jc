@@ -9,9 +9,11 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.mysql.jdbc.StringUtils;
 import com.rwkj.jc.Bean.DepartBean;
 import com.rwkj.jc.dao.DepartDao;
 import com.rwkj.jc.domain.Depart;
@@ -37,12 +39,18 @@ public class DepartManagerServiceImpl implements DepartManagerService{
 			departBeans.add(departBean);
 		}
 		for(DepartBean tempDepartBean:departBeans) {
-			tempDepartBean.setParentName(mapDepartBean.get(tempDepartBean.getParentNo()).getDepartName());
+			if(!StringUtils.isNullOrEmpty(tempDepartBean.getParentNo())) {
+				tempDepartBean.setParentName(mapDepartBean.get(tempDepartBean.getParentNo()).getDepartName());
+			}
 		}
 		PageInfo<DepartBean> page = new PageInfo<DepartBean>(departBeans);
 		return page;
 	}
-
+	
+	public List<Depart> getDeparts(String tableName){
+		return departDao.getDeparts(tableName);
+	}
+	
 	public int addDepart(String tableName, Depart depart) {
 		return departDao.insert(tableName, depart);
 	}
@@ -60,5 +68,13 @@ public class DepartManagerServiceImpl implements DepartManagerService{
 			return true;
 		}
 		return false;
+	}
+
+	public int getMaxDepartNo(String tableName) {
+		if(CollectionUtils.isEmpty(departDao.getDeparts(tableName))) {
+			return 0;
+		}else{
+			return departDao.getMaxDepartNo(tableName);
+		}
 	}
 }

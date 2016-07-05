@@ -7,10 +7,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery-ui.min.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.treetable.theme.default.css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.12.3.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-ui.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.treeTable.js" > </script>
 <script type="text/javascript">
 	function altRows(id) {
 		if (document.getElementsByTagName) {
@@ -32,29 +30,111 @@
 		altRows('alternatecolor');
 	}
 	
-	function disabledAdmin(id,flag) {
-		if(flag) {
-			alert("超级管理员不可以禁用！");
-		}else {
-			$("#"+id+" td:eq(4) span").html("禁用");
-			$("#disabledButton"+id).hide();
-			$("#enabledButton"+id).show();
-			var data = 'admin.id='+id+"&admin.status="+false;
-			updateAdmin(data);
+	function addDepartBefore() {
+		
+		var button = $("#alternatecolor tr:last td:last input:first")
+		if(button) {
+			if(button.val()=="确定"){
+				alert("请逐条添加数据！")
+				return;
+			}
 		}
+		var html="<option value=''></option>";
+		$.ajax({   
+		    url:'${pageContext.request.contextPath}/departListtoJson',   
+		    type:'post',   
+		    async : false, //默认为true 异步   
+		    success:function(obj){
+		    	//debugger;
+		    	//var obj = jQuery.parseJSON(msg);
+		    	if(obj.length>0) {
+		    		for ( var i = 0; i < obj.length; i++) {
+		    			html = html+ ("<option value=\"" + obj[i].id+"&" +obj[i].nodePath+"&"+obj[i].departNo
+		    					"\">" + obj[i].departName+ "</option>");
+		    		}
+		    	}
+		    }
+		});
+		
+		var count = $("#alternatecolor tr:last th:eq(1)").html();
+		if(!count) {
+			count = $("#alternatecolor tr:last td:eq(1)").html()
+		}
+		if(count=='序号'){
+			var newRow = "<td><input type='checkbox'></td><tr><td>1</td><td><input type='text' value='' disabled='disabled'></td><td><input type='text' value=''></td><td><input type='text' value='' disabled='disabled'></td><td><select>"+
+				html	
+			+"</select></td><td><select><option>启用</option><option>禁用</option></select></td><td><input type='button' value='确定' onclick='addDepart()'/></td></tr>";
+		}else{
+			count =  parseInt(count)+1
+			var newRow = "<tr><td><input type='checkbox'></td><td>"+count+"</td><td><input type='text' value='' disabled='disabled'></td><td><input type='text' value=''></td><td><input type='text' value='' disabled='disabled'></td><td><select>"+
+				html	
+			+"</select></td><td><select><option>启用</option><option>禁用</option></select></td><td><input type='button' value='确定' onclick='addDepart()'/></td></tr>";
+		}
+		$("#alternatecolor tr:last").after(newRow);
 	}
 	
-	function enabledAdmin(id){
-		$("#"+id+" td:eq(4) span").html("启用");
+	function addDepart(){
+		
+		var departName = $("#alternatecolor tr:last td:eq(3) input").val();
+		var parentMessage = $("#alternatecolor tr:last td:eq(5) select").val();
+		var statusText = $("#alternatecolor tr:last td:eq(6) select").val();
+		if(departName == ''){
+			alert("请输入用户名称！")
+			$("#alternatecolor tr:last td:eq(3) input").focus().select();
+			return;
+		}
+		var status =true;
+		if(statusText=="禁用") {
+			status=false
+		}
+		var pid="";
+		var parentNo="";
+		var nodepath="";
+		if(parentMessage !=''){
+			var arr=parentMessage.split('&')
+			pid = arr[0];
+			nodepath=arr[1];
+			parentNo=arr[2]
+		}
+		$.ajax({   
+		    url:'${pageContext.request.contextPath}/addOrganization',   
+		    type:'post',   
+		    data:'organization.organizationName='+organizationName+"&organization.status="+status,   
+		    async : false, //默认为true 异步   
+		    error:function(){   
+		       alert('添加失败');   
+		    },   
+		    success:function(msg){
+		    	var obj = jQuery.parseJSON(msg);
+		    	if(obj.result=="success") {
+		    		window.location.href="${pageContext.request.contextPath}/organizationList";
+		    	}else{
+		    		alert('添加失败'); 
+		    	}
+		    }
+		});
+		
+	}
+	
+	function disabledOrganization(id){
+		$("#"+id+" td:eq(2) span").html("禁用");
+		$("#disabledButton"+id).hide();
+		$("#enabledButton"+id).show();
+		var data = 'organization.id='+id+"&organization.status="+false;
+		updateOrganization(data,false);
+	}
+	
+	function enabledOrganization(id){
+		$("#"+id+" td:eq(2) span").html("启用");
 		$("#disabledButton"+id).show();
 		$("#enabledButton"+id).hide();
-		var data = 'admin.id='+id+"&admin.status="+true;
-		updateAdmin(data);
+		var data = 'organization.id='+id+"&organization.status="+true;
+		updateOrganization(data,false);
 	}
 	
-	function updateAdmin(data){
+	function updateOrganization(data,flag){
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/updateAdmin',   
+		    url:'${pageContext.request.contextPath}/updateOrganization',   
 		    type:'post',   
 		    data:data,   
 		    async : false, //默认为true 异步   
@@ -63,8 +143,10 @@
 		    },   
 		    success:function(msg){
 		    	var obj = jQuery.parseJSON(msg);
-		    	if(obj.model.result=="success") {
-		    		alert("更新成功!")
+		    	if(obj.result=="success") {
+		    		if(flag) {
+			    		window.location.href="${pageContext.request.contextPath}/organizationList";
+		    		}
 		    	}else{
 		    		alert('更新失败'); 
 		    	}
@@ -72,61 +154,70 @@
 		});
 	}
 	
-	function deleteAdmin(id,flag){
-		
-		if(flag) {
-			alert("超级管理员不可以删除！");
-		}else {
-			top.operation="delete";
-			$.ajax({   
-			    url:'${pageContext.request.contextPath}/deleteAdmin',   
-			    type:'post',   
-			    data:'id='+id,   
-			    async : false, //默认为true 异步   
-			    error:function(){   
-			       alert('删除失败!');   
-			    },   
-			    success:function(msg){
-			    	var obj = jQuery.parseJSON(msg);
-			    	if(obj.result=="success") {
-			    		window.location.href="${pageContext.request.contextPath}/adminList";
-			    	}else{
-			    		alert('删除失败!'); 
-			    	}
-			    }
-			});
-		}
+	function deleteOrganization(id) {
+		$.ajax({   
+		    url:'${pageContext.request.contextPath}/deleteOrganization',   
+		    type:'post',   
+		    data:'id='+id,   
+		    async : false, //默认为true 异步   
+		    error:function(){   
+		       alert('删除失败');   
+		    },   
+		    success:function(msg){
+		    	var obj = jQuery.parseJSON(msg);
+		    	if(obj.result=="success") {
+		    		window.location.href="${pageContext.request.contextPath}/organizationList";
+		    	}else{
+		    		alert('删除失败'); 
+		    	}
+		    }
+		});
 	}
-	function checkInput(type){
-		if(type=='0') {
-			var userName = $("#userName").val();
-			var password = $("#password").val();
-			var rePassword = $("#rePassword").val();
-			if(userName==""){
-				alert("请输入用户名！");
-				$("#userName").focus().select();
-				return false;
-			}
-			if(password==""){
-				alert("请输入密码！");
-				$("#password").focus().select();
-				return false;
-			}
-			if(password != rePassword) {
-				alert("密码不一致！");
-				$("#rePassword").focus().select();
-				return false;
-			}
-		}else {
-			debugger;
-			var password = $("#passwordp").val();
-			var rePassword = $("#repasswordp").val();
-			if(password != rePassword) {
-				alert("密码不一致！");
-				$("#rePassword").focus().select();
-				return false;
-			}
+	function editOrganizationBefore(id){
+		$("#disabledButton"+id).hide();
+		$("#enabledButton"+id).hide();
+		$("#editButton"+id).hide();
+		$("#deleteButton"+id).hide();
+		$("#OKButton"+id).show();
+		$("#"+id+" td:eq(1) input").removeAttr("disabled");
+		$("#"+id+" td:eq(2)").html("<select><option>启用</option><option>禁用</option></select>");
+	}
+	
+	function editOrganization(id){
+		var organizationName = $("#"+id+" td:eq(1) input").val();
+		var statusText = $("#"+id+" td:eq(2) select").val();
+		var status =true;
+		if(statusText=="禁用") {
+			status=false
 		}
+		var data = 'organization.id='+id+"&organization.status="+status+"&organization.organizationName="+organizationName;
+		updateOrganization(data,true);
+	}
+	
+	function checkUniqName(id,object) {
+		var organizationName = $("#"+id+" td:eq(1) input").val();
+		var oldOrganizationName = $("#"+id+" td:eq(1) input").attr("title");
+		if(organizationName == oldOrganizationName) {
+			return;
+		}
+		
+		$.ajax({   
+		    url:'${pageContext.request.contextPath}/checkOrganizationName',   
+		    type:'post',   
+		    data:'name='+organizationName,   
+		    async : false, //默认为true 异步   
+		    error:function(){   
+		       alert('用户名已经存在！');   
+		    },   
+		    success:function(msg){
+		    	var obj = jQuery.parseJSON(msg);
+		    	if(obj.result=="failed") {
+		    		
+		    		alert('用户名已经存在！');
+		    		$(object).focus().select();
+		    	}
+		    }
+		});
 	}
 	
 </script>
@@ -198,7 +289,7 @@ a:hover em {
 </style>
 </head>
 <body>
-	<button id="addDepartBefore">添加部门</button>
+	<button id="addDepartBefore" onclick="addDepartBefore()">添加部门</button>
 	<table class="altrowstable" id="alternatecolor" width="100%">
 		<tr>
 			<th></th>
@@ -207,6 +298,7 @@ a:hover em {
 			<th>部门名称</th>
 			<th>父部门编号</th>
 			<th>父部门名称</th>
+			<th>状态</th>
 			<th width="150px">操作</th>
 		</tr>
 		<c:forEach items="${page.list }" var="depart" varStatus="status">
@@ -248,6 +340,7 @@ a:hover em {
 					</c:choose>
 					<input type="button" value="编辑" onclick="editDepartBefore('${depart.id}')" id="editButton${depart.id}"/>
 					<input type="button" value="删除" onclick="deleteDepart('${depart.id}')" id="deleteButton${depart.id}"/>
+					<input type="button" value="确定" onclick="editDepart('${depart.id}')" style="display: none" id="OKButton${depart.id}"/>
 				</td>
 			</tr>
 		</c:forEach>

@@ -29,4 +29,6 @@ public interface DepartDao {
     int dropTable(@Param("tableName") String tableName);
     
     int existTable(String tableName);
+    
+    int getMaxDepartNo(String tableName);
 }
