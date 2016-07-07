@@ -30,7 +30,7 @@
 		altRows('alternatecolor');
 	}
 	
-	function addDepartBefore() {
+	function addDepartBefore(){
 		
 		var button = $("#alternatecolor tr:last td:last input:first")
 		if(button) {
@@ -45,11 +45,9 @@
 		    type:'post',   
 		    async : false, //默认为true 异步   
 		    success:function(obj){
-		    	//debugger;
-		    	//var obj = jQuery.parseJSON(msg);
 		    	if(obj.length>0) {
 		    		for ( var i = 0; i < obj.length; i++) {
-		    			html = html+ ("<option value=\"" + obj[i].id+"&" +obj[i].nodePath+"&"+obj[i].departNo
+		    			html = html+ ("<option value=\"" + obj[i].id+"&" +obj[i].nodePath+"&"+obj[i].departNo+"&"+obj[i].isleaf+
 		    					"\">" + obj[i].departName+ "</option>");
 		    		}
 		    	}
@@ -58,14 +56,14 @@
 		
 		var count = $("#alternatecolor tr:last th:eq(1)").html();
 		if(!count) {
-			count = $("#alternatecolor tr:last td:eq(1)").html()
+			count = $("#alternatecolor tr:last td:eq(1)").html();
 		}
 		if(count=='序号'){
 			var newRow = "<td><input type='checkbox'></td><tr><td>1</td><td><input type='text' value='' disabled='disabled'></td><td><input type='text' value=''></td><td><input type='text' value='' disabled='disabled'></td><td><select>"+
 				html	
 			+"</select></td><td><select><option>启用</option><option>禁用</option></select></td><td><input type='button' value='确定' onclick='addDepart()'/></td></tr>";
 		}else{
-			count =  parseInt(count)+1
+			count =  parseInt(count)+1;
 			var newRow = "<tr><td><input type='checkbox'></td><td>"+count+"</td><td><input type='text' value='' disabled='disabled'></td><td><input type='text' value=''></td><td><input type='text' value='' disabled='disabled'></td><td><select>"+
 				html	
 			+"</select></td><td><select><option>启用</option><option>禁用</option></select></td><td><input type='button' value='确定' onclick='addDepart()'/></td></tr>";
@@ -75,6 +73,7 @@
 	
 	function addDepart(){
 		
+		debugger;
 		var departName = $("#alternatecolor tr:last td:eq(3) input").val();
 		var parentMessage = $("#alternatecolor tr:last td:eq(5) select").val();
 		var statusText = $("#alternatecolor tr:last td:eq(6) select").val();
@@ -90,24 +89,31 @@
 		var pid="";
 		var parentNo="";
 		var nodepath="";
+		var isleaf="";
 		if(parentMessage !=''){
 			var arr=parentMessage.split('&')
 			pid = arr[0];
 			nodepath=arr[1];
 			parentNo=arr[2]
+			isleaf=arr[3]
 		}
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/addOrganization',   
+		    url:'${pageContext.request.contextPath}/addDepart',   
 		    type:'post',   
-		    data:'organization.organizationName='+organizationName+"&organization.status="+status,   
+		    data:'depart.departName='+departName+"&depart.status="+status+"&depart.parentNo="+parentNo+"&depart.nodePath="+nodepath,   
 		    async : false, //默认为true 异步   
 		    error:function(){   
 		       alert('添加失败');   
 		    },   
 		    success:function(msg){
-		    	var obj = jQuery.parseJSON(msg);
-		    	if(obj.result=="success") {
-		    		window.location.href="${pageContext.request.contextPath}/organizationList";
+		    	if(msg.result=="success") {
+		    		if(pid !="" && isleaf=="true"){
+		    			var dataForUpdate ="depart.id="+pid+"&depart.isleaf="+false;
+		    			updateDepart(dataForUpdate,true);
+		    		}else{
+		    			window.location.href="${pageContext.request.contextPath}/departList";
+		    		}
+		    		
 		    	}else{
 		    		alert('添加失败'); 
 		    	}
@@ -116,25 +122,29 @@
 		
 	}
 	
-	function disabledOrganization(id){
-		$("#"+id+" td:eq(2) span").html("禁用");
+	function disabledDepart(id,isLeaf){
+		if(!isLeaf) {
+			alert("该部门有子部门，不能禁用！");
+			return;
+		}
+		$("#"+id+" td:eq(6) span").html("禁用");
 		$("#disabledButton"+id).hide();
 		$("#enabledButton"+id).show();
-		var data = 'organization.id='+id+"&organization.status="+false;
-		updateOrganization(data,false);
+		var data = 'depart.id='+id+"&depart.status="+false;
+		updateDepart(data,false);
 	}
 	
-	function enabledOrganization(id){
-		$("#"+id+" td:eq(2) span").html("启用");
+	function enabledDepart(id){
+		$("#"+id+" td:eq(6) span").html("启用");
 		$("#disabledButton"+id).show();
 		$("#enabledButton"+id).hide();
-		var data = 'organization.id='+id+"&organization.status="+true;
-		updateOrganization(data,false);
+		var data = 'depart.id='+id+"&depart.status="+true;
+		updateDepart(data,false);
 	}
 	
-	function updateOrganization(data,flag){
+	function updateDepart(data,flag){
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/updateOrganization',   
+		    url:'${pageContext.request.contextPath}/updateDepart',   
 		    type:'post',   
 		    data:data,   
 		    async : false, //默认为true 异步   
@@ -142,10 +152,9 @@
 		       alert('更新失败');   
 		    },   
 		    success:function(msg){
-		    	var obj = jQuery.parseJSON(msg);
-		    	if(obj.result=="success") {
+		    	if(msg.result=="success") {
 		    		if(flag) {
-			    		window.location.href="${pageContext.request.contextPath}/organizationList";
+			    		window.location.href="${pageContext.request.contextPath}/departList";
 		    		}
 		    	}else{
 		    		alert('更新失败'); 
@@ -154,9 +163,9 @@
 		});
 	}
 	
-	function deleteOrganization(id) {
+	function deleteDepart(id) {
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/deleteOrganization',   
+		    url:'${pageContext.request.contextPath}/deleteDepart',   
 		    type:'post',   
 		    data:'id='+id,   
 		    async : false, //默认为true 异步   
@@ -164,40 +173,81 @@
 		       alert('删除失败');   
 		    },   
 		    success:function(msg){
-		    	var obj = jQuery.parseJSON(msg);
-		    	if(obj.result=="success") {
-		    		window.location.href="${pageContext.request.contextPath}/organizationList";
+		    	if(msg.result=="success") {
+		    		window.location.href="${pageContext.request.contextPath}/departList";
 		    	}else{
 		    		alert('删除失败'); 
 		    	}
 		    }
 		});
 	}
-	function editOrganizationBefore(id){
+	function editDepartBefore(id){
+		
 		$("#disabledButton"+id).hide();
 		$("#enabledButton"+id).hide();
 		$("#editButton"+id).hide();
 		$("#deleteButton"+id).hide();
 		$("#OKButton"+id).show();
-		$("#"+id+" td:eq(1) input").removeAttr("disabled");
-		$("#"+id+" td:eq(2)").html("<select><option>启用</option><option>禁用</option></select>");
+		var departNo = $("#"+id+" td:eq(2)").html().trim();
+		$("#"+id+" td:eq(3) input").removeAttr("disabled");
+		$("#"+id+" td:eq(6)").html("<select><option>启用</option><option>禁用</option></select>");
+		var html="<select>";
+		$.ajax({   
+		    url:'${pageContext.request.contextPath}/departListtoJsonForUpdate',   
+		    type:'post', 
+		    data:"departNo="+departNo,   
+		    async : false, //默认为true 异步   
+		    success:function(obj){
+		    	if(obj.length>0) {
+		    		for ( var i = 0; i < obj.length; i++) {
+		    			html = html+ ("<option value=\"" + obj[i].id+"&" +obj[i].nodePath+"&"+obj[i].departNo+"&"+obj[i].isleaf+
+		    					"\">" + obj[i].departName+ "</option>");
+		    			if(i == 0) {
+		    				html = html+"<option value=''></option>"
+		    			}
+		    		}
+		    	}
+		    }
+		});
+		$("#"+id+" td:eq(5)").html(html+"</select>");
 	}
 	
-	function editOrganization(id){
-		var organizationName = $("#"+id+" td:eq(1) input").val();
-		var statusText = $("#"+id+" td:eq(2) select").val();
+	function editDepart(id){
+		var departName = $("#"+id+" td:eq(3) input").val();
+		var parentMessage = $("#"+id+" td:eq(5) select").val();
+		var oldParentNo = $("#"+id+" td:eq(4)").html().trim();
+		var departNo = $("#"+id+" td:eq(2)").html().trim();
+		var statusText = $("#"+id+" td:eq(6) select").val();
 		var status =true;
 		if(statusText=="禁用") {
 			status=false
 		}
-		var data = 'organization.id='+id+"&organization.status="+status+"&organization.organizationName="+organizationName;
-		updateOrganization(data,true);
+		var pid="";
+		var parentNo="";
+		var nodepath="";
+		var isleaf="";
+		if(parentMessage !=''){
+			var arr=parentMessage.split('&')
+			pid = arr[0];
+			nodepath=arr[1];
+			parentNo=arr[2]
+			isleaf=arr[3]
+		}
+		
+		var data="";
+		if(parentNo == oldParentNo) {
+			data = 'depart.id='+id+'&depart.departName='+departName+"&depart.status="+status+'&depart.departNo='+departNo;
+		} else {
+			data = 'depart.id='+id+'&depart.departName='+departName+"&depart.status="+status+"&depart.parentNo="+parentNo+"&depart.nodePath="+nodepath+'&depart.departNo='+departNo;
+		}
+		
+		updateDepart(data,true);
 	}
 	
 	function checkUniqName(id,object) {
-		var organizationName = $("#"+id+" td:eq(1) input").val();
-		var oldOrganizationName = $("#"+id+" td:eq(1) input").attr("title");
-		if(organizationName == oldOrganizationName) {
+		var departName = $("#"+id+" td:eq(3) input").val();
+		var olddepartName = $("#"+id+" td:eq(3) input").attr("title");
+		if(departName == olddepartName) {
 			return;
 		}
 		
@@ -207,13 +257,13 @@
 		    data:'name='+organizationName,   
 		    async : false, //默认为true 异步   
 		    error:function(){   
-		       alert('用户名已经存在！');   
+		       alert('部门名称已经存在！');   
 		    },   
 		    success:function(msg){
 		    	var obj = jQuery.parseJSON(msg);
 		    	if(obj.result=="failed") {
 		    		
-		    		alert('用户名已经存在！');
+		    		alert('部门名称已经存在！');
 		    		$(object).focus().select();
 		    	}
 		    }
@@ -289,7 +339,7 @@ a:hover em {
 </style>
 </head>
 <body>
-	<button id="addDepartBefore" onclick="addDepartBefore()">添加部门</button>
+	<input type="button" value="添加部门" onclick="addDepartBefore()"/>
 	<table class="altrowstable" id="alternatecolor" width="100%">
 		<tr>
 			<th></th>
@@ -309,7 +359,7 @@ a:hover em {
 					${depart.departNo}
 				</td>
 				<td>
-					${depart.departName}
+					<input type="text" value="${depart.departName}" disabled="disabled" title="${depart.departName}" onblur="checkUniqName('${depart.id}',this)" style="width:99%;word-break:break-all"/>
 				</td>
 				<td>
 					${depart.parentNo}
@@ -330,12 +380,12 @@ a:hover em {
 				<td>
 					<c:choose>
 						<c:when test="${depart.status}">
-							<input type="button" value="禁用" onclick="disabledDepart('${depart.id}')" id="disabledButton${depart.id}"/>
+								<input type="button" value="禁用" onclick="disabledDepart('${depart.id}',${depart.isleaf})" id="disabledButton${depart.id}"/>
 							<input type="button" value="启用" onclick="enabledDepart('${depart.id}')" id="enabledButton${depart.id}" style="display:none"/>
 						</c:when>
 						<c:otherwise>
 							<input type="button" value="启用" onclick="enabledDepart('${depart.id}')" id="enabledButton${depart.id}"/>
-							<input type="button" value="禁用" onclick="disabledDepart('${depart.id}')" id="disabledButton${depart.id}" style="display:none"/>
+							<input type="button" value="禁用" onclick="disabledDepart('${depart.id}',${depart.isleaf})" id="disabledButton${depart.id}" style="display:none"/>
 						</c:otherwise>
 					</c:choose>
 					<input type="button" value="编辑" onclick="editDepartBefore('${depart.id}')" id="editButton${depart.id}"/>
@@ -352,7 +402,7 @@ a:hover em {
 				<a>上一页</a>
 			</c:when>
 			<c:otherwise>
-				<a href="adminList?pageNum=${page.pageNum - 1}">上一页</a>
+				<a href="departList?pageNum=${page.pageNum - 1}">上一页</a>
 			</c:otherwise>
 		</c:choose>
 		<c:if test="${pages != 1}">
@@ -362,7 +412,7 @@ a:hover em {
 						<a>${pageIndex}</a>
 					</c:when>
 					<c:otherwise>
-						<a href="adminList?pageNum=${pageIndex}">${pageIndex}</a>
+						<a href="departList?pageNum=${pageIndex}">${pageIndex}</a>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
@@ -372,7 +422,7 @@ a:hover em {
 					<a>下一页</a>
 				</c:when>
 				<c:otherwise>
-					<a href="adminList?pageNum=${page.pageNum+1}">下一页</a>
+					<a href="departList?pageNum=${page.pageNum+1}">下一页</a>
 			</c:otherwise>
 		</c:choose>
 	</div>
