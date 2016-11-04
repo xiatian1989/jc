@@ -3,8 +3,6 @@ package com.rwkj.jc.domain;
 public class Admin {
     private String id;
 
-    private String organizationId;
-
     private String username;
 
     private String password;
@@ -12,8 +10,6 @@ public class Admin {
     private Boolean level;
 
     private Boolean status;
-    
-    private Organization organization;
 
     public String getId() {
         return id;
@@ -21,14 +17,6 @@ public class Admin {
 
     public void setId(String id) {
         this.id = id == null ? null : id.trim();
-    }
-
-    public String getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId == null ? null : organizationId.trim();
     }
 
     public String getUsername() {
@@ -62,12 +50,4 @@ public class Admin {
     public void setStatus(Boolean status) {
         this.status = status;
     }
-
-	public Organization getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
 }

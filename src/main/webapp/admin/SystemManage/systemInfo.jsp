@@ -39,8 +39,8 @@ table.altrowstable td {
 </style>
 </head>
 <body>
-	<table class="altrowstable" id="alternatecolor">
-	<caption>系统信息</caption>
+	<table class="altrowstable" id="alternatecolor" width="100%">
+	<caption style="margin-bottom: 10px;font-weight: bolder;">系统信息</caption>
 		<tr>
 			<td style="width:20%;">OS</td>
 			<td style="width:80%;">${systemInfo.oS }</td>

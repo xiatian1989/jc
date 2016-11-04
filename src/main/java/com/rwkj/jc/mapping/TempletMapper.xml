@@ -1,35 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rwkj.jc.dao.TempletDao" >
+<mapper namespace="com.rwkj.jc.IDao.TempletMapper" >
   <resultMap id="BaseResultMap" type="com.rwkj.jc.domain.Templet" >
-      <id column="id" property="id" jdbcType="VARCHAR" />
+    <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="templetTitle" property="templettitle" jdbcType="VARCHAR" />
     <result column="keyWord" property="keyword" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
-    <result column="updatTime" property="updattime" jdbcType="TIMESTAMP" />
-    <result column="tableName" property="tablename" jdbcType="VARCHAR" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="BIT" />
   </resultMap>
- <sql id="Base_Column_List" >
-    id, templetTitle, keyWord, description, createTime, updatTime, tableName, status
+  <sql id="Base_Column_List" >
+    id, templetTitle, keyWord, description, createTime, updateTime, status
   </sql>
-    <select id="getTemplets" resultMap="BaseResultMap">
-   	 	select 
-    	<include refid="Base_Column_List" />
-   		 from jc_templet order by createTime
-  </select>
-<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from jc_templet
     where id = #{id,jdbcType=VARCHAR}
-  </select>
-<select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from jc_templet
-    where templetTitle = #{templetTitle,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from jc_templet
@@ -37,11 +25,11 @@
   </delete>
   <insert id="insert" parameterType="com.rwkj.jc.domain.Templet" >
     insert into jc_templet (id, templetTitle, keyWord, 
-      description, createTime, updatTime, 
-      tableName, status)
+      description, createTime, updateTime, 
+      status)
     values (#{id,jdbcType=VARCHAR}, #{templettitle,jdbcType=VARCHAR}, #{keyword,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updattime,jdbcType=TIMESTAMP}, 
-      #{tablename,jdbcType=VARCHAR}, #{status,jdbcType=BIT})
+      #{description,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.rwkj.jc.domain.Templet" >
     insert into jc_templet
@@ -61,11 +49,8 @@
       <if test="createtime != null" >
         createTime,
       </if>
-      <if test="updattime != null" >
-        updatTime,
-      </if>
-      <if test="tablename != null" >
-        tableName,
+      <if test="updatetime != null" >
+        updateTime,
       </if>
       <if test="status != null" >
         status,
@@ -87,11 +72,8 @@
       <if test="createtime != null" >
         #{createtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updattime != null" >
-        #{updattime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="tablename != null" >
-        #{tablename,jdbcType=VARCHAR},
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         #{status,jdbcType=BIT},
@@ -113,11 +95,8 @@
       <if test="createtime != null" >
         createTime = #{createtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updattime != null" >
-        updatTime = #{updattime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="tablename != null" >
-        tableName = #{tablename,jdbcType=VARCHAR},
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=BIT},
@@ -131,8 +110,7 @@
       keyWord = #{keyword,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       createTime = #{createtime,jdbcType=TIMESTAMP},
-      updatTime = #{updattime,jdbcType=TIMESTAMP},
-      tableName = #{tablename,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=BIT}
     where id = #{id,jdbcType=VARCHAR}
   </update>

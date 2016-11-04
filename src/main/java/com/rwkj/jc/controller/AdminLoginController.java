@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mysql.jdbc.StringUtils;
+import com.rwkj.jc.bean.SystemInfo;
 import com.rwkj.jc.domain.Admin;
-import com.rwkj.jc.domain.SystemInfo;
 import com.rwkj.jc.service.AdminService;
 import com.rwkj.jc.util.CommonUtils;
 
@@ -47,36 +47,45 @@ public class AdminLoginController {
 		
 		Admin admin = adminService.getAdminByUserName(username);
 		
-		if(!CommonUtils.getMD5Pssword(password).equals(admin.getPassword())) {
+		if(admin==null){
 			modelAndView.setViewName("admin/login");
-			modelAndView.addObject("message","密码或者验证码错误！");
-		}else {
-			session.setAttribute("Admin", admin);
-			
-			modelAndView.setViewName("admin/index/index");
-			
-			SystemInfo systemInfo = new SystemInfo();
-			
-			systemInfo.setoS(System.getenv("OS"));
-			systemInfo.setServerName(System.getenv("COMPUTERNAME"));
-			systemInfo.setJavaHome(System.getenv("JAVA_HOME"));
-			systemInfo.setServerInfo(req.getServletContext().getServerInfo());
-			systemInfo.setContextPath(req.getServletContext().getContextPath());
-			
-			String localIp = "";
-			try{
-				InetAddress ia = InetAddress.getLocalHost();
-				localIp = ia.getHostAddress();
-			}catch(Exception e) {
-				e.printStackTrace();
+			modelAndView.addObject("message","用户名不存在！");
+		}else{
+			if(!CommonUtils.getMD5Pssword(password).equals(admin.getPassword())) {
+				modelAndView.setViewName("admin/login");
+				modelAndView.addObject("message","用户名或者密码错误！");
+			}else {
+				if("0".equals(admin.getStatus())){
+					modelAndView.setViewName("admin/login");
+					modelAndView.addObject("message","处于禁用状态！");
+				}else{
+					session.setAttribute("Admin", admin);
+					
+					modelAndView.setViewName("admin/SystemManage/index");
+					
+					SystemInfo systemInfo = new SystemInfo();
+					
+					systemInfo.setoS(System.getenv("OS"));
+					systemInfo.setServerName(System.getenv("COMPUTERNAME"));
+					systemInfo.setJavaHome(System.getenv("JAVA_HOME"));
+					systemInfo.setServerInfo(req.getServletContext().getServerInfo());
+					systemInfo.setContextPath(req.getServletContext().getContextPath());
+					
+					String localIp = "";
+					try{
+						InetAddress ia = InetAddress.getLocalHost();
+						localIp = ia.getHostAddress();
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
+					systemInfo.setServerHostIP(localIp);
+					systemInfo.setProtocol(req.getProtocol());
+					systemInfo.setServerPort(req.getServerPort()+"");
+					systemInfo.setServerTime(new Date(System.currentTimeMillis()).toString());
+					
+					session.setAttribute("systemInfo", systemInfo);
+				}
 			}
-			systemInfo.setServerHostIP(localIp);
-			systemInfo.setProtocol(req.getProtocol());
-			systemInfo.setServerPort(req.getServerPort()+"");
-			systemInfo.setServerTime(new Date(System.currentTimeMillis()).toString());
-			
-			session.setAttribute("systemInfo", systemInfo);
-			
 		}
 		return modelAndView;
 	}

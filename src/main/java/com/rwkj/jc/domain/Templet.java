@@ -13,9 +13,7 @@ public class Templet {
 
     private Date createtime;
 
-    private Date updattime;
-
-    private String tablename;
+    private Date updatetime;
 
     private Boolean status;
 
@@ -59,20 +57,12 @@ public class Templet {
         this.createtime = createtime;
     }
 
-    public Date getUpdattime() {
-        return updattime;
+    public Date getUpdatetime() {
+        return updatetime;
     }
 
-    public void setUpdattime(Date updattime) {
-        this.updattime = updattime;
-    }
-
-    public String getTablename() {
-        return tablename;
-    }
-
-    public void setTablename(String tablename) {
-        this.tablename = tablename == null ? null : tablename.trim();
+    public void setUpdatetime(Date updatetime) {
+        this.updatetime = updatetime;
     }
 
     public Boolean getStatus() {

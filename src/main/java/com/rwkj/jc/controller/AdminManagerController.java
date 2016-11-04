@@ -14,12 +14,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.github.pagehelper.PageInfo;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.mysql.jdbc.StringUtils;
 import com.rwkj.jc.domain.Admin;
-import com.rwkj.jc.domain.Organization;
 import com.rwkj.jc.service.AdminService;
 import com.rwkj.jc.util.CommonUtils;
 
@@ -29,83 +28,73 @@ public class AdminManagerController {
 	@Resource
 	private AdminService adminService;
 	
-	@InitBinder("organization")    
-    public void initBinder1(WebDataBinder binder) {    
-            binder.setFieldDefaultPrefix("organization.");    
-    }    
 	@InitBinder("admin")    
 	public void initBinder2(WebDataBinder binder) {    
 		binder.setFieldDefaultPrefix("admin.");    
 	}    
 	
 	@RequestMapping("adminList")
-	public ModelAndView getAdminList(HttpServletRequest req){
-		
-		String pageNum =req.getParameter("pageNum");
-		int pageNumInt = 1;
-		if(!StringUtils.isNullOrEmpty(pageNum)) {
-			pageNumInt = Integer.parseInt(pageNum);
+	public @ResponseBody Object getAdminList(HttpServletRequest request, 
+			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
+            @RequestParam(required = false, defaultValue = "10") Integer rows){
+		Map<String, Object> result = new HashMap<String, Object>(2) ;
+		int total = 0;
+		String param = request.getParameter("param");
+		List<Admin> admins = null;
+		if(StringUtils.isNullOrEmpty(param)){
+			admins = adminService.getAdmins((page-1)*rows, rows);
+			total = adminService.getAdminsCount();
+		}else{
+			admins = adminService.getAdminsByUserName("%"+param+"%", (page-1)*rows, rows);
+			total = adminService.getAdminsCountByUserName("%"+param+"%");
 		}
 		
-		ModelAndView modelAndView = new ModelAndView();
-		PageInfo<Admin> page = adminService.getAdminList(pageNumInt,2);
-		modelAndView.addObject("page", page);
-		modelAndView.setViewName("admin/index/adminList");
-		return modelAndView;
-	}
-	
-	@RequestMapping("addAdminBefore")
-	public @ResponseBody ModelAndView addAdminBefore(){
-		ModelAndView modelAndView = new ModelAndView();
-		List<Organization> organizationList= adminService.getNoConnectedOrganizationList();
-		modelAndView.addObject("organizationList", organizationList);
-		modelAndView.addObject("result", "success");
-		return modelAndView;
+		JSONArray jsonArray = new JSONArray();  
+        for(Admin admin:admins){  
+             JSONObject jsonObject = new JSONObject();  
+             jsonObject.put("id",admin.getId());
+             jsonObject.put("username",admin.getUsername());
+             jsonObject.put("password",admin.getPassword());
+             jsonObject.put("level",admin.getLevel());
+             jsonObject.put("status",admin.getStatus());
+             jsonArray.add(jsonObject) ;  
+        }  
+		result.put("total", total);  
+	    result.put("rows",jsonArray);
+		return result;
 	}
 	
 	@RequestMapping("addAdmin")
-	public ModelAndView addAdmin(@ModelAttribute Admin admin){
-		ModelAndView modelAndView = new ModelAndView();
+	public @ResponseBody Map<String,String> addAdmin(@ModelAttribute Admin admin){
+		Map<String, String> result = new HashMap<String,String>();
+		int count = 0;
 		admin.setId(CommonUtils.getUUID());
 		String password = admin.getPassword();
 		admin.setPassword(CommonUtils.getMD5Pssword(password));
-		admin.setLevel(false);;
-		adminService.addAdmin(admin);
+		admin.setLevel(false);
+		count = adminService.addAdmin(admin);
 		
-		modelAndView.setViewName("admin/index/adminList");
-		modelAndView.addObject("page", adminService.getAdminList(1, 2));
-		
-		return modelAndView;
-	}
-	
-	@RequestMapping("editAdminBefore")
-	public@ResponseBody ModelAndView editAdminBefore(@RequestParam("id") String id){
-		ModelAndView modelAndView = new ModelAndView();
-		Admin admin = adminService.selectByPrimaryKey(id);
-		modelAndView.addObject("username", admin.getUsername());
-		modelAndView.addObject("status", admin.getStatus());
-		modelAndView.addObject("id", admin.getId());
-		modelAndView.addObject("level", admin.getLevel()?1:0);
-		List<Organization> organizationList= adminService.getNoConnectedOrganizationList();
-		Organization organization = new Organization();
-		if(organization != null) {
-			organizationList.add(0, admin.getOrganization());
+		if(count>0){
+			result.put("result", "success");
+		}else{
+			result.put("result", "failed");
+			result.put("errorMsg", "添加失败，请联系管理员！");
 		}
-		modelAndView.addObject("organizationList", organizationList);
-		modelAndView.addObject("result", "success");
-		return modelAndView;
+		return result;
 	}
 	
 	@RequestMapping("updateAdmin")
-	public ModelAndView updateAdmin(@ModelAttribute Admin admin){
-		ModelAndView modelAndView = new ModelAndView();
-		String password = admin.getPassword();
-		admin.setPassword(CommonUtils.getMD5Pssword(password));
-		adminService.updateAdmin(admin);
-		modelAndView.setViewName("admin/index/adminList");
-		modelAndView.addObject("page", adminService.getAdminList(1, 2));
-		modelAndView.addObject("result", "success");
-		return modelAndView;
+	public @ResponseBody Map<String,String> updateAdmin(@ModelAttribute Admin admin){
+		int count = 0;
+		Map<String, String> result = new HashMap<String,String>();
+		count = adminService.updateAdmin(admin);
+		if(count>0){
+			result.put("result", "success");
+		}else{
+			result.put("result", "failed");
+			result.put("errorMsg", "更新失败");
+		}
+		return result;
 	}
 	
 	@RequestMapping("deleteAdmin")
@@ -120,7 +109,6 @@ public class AdminManagerController {
 		return map;
 	}
 	
-	
 	@RequestMapping("checkAdminName")
 	public @ResponseBody Map<String,String> checkAdminName(@RequestParam("name") String name){
 		Map<String,String> map = new HashMap<String,String>();
@@ -132,71 +120,4 @@ public class AdminManagerController {
 		return map;
 	}
 	
-	@RequestMapping("organizationList")
-	public ModelAndView getOrganizationList(HttpServletRequest req){
-		
-		String pageNum =req.getParameter("pageNum");
-		int pageNumInt = 1;
-		if(!StringUtils.isNullOrEmpty(pageNum)) {
-			pageNumInt = Integer.parseInt(pageNum);
-		}
-		
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("page", adminService.getOrganizationList(pageNumInt, 2));
-		modelAndView.setViewName("admin/index/organizationList");
-		return modelAndView;
-	}
-	
-	
-	@RequestMapping("addOrganization")
-	public @ResponseBody Map<String,String> addOrganization(@ModelAttribute Organization organization){
-		Map<String,String> map = new HashMap<String,String>();
-		organization.setId(CommonUtils.getUUID());
-		int maxSequence = adminService.getMaxSequence()+1;
-		organization.setSequence(maxSequence);
-		int count = adminService.addOrganization(organization);
-		adminService.initOperationEnvironment(maxSequence);
-		if(count>0){
-			map.put("result", "success");
-		}else {
-			map.put("result", "failed");
-		}
-		return map;
-	}
-	
-	@RequestMapping("updateOrganization")
-	public@ResponseBody Map<String,String> updateOrganization(@ModelAttribute Organization organization){
-		Map<String,String> map = new HashMap<String,String>();
-		int count = adminService.updateOrganization(organization);
-		if(count>0){
-			map.put("result", "success");
-		}else {
-			map.put("result", "failed");
-		}
-		return map;
-	}
-	
-	@RequestMapping("deleteOrganization")
-	public @ResponseBody Map<String,String> deleteOrganization(@RequestParam("id") String id){
-		Map<String,String> map = new HashMap<String,String>();
-		int count = adminService.deleteOrganization(id);
-		if(count>0){
-			map.put("result", "success");
-		}else {
-			map.put("result", "failed");
-		}
-		return map;
-	}
-	
-	
-	@RequestMapping("checkOrganizationName")
-	public @ResponseBody Map<String,String> checkOrganizationName(@RequestParam("name") String name){
-		Map<String,String> map = new HashMap<String,String>();
-		if(adminService.checkOrganizationName(name)){
-			map.put("result", "failed");
-		}else{
-			map.put("result", "success");
-		}
-		return map;
-	}
 }

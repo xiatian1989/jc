@@ -1,13 +1,11 @@
 package com.rwkj.jc.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -16,115 +14,95 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.github.pagehelper.PageInfo;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.mysql.jdbc.StringUtils;
 import com.rwkj.jc.domain.Admin;
 import com.rwkj.jc.domain.Depart;
-import com.rwkj.jc.service.DepartManagerService;
+import com.rwkj.jc.service.DepartService;
 import com.rwkj.jc.util.CommonUtils;
-import com.rwkj.jc.util.Constant;
 
 @Controller
 public class DepartManagerController {
 	
 	@Resource
-	private DepartManagerService departManagerService;
+	private DepartService departService;
 	
 	@InitBinder("depart")    
 	public void initBinder2(WebDataBinder binder) {    
 		binder.setFieldDefaultPrefix("depart.");    
-	} 
+	}    
 	
 	@RequestMapping("departList")
-	public ModelAndView getdepartList(HttpServletRequest request){
-		
-		HttpSession session = request.getSession(true);
-		
-		String pageNum =request.getParameter("pageNum");
-		int pageNumInt = 1;
-		if(!StringUtils.isNullOrEmpty(pageNum)) {
-			pageNumInt = Integer.parseInt(pageNum);
+	public @ResponseBody Object getDepartList(HttpServletRequest request, 
+			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
+            @RequestParam(required = false, defaultValue = "10") Integer rows){
+		Map<String, Object> result = new HashMap<String, Object>(2) ;
+		int total = 0;
+		String column = request.getParameter("column");
+		String param = request.getParameter("param");
+		List<Depart> departs = null;
+		if(StringUtils.isNullOrEmpty(param) || StringUtils.isNullOrEmpty(column)){
+			departs = departService.getDeparts((page-1)*rows, rows);
+			total = departService.getDepartsCount();
+		}else{
+			departs = departService.getDepartsByCondition(column, "%"+param+"%", (page-1)*rows, rows);
+			total = departService.getDepartsCountByCondition(column, "%"+param+"%");
 		}
-		Admin admin = (Admin)session.getAttribute("Admin");
-		int sequence = admin.getOrganization().getSequence();
-		String tableName = "jc_depart_"+sequence;
-		ModelAndView modelAndView = new ModelAndView();
-		PageInfo<Depart> page = departManagerService.getDeparts(tableName, pageNumInt, Constant.pagesize);
-		modelAndView.addObject("page", page);
-		modelAndView.setViewName("admin/depart/departList");
-		return modelAndView;
+		
+		JSONArray jsonArray = new JSONArray();  
+        for(Depart depart:departs){  
+             JSONObject jsonObject = new JSONObject();  
+             jsonObject.put("id",admin.getId());
+             jsonObject.put("username",admin.getUsername());
+             jsonObject.put("password",admin.getPassword());
+             jsonObject.put("level",admin.getLevel());
+             jsonObject.put("status",admin.getStatus());
+             jsonArray.add(jsonObject) ;  
+        }  
+		result.put("total", total);  
+	    result.put("rows",jsonArray);
+		return result;
 	}
 	
-	@RequestMapping("departListtoJsonForUpdate")
-	public@ResponseBody List<Depart> departListtoJsonForUpdate(@RequestParam("departNo") String departNo,HttpServletRequest request){
+	@RequestMapping("addAdmin")
+	public @ResponseBody Map<String,String> addAdmin(@ModelAttribute Admin admin){
+		Map<String, String> result = new HashMap<String,String>();
+		int count = 0;
+		admin.setId(CommonUtils.getUUID());
+		String password = admin.getPassword();
+		admin.setPassword(CommonUtils.getMD5Pssword(password));
+		admin.setLevel(false);
+		count = adminService.addAdmin(admin);
 		
-		HttpSession session = request.getSession(true);
-		
-		Admin admin = (Admin)session.getAttribute("Admin");
-		int sequence = admin.getOrganization().getSequence();
-		String tableName = "jc_depart_"+sequence;
-		List<Depart> departs = departManagerService.getDeparts(tableName);
-		List<Depart> dealDeparts = new ArrayList<Depart>();
-		
-		String parentDepartNo ="";
-		String tempDepartNo ="";
-		String tempNodepath ="";
-		
-		for(Depart depart:departs) {
-			if(depart.getDepartNo().equals(departNo)){
-				parentDepartNo = depart.getParentNo();
-				break;
-			}
+		if(count>0){
+			result.put("result", "success");
+		}else{
+			result.put("result", "failed");
+			result.put("errorMsg", "添加失败，请联系管理员！");
 		}
-		for(Depart depart:departs) {
-			tempDepartNo = depart.getDepartNo();
-			tempNodepath = depart.getNodePath();
-			if(tempDepartNo.equals(departNo)) {
-				continue;
-			}
-			if(tempNodepath.contains(departNo)) {
-				continue;
-			}
-			if(tempNodepath.endsWith("|"+parentDepartNo+"|") || tempNodepath.equals(parentDepartNo+"|")) {
-				dealDeparts.add(0, depart);
-			}else{
-				dealDeparts.add(depart);
-			}
-			
-		}
-		return dealDeparts;
+		return result;
 	}
 	
-	@RequestMapping("departListtoJson")
-	public@ResponseBody List<Depart> getDepartToJson(HttpServletRequest request){
-		
-		HttpSession session = request.getSession(true);
-		
-		Admin admin = (Admin)session.getAttribute("Admin");
-		int sequence = admin.getOrganization().getSequence();
-		String tableName = "jc_depart_"+sequence;
-		List<Depart> departs = departManagerService.getDeparts(tableName);
-		return departs;
+	@RequestMapping("updateAdmin")
+	public @ResponseBody Map<String,String> updateAdmin(@ModelAttribute Admin admin){
+		int count = 0;
+		Map<String, String> result = new HashMap<String,String>();
+		count = adminService.updateAdmin(admin);
+		if(count>0){
+			result.put("result", "success");
+		}else{
+			result.put("result", "failed");
+			result.put("errorMsg", "更新失败");
+		}
+		return result;
 	}
 	
-	@RequestMapping("addDepart")
-	public @ResponseBody Map<String,String> addDepart(@ModelAttribute Depart depart,HttpServletRequest request){
+	@RequestMapping("deleteAdmin")
+	public @ResponseBody Map<String,String> deleteAdmin(@RequestParam("id") String id){
 		Map<String,String> map = new HashMap<String,String>();
-		HttpSession session = request.getSession(true);
-		
-		Admin admin = (Admin)session.getAttribute("Admin");
-		int sequence = admin.getOrganization().getSequence();
-		String tableName = "jc_depart_"+sequence;
-		
-		depart.setId(CommonUtils.getUUID());
-		int maxSequence = departManagerService.getMaxDepartNo(tableName)+1;
-		depart.setDepartNo(maxSequence+"");
-		depart.setNodePath(depart.getNodePath()+maxSequence+"|");
-		depart.setIsleaf(true);
-		int count = departManagerService.addDepart(tableName, depart);
-		
+		int count = adminService.deleteAdmin(id);
 		if(count>0){
 			map.put("result", "success");
 		}else {
@@ -133,63 +111,15 @@ public class DepartManagerController {
 		return map;
 	}
 	
-	@RequestMapping("updateDepart")
-	public @ResponseBody Map<String,String> updateDepart(@ModelAttribute Depart depart,HttpServletRequest request){
-		
+	@RequestMapping("checkAdminName")
+	public @ResponseBody Map<String,String> checkAdminName(@RequestParam("name") String name){
 		Map<String,String> map = new HashMap<String,String>();
-		HttpSession session = request.getSession(true);
-		
-		Admin admin = (Admin)session.getAttribute("Admin");
-		int sequence = admin.getOrganization().getSequence();
-		String tableName = "jc_depart_"+sequence;
-		
-		int count = departManagerService.updateDepart(tableName, depart);
-		
-		if(count>0){
-			map.put("result", "success");
-		}else {
-			map.put("result", "failed");
-		}
-		return map;
-	}
-	
-	@RequestMapping("deleteDepart")
-	public @ResponseBody Map<String,String> deleteDepart(@RequestParam("id") String id,HttpServletRequest request){
-		
-		Map<String,String> map = new HashMap<String,String>();
-		
-		HttpSession session = request.getSession(true);
-		
-		Admin admin = (Admin)session.getAttribute("Admin");
-		int sequence = admin.getOrganization().getSequence();
-		String tableName = "jc_depart_"+sequence;
-		
-		int count = departManagerService.deleteDepart(tableName, id);
-		
-		if(count>0){
-			map.put("result", "success");
-		}else {
-			map.put("result", "failed");
-		}
-		return map;
-	}
-	
-	@RequestMapping("checkDepartName")
-	public @ResponseBody Map<String,String> checkDepartName(@RequestParam("name") String name,HttpServletRequest request){
-		
-
-		HttpSession session = request.getSession(true);
-		
-		Admin admin = (Admin)session.getAttribute("Admin");
-		int sequence = admin.getOrganization().getSequence();
-		String tableName = "jc_depart_"+sequence;
-		
-		Map<String,String> map = new HashMap<String,String>();
-		if(departManagerService.checkDepartName(tableName, name)){
+		if(adminService.checkAdminName(name)){
 			map.put("result", "failed");
 		}else{
 			map.put("result", "success");
 		}
 		return map;
 	}
+	
 }

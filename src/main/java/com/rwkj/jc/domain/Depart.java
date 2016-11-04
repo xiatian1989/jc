@@ -14,8 +14,6 @@ public class Depart {
     private Boolean isleaf;
 
     private Boolean status;
-    
-    private String parentName;
 
     public String getId() {
         return id;
@@ -72,12 +70,4 @@ public class Depart {
     public void setStatus(Boolean status) {
         this.status = status;
     }
-
-	public String getParentName() {
-		return parentName;
-	}
-
-	public void setParentName(String parentName) {
-		this.parentName = parentName;
-	}
 }

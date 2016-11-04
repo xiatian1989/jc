@@ -1,54 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rwkj.jc.dao.AdminDao" >
+<mapper namespace="com.rwkj.jc.IDao.AdminMapper" >
   <resultMap id="BaseResultMap" type="com.rwkj.jc.domain.Admin" >
-    <id column="id" property="id" jdbcType="CHAR" />
-    <result column="organization_id" property="organizationId" jdbcType="CHAR" />
+    <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="level" property="level" jdbcType="TINYINT" />
-    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="level" property="level" jdbcType="BIT" />
+    <result column="status" property="status" jdbcType="BIT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, organization_id, username, password, level, status
+    id, username, password, level, status
   </sql>
-  <select id="getAdmins" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from jc_admin
-  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from jc_admin
-    where id = #{id,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </select>
   <select id="selectByUserName" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from jc_admin
-    where username = #{username,jdbcType=CHAR}
+    where username = #{username,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from jc_admin
-    where id = #{id,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.rwkj.jc.domain.Admin" >
-    insert into jc_admin (id, organization_id, username, 
-      password, level, status
-      )
-    values (#{id,jdbcType=CHAR}, #{organizationId,jdbcType=CHAR}, #{username,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{level,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}
-      )
+    insert into jc_admin (id, username, 
+      password, level, status)
+    values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{level,jdbcType=BIT}, #{status,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.rwkj.jc.domain.Admin" >
     insert into jc_admin
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
-      </if>
-      <if test="organizationId != null" >
-        organization_id,
       </if>
       <if test="username != null" >
         username,
@@ -65,10 +54,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=CHAR},
-      </if>
-      <if test="organizationId != null" >
-        #{organizationId,jdbcType=CHAR},
+        #{id,jdbcType=VARCHAR},
       </if>
       <if test="username != null" >
         #{username,jdbcType=VARCHAR},
@@ -77,19 +63,16 @@
         #{password,jdbcType=VARCHAR},
       </if>
       <if test="level != null" >
-        #{level,jdbcType=TINYINT},
+        #{level,jdbcType=BIT},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=TINYINT},
+        #{status,jdbcType=BIT},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.rwkj.jc.domain.Admin" >
     update jc_admin
     <set >
-      <if test="organizationId != null" >
-        organization_id = #{organizationId,jdbcType=CHAR},
-      </if>
       <if test="username != null" >
         username = #{username,jdbcType=VARCHAR},
       </if>
@@ -97,21 +80,40 @@
         password = #{password,jdbcType=VARCHAR},
       </if>
       <if test="level != null" >
-        level = #{level,jdbcType=TINYINT},
+        level = #{level,jdbcType=BIT},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=TINYINT},
+        status = #{status,jdbcType=BIT},
       </if>
     </set>
-    where id = #{id,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.rwkj.jc.domain.Admin" >
     update jc_admin
-    set organization_id = #{organizationId,jdbcType=CHAR},
-      username = #{username,jdbcType=VARCHAR},
+    set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
-      level = #{level,jdbcType=TINYINT},
-      status = #{status,jdbcType=TINYINT}
-    where id = #{id,jdbcType=CHAR}
+      level = #{level,jdbcType=BIT},
+      status = #{status,jdbcType=BIT}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
+   <select id="getAdmins" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_admin order by level limit #{pageIndex},#{pageSize}
+  </select>
+   <select id="getAdminsByUserName" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_admin where username like #{username} order by level limit #{pageIndex},#{pageSize}
+  </select>
+   <select id="getAdminsCount" resultType="java.lang.Integer" >
+    select 
+    count(*)
+    from jc_admin
+  </select>
+   <select id="getAdminsCountByUserName" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select 
+    count(*)
+    from jc_admin where username like #{username}
+  </select>
 </mapper>

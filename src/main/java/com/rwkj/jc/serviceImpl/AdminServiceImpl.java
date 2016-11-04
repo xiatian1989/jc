@@ -5,35 +5,19 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.rwkj.jc.dao.AdminDao;
-import com.rwkj.jc.dao.DepartDao;
-import com.rwkj.jc.dao.OrganizationDao;
+import com.rwkj.jc.IDao.AdminMapper;
 import com.rwkj.jc.domain.Admin;
-import com.rwkj.jc.domain.Organization;
 import com.rwkj.jc.service.AdminService;
 
 @Service("AdminService")
 public class AdminServiceImpl implements AdminService {
 
 	@Resource
-	private AdminDao adminDao;
-	@Resource
-	private OrganizationDao organizationDao;
-	@Resource
-	private DepartDao departDao;
+	private AdminMapper adminDao;
 	
 	public Admin getAdminByUserName(String username) {
 		return adminDao.selectByUserName(username);
-	}
-
-	public PageInfo<Admin> getAdminList(Integer pageNo,Integer pageSize) {
-		PageHelper.startPage(pageNo, pageSize);
-		PageInfo<Admin> page = new PageInfo<Admin>(adminDao.getAdmins());
-		return page;
 	}
 
 	public int addAdmin(Admin admin) {
@@ -49,66 +33,38 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	public boolean checkAdminName(String name) {
-		if(adminDao.selectByUserName(name) != null) {
+		Admin admin = adminDao.selectByUserName(name);
+		if(admin != null){
 			return true;
+		}else{
+			return false;
 		}
-		return false;
-	}
-
-	public PageInfo<Organization> getOrganizationList(Integer pageNo,Integer pageSize) {
-		PageHelper.startPage(pageNo, pageSize);
-		PageInfo<Organization> page = new PageInfo<Organization>(organizationDao.getOrganizationList());
-		return page;
-	}
-
-	public int addOrganization(Organization organization) {
-		return organizationDao.insert(organization);
-	}
-
-	public int updateOrganization(Organization organization) {
-		return organizationDao.updateByPrimaryKeySelective(organization);
-		
-	}
-
-	public int deleteOrganization(String id) {
-		return organizationDao.deleteByPrimaryKey(id);
-	}
-	
-	public boolean checkOrganizationName(String name) {
-		Organization organization =  organizationDao.selectByName(name);
-		if(organization != null){
-			return true;
-		}
-		return false;
-	}
-
-	public int getMaxSequence() {
-		if(CollectionUtils.isEmpty(organizationDao.getOrganizationList())) {
-			return 0;
-		}
-		return organizationDao.getMaxSequence();
-	}
-
-	public List<Organization> getNoConnectedOrganizationList() {
-		return organizationDao.getNoConnectedOrganizationList();
 	}
 
 	public Admin selectByPrimaryKey(String id) {
 		return adminDao.selectByPrimaryKey(id);
 	}
-	
-	public boolean initOperationEnvironment(int sequence){
-		
-		//String[] tableNames = {"jc_depart","jc_paperdetail","jc_paper","jc_plan","jc_questionType","jc_relation","jc_result","jc_user"};
-		
-		String tableName = "jc_depart"+"_"+sequence;
-		
-		if(departDao.existTable(tableName)>0){
-			departDao.dropTable(tableName);
-			departDao.createNewTable(tableName);
-		}else{
-			departDao.createNewTable(tableName);
-		}
-		return false;
+
+	public List<Admin> getAdmins(int pageIndex, int pageSize) {
+		return adminDao.getAdmins(pageIndex, pageSize);
 	}
+	
+	
+	public List<Admin> getAdmins(String username,int pageIndex, int pageSize) {
+		return adminDao.getAdmins(pageIndex, pageSize);
+	}
+
+	public List<Admin> getAdminsByUserName(String username, int pageIndex, int pageSize) {
+		return adminDao.getAdminsByUserName(username, pageIndex, pageSize);
+	}
+
+	public int getAdminsCount() {
+		return adminDao.getAdminsCount();
+	}
+
+	public int getAdminsCountByUserName(String username) {
+		return adminDao.getAdminsCountByUserName(username);
+	}
+
+	
 }

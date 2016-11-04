@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rwkj.jc.dao.PaperDao" >
+<mapper namespace="com.rwkj.jc.IDao.PaperMapper" >
   <resultMap id="BaseResultMap" type="com.rwkj.jc.domain.Paper" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="sequence" property="sequence" jdbcType="INTEGER" />
@@ -16,15 +16,15 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from ${tableName}
+    from jc_paper
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from ${tableName}
+    delete from jc_paper
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.rwkj.jc.domain.Paper" >
-    insert into ${tableName} (id, sequence, paperTitle, 
+    insert into jc_paper (id, sequence, paperTitle, 
       isPublish, createPerson, createTime, 
       status)
     values (#{id,jdbcType=VARCHAR}, #{sequence,jdbcType=INTEGER}, #{papertitle,jdbcType=VARCHAR}, 
@@ -32,7 +32,7 @@
       #{status,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.rwkj.jc.domain.Paper" >
-    insert into ${tableName}
+    insert into jc_paper
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -81,7 +81,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.rwkj.jc.domain.Paper" >
-    update ${tableName}
+    update jc_paper
     <set >
       <if test="sequence != null" >
         sequence = #{sequence,jdbcType=INTEGER},
@@ -105,7 +105,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.rwkj.jc.domain.Paper" >
-    update ${tableName}
+    update jc_paper
     set sequence = #{sequence,jdbcType=INTEGER},
       paperTitle = #{papertitle,jdbcType=VARCHAR},
       isPublish = #{ispublish,jdbcType=BIT},
@@ -114,23 +114,4 @@
       status = #{status,jdbcType=BIT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-   <select id="existTable" parameterType="String" resultType="Integer">
-        SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_NAME=#{tableName}
-    </select>
-    <update id="dropTable">
-        drop table ${tableName}
-    </update>
-
-    <update id="createNewTable" parameterType="String">
-		CREATE TABLE ${tableName} (
-		  `id` varchar(50) NOT NULL,
-		  `sequence` int(4) NOT NULL,
-		  `paperTitle` varchar(500) NOT NULL,
-		  `isPublish` tinyint(1) NOT NULL,
-		  `createPerson` varchar(50) NOT NULL,
-		  `createTime` datetime NOT NULL,
-		  `status` tinyint(1) NOT NULL,
-		  PRIMARY KEY  (`id`)
-		)
-    </update>
 </mapper>

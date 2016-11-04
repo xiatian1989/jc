@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rwkj.jc.dao.ResultDetailDao" >
+<mapper namespace="com.rwkj.jc.IDao.ResultDetailMapper" >
   <resultMap id="BaseResultMap" type="com.rwkj.jc.domain.ResultDetail" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="questionNO" property="questionno" jdbcType="INTEGER" />
@@ -12,21 +12,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from ${tableName}
+    from jc_resultdetail
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from ${tableName}
+    delete from jc_resultdetail
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.rwkj.jc.domain.ResultDetail" >
-    insert into ${tableName} (id, questionNO, questionAnswer
+    insert into jc_resultdetail (id, questionNO, questionAnswer
       )
     values (#{id,jdbcType=VARCHAR}, #{questionno,jdbcType=INTEGER}, #{questionanswer,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.rwkj.jc.domain.ResultDetail" >
-    insert into ${tableName}
+    insert into jc_resultdetail
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -51,7 +51,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.rwkj.jc.domain.ResultDetail" >
-    update ${tableName}
+    update jc_resultdetail
     <set >
       <if test="questionno != null" >
         questionNO = #{questionno,jdbcType=INTEGER},
@@ -63,25 +63,9 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.rwkj.jc.domain.ResultDetail" >
-    update ${tableName}
+    update jc_resultdetail
     set questionNO = #{questionno,jdbcType=INTEGER},
       questionAnswer = #{questionanswer,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  
-   <select id="existTable" parameterType="String" resultType="Integer">
-        SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_NAME=#{tableName}
-    </select>
-    <update id="dropTable">
-        drop table ${tableName}
-    </update>
-
-    <update id="createNewTable" parameterType="String">
-		CREATE TABLE ${tableName} (
-		  `id` varchar(50) NOT NULL,
-		  `questionNO` int(4) NOT NULL,
-		  `questionAnswer` varchar(50) NOT NULL,
-		  PRIMARY KEY  (`id`)
-		)
-    </update>
 </mapper>
