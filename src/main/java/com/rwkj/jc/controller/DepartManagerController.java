@@ -35,20 +35,14 @@ public class DepartManagerController {
 	}    
 	
 	@RequestMapping("departList")
-	public @ResponseBody Object getDepartList(HttpServletRequest request, 
-			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
-            @RequestParam(required = false, defaultValue = "10") Integer rows){
+	public @ResponseBody Object getDepartList(HttpServletRequest request){
 		Map<String, Object> result = new HashMap<String, Object>(2) ;
-		int total = 0;
-		String column = request.getParameter("column");
 		String param = request.getParameter("param");
 		List<Depart> departs = null;
-		if(StringUtils.isNullOrEmpty(param) || StringUtils.isNullOrEmpty(column)){
-			departs = departService.getDeparts((page-1)*rows, rows);
-			total = departService.getDepartsCount();
+		if(StringUtils.isNullOrEmpty(param)){
+			departs = departService.getDeparts();
 		}else{
-			departs = departService.getDepartsByCondition(column, "%"+param+"%", (page-1)*rows, rows);
-			total = departService.getDepartsCountByCondition(column, "%"+param+"%");
+			departs = departService.getDepartsByDepartName(param);
 		}
 		
 		JSONArray jsonArray = new JSONArray();  
@@ -61,7 +55,6 @@ public class DepartManagerController {
              jsonObject.put("status",admin.getStatus());
              jsonArray.add(jsonObject) ;  */
         }  
-		result.put("total", total);  
 	    result.put("rows",jsonArray);
 		return result;
 	}

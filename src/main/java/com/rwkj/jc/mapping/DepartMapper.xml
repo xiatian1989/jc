@@ -115,31 +115,35 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   
-   <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+     <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from jc_depart
     where depart_name = #{departName,jdbcType=VARCHAR}
   </select>
+   <select id="getDeparts" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_depart order by depart_no
+  </select>
   
-    <select id="getDeparts" resultMap="BaseResultMap">
+   <select id="getDepartsByDepartName" resultMap="BaseResultMap" parameterType="java.lang.String">
     select 
     <include refid="Base_Column_List" />
-    from jc_depart order by depart_no limit #{pageIndex},#{pageSize}
+    from jc_depart where depart_name like #{param,jdbcType=VARCHAR} order by depart_no
   </select>
-   <select id="getDepartsByCondition" resultMap="BaseResultMap">
+  
+   <select id="selectSonDepartsByParentNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from jc_depart where ${column} like #{param} order by level limit #{pageIndex},#{pageSize}
-  </select>
-   <select id="getDepartsCount" resultType="java.lang.Integer" >
-    select 
-    count(*)
     from jc_depart
+    where parent_no = #{parentNo,jdbcType=VARCHAR}
   </select>
-   <select id="getDepartsCountByCondition" resultType="java.lang.Integer" parameterType="java.lang.String">
+  
+   <select id="selectByNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
-    count(*)
-    from jc_depart where ${column} like #{param}
+    <include refid="Base_Column_List" />
+    from jc_depart
+    where depart_no = #{departNo,jdbcType=VARCHAR}
   </select>
 </mapper>

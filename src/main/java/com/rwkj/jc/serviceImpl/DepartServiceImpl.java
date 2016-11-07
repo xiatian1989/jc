@@ -41,21 +41,12 @@ public class DepartServiceImpl implements DepartService {
 		return departDao.selectByPrimaryKey(id);
 	}
 
-	public List<Depart> getDeparts(int pageIndex, int pageSize) {
-		return departDao.getDeparts(pageIndex, pageSize);
+	public List<Depart> getDeparts() {
+		return departDao.getDeparts();
 	}
-
-	public List<Depart> getDepartsByCondition(String column,String param, int pageIndex, int pageSize) {
-		return departDao.getDepartsByCondition(column, param, pageIndex, pageSize);
-	}
-
-	public int getDepartsCount() {
-		return departDao.getDepartsCount();
-	}
-
-	public int getDepartsCountByCondition(String column, String param) {
-		// TODO Auto-generated method stub
-		return departDao.getDepartsCountByCondition(column, param);
+	
+	public List<Depart> getDepartsByDepartName(String param){
+		return departDao.getDepartsByDepartName(param);
 	}
 	
 }

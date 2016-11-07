@@ -11,8 +11,6 @@ public interface DepartService {
 	boolean checkDepartName(String name);
 	Depart selectByPrimaryKey(String id);
 	
-	List<Depart> getDeparts(int pageIndex, int pageSize);
-	List<Depart> getDepartsByCondition(String column,String param,int pageIndex, int pageSize);
-	int getDepartsCount();
-	int getDepartsCountByCondition(String column,String username);
+	List<Depart> getDeparts();
+	List<Depart> getDepartsByDepartName(String param);
 }
