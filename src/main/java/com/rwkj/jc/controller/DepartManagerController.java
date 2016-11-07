@@ -53,20 +53,20 @@ public class DepartManagerController {
 		
 		JSONArray jsonArray = new JSONArray();  
         for(Depart depart:departs){  
-             JSONObject jsonObject = new JSONObject();  
+           /*  JSONObject jsonObject = new JSONObject();  
              jsonObject.put("id",admin.getId());
              jsonObject.put("username",admin.getUsername());
              jsonObject.put("password",admin.getPassword());
              jsonObject.put("level",admin.getLevel());
              jsonObject.put("status",admin.getStatus());
-             jsonArray.add(jsonObject) ;  
+             jsonArray.add(jsonObject) ;  */
         }  
 		result.put("total", total);  
 	    result.put("rows",jsonArray);
 		return result;
 	}
 	
-	@RequestMapping("addAdmin")
+	@RequestMapping("addDepart")
 	public @ResponseBody Map<String,String> addAdmin(@ModelAttribute Admin admin){
 		Map<String, String> result = new HashMap<String,String>();
 		int count = 0;
@@ -74,7 +74,7 @@ public class DepartManagerController {
 		String password = admin.getPassword();
 		admin.setPassword(CommonUtils.getMD5Pssword(password));
 		admin.setLevel(false);
-		count = adminService.addAdmin(admin);
+/*		count = adminService.addAdmin(admin);*/
 		
 		if(count>0){
 			result.put("result", "success");
@@ -85,11 +85,11 @@ public class DepartManagerController {
 		return result;
 	}
 	
-	@RequestMapping("updateAdmin")
+	@RequestMapping("updateDepart")
 	public @ResponseBody Map<String,String> updateAdmin(@ModelAttribute Admin admin){
 		int count = 0;
 		Map<String, String> result = new HashMap<String,String>();
-		count = adminService.updateAdmin(admin);
+		/*count = adminService.updateAdmin(admin);*/
 		if(count>0){
 			result.put("result", "success");
 		}else{
@@ -99,26 +99,26 @@ public class DepartManagerController {
 		return result;
 	}
 	
-	@RequestMapping("deleteAdmin")
+	@RequestMapping("deleteDepart")
 	public @ResponseBody Map<String,String> deleteAdmin(@RequestParam("id") String id){
 		Map<String,String> map = new HashMap<String,String>();
-		int count = adminService.deleteAdmin(id);
-		if(count>0){
+	/*	int count = adminService.deleteAdmin(id);*/
+	/*	if(count>0){
 			map.put("result", "success");
 		}else {
 			map.put("result", "failed");
-		}
+		}*/
 		return map;
 	}
 	
-	@RequestMapping("checkAdminName")
+	@RequestMapping("checkDepartName")
 	public @ResponseBody Map<String,String> checkAdminName(@RequestParam("name") String name){
 		Map<String,String> map = new HashMap<String,String>();
-		if(adminService.checkAdminName(name)){
+	/*	if(adminService.checkAdminName(name)){
 			map.put("result", "failed");
 		}else{
 			map.put("result", "success");
-		}
+		}*/
 		return map;
 	}
 	
