@@ -14,6 +14,11 @@ public interface DepartService {
 	List<Depart> getDeparts();
 	List<Depart> getDepartsByDepartName(String param);
 	List<Depart> getDepartsByParentNo(String parentNo);
+	List<Depart> getDepartsByParentNoForPage(String parentNo,int pageIndex, int pageSize);
 	List<Depart> getFirstLevelDeparts();
+	int getSonCountByParentNo(String parentNo);
+	
+	boolean checkDepartNo(String departNo);
+	Depart getDepartByDepartNo(String departNo);
 	
 }

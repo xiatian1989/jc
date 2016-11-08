@@ -56,5 +56,26 @@ public class DepartServiceImpl implements DepartService {
 	public List<Depart> getFirstLevelDeparts() {
 		return departDao.getFirstLevelDeparts();
 	}
+
+	public List<Depart> getDepartsByParentNoForPage(String parentNo,
+			int pageIndex, int pageSize) {
+		return departDao.selectSonDepartsByParentNoForPage(parentNo, pageIndex, pageSize);
+	}
+
+	public int getSonCountByParentNo(String parentNo) {
+		return departDao.getSonCountByParentNo(parentNo);
+	}
+
+	public boolean checkDepartNo(String departNo) {
+		if(departDao.selectByNo(departNo)!=null){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public Depart getDepartByDepartNo(String departNo) {
+		return departDao.selectByNo(departNo);
+	}
 	
 }

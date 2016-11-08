@@ -1,5 +1,6 @@
 package com.rwkj.jc.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,43 +76,66 @@ public class DepartManagerController {
 	public @ResponseBody Object getSubDepartList(HttpServletRequest request, 
 			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
             @RequestParam(required = false, defaultValue = "10") Integer rows){
-		String parentNo = request.getParameter("parentNo");
 		Map<String, Object> result = new HashMap<String, Object>(2) ;
 		int total = 0;
-		String param = request.getParameter("param");
-	/*	List<Admin> admins = null;
-		if(StringUtils.isNullOrEmpty(param)){
-			admins = adminService.getAdmins((page-1)*rows, rows);
-			total = adminService.getAdminsCount();
+		String parentNo = request.getParameter("param");
+		List<Depart> departs = null;
+		if(StringUtils.isNullOrEmpty(parentNo)){
+			departs = new ArrayList<Depart>();
+			total = 0;
 		}else{
-			admins = adminService.getAdminsByUserName("%"+param+"%", (page-1)*rows, rows);
-			total = adminService.getAdminsCountByUserName("%"+param+"%");
-		}*/
+			departs = departService.getDepartsByParentNoForPage(parentNo, (page-1)*rows, rows);
+			total = departService.getSonCountByParentNo(parentNo);
+		}
 		
 		JSONArray jsonArray = new JSONArray();  
-       /* for(Admin admin:admins){  
+		for(Depart depart:departs){  
              JSONObject jsonObject = new JSONObject();  
-             jsonObject.put("id",admin.getId());
-             jsonObject.put("username",admin.getUsername());
-             jsonObject.put("password",admin.getPassword());
-             jsonObject.put("level",admin.getLevel());
-             jsonObject.put("status",admin.getStatus());
+             jsonObject.put("id",depart.getId());
+             jsonObject.put("departNo",depart.getDepartNo());
+             jsonObject.put("departName",depart.getDepartName());
+             jsonObject.put("parentNo",depart.getParentNo());
+             jsonObject.put("nodePath",depart.getNodePath());
+             jsonObject.put("isleaf",depart.getIsleaf());
+             jsonObject.put("status",depart.getStatus());
              jsonArray.add(jsonObject) ;  
-        }  */
+        }
 		result.put("total", total);  
 	    result.put("rows",jsonArray);
 		return result;
 	}
 	
+	@RequestMapping("getDepartDetail")
+	public @ResponseBody Object getDepartDetail(HttpServletRequest request){
+		String departNo = request.getParameter("departNo");
+		Depart depart = null;
+		if("0".equals(departNo)){
+			depart = new Depart();
+		}else{
+			depart = departService.getDepartByDepartNo(departNo);
+		}
+		
+         JSONObject jsonObject = new JSONObject();  
+         jsonObject.put("id",depart.getId());
+         jsonObject.put("departNo",depart.getDepartNo());
+         jsonObject.put("departName",depart.getDepartName());
+         jsonObject.put("parentNo",depart.getParentNo());
+         jsonObject.put("nodePath",depart.getNodePath());
+         jsonObject.put("isleaf",depart.getIsleaf());
+         jsonObject.put("status",depart.getStatus());
+         
+		return jsonObject;
+	}
+	
 	@RequestMapping("addDepart")
-	public @ResponseBody Map<String,String> addAdmin(@ModelAttribute Admin admin){
+	public @ResponseBody Map<String,String> addDepart(@ModelAttribute Depart depart){
 		Map<String, String> result = new HashMap<String,String>();
 		int count = 0;
-		admin.setId(CommonUtils.getUUID());
-		String password = admin.getPassword();
-		admin.setPassword(CommonUtils.getMD5Pssword(password));
-		admin.setLevel(false);
-/*		count = adminService.addAdmin(admin);*/
+		depart.setId(CommonUtils.getUUID());
+		depart.setIsleaf(true);
+		depart.setStatus(true);
+		depart.setNodePath(depart.getNodePath()+"|"+depart.getDepartNo());
+ 	    count = departService.addDepart(depart);
 		
 		if(count>0){
 			result.put("result", "success");

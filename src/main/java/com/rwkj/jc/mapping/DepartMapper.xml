@@ -146,10 +146,23 @@
     where parent_no = #{parentNo,jdbcType=VARCHAR}
   </select>
   
+   <select id="selectSonDepartsByParentNoForPage" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_depart
+    where parent_no = #{parentNo,jdbcType=VARCHAR} order by depart_no limit #{pageIndex},#{pageSize}
+  </select>
+  
    <select id="selectByNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from jc_depart
     where depart_no = #{departNo,jdbcType=VARCHAR}
+  </select>
+  
+     <select id="getSonCountByParentNo" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select 
+    count(*)
+    from jc_depart where parent_no = #{parentNo}
   </select>
 </mapper>

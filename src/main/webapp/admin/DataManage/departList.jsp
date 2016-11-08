@@ -15,7 +15,6 @@
 <script type="text/javascript">
 	$(function(){
 		$('#dg').datagrid({
-			
 			nowrap: false,
 			idField:'id',
 			striped: true,
@@ -25,7 +24,7 @@
 			selectOnCheck:true,
 			pageSize:10,
 	        pageList:[5,10,15],
-			url:'${pageContext.request.contextPath}',
+			url:'${pageContext.request.contextPath}/subDepartList',
 			columns: [ [ 
 			{
 				title : '部门编号',
@@ -35,6 +34,17 @@
 				title : '部门名称',
 				field : 'departName',
 				width : 100,
+			}, {
+				title : '叶子节点',
+				field : 'isleaf',
+				width : 100,
+				formatter: function(value,row,index){
+					if(value) {
+						return '是';
+					}else{
+						return '否';
+					}
+				}
 			}, {
 				title : '状态',
 				field : 'status',
@@ -54,17 +64,15 @@
 	          $('#dg').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题  
 	       } 
 		});
+		
+		$('#tt').tree({
+			onClick: function(node){
+			  	$('#dg').datagrid('load',{  
+				  param: node.id, 
+		       });
+			}
+		});
 	});
-	
-	function doSearch() {
-		param = $("#key").val();
-		if (param == "请输入部门名称") {
-			param ="";
-		}
-		  $('#dg').datagrid('load',{  
-			  param: param, 
-	       });  
-	}
 	
 	function newDepart() {
 		$("#username").removeAttr("readonly")
@@ -213,7 +221,18 @@
 	    </div>
 	    <div data-options="region:'center',title:'部门详情'" style="padding:5px;background:#eee;">
 	    	<table id="dd" title="详细信息">
-				
+				<tr>
+					<td>部门编号</td>
+					<td><input type="text" id="departNo" readonly="readonly"></td>
+					<td>部门名称</td>
+					<td><input type="text" id="departName"  readonly="readonly"></td>
+				</tr>
+				<tr>
+					<td>叶子节点</td>
+					<td><input type="text" id="isLeaf"  readonly="readonly"></td>
+					<td>状态</td>
+					<td><input type="text" id="status"  readonly="readonly"></td>
+				</tr>
 			</table>
 	    	<table id="dg" title="子部门列表">
 		
@@ -222,11 +241,6 @@
 				<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newDepart()">添加部门</a>
 				<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editDepart()">编辑部门 </a>
 				<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyDepart()">删除部门</a>
-				<div style="float:right;">
-					<input type="text" id="key" name="key" value="请输入部门名称" onFocus="if(value==defaultValue){value='';this.style.color='#000'}" 
-					onBlur="if(!value){value=defaultValue;this.style.color='#999'}" style="color:#999999">
-					<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="doSearch()">搜索</a>
-				</div>
 			</div>
 			
 			<div id="dlg" class="easyui-dialog"

@@ -2,6 +2,8 @@ package com.rwkj.jc.IDao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.rwkj.jc.domain.Depart;
 
 public interface DepartMapper {
@@ -26,6 +28,10 @@ public interface DepartMapper {
     List<Depart> getDepartsByDepartName(String param);
     
     List<Depart> selectSonDepartsByParentNo(String parentNo);
+    
+    int getSonCountByParentNo(String parentNo);
+    
+    List<Depart> selectSonDepartsByParentNoForPage(@Param("parentNo")String parentNo,@Param("pageIndex")int pageIndex,@Param("pageSize")int pageSize);
     
     Depart selectByNo(String departNo);
 }
