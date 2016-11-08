@@ -55,12 +55,12 @@
 					<a href="${pageContext.request.contextPath}/admin/SystemManage/adminList.jsp" target="mainContent">账号管理</a>
 				</div>
 				<div>
-					<a href="${pageContext.request.contextPath}/templetList" target="mainContent">模板管理</a>
+					<a href="${pageContext.request.contextPath}/admin/DataManage/departList.jsp" target="mainContent">模板管理</a>
 				</div>
 			</div>
 			<div title="信息管理" data-options="iconCls:'icon-tip'" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
 				<div>
-					<a href="${pageContext.request.contextPath}/organizationList" target="mainContent">部门管理</a>
+					<a href="${pageContext.request.contextPath}/admin/DataManage/departList.jsp" target="mainContent">部门管理</a>
 				</div>
 				<div>
 					<a href="${pageContext.request.contextPath}/organizationList" target="mainContent">人员管理</a>

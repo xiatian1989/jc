@@ -21,6 +21,8 @@ public interface DepartMapper {
     
     List<Depart> getDeparts();
     
+    List<Depart> getFirstLevelDeparts();
+    
     List<Depart> getDepartsByDepartName(String param);
     
     List<Depart> selectSonDepartsByParentNo(String parentNo);

@@ -15,6 +15,7 @@
 <script type="text/javascript">
 	$(function(){
 		$('#dg').datagrid({
+			
 			nowrap: false,
 			idField:'id',
 			striped: true,
@@ -24,7 +25,7 @@
 			selectOnCheck:true,
 			pageSize:10,
 	        pageList:[5,10,15],
-			url:'${pageContext.request.contextPath}/departList',
+			url:'${pageContext.request.contextPath}',
 			columns: [ [ 
 			{
 				title : '部门编号',
@@ -57,7 +58,7 @@
 	
 	function doSearch() {
 		param = $("#key").val();
-		if (param == "请输入管理员账号") {
+		if (param == "请输入部门名称") {
 			param ="";
 		}
 		  $('#dg').datagrid('load',{  
@@ -65,23 +66,23 @@
 	       });  
 	}
 	
-	function newAdmin() {
+	function newDepart() {
 		$("#username").removeAttr("readonly")
 		$('#dlg').dialog('open').dialog('setTitle', '添加管理员');
 		$('#fm').form('clear');
-		url = "${pageContext.request.contextPath}/addAdmin"
+		url = "${pageContext.request.contextPath}/addDepart"
 		model="add";
 		$("#mode").val("add");
 	}
 
-	function editAdmin() {
+	function editDepart() {
 		
 		var selRow = $('#dg').datagrid('getSelected');
 		if (selRow) { 
 			$('#dlg').dialog('open').dialog('setTitle', '编辑管理员');
 			$('#fm').form('clear');
 			$('#fm').form('load', selRow);
-			url = "${pageContext.request.contextPath}/updateAdmin"
+			url = "${pageContext.request.contextPath}/updateDepart"
 			model="update";
 			
 			$("#username").attr("readonly", "readonly")
@@ -102,7 +103,7 @@
 
 	}
 
-	function saveAdmin() {
+	function saveDepart() {
 
 		$('#fm').form('submit',{
 			url : url,
@@ -144,14 +145,10 @@
 		});
 	}
 
-	function destroyAdmin() {
+	function destroyDepart() {
 		
 		var row = $('#dg').datagrid('getSelected');
 		if (row) {
-			if(row.level){
-				$.messager.alert('警告','超级管理员不能删除!','warning');
-				return;
-			}
 			$.messager
 					.confirm(
 							'Confirm','你确定删除选择的管理员吗?',
@@ -159,7 +156,7 @@
 								if (r) {
 									var id =row.id;
 									$.ajax({
-											url : '${pageContext.request.contextPath}/deleteAdmin',
+											url : '${pageContext.request.contextPath}/deleteDepart',
 											type : 'post',
 											data : 'id='
 													+ id,
@@ -188,7 +185,7 @@
 		}
 		var username = $("#username").val();
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/checkAdminName',   
+		    url:'${pageContext.request.contextPath}/checkDepartName',   
 		    type:'post',   
 		    data:'name='+username,   
 		    async : false, //默认为true 异步   
@@ -210,70 +207,80 @@
 </head>
 <body>
 	<input type="text" id="mode" style="display:none">
-	<table id="dg" title="管理员列表">
-		
-	</table>
-	<div id="toolbar">
-		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newAdmin()">添加管理员</a>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editAdmin()">编辑管理员</a>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyAdmin()">删除管理员</a>
-		<div style="float:right;">
-			<input type="text" id="key" name="key" value="请输入管理员账号" onFocus="if(value==defaultValue){value='';this.style.color='#000'}" 
-			onBlur="if(!value){value=defaultValue;this.style.color='#999'}" style="color:#999999">
-			<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="doSearch()">搜索</a>
-		</div>
-	</div>
-	
-	<div id="dlg" class="easyui-dialog"
-		style="width: 280px; height: 230px; padding: 10px 20px" closed="true" buttons="#dlg-buttons">
-		
-		<form id="fm" method="post">
-			<input id=id name=id  style="display:none">
-			<table>
-				<tr>
-					<td style="height: 28px" width=80>用户名：</td>
-					<td style="height: 28px" width=150>
-						<input id=username
-							style="width: 130px" name=username class="easyui-validatebox" required="true" onblur="checkUniqName()">
-					</td>
-				</tr>
-				<tr>
-					<td style="height: 28px">密码：</td>
-					<td style="height: 28px"><input id=password style="width: 130px"
-						type=password name=password></td>
-				</tr>
-				<tr>
-					<td style="height: 28px">确认密码：</td>
-					<td style="height: 28px"><input id=repassword style="width: 130px"
-						type=password name=repassword></td>
-				</tr>
-<!-- 				<tr>
-					<td style="height: 28px">角色：</td>
-					<td style="height: 28px">
-						<select id="level" name="level" style="width: 137px">
-							<option value="0">管理员</option>
-							<option value="1">超级管理员</option>
-						</select>
-					</td>
-				</tr> -->
-				<tr>
-					<td style="height: 28px">状态：</td>
-					<td style="height: 28px">
-						<select id="status" name="status" style="width: 137px">
-							<option value="0">禁用</option>
-							<option value="1">启用</option>
-						</select>
-					</td>
-				</tr>
+	<div id="cc" class="easyui-layout" style="height:550px;">
+	    <div data-options="region:'west',title:'部门列表',split:true" style="width:150px;">
+			<ul class="easyui-tree" data-options="url:'${pageContext.request.contextPath}/departList'" id="tt" ></ul>
+	    </div>
+	    <div data-options="region:'center',title:'部门详情'" style="padding:5px;background:#eee;">
+	    	<table id="dd" title="详细信息">
+				
 			</table>
-		</form>
+	    	<table id="dg" title="子部门列表">
 		
-	</div>
-	<div id="dlg-buttons">
-		<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
-			onclick="saveAdmin()">保存</a>
-		<a href="#" class="easyui-linkbutton"
-			iconCls="icon-cancel" onclick="cancel();">取消</a>
+			</table>
+			<div id="toolbar">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newDepart()">添加部门</a>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editDepart()">编辑部门 </a>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyDepart()">删除部门</a>
+				<div style="float:right;">
+					<input type="text" id="key" name="key" value="请输入部门名称" onFocus="if(value==defaultValue){value='';this.style.color='#000'}" 
+					onBlur="if(!value){value=defaultValue;this.style.color='#999'}" style="color:#999999">
+					<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="doSearch()">搜索</a>
+				</div>
+			</div>
+			
+			<div id="dlg" class="easyui-dialog"
+				style="width: 280px; height: 230px; padding: 10px 20px" closed="true" buttons="#dlg-buttons">
+				
+				<form id="fm" method="post">
+					<input id=id name=id  style="display:none">
+					<table>
+						<tr>
+							<td style="height: 28px" width=80>用户名：</td>
+							<td style="height: 28px" width=150>
+								<input id=username
+									style="width: 130px" name=username class="easyui-validatebox" required="true" onblur="checkUniqName()">
+							</td>
+						</tr>
+						<tr>
+							<td style="height: 28px">密码：</td>
+							<td style="height: 28px"><input id=password style="width: 130px"
+								type=password name=password></td>
+						</tr>
+						<tr>
+							<td style="height: 28px">确认密码：</td>
+							<td style="height: 28px"><input id=repassword style="width: 130px"
+								type=password name=repassword></td>
+						</tr>
+		<!-- 				<tr>
+							<td style="height: 28px">角色：</td>
+							<td style="height: 28px">
+								<select id="level" name="level" style="width: 137px">
+									<option value="0">管理员</option>
+									<option value="1">超级管理员</option>
+								</select>
+							</td>
+						</tr> -->
+						<tr>
+							<td style="height: 28px">状态：</td>
+							<td style="height: 28px">
+								<select id="status" name="status" style="width: 137px">
+									<option value="0">禁用</option>
+									<option value="1">启用</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+				</form>
+				
+			</div>
+			<div id="dlg-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="saveDepart()">保存</a>
+				<a href="#" class="easyui-linkbutton"
+					iconCls="icon-cancel" onclick="cancel();">取消</a>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

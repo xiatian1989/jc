@@ -36,25 +36,69 @@ public class DepartManagerController {
 	
 	@RequestMapping("departList")
 	public @ResponseBody Object getDepartList(HttpServletRequest request){
-		Map<String, Object> result = new HashMap<String, Object>(2) ;
-		String param = request.getParameter("param");
+		String parentNo = request.getParameter("id");
 		List<Depart> departs = null;
-		if(StringUtils.isNullOrEmpty(param)){
-			departs = departService.getDeparts();
+		if(StringUtils.isNullOrEmpty(parentNo)){
+			departs = departService.getFirstLevelDeparts();
+			
 		}else{
-			departs = departService.getDepartsByDepartName(param);
+			departs = departService.getDepartsByParentNo(parentNo);
 		}
 		
-		JSONArray jsonArray = new JSONArray();  
+		JSONArray jsonArray = new JSONArray();
+		JSONArray subJsonArray = new JSONArray();
+		JSONObject subjsonObject = null;
         for(Depart depart:departs){  
-           /*  JSONObject jsonObject = new JSONObject();  
+            subjsonObject = new JSONObject();  
+            subjsonObject.put("id",depart.getDepartNo());
+            subjsonObject.put("text",depart.getDepartName());
+             if(depart.getIsleaf()){
+            	 subjsonObject.put("state","open");
+             }else{
+            	 subjsonObject.put("state","closed");
+             }
+             subJsonArray.add(subjsonObject);
+        }
+        if(StringUtils.isNullOrEmpty(parentNo)){
+        	 JSONObject jsonObject = new JSONObject();
+             jsonObject.put("id", "0");
+             jsonObject.put("text", "部门列表");
+             jsonObject.put("children", subJsonArray);
+             jsonArray.add(jsonObject);
+     		return jsonArray;
+        }else{
+        	return subJsonArray;
+        }
+	}
+	
+	@RequestMapping("subDepartList")
+	public @ResponseBody Object getSubDepartList(HttpServletRequest request, 
+			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
+            @RequestParam(required = false, defaultValue = "10") Integer rows){
+		String parentNo = request.getParameter("parentNo");
+		Map<String, Object> result = new HashMap<String, Object>(2) ;
+		int total = 0;
+		String param = request.getParameter("param");
+	/*	List<Admin> admins = null;
+		if(StringUtils.isNullOrEmpty(param)){
+			admins = adminService.getAdmins((page-1)*rows, rows);
+			total = adminService.getAdminsCount();
+		}else{
+			admins = adminService.getAdminsByUserName("%"+param+"%", (page-1)*rows, rows);
+			total = adminService.getAdminsCountByUserName("%"+param+"%");
+		}*/
+		
+		JSONArray jsonArray = new JSONArray();  
+       /* for(Admin admin:admins){  
+             JSONObject jsonObject = new JSONObject();  
              jsonObject.put("id",admin.getId());
              jsonObject.put("username",admin.getUsername());
              jsonObject.put("password",admin.getPassword());
              jsonObject.put("level",admin.getLevel());
              jsonObject.put("status",admin.getStatus());
-             jsonArray.add(jsonObject) ;  */
-        }  
+             jsonArray.add(jsonObject) ;  
+        }  */
+		result.put("total", total);  
 	    result.put("rows",jsonArray);
 		return result;
 	}

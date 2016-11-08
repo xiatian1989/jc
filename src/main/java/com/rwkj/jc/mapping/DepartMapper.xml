@@ -127,6 +127,12 @@
     from jc_depart order by depart_no
   </select>
   
+   <select id="getFirstLevelDeparts" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_depart where parent_no is null order by depart_no
+  </select>
+  
    <select id="getDepartsByDepartName" resultMap="BaseResultMap" parameterType="java.lang.String">
     select 
     <include refid="Base_Column_List" />

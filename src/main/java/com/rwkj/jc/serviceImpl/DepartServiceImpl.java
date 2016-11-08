@@ -48,5 +48,13 @@ public class DepartServiceImpl implements DepartService {
 	public List<Depart> getDepartsByDepartName(String param){
 		return departDao.getDepartsByDepartName(param);
 	}
+
+	public List<Depart> getDepartsByParentNo(String parentNo) {
+		return departDao.selectSonDepartsByParentNo(parentNo);
+	}
+
+	public List<Depart> getFirstLevelDeparts() {
+		return departDao.getFirstLevelDeparts();
+	}
 	
 }
