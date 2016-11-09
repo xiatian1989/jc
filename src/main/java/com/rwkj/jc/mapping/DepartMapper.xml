@@ -160,9 +160,14 @@
     where depart_no = #{departNo,jdbcType=VARCHAR}
   </select>
   
-     <select id="getSonCountByParentNo" resultType="java.lang.Integer" parameterType="java.lang.String">
+  <select id="getSonCountByParentNo" resultType="java.lang.Integer" parameterType="java.lang.String">
     select 
     count(*)
     from jc_depart where parent_no = #{parentNo}
   </select>
+  
+  <delete id="deleteByNodepath" parameterType="java.lang.String" >
+    delete from jc_depart
+    where node_path like #{nodePath,jdbcType=VARCHAR}
+  </delete>
 </mapper>

@@ -147,18 +147,42 @@
 						  param: node.id, 
 				    });
 					$('#tt').tree('reload');
-					var parentNo =$("#departNo").val();
-					var tempNode;
-					var si = setInterval( function(){
-						tempNode = $('#tt').tree('find', parentNo);
-						if(tempNode) {
-							$('#tt').tree('expand', tempNode.target);
-							$('#tt').tree('select', tempNode.target);
-							clearInterval(si);
+					var nodepath =$("#nodepath").val();
+					var parentNo = nodepath.split("|");
+					/* var pageTimer = {};
+					for(var i =1;i<parentNo.length;){
+						pageTimer[i] = setInterval( function(){
+							if($('#tt').tree('find', parentNo[i])) {
+								$('#tt').tree('expand', $('#tt').tree('find', parentNo[i]).target);
+								i++;
+								if(i==parentNo.length-1) {
+									$('#tt').tree('select', $('#tt').tree('find', parentNo[i]).target);
+								}
+							}
+			    		}, 50);
+					}
+					var t =setInterval( function(){ 
+						if($('#tt').tree('getSelected') && $('#tt').tree('getSelected').id==$("#depart").val()) {
+							for(var each in pageTimer){
+							    clearInterval(pageTimer[each]);
+							}
+							clearInterval(t);
 						}
-		    		}, 50);
-					
-					
+					}, 100); */
+					var tempNode;
+					setTimeout(function(){ 
+						for(var i =1;i<parentNo.length;i++){
+							tempNode = $('#tt').tree('find', parentNo[i]);
+							if(tempNode) {
+								$('#tt').tree('expand', tempNode.target);
+								if(i==parentNo.length-1) {
+									$('#tt').tree('select', tempNode.target);
+								}
+							}else{
+								i--;
+							}
+						}
+					}, 100);
 				} else {
 					$.messager.alert('错误',msg.errorMsg,'error');
 				}
@@ -172,7 +196,7 @@
 		if (row) {
 			$.messager
 					.confirm(
-							'Confirm','你确定删除选择的管理员吗?',
+							'Confirm','你确定删除选择的部门以及该部门的下属部门吗?',
 							function(r) {
 								if (r) {
 									var id =row.id;
@@ -184,7 +208,10 @@
 											async : false, //默认为true 异步   
 											success : function(msg) {
 												if (msg.result == "success") {
-													$('#dg').datagrid('reload');
+													var node = $('#tt').tree('getSelected');
+													$('#dg').datagrid('load',{  
+														  param: node.id, 
+												    });
 												} else {
 													$.messager.alert('错误',obj.errorMsg,'error');
 												}

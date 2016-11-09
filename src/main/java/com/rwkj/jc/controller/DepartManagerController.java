@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mysql.jdbc.StringUtils;
-import com.rwkj.jc.domain.Admin;
 import com.rwkj.jc.domain.Depart;
 import com.rwkj.jc.service.DepartService;
 import com.rwkj.jc.util.CommonUtils;
@@ -183,8 +182,24 @@ public class DepartManagerController {
 	@RequestMapping("deleteDepart")
 	public @ResponseBody Map<String,String> deleteAdmin(@RequestParam("id") String id){
 		Map<String,String> map = new HashMap<String,String>();
-		int count = departService.deleteDepart(id);
+		Depart depart = departService.selectByPrimaryKey(id);
+		int count = departService.deleteDepart(id); 
 		if(count>0){
+			//处理子部门数据，应该全部进行删除
+			if(!depart.getIsleaf()){
+				departService.deleteSonDepartsByNodepath("%"+depart.getNodePath()+"%");
+			}
+			//处理父部门数据
+			List<Depart> sonForFatherDeparts = null;
+			if(!"0".equals(depart.getParentNo())) {
+				sonForFatherDeparts = departService.getDepartsByParentNo(depart.getParentNo());
+				if(sonForFatherDeparts.size()==0){
+					Depart fatherDepart = departService.getDepartByDepartNo(depart.getParentNo());
+					fatherDepart.setIsleaf(true);
+					departService.updateDepart(fatherDepart);
+				}
+				
+			}
 			map.put("result", "success");
 		}else {
 			map.put("result", "failed");

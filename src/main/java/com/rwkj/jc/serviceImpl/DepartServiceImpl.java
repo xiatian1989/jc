@@ -76,5 +76,9 @@ public class DepartServiceImpl implements DepartService {
 			return false;
 		}
 	}
+
+	public int deleteSonDepartsByNodepath(String nodePath) {
+		return departDao.deleteByNodepath(nodePath);
+	}
 	
 }

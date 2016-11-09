@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.rwkj.jc.domain.Depart;
 
 public interface DepartMapper {
+	
     int deleteByPrimaryKey(String id);
 
     int insert(Depart record);
@@ -34,4 +35,6 @@ public interface DepartMapper {
     List<Depart> selectSonDepartsByParentNoForPage(@Param("parentNo")String parentNo,@Param("pageIndex")int pageIndex,@Param("pageSize")int pageSize);
     
     Depart selectByNo(String departNo);
+    
+    int deleteByNodepath(String nodePath);
 }
