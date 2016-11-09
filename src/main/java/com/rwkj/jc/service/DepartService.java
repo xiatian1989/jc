@@ -8,7 +8,7 @@ public interface DepartService {
 	int addDepart(Depart depart);
 	int updateDepart(Depart depart);
 	int deleteDepart(String id);
-	boolean checkDepartName(String name);
+	boolean checkDepartName(String departName);
 	Depart selectByPrimaryKey(String id);
 	
 	List<Depart> getDeparts();

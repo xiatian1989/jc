@@ -130,7 +130,7 @@
    <select id="getFirstLevelDeparts" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jc_depart where parent_no is null order by depart_no
+    from jc_depart where parent_no = '0' order by depart_no
   </select>
   
    <select id="getDepartsByDepartName" resultMap="BaseResultMap" parameterType="java.lang.String">

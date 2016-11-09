@@ -67,6 +67,19 @@
 		
 		$('#tt').tree({
 			onClick: function(node){
+				$.ajax({   
+				    url:'${pageContext.request.contextPath}/getDepartDetail',   
+				    type:'post',   
+				    data:'departNo='+node.id,   
+				    async : false, //默认为true 异步   
+				    success:function(msg){
+				    	$("#departNo").val(msg.departNo);
+				    	$("#departName").val(msg.departName);
+				    	$("#isLeaf").val(msg.isleaf);
+				    	$("#status").val(msg.status);
+				    	$("#nodepath").val(msg.nodePath);
+				    }
+				});
 			  	$('#dg').datagrid('load',{  
 				  param: node.id, 
 		       });
@@ -75,40 +88,47 @@
 	});
 	
 	function newDepart() {
-		$("#username").removeAttr("readonly")
-		$('#dlg').dialog('open').dialog('setTitle', '添加管理员');
+		var node = $('#tt').tree('getSelected');
+		if(node == null) {
+			$.messager.alert('警告','请先在左侧树选择父节点!','warning');
+			return;
+		}
+		$("#subDepartNo").removeAttr("readonly");
+		$('#dlg').dialog('open').dialog('setTitle', '添加子部门');
 		$('#fm').form('clear');
+		var parentNo =$("#departNo").val();
+		if(parentNo == ""){
+			parentNo = "0"
+		}
+		$("#parentNo").val(parentNo);
+		var nodepath = $("#nodepath").val();
+		if(nodepath==""){
+			nodepath ="0"
+		}
+		$("#subNodepath").val(nodepath);
+		$("#subStatus").val("1")
+		
 		url = "${pageContext.request.contextPath}/addDepart"
 		model="add";
-		$("#mode").val("add");
 	}
 
 	function editDepart() {
 		
 		var selRow = $('#dg').datagrid('getSelected');
 		if (selRow) { 
-			$('#dlg').dialog('open').dialog('setTitle', '编辑管理员');
+			$('#dlg').dialog('open').dialog('setTitle', '编辑部门');
 			$('#fm').form('clear');
 			$('#fm').form('load', selRow);
 			url = "${pageContext.request.contextPath}/updateDepart"
 			model="update";
 			
-			$("#username").attr("readonly", "readonly")
-			$("#status").removeAttr("disabled")
-/* 			$("#level").attr("disabled", "disabled") */
-			$("#mode").val("update");
-			$("#password").val("");
-			if(selRow.level){
-				/* $("#level").val("1") */
-				$("#status").attr("disabled", "disabled")
-			}
+			$("#subDepartNo").attr("readonly", "readonly")
 			if(selRow.status){
-				$("#status").val("1")
+				$("#subStatus").val("1")
 			}else if(!selRow.status){
-				$("#status").val("0")
+				$("#subStatus").val("0")
 			}
 		}
-
 	}
 
 	function saveDepart() {
@@ -116,36 +136,29 @@
 		$('#fm').form('submit',{
 			url : url,
 			onSubmit : function() {
-				var flag = $(this).form('validate');
-				if(!flag) {
-					return flag;
-				}
-				if(model=="add") {
-					var password = $("#password").val();
-					var repassword = $("#repassword").val();
-					
-					if(password==""){
-						$.messager.alert('提示','请输入密码!','info');
-						return false;
-					}
-					if(password != repassword) {
-						$.messager.alert('提示','两次输入密码不匹配！','info');
-						return false;
-					}
-				}else if(model=="update") {
-					var password = $("#password").val();
-					var repassword = $("#repassword").val();
-					if(password != repassword) {
-						$.messager.alert('提示','两次输入密码不匹配！','info');
-						return false;
-					}
-				}
+				return $(this).form('validate');
 			},
 			success : function(result) {
 				var msg = jQuery.parseJSON(result);
 				if (msg.result == "success") {
 					$('#dlg').dialog('close');
-					$('#dg').datagrid('reload');
+					var node = $('#tt').tree('getSelected');
+					$('#dg').datagrid('load',{  
+						  param: node.id, 
+				    });
+					$('#tt').tree('reload');
+					var parentNo =$("#departNo").val();
+					var tempNode;
+					var si = setInterval( function(){
+						tempNode = $('#tt').tree('find', parentNo);
+						if(tempNode) {
+							$('#tt').tree('expand', tempNode.target);
+							$('#tt').tree('select', tempNode.target);
+							clearInterval(si);
+						}
+		    		}, 50);
+					
+					
 				} else {
 					$.messager.alert('错误',msg.errorMsg,'error');
 				}
@@ -187,20 +200,38 @@
 		$('#dlg').dialog('close');
 	}
 	
-	function checkUniqName(){
-		if($("#mode").val()=='update'){
+	function checkUniqNo(){
+		var departNo =  $("#subDepartNo").val();
+		if(departNo =='0') {
+			$.messager.alert('警告','部门编号不能为0!','warning');
 			return;
 		}
-		var username = $("#username").val();
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/checkDepartName',   
+		    url:'${pageContext.request.contextPath}/checkDepartDepartNo',   
 		    type:'post',   
-		    data:'name='+username,   
+		    data:'departNo='+departNo,   
 		    async : false, //默认为true 异步   
 		    success:function(msg){
 		    	if(msg.result=="failed") {
-		    		$.messager.alert('警告','用户名已经存在!','warning',function(){
-		    			$("#username").focus().select();
+		    		$.messager.alert('警告','部门编号已经存在!','warning',function(){
+		    			$("#subDepartNo").focus().select();
+		    		});
+		    	}
+		    }
+		});
+	}
+	
+	function checkUniqName(){
+		var departName = $("#subDepartName").val();
+		$.ajax({   
+		    url:'${pageContext.request.contextPath}/checkDepartDepartName',   
+		    type:'post',   
+		    data:'departName='+departName,   
+		    async : false, //默认为true 异步   
+		    success:function(msg){
+		    	if(msg.result=="failed") {
+		    		$.messager.alert('警告','部门名已经存在!','warning',function(){
+		    			$("#subDepartName").focus().select();
 		    		});
 		    	}
 		    }
@@ -209,18 +240,17 @@
 </script>
 <style type="text/css">
 	body{
-		padding:0px;
+		padding:10px;
 	}
 </style>
 </head>
 <body>
-	<input type="text" id="mode" style="display:none">
-	<div id="cc" class="easyui-layout" style="height:550px;">
+	<div id="cc" class="easyui-layout" style="height:520px;">
 	    <div data-options="region:'west',title:'部门列表',split:true" style="width:150px;">
 			<ul class="easyui-tree" data-options="url:'${pageContext.request.contextPath}/departList'" id="tt" ></ul>
 	    </div>
 	    <div data-options="region:'center',title:'部门详情'" style="padding:5px;background:#eee;">
-	    	<table id="dd" title="详细信息">
+	    	<table id="dd" title="详细信息" style="width: 100%">
 				<tr>
 					<td>部门编号</td>
 					<td><input type="text" id="departNo" readonly="readonly"></td>
@@ -234,51 +264,40 @@
 					<td><input type="text" id="status"  readonly="readonly"></td>
 				</tr>
 			</table>
+			<input type="text" id="nodepath" style="display:none">
 	    	<table id="dg" title="子部门列表">
 		
 			</table>
 			<div id="toolbar">
-				<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newDepart()">添加部门</a>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newDepart()">添加子部门</a>
 				<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editDepart()">编辑部门 </a>
 				<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyDepart()">删除部门</a>
 			</div>
 			
 			<div id="dlg" class="easyui-dialog"
-				style="width: 280px; height: 230px; padding: 10px 20px" closed="true" buttons="#dlg-buttons">
+				style="width: 270px; height: 200px; padding: 10px 20px" closed="true" buttons="#dlg-buttons">
 				
 				<form id="fm" method="post">
-					<input id=id name=id  style="display:none">
+					<input id=id name=id style="display:none">
+					<input id=subNodepath name=nodePath style="display:none">
+					<input id=parentNo name=parentNo style="display:none">
 					<table>
 						<tr>
-							<td style="height: 28px" width=80>用户名：</td>
+							<td style="height: 28px" width=80>部门编号：</td>
 							<td style="height: 28px" width=150>
-								<input id=username
-									style="width: 130px" name=username class="easyui-validatebox" required="true" onblur="checkUniqName()">
+								<input id=subDepartNo
+									style="width: 130px" name=departNo class="easyui-validatebox" required="true" onchange="checkUniqNo()">
 							</td>
 						</tr>
 						<tr>
-							<td style="height: 28px">密码：</td>
-							<td style="height: 28px"><input id=password style="width: 130px"
-								type=password name=password></td>
+							<td style="height: 28px">部门名称：</td>
+							<td style="height: 28px"><input id=subDepartName style="width: 130px"
+								name=departName class="easyui-validatebox" required="true" onchange="checkUniqName()"></td>
 						</tr>
-						<tr>
-							<td style="height: 28px">确认密码：</td>
-							<td style="height: 28px"><input id=repassword style="width: 130px"
-								type=password name=repassword></td>
-						</tr>
-		<!-- 				<tr>
-							<td style="height: 28px">角色：</td>
-							<td style="height: 28px">
-								<select id="level" name="level" style="width: 137px">
-									<option value="0">管理员</option>
-									<option value="1">超级管理员</option>
-								</select>
-							</td>
-						</tr> -->
 						<tr>
 							<td style="height: 28px">状态：</td>
 							<td style="height: 28px">
-								<select id="status" name="status" style="width: 137px">
+								<select id="subStatus" name="status" style="width: 137px">
 									<option value="0">禁用</option>
 									<option value="1">启用</option>
 								</select>

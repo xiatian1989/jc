@@ -28,15 +28,6 @@ public class DepartServiceImpl implements DepartService {
 		return departDao.deleteByPrimaryKey(id);
 	}
 
-	public boolean checkDepartName(String name) {
-		Depart depart = departDao.selectByName(name);
-		if(depart != null){
-			return true;
-		}else{
-			return false;
-		}
-	}
-
 	public Depart selectByPrimaryKey(String id) {
 		return departDao.selectByPrimaryKey(id);
 	}
@@ -66,16 +57,24 @@ public class DepartServiceImpl implements DepartService {
 		return departDao.getSonCountByParentNo(parentNo);
 	}
 
-	public boolean checkDepartNo(String departNo) {
-		if(departDao.selectByNo(departNo)!=null){
+	public Depart getDepartByDepartNo(String departNo) {
+		return departDao.selectByNo(departNo);
+	}
+
+	public boolean checkDepartName(String departName) {
+		if(departDao.selectByName(departName) != null){
 			return true;
 		}else{
 			return false;
 		}
 	}
 
-	public Depart getDepartByDepartNo(String departNo) {
-		return departDao.selectByNo(departNo);
+	public boolean checkDepartNo(String departNo) {
+		if(departDao.selectByNo(departNo) != null){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 }

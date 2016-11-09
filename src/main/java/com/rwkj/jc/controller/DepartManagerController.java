@@ -115,30 +115,50 @@ public class DepartManagerController {
 			depart = departService.getDepartByDepartNo(departNo);
 		}
 		
-         JSONObject jsonObject = new JSONObject();  
-         jsonObject.put("id",depart.getId());
-         jsonObject.put("departNo",depart.getDepartNo());
-         jsonObject.put("departName",depart.getDepartName());
-         jsonObject.put("parentNo",depart.getParentNo());
-         jsonObject.put("nodePath",depart.getNodePath());
-         jsonObject.put("isleaf",depart.getIsleaf());
-         jsonObject.put("status",depart.getStatus());
-         
+        JSONObject jsonObject = new JSONObject(); 
+        if(depart.getId() != null) {
+	        jsonObject.put("id",depart.getId());
+	        jsonObject.put("departNo",depart.getDepartNo());
+	        jsonObject.put("departName",depart.getDepartName());
+	        jsonObject.put("parentNo",depart.getParentNo());
+	        jsonObject.put("nodePath",depart.getNodePath());
+	        jsonObject.put("isleaf",depart.getIsleaf()?"是":"否");
+	        jsonObject.put("status",depart.getStatus()?"启用":"禁用");
+        }else{
+        	jsonObject.put("departNo","");
+  	        jsonObject.put("departName","");
+  	        jsonObject.put("nodePath","");
+  	        jsonObject.put("isleaf","");
+  	        jsonObject.put("status","");
+        }
+        
 		return jsonObject;
 	}
 	
 	@RequestMapping("addDepart")
 	public @ResponseBody Map<String,String> addDepart(@ModelAttribute Depart depart){
 		Map<String, String> result = new HashMap<String,String>();
+		Depart parentDepart = null;
 		int count = 0;
 		depart.setId(CommonUtils.getUUID());
 		depart.setIsleaf(true);
-		depart.setStatus(true);
 		depart.setNodePath(depart.getNodePath()+"|"+depart.getDepartNo());
- 	    count = departService.addDepart(depart);
+		if(StringUtils.isNullOrEmpty(depart.getParentNo())) {
+			depart.setParentNo("0");
+		}else{
+			parentDepart = departService.getDepartByDepartNo(depart.getParentNo());
+			
+		}
+		count = departService.addDepart(depart);
 		
 		if(count>0){
 			result.put("result", "success");
+			if(parentDepart != null){
+				if(parentDepart.getIsleaf()) {
+					parentDepart.setIsleaf(false);
+					departService.updateDepart(parentDepart);
+				}
+			}
 		}else{
 			result.put("result", "failed");
 			result.put("errorMsg", "添加失败，请联系管理员！");
@@ -147,15 +167,15 @@ public class DepartManagerController {
 	}
 	
 	@RequestMapping("updateDepart")
-	public @ResponseBody Map<String,String> updateAdmin(@ModelAttribute Admin admin){
+	public @ResponseBody Map<String,String> updateAdmin(@ModelAttribute Depart depart){
 		int count = 0;
 		Map<String, String> result = new HashMap<String,String>();
-		/*count = adminService.updateAdmin(admin);*/
+		count = departService.updateDepart(depart);
 		if(count>0){
 			result.put("result", "success");
 		}else{
 			result.put("result", "failed");
-			result.put("errorMsg", "更新失败");
+			result.put("errorMsg", "更新失败,请联系管理员");
 		}
 		return result;
 	}
@@ -163,23 +183,34 @@ public class DepartManagerController {
 	@RequestMapping("deleteDepart")
 	public @ResponseBody Map<String,String> deleteAdmin(@RequestParam("id") String id){
 		Map<String,String> map = new HashMap<String,String>();
-	/*	int count = adminService.deleteAdmin(id);*/
-	/*	if(count>0){
+		int count = departService.deleteDepart(id);
+		if(count>0){
 			map.put("result", "success");
 		}else {
 			map.put("result", "failed");
-		}*/
+		}
 		return map;
 	}
 	
-	@RequestMapping("checkDepartName")
-	public @ResponseBody Map<String,String> checkAdminName(@RequestParam("name") String name){
+	@RequestMapping("checkDepartDepartName")
+	public @ResponseBody Map<String,String> checkDepartDepartName(@RequestParam("departName") String departName){
 		Map<String,String> map = new HashMap<String,String>();
-	/*	if(adminService.checkAdminName(name)){
+		if(departService.checkDepartName(departName)){
 			map.put("result", "failed");
 		}else{
 			map.put("result", "success");
-		}*/
+		}
+		return map;
+	}
+	
+	@RequestMapping("checkDepartDepartNo")
+	public @ResponseBody Map<String,String> checkDepartDepartNo(@RequestParam("departNo") String departNo){
+		Map<String,String> map = new HashMap<String,String>();
+		if(departService.checkDepartNo(departNo)){
+			map.put("result", "failed");
+		}else{
+			map.put("result", "success");
+		}
 		return map;
 	}
 	
