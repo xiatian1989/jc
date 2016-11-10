@@ -66,6 +66,7 @@
 		});
 		
 		$('#tt').tree({
+			animate:true,
 			onClick: function(node){
 				$.ajax({   
 				    url:'${pageContext.request.contextPath}/getDepartDetail',   
@@ -83,6 +84,18 @@
 			  	$('#dg').datagrid('load',{  
 				  param: node.id, 
 		       });
+			},
+			onExpand: function(node,data){
+				if(node ==null){
+					return;
+				}
+				var departNo = $("#departNo").val();
+				var fatherDepart = $('#tt').tree("getParent",($('#tt').tree('find',departNo)).target);
+				if(fatherDepart.id == node.id) {
+					var tempNode= $('#tt').tree("find",departNo);
+					$('#tt').tree('expandAll',tempNode.target);
+					$('#tt').tree('select',tempNode.target);
+				}
 			}
 		});
 	});
@@ -146,43 +159,13 @@
 					$('#dg').datagrid('load',{  
 						  param: node.id, 
 				    });
-					$('#tt').tree('reload');
-					var nodepath =$("#nodepath").val();
-					var parentNo = nodepath.split("|");
-					/* var pageTimer = {};
-					for(var i =1;i<parentNo.length;){
-						pageTimer[i] = setInterval( function(){
-							if($('#tt').tree('find', parentNo[i])) {
-								$('#tt').tree('expand', $('#tt').tree('find', parentNo[i]).target);
-								i++;
-								if(i==parentNo.length-1) {
-									$('#tt').tree('select', $('#tt').tree('find', parentNo[i]).target);
-								}
-							}
-			    		}, 50);
+					if(node.id==0){
+						$('#tt').tree('reload');
+					}else{
+						var parentNode = $('#tt').tree('getParent',node.target);
+						$('#tt').tree('reload',parentNode.target);
+						$('#tt').tree('expand',parentNode.target);
 					}
-					var t =setInterval( function(){ 
-						if($('#tt').tree('getSelected') && $('#tt').tree('getSelected').id==$("#depart").val()) {
-							for(var each in pageTimer){
-							    clearInterval(pageTimer[each]);
-							}
-							clearInterval(t);
-						}
-					}, 100); */
-					var tempNode;
-					setTimeout(function(){ 
-						for(var i =1;i<parentNo.length;i++){
-							tempNode = $('#tt').tree('find', parentNo[i]);
-							if(tempNode) {
-								$('#tt').tree('expand', tempNode.target);
-								if(i==parentNo.length-1) {
-									$('#tt').tree('select', tempNode.target);
-								}
-							}else{
-								i--;
-							}
-						}
-					}, 100);
 				} else {
 					$.messager.alert('错误',msg.errorMsg,'error');
 				}
