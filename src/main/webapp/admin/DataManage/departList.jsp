@@ -195,6 +195,13 @@
 													$('#dg').datagrid('load',{  
 														  param: node.id, 
 												    });
+													if(node.id==0){
+														$('#tt').tree('reload');
+													}else{
+														var parentNode = $('#tt').tree('getParent',node.target);
+														$('#tt').tree('reload',parentNode.target);
+														$('#tt').tree('expand',parentNode.target);
+													}
 												} else {
 													$.messager.alert('错误',obj.errorMsg,'error');
 												}
