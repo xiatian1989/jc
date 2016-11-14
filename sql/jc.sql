@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50087
 File Encoding         : 65001
 
-Date: 2016-06-27 23:25:05
+Date: 2016-11-14 17:16:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,7 +21,6 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `jc_admin`;
 CREATE TABLE `jc_admin` (
   `id` varchar(50) NOT NULL,
-  `organization_id` varchar(50) default NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `level` tinyint(1) NOT NULL,
@@ -32,8 +31,9 @@ CREATE TABLE `jc_admin` (
 -- ----------------------------
 -- Records of jc_admin
 -- ----------------------------
-INSERT INTO `jc_admin` VALUES ('4ae4019c137d470990298b2c6806a03d', '016440c0e633440d955452b8150bde28', 'xiatian', '', '0', '1');
-INSERT INTO `jc_admin` VALUES ('66a2f7ceab0c4240a3885cccdf26bd82', '', 'admin', 'e10adc3949ba59abbe56e057f20f883e\r\n', '1', '1');
+INSERT INTO `jc_admin` VALUES ('050019cb63ec49998e62cf03d7db3148', 'xiatian', '', '0', '0');
+INSERT INTO `jc_admin` VALUES ('66a2f7ceab0c4240a3885cccdf26bd82', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '1', '1');
+INSERT INTO `jc_admin` VALUES ('901f87814c8d4f46b97fad5b98d67aaa', 'feng', '', '0', '0');
 
 -- ----------------------------
 -- Table structure for jc_depart
@@ -53,27 +53,8 @@ CREATE TABLE `jc_depart` (
 -- ----------------------------
 -- Records of jc_depart
 -- ----------------------------
-
--- ----------------------------
--- Table structure for jc_organization
--- ----------------------------
-DROP TABLE IF EXISTS `jc_organization`;
-CREATE TABLE `jc_organization` (
-  `id` varchar(50) NOT NULL,
-  `organization_name` varchar(100) NOT NULL,
-  `sequence` int(4) NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of jc_organization
--- ----------------------------
-INSERT INTO `jc_organization` VALUES ('016440c0e633440d955452b8150bde28', '中国青年组织', '1', '1');
-INSERT INTO `jc_organization` VALUES ('3f9707c783e3461ab601891d67c99a6b', '中国儿童组织', '5', '1');
-INSERT INTO `jc_organization` VALUES ('c6f38dc45c01402199a62329e0f672bf', '中国少年组织', '4', '1');
-INSERT INTO `jc_organization` VALUES ('d0b5c24ee50243a5bb9d882499bfd926', '中国中年组织', '3', '1');
-INSERT INTO `jc_organization` VALUES ('e67838a55c6348fca88e00b797c5d178', '中国老年组织', '2', '1');
+INSERT INTO `jc_depart` VALUES ('795de6738a8c4ac7b92b91f705cf61bd', '2', '人事部', '0', '0|2', '1', '1');
+INSERT INTO `jc_depart` VALUES ('d909a5d3e6eb4470a4304f3b84c04394', '1', '组织部', '0', '0|1', '1', '1');
 
 -- ----------------------------
 -- Table structure for jc_paper
@@ -215,6 +196,25 @@ CREATE TABLE `jc_resultdetail` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for jc_templet
+-- ----------------------------
+DROP TABLE IF EXISTS `jc_templet`;
+CREATE TABLE `jc_templet` (
+  `id` varchar(50) NOT NULL,
+  `templetTitle` varchar(50) NOT NULL,
+  `keyWord` varchar(50) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `createTime` datetime NOT NULL,
+  `updateTime` datetime default NULL,
+  `status` tinyint(1) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of jc_templet
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for jc_testformessage
 -- ----------------------------
 DROP TABLE IF EXISTS `jc_testformessage`;
@@ -237,15 +237,14 @@ CREATE TABLE `jc_testformessage` (
 DROP TABLE IF EXISTS `jc_user`;
 CREATE TABLE `jc_user` (
   `id` varchar(50) NOT NULL,
-  `organization_id` varchar(50) NOT NULL,
-  `depart_no` varchar(50) NOT NULL,
+  `depart_No` varchar(50) NOT NULL,
   `trueName` varchar(50) NOT NULL,
-  `userno` varchar(50) NOT NULL,
+  `userNo` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `leader_no` varchar(50) default NULL,
+  `leader_No` varchar(50) default NULL,
   `sex` tinyint(1) NOT NULL,
   `phone` char(11) NOT NULL,
-  `wechat` varchar(50) NOT NULL,
+  `webChat` varchar(50) NOT NULL,
   `createTime` datetime NOT NULL,
   `status` tinyint(1) NOT NULL,
   PRIMARY KEY  (`id`)
@@ -254,3 +253,4 @@ CREATE TABLE `jc_user` (
 -- ----------------------------
 -- Records of jc_user
 -- ----------------------------
+SET FOREIGN_KEY_CHECKS=1;

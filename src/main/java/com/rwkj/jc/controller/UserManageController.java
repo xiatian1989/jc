@@ -18,45 +18,44 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mysql.jdbc.StringUtils;
-import com.rwkj.jc.domain.Admin;
-import com.rwkj.jc.service.AdminService;
+import com.rwkj.jc.service.UserService;
 import com.rwkj.jc.util.CommonUtils;
 
 @Controller
-public class AdminManagerController {
+public class UserManageController {
 	
 	@Resource
-	private AdminService adminService;
+	private UserService userService;
 	
-	@InitBinder("admin")    
+	@InitBinder("user")    
 	public void initBinder2(WebDataBinder binder) {    
-		binder.setFieldDefaultPrefix("admin.");    
+		binder.setFieldDefaultPrefix("user.");    
 	}    
 	
-	@RequestMapping("adminList")
-	public @ResponseBody Object getAdminList(HttpServletRequest request, 
+	@RequestMapping("userList")
+	public @ResponseBody Object getuserList(HttpServletRequest request, 
 			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
             @RequestParam(required = false, defaultValue = "10") Integer rows){
 		Map<String, Object> result = new HashMap<String, Object>(2) ;
 		int total = 0;
 		String param = request.getParameter("param");
-		List<Admin> admins = null;
+		List<user> users = null;
 		if(StringUtils.isNullOrEmpty(param)){
-			admins = adminService.getAdmins((page-1)*rows, rows);
-			total = adminService.getAdminsCount();
+			users = userService.getusers((page-1)*rows, rows);
+			total = userService.getusersCount();
 		}else{
-			admins = adminService.getAdminsByUserName("%"+param+"%", (page-1)*rows, rows);
-			total = adminService.getAdminsCountByUserName("%"+param+"%");
+			users = userService.getusersByUserName("%"+param+"%", (page-1)*rows, rows);
+			total = userService.getusersCountByUserName("%"+param+"%");
 		}
 		
 		JSONArray jsonArray = new JSONArray();  
-        for(Admin admin:admins){  
+        for(user user:users){  
              JSONObject jsonObject = new JSONObject();  
-             jsonObject.put("id",admin.getId());
-             jsonObject.put("username",admin.getUsername());
-             jsonObject.put("password",admin.getPassword());
-             jsonObject.put("level",admin.getLevel());
-             jsonObject.put("status",admin.getStatus());
+             jsonObject.put("id",user.getId());
+             jsonObject.put("username",user.getUsername());
+             jsonObject.put("password",user.getPassword());
+             jsonObject.put("level",user.getLevel());
+             jsonObject.put("status",user.getStatus());
              jsonArray.add(jsonObject) ;  
         }  
 		result.put("total", total);  
@@ -64,15 +63,15 @@ public class AdminManagerController {
 		return result;
 	}
 	
-	@RequestMapping("addAdmin")
-	public @ResponseBody Map<String,String> addAdmin(@ModelAttribute Admin admin){
+	@RequestMapping("adduser")
+	public @ResponseBody Map<String,String> adduser(@ModelAttribute user user){
 		Map<String, String> result = new HashMap<String,String>();
 		int count = 0;
-		admin.setId(CommonUtils.getUUID());
-		String password = admin.getPassword();
-		admin.setPassword(CommonUtils.getMD5Pssword(password));
-		admin.setLevel(false);
-		count = adminService.addAdmin(admin);
+		user.setId(CommonUtils.getUUID());
+		String password = user.getPassword();
+		user.setPassword(CommonUtils.getMD5Pssword(password));
+		user.setLevel(false);
+		count = userService.adduser(user);
 		
 		if(count>0){
 			result.put("result", "success");
@@ -83,11 +82,11 @@ public class AdminManagerController {
 		return result;
 	}
 	
-	@RequestMapping("updateAdmin")
-	public @ResponseBody Map<String,String> updateAdmin(@ModelAttribute Admin admin){
+	@RequestMapping("updateuser")
+	public @ResponseBody Map<String,String> updateuser(@ModelAttribute user user){
 		int count = 0;
 		Map<String, String> result = new HashMap<String,String>();
-		count = adminService.updateAdmin(admin);
+		count = userService.updateuser(user);
 		if(count>0){
 			result.put("result", "success");
 		}else{
@@ -97,10 +96,10 @@ public class AdminManagerController {
 		return result;
 	}
 	
-	@RequestMapping("deleteAdmin")
-	public @ResponseBody Map<String,String> deleteAdmin(@RequestParam("id") String id){
+	@RequestMapping("deleteuser")
+	public @ResponseBody Map<String,String> deleteuser(@RequestParam("id") String id){
 		Map<String,String> map = new HashMap<String,String>();
-		int count = adminService.deleteAdmin(id);
+		int count = userService.deleteuser(id);
 		if(count>0){
 			map.put("result", "success");
 		}else {
@@ -109,10 +108,10 @@ public class AdminManagerController {
 		return map;
 	}
 	
-	@RequestMapping("checkAdminName")
-	public @ResponseBody Map<String,String> checkAdminName(@RequestParam("name") String name){
+	@RequestMapping("checkuserName")
+	public @ResponseBody Map<String,String> checkuserName(@RequestParam("name") String name){
 		Map<String,String> map = new HashMap<String,String>();
-		if(adminService.checkAdminName(name)){
+		if(userService.checkuserName(name)){
 			map.put("result", "failed");
 		}else{
 			map.put("result", "success");

@@ -24,7 +24,7 @@ import com.rwkj.jc.service.DepartService;
 import com.rwkj.jc.util.CommonUtils;
 
 @Controller
-public class DepartManagerController {
+public class DepartManageController {
 	
 	@Resource
 	private DepartService departService;

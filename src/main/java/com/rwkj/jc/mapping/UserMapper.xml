@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rwkj.jc.IDao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.rwkj.jc.domain.User" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="depart_No" property="departNo" jdbcType="VARCHAR" />
+    <result column="trueName" property="truename" jdbcType="VARCHAR" />
+    <result column="userNo" property="userno" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="leader_No" property="leaderNo" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="BIT" />
+    <result column="phone" property="phone" jdbcType="CHAR" />
+    <result column="webChat" property="webchat" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="BIT" />
+    <association property="Depart" column="depart_No" select="com.rwkj.jc.IDao.DepartMapper.selectByNo"/>
+    <association property="User" column="leader_No" select="com.rwkj.jc.IDao.UserMapper.getUserByUserNo"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, depart_No, trueName, userNo, password, leader_No, sex, phone, webChat, createTime, 
+    status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jc_user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from jc_user
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.rwkj.jc.domain.User" >
+    insert into jc_user (id, depart_No, trueName, 
+      userNo, password, leader_No, 
+      sex, phone, webChat, createTime, 
+      status)
+    values (#{id,jdbcType=VARCHAR}, #{departNo,jdbcType=VARCHAR}, #{truename,jdbcType=VARCHAR}, 
+      #{userno,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{leaderNo,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=BIT}, #{phone,jdbcType=CHAR}, #{webchat,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rwkj.jc.domain.User" >
+    insert into jc_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="departNo != null" >
+        depart_No,
+      </if>
+      <if test="truename != null" >
+        trueName,
+      </if>
+      <if test="userno != null" >
+        userNo,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="leaderNo != null" >
+        leader_No,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="webchat != null" >
+        webChat,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="departNo != null" >
+        #{departNo,jdbcType=VARCHAR},
+      </if>
+      <if test="truename != null" >
+        #{truename,jdbcType=VARCHAR},
+      </if>
+      <if test="userno != null" >
+        #{userno,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="leaderNo != null" >
+        #{leaderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=BIT},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=CHAR},
+      </if>
+      <if test="webchat != null" >
+        #{webchat,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rwkj.jc.domain.User" >
+    update jc_user
+    <set >
+      <if test="departNo != null" >
+        depart_No = #{departNo,jdbcType=VARCHAR},
+      </if>
+      <if test="truename != null" >
+        trueName = #{truename,jdbcType=VARCHAR},
+      </if>
+      <if test="userno != null" >
+        userNo = #{userno,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="leaderNo != null" >
+        leader_No = #{leaderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=BIT},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=CHAR},
+      </if>
+      <if test="webchat != null" >
+        webChat = #{webchat,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rwkj.jc.domain.User" >
+    update jc_user
+    set depart_No = #{departNo,jdbcType=VARCHAR},
+      trueName = #{truename,jdbcType=VARCHAR},
+      userNo = #{userno,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      leader_No = #{leaderNo,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      phone = #{phone,jdbcType=CHAR},
+      webChat = #{webchat,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=BIT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getUserByUserNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jc_user
+    where userNo = #{userNo,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="getUserByColumnValue" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_user where ${column} = #{param} order by userNo limit #{pageIndex},#{pageSize}
+  </select>
+  
+   <select id="getUserCountByColumnValue" resultType="java.lang.Integer">
+    select 
+    count(*)
+    from jc_user where ${column} = #{param}
+  </select>
+  
+   <select id="getAllUsersForPage" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_user order by userNo limit #{pageIndex},#{pageSize}
+  </select>
+  
+   <select id="getAllUsersCount" resultType="java.lang.Integer">
+    select 
+    count(*)
+    from jc_user
+  </select>
+  
+  <select id="getAllUsers" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_user order by userNo
+  </select>
+  
+  <select id="getUsersByDepartNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jc_user
+    where depart_No = #{departNo,jdbcType=VARCHAR}
+  </select>
+</mapper>
