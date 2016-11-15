@@ -24,6 +24,10 @@ public class User {
     private Date createtime;
 
     private Boolean status;
+    
+    private Depart depart;
+    
+    private User leader;
 
     public String getId() {
         return id;
@@ -112,4 +116,20 @@ public class User {
     public void setStatus(Boolean status) {
         this.status = status;
     }
+
+	public Depart getDepart() {
+		return depart;
+	}
+
+	public void setDepart(Depart depart) {
+		this.depart = depart;
+	}
+
+	public User getLeader() {
+		return leader;
+	}
+
+	public void setLeader(User leader) {
+		this.leader = leader;
+	}
 }

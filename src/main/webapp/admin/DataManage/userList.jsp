@@ -152,32 +152,17 @@
 
 	function doSearch() {
 		var column = $("#column").val();
-		var param = "";
-		if (column == 'isDrop' || column == 'isJoin' || column == 'isKeep') {
-			param = $("#param").val();
-		} else {
-			param = $("#key").val();
-		}
+		var value =  $("#key").val();
 
-		if (param == "请输入查询值") {
-			param = "";
+		if (value == "请输入查询值") {
+			value = "";
 		}
 		$('#dg').datagrid('load', {
 			column : column,
-			param : param,
+			value : param,
 		});
 	}
 
-	function changeColumn() {
-		var column = $("#column").val();
-		if (column == 'isDrop' || column == 'isJoin' || column == 'isKeep') {
-			$("#param").show();
-			$("#key").hide();
-		} else {
-			$("#key").show();
-			$("#param").hide();
-		}
-	}
 	$(function() {
 		$('#dg').datagrid({
 			nowrap : false,
@@ -189,90 +174,62 @@
 			selectOnCheck : true,
 			pageSize : 10,
 			pageList : [ 5, 10, 15 ],
-			url : '${pageContext.request.contextPath}/studentList',
+			url : '${pageContext.request.contextPath}/userList',
 
-			frozenColumns : [ [ {
+			columns : [ [ {
 				field : 'ck',
 				checkbox : true,
 				width : '30'
 			}, {
-				title : '学号',
-				field : 'studentno',
+				title : '部门名称',
+				field : 'depart.departName',
 				width : 80,
 			}, {
-				title : '姓名',
+				title : '真实姓名',
 				field : 'truename',
 				width : 60,
 			}, {
-				title : '身份证号',
-				field : 'idcard',
+				title : '用户编号',
+				field : 'userno',
 				width : 138,
 			}, {
-				title : '银行账号',
-				field : 'accout',
+				title : '上级领导',
+				field : 'leader。truename',
 				width : 138,
 			}, {
-				title : '年级',
-				field : 'grade',
+				title : '性别',
+				field : 'sex',
 				width : 40,
+				formatter : function(value, row, index) {
+					if (value) {
+						return '女';
+					} else {
+						return '男';
+					}
+				}
 			}, {
-				title : '系部',
-				field : 'college',
+				title : '手机号码',
+				field : 'phone',
 				width : 100,
 			}, {
-				title : '专业',
-				field : 'profession',
+				title : '微信号',
+				field : 'webchat',
 				width : 100,
 			}, {
-				title : '班级',
-				field : 'classname',
+				title : '创建时间',
+				field : 'createtime',
 				width : 80,
 			}, {
-				title : '寝室编号',
-				field : 'hotelno',
+				title : '状态',
+				field : 'status',
 				width : 60,
-			} ] ],
-			columns : [ [ {
-				title : '是否离校',
-				field : 'isdrop',
-				width : 50,
 				formatter : function(value, row, index) {
 					if (value) {
-						return '是';
+						return '禁用';
 					} else {
-						return '否';
+						return '启用';
 					}
 				}
-			}, {
-				title : '离校时间',
-				field : 'droptime',
-				width : 60,
-			}, {
-				title : '是否入伍',
-				field : 'isjoin',
-				width : 50,
-				formatter : function(value, row, index) {
-					if (value) {
-						return '是';
-					} else {
-						return '否';
-					}
-				}
-			}, {
-				title : '是否保留学籍',
-				field : 'iskeep',
-				width : 70,
-				formatter : function(value, row, index) {
-					if (value) {
-						return '是';
-					} else {
-						return '否';
-					}
-				}
-			}, {
-				title : '备注',
-				field : 'remarks',
-				width : 50,
 			} ] ],
 			fitColumns : true,
 			pagination : true,
@@ -347,18 +304,13 @@
 		<a href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="exportUser()">导出职员</a>
 		<div style="float:right;">
 			<select id="column" name="column">
-				<option value="studentNo">学号</option>
+				<option value="depart_No">部门名称</option>
 				<option value="trueName">姓名</option>
-				<option value="idCard">身份证号</option>
-				<option value="accout">银行账号</option>
-				<option value="grade">年级</option>
-				<option value="college">系部</option>
-				<option value="profession">专业</option>
-				<option value="className">班级</option>
-				<option value="hotelno">寝室编号</option>
-				<option value="isDrop">是否离校</option>
-				<option value="isJoin">是否入伍</option>
-				<option value="isKeep">是否保留学籍</option>
+				<option value="userno">身份证号</option>
+				<option value="leader_No">银行账号</option>
+				<option value="sex">年级</option>
+				<option value="phone">系部</option>
+				<option value="wechat">专业</option>
 			</select>
 			<input type="text" id="key" name="key" value="请输入查询值" onFocus="if(value==defaultValue){value='';this.style.color='#000'}" 
 			onBlur="if(!value){value=defaultValue;this.style.color='#999'}" style="color:#999999">
