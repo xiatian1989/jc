@@ -20,6 +20,7 @@ public interface DepartService {
 	
 	boolean checkDepartNo(String departNo);
 	Depart getDepartByDepartNo(String departNo);
+	Depart getDepartByDepartName(String departName);
 
 	int deleteSonDepartsByNodepath(String nodePath);
 }

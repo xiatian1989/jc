@@ -60,6 +60,10 @@ public class DepartServiceImpl implements DepartService {
 	public Depart getDepartByDepartNo(String departNo) {
 		return departDao.selectByNo(departNo);
 	}
+	
+	public Depart getDepartByDepartName(String departName) {
+		return departDao.selectByName(departName);
+	}
 
 	public boolean checkDepartName(String departName) {
 		if(departDao.selectByName(departName) != null){

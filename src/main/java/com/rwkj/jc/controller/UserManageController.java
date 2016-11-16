@@ -1,5 +1,6 @@
 package com.rwkj.jc.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mysql.jdbc.StringUtils;
+import com.rwkj.jc.domain.Depart;
+import com.rwkj.jc.domain.User;
+import com.rwkj.jc.service.DepartService;
 import com.rwkj.jc.service.UserService;
 import com.rwkj.jc.util.CommonUtils;
 
@@ -26,6 +30,8 @@ public class UserManageController {
 	
 	@Resource
 	private UserService userService;
+	@Resource
+	private DepartService departService;
 	
 	@InitBinder("user")    
 	public void initBinder2(WebDataBinder binder) {    
@@ -38,14 +44,27 @@ public class UserManageController {
             @RequestParam(required = false, defaultValue = "10") Integer rows){
 		Map<String, Object> result = new HashMap<String, Object>(2) ;
 		int total = 0;
-		String param = request.getParameter("param");
-		List<user> users = null;
-		if(StringUtils.isNullOrEmpty(param)){
-			users = userService.getusers((page-1)*rows, rows);
-			total = userService.getusersCount();
+		Depart depart = null;
+		String column= request.getParameter("column");
+		String value = request.getParameter("value");
+		List<User> users = null;
+		if(StringUtils.isNullOrEmpty(column)){
+			users = userService.getAllUsersForPage((page-1)*rows, rows);
+			total = userService.getAllUsersCount();
 		}else{
-			users = userService.getusersByUserName("%"+param+"%", (page-1)*rows, rows);
-			total = userService.getusersCountByUserName("%"+param+"%");
+			if("depart_No".equals(column)) {
+				depart = departService.getDepartByDepartName(value);
+				if(depart == null){
+					users = new ArrayList<User>();
+				}else{
+					value = depart.getDepartNo();
+					users = userService.getUserByColumnValue(column, value, (page-1)*rows, rows);
+					total = userService.getUserCountByColumnValue(column, value);
+				}
+			}else if("leader_No"){
+				
+			}
+			
 		}
 		
 		JSONArray jsonArray = new JSONArray();  

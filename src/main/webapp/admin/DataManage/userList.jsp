@@ -306,11 +306,11 @@
 			<select id="column" name="column">
 				<option value="depart_No">部门名称</option>
 				<option value="trueName">姓名</option>
-				<option value="userno">身份证号</option>
-				<option value="leader_No">银行账号</option>
-				<option value="sex">年级</option>
-				<option value="phone">系部</option>
-				<option value="wechat">专业</option>
+				<option value="userno">用户编号</option>
+				<option value="leader_No">上级领导</option>
+				<option value="sex">性别</option>
+				<option value="phone">电话号码</option>
+				<option value="wechat">微信号</option>
 			</select>
 			<input type="text" id="key" name="key" value="请输入查询值" onFocus="if(value==defaultValue){value='';this.style.color='#000'}" 
 			onBlur="if(!value){value=defaultValue;this.style.color='#999'}" style="color:#999999">
@@ -326,9 +326,14 @@
 			<input id=id name=id  style="display:none">
 			<table>
 				<tr>
-					<td style="height: 28px" width=120>学号：</td>
-					<td style="height: 28px" width=210><input id=studentno
-						style="width: 190px" name=studentno class="easyui-validatebox" required="true"></td>
+					<td style="height: 28px" width=120>部门：</td>
+					<td style="height: 28px" width=210>
+						<select id="departNo" name="departNo" style="width:195px;">
+							<c:forEach items="departMaps" var="map">
+								<option value="${map.key }">${map.value }</option>
+							</c:forEach>
+						</select>
+					</td>
 				</tr>
 				<tr>
 					<td style="height: 28px" width=120>姓名：</td>
@@ -336,76 +341,54 @@
 						style="width: 190px" name=truename class="easyui-validatebox" required="true"></td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>身份证号：</td>
-					<td style="height: 28px" width=210><input id=idcard
-						style="width: 190px" name=idcard class="easyui-validatebox" validType="length[17,18]" required="true"></td>
+					<td style="height: 28px" width=120>用户编号：</td>
+					<td style="height: 28px" width=210><input id=userno
+						style="width: 190px" name=userno class="easyui-validatebox" validType="length[17,18]" required="true"></td>
+				</tr>
+				<tr>
+					<td style="height: 28px">密码：</td>
+					<td style="height: 28px"><input id=password style="width: 130px"
+						type=password name=password></td>
+				</tr>
+				<tr>
+					<td style="height: 28px">确认密码：</td>
+					<td style="height: 28px"><input id=repassword style="width: 130px"
+						type=password name=repassword></td>
 				</tr>
 				<tr>
 					<td style="height: 28px" width=120>银行账号：</td>
-					<td style="height: 28px" width=210><input id=accout
-						style="width: 190px" name=accout class="easyui-validatebox" validType="length[15,22]"></td>
-				</tr>
-				<tr>
-					<td style="height: 28px" width=120>年级：</td>
-					<td style="height: 28px" width=210><input id=grade
-						style="width: 190px" name=grade class="easyui-validatebox" validType="length[4,4]" required="true"></td>
-				</tr>
-				<tr>
-					<td style="height: 28px" width=120>系部：</td>
-					<td style="height: 28px" width=210><input id=college
-						style="width: 190px" name=college class="easyui-validatebox" required="true"></td>
-				</tr>
-				<tr>
-					<td style="height: 28px" width=120>专业：</td>
-					<td style="height: 28px" width=210><input id=profession
-						style="width: 190px" name=profession class="easyui-validatebox" required="true"></td>
-				</tr>
-				<tr>
-					<td style="height: 28px" width=120>班级：</td>
-					<td style="height: 28px" width=210><input id=classname
-						style="width: 190px" name=classname class="easyui-validatebox"></td>
-				</tr>
-				<tr>
-					<td style="height: 28px" width=120>寝室编号：</td>
-					<td style="height: 28px" width=210><input id=hotelno
-						style="width: 190px" name=hotelno class="easyui-validatebox"></td>
-				</tr>
-				<tr>
-					<td style="height: 28px" width=120>是否离校：</td>
-					<td style="height: 28px">
-						<select id="isdrop" name="isdrop" style="width:195px;">
-							<option value="1">是</option>
-							<option value="0">否</option>
+					<td style="height: 28px" width=210>
+						<select id="leaderNo" name="leaderNo" style="width:195px;">
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>离校时间：</td>
-					<td style="height: 28px" width=210><input id=droptime
-						style="width: 195px" name=droptime class="easyui-datebox" data-options="formatter:myformatter,parser:myparser"></td>
-				</tr>
-				<tr>
-					<td style="height: 28px" width=120>是否入伍：</td>
+					<td style="height: 28px" width=120>性别：</td>
 					<td style="height: 28px">
-						<select id="isjoin" name="isjoin" style="width:195px;">
-							<option value="1">是</option>
-							<option value="0">否</option>
+						<select id="sex" name="sex" style="width:195px;">
+							<option value="1">女</option>
+							<option value="0">男</option>
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>是否保留学籍：</td>
-					<td style="height: 28px">
-						<select id="iskeep" name="iskeep" style="width:195px;" >
-							<option value="1">是</option>
-							<option value="0">否</option>
-						</select>
-					</td>
+					<td style="height: 28px" width=120>电话号码：</td>
+					<td style="height: 28px" width=210><input id=phone
+						style="width: 190px" name=phone class="easyui-validatebox" required="true" validType="length[11,11]"></td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>备注：</td>
-					<td style="height: 28px" width=210><input id=remarks
-						style="width: 190px" name=remarks class="easyui-validatebox"></td>
+					<td style="height: 28px" width=120>微信号：</td>
+					<td style="height: 28px" width=210><input id=webchat
+						style="width: 190px" name=webchat class="easyui-validatebox" required="true"></td>
+				</tr>
+				<tr>
+					<td style="height: 28px" width=120>状态：</td>
+					<td style="height: 28px">
+						<select id="status" name="status" style="width:195px;" >
+							<option value="1">启用</option>
+							<option value="0">禁用</option>
+						</select>
+					</td>
 				</tr>
 			</table>
 		</form>
