@@ -16,50 +16,79 @@
 
 	function newUser() {
 
-		var role = $("#loginRole").val();
-		if (role != "0" && role != "1") {
-			$.messager.alert('警告', '你没有权限进行该操作!', 'warning');
-			return;
-		}
-
-		$('#dlg').dialog('open').dialog('setTitle', '添加学生');
+		$('#dlg').dialog('open').dialog('setTitle', '添加人员');
 		$('#fm').form('clear');
-		url = "${pageContext.request.contextPath}/addStudent"
+		url = "${pageContext.request.contextPath}/addUser"
+		fillDepart();
+		fillLeader();
+		model="add";
 	}
 
 	function editUser() {
 
-		var role = $("#loginRole").val();
-		if (role != "0") {
-			$.messager.alert('警告', '你没有权限进行该操作!', 'warning');
-			return;
-		}
-
 		var selRow = $('#dg').datagrid('getSelections');
 		if (selRow.length == 1) {
-			$('#dlg').dialog('open').dialog('setTitle', '编辑用户');
+			$('#dlg').dialog('open').dialog('setTitle', '编辑人员');
 			$('#fm').form('clear');
 			$('#fm').form('load', selRow[0]);
-			if (!selRow[0].isdrop) {
-				$("#isdrop").val("0")
+			fillDepart();
+			fillLeader();
+			if (selRow[0].sex) {
+				$("#sex").val("1")
 			} else {
-				$("#isdrop").val("1")
+				$("#sex").val("0")
 			}
-			if (!selRow[0].isjoin) {
-				$("#isjoin").val("0")
+			if(selRow[0].status) {
+				$("#status").val("1")
 			} else {
-				$("#isjoin").val("1")
+				$("#status").val("0")
 			}
-			if (!selRow[0].iskeep) {
-				$("#iskeep").val("0")
-			} else {
-				$("#iskeep").val("1")
-			}
-			url = "${pageContext.request.contextPath}/updateStudent"
+			$("#password").val("")
+			$("#departNo option").each(function(){
+				if($(this).text()==selRow[0].departName)  
+                    $(this).attr("selected", "selected"); 
+			});
+			$("#leaderNo option").each(function(){
+				if($(this).text()==selRow[0].leaderName)  
+                    $(this).attr("selected", "selected"); 
+			});
+			url = "${pageContext.request.contextPath}/updateUser"
 		} else {
 			$.messager.alert("提示", "请选择要编辑的一行数据！", "info");
 		}
-
+		model="update";
+	}
+	
+	function fillDepart(){
+		$.ajax({
+			url : '${pageContext.request.contextPath}/getDeparts',
+			type : 'post',
+			async : false, //默认为true 异步   
+			success : function(objs) {
+				$("#departNo").empty();
+				for(var i =0;i<objs.length;i++) {
+					$("#departNo").append("<option value='"+objs[i].departNo+"'>"+objs[i].departName+"</option>");
+				}
+			}
+		});
+	}
+	
+	function fillLeader(){
+		debugger;
+		var departNo = $("#departNo").val();
+		$.ajax({
+			url : '${pageContext.request.contextPath}/getUsersByDepartNo',
+			type : 'post',
+			data : 'departNo='+departNo,
+			async : false, //默认为true 异步   
+			success : function(objs) {
+				$("#leaderNo").empty();
+				$("#leaderNo").append("<option value=''></option>");
+				for(var i =0;i<objs.length;i++) {
+					$("#leaderNo").append("<option value='"+objs[i].userno+"'>"+objs[i].truename+"</option>");
+				}
+			}
+		});
 	}
 
 	function saveUser() {
@@ -71,21 +100,36 @@
 				if (!flag) {
 					return flag;
 				}
-				var isdrop = $("#isdrop").val();
-				var isjoin = $("#isjoin").val();
-				var iskeep = $("#iskeep").val();
+				var sex = $("#sex").val();
+				var status = $("#status").val();
 
-				if (isdrop = "" || isdrop == null) {
-					alert("请选择是否离校！")
+				if (sex = "" || sex == null) {
+					$.messager.alert('提示','请选择人员性别！','info');
 					return false;
 				}
-				if (isjoin = "" || isjoin == null) {
-					alert("请选择是否入伍！")
+				if (status = "" || status == null) {
+					$.messager.alert('提示','请选择人员状态！','info');
 					return false;
 				}
-				if (iskeep = "" || iskeep == null) {
-					alert("请选择是否保留学籍！")
-					return false;
+				if(model=="add") {
+					var password = $("#password").val();
+					var repassword = $("#repassword").val();
+					
+					if(password==""){
+						$.messager.alert('提示','请输入密码!','info');
+						return false;
+					}
+					if(password != repassword) {
+						$.messager.alert('提示','两次输入密码不匹配！','info');
+						return false;
+					}
+				}else if(model=="update") {
+					var password = $("#password").val();
+					var repassword = $("#repassword").val();
+					if(password != repassword) {
+						$.messager.alert('提示','两次输入密码不匹配！','info');
+						return false;
+					}
 				}
 			},
 			success : function(result) {
@@ -102,44 +146,33 @@
 
 	function destroyUser() {
 
-		var role = $("#loginRole").val();
-		if (role != "0") {
-			$.messager.alert('警告', '你没有权限进行该操作!', 'warning');
-			return;
-		}
-
 		var row = $('#dg').datagrid('getSelections');
 		if (row) {
 			$.messager
 					.confirm(
 							'Confirm',
-							'你确定删除选择的学生吗?',
+							'你确定删除选择的人员吗?',
 							function(r) {
 								if (r) {
 									var id = "";
 									for (var i = 0; i < row.length; i++) {
 										id = id + row[i].id + ","
 									}
-									$
-											.ajax({
-												url : '${pageContext.request.contextPath}/deleteStudentById',
-												type : 'post',
-												data : 'id=' + id,
-												async : false, //默认为true 异步   
-												success : function(msg) {
-													var obj = jQuery
-															.parseJSON(msg);
-													if (obj.result == "success") {
-														$('#dg').datagrid(
-																'reload');
-														;
-													} else {
-														$.messager.alert('错误',
-																obj.errorMsg,
-																'error');
-													}
-												}
-											});
+									$.ajax({
+										url : '${pageContext.request.contextPath}/deleteUser',
+										type : 'post',
+										data : 'id=' + id,
+										async : false, //默认为true 异步   
+										success : function(msg) {
+											var obj = jQuery.parseJSON(msg);
+											if (obj.result == "success") {
+												$('#dg').datagrid('reload');
+												;
+											} else {
+												$.messager.alert('错误',obj.errorMsg,'error');
+											}
+										}
+									});
 								}
 							});
 		}
@@ -182,7 +215,7 @@
 				width : '30'
 			}, {
 				title : '部门名称',
-				field : 'depart.departName',
+				field : 'departName',
 				width : 80,
 			}, {
 				title : '真实姓名',
@@ -191,15 +224,15 @@
 			}, {
 				title : '用户编号',
 				field : 'userno',
-				width : 138,
+				width : 60,
 			}, {
 				title : '上级领导',
-				field : 'leader。truename',
-				width : 138,
+				field : 'leaderName',
+				width : 60,
 			}, {
 				title : '性别',
 				field : 'sex',
-				width : 40,
+				width : 30,
 				formatter : function(value, row, index) {
 					if (value) {
 						return '女';
@@ -210,24 +243,24 @@
 			}, {
 				title : '手机号码',
 				field : 'phone',
-				width : 100,
+				width : 80,
 			}, {
 				title : '微信号',
 				field : 'webchat',
-				width : 100,
+				width : 80,
 			}, {
 				title : '创建时间',
 				field : 'createtime',
-				width : 80,
+				width : 100,
 			}, {
 				title : '状态',
 				field : 'status',
-				width : 60,
+				width : 50,
 				formatter : function(value, row, index) {
 					if (value) {
-						return '禁用';
-					} else {
 						return '启用';
+					} else {
+						return '禁用';
 					}
 				}
 			} ] ],
@@ -245,7 +278,7 @@
 		$('#uploadExcel').form(
 				'submit',
 				{
-					url : '${pageContext.request.contextPath}/uploadExcel',
+					url : '${pageContext.request.contextPath}/uploadExcelForUser',
 					onSubmit : function() {
 						var fileName = $("#uploadFile").val();
 						if (fileName == "") {
@@ -271,18 +304,12 @@
 	}
 
 	function importUser() {
-
-		var role = $("#loginRole").val();
-		if (role != "0" && role != "1") {
-			$.messager.alert('警告', '你没有权限进行该操作!', 'warning');
-			return;
-		}
-
 		$('#dlgForUpload').dialog('open').dialog('setTitle', '导入学生');
 		$('#uploadExcel').form('clear');
+		$('#dg').datagrid('reload');
 	}
 	function exportUser() {
-		var url = "${pageContext.request.contextPath}/exportExcel";
+		var url = "${pageContext.request.contextPath}/exportExcelForUser";
 		window.open(url);
 	}
 </script>
@@ -293,15 +320,15 @@
 </style>
 </head>
 <body>
-<table id="dg" title="职员列表">
+<table id="dg" title="人员列表">
 		
 	</table>
 	<div id="toolbar">
-		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">添加职员</a>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">编辑职员</a>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除职员</a>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-redo" plain="true" onclick="importUser()">导入职员</a>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="exportUser()">导出职员</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">添加人员</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">编辑人员</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除人员</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-redo" plain="true" onclick="importUser()">导入人员</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="exportUser()">导出人员</a>
 		<div style="float:right;">
 			<select id="column" name="column">
 				<option value="depart_No">部门名称</option>
@@ -320,7 +347,7 @@
 	</div>
 
 	<div id="dlg" class="easyui-dialog"
-		style="width: 420px; height: 540px; padding: 10px 20px" closed="true" buttons="#dlg-buttons">
+		style="width: 400px; height: 420px; padding: 10px 20px" closed="true" buttons="#dlg-buttons">
 		
 		<form id="fm" method="post">
 			<input id=id name=id  style="display:none">
@@ -328,10 +355,7 @@
 				<tr>
 					<td style="height: 28px" width=120>部门：</td>
 					<td style="height: 28px" width=210>
-						<select id="departNo" name="departNo" style="width:195px;">
-							<c:forEach items="departMaps" var="map">
-								<option value="${map.key }">${map.value }</option>
-							</c:forEach>
+						<select id="departNo" name="departNo" style="width:195px;" onchange="fillLeader()">
 						</select>
 					</td>
 				</tr>
@@ -343,20 +367,20 @@
 				<tr>
 					<td style="height: 28px" width=120>用户编号：</td>
 					<td style="height: 28px" width=210><input id=userno
-						style="width: 190px" name=userno class="easyui-validatebox" validType="length[17,18]" required="true"></td>
+						style="width: 190px" name=userno class="easyui-validatebox" required="true"></td>
 				</tr>
 				<tr>
 					<td style="height: 28px">密码：</td>
-					<td style="height: 28px"><input id=password style="width: 130px"
+					<td style="height: 28px" width=210><input id=password style="width: 190px"
 						type=password name=password></td>
 				</tr>
 				<tr>
 					<td style="height: 28px">确认密码：</td>
-					<td style="height: 28px"><input id=repassword style="width: 130px"
+					<td style="height: 28px" width=210><input id=repassword style="width: 190px"
 						type=password name=repassword></td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>银行账号：</td>
+					<td style="height: 28px" width=120>上级领导：</td>
 					<td style="height: 28px" width=210>
 						<select id="leaderNo" name="leaderNo" style="width:195px;">
 						</select>
@@ -396,14 +420,14 @@
 	</div>
 	<div id="dlg-buttons">
 		<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
-			onclick="saveUser()">Save</a> <a href="#" class="easyui-linkbutton"
-			iconCls="icon-cancel" onclick="cancel();">Cancel</a>
+			onclick="saveUser()">保存</a> <a href="#" class="easyui-linkbutton"
+			iconCls="icon-cancel" onclick="cancel();">取消</a>
 	</div>
 	
 	<div id="dlgForUpload" class="easyui-dialog"
 		style="width: 410px; height: 200px; padding: 10px 20px" closed="true" buttons="#dlg-buttonsdlgForUpload">
 		<form method="post" enctype="multipart/form-data" id="uploadExcel" style="margin-top:20px">
-			 导入数据之前，请先<a href="${pageContext.request.contextPath}/templet/student.xls">下载模板</a>
+			 导入数据之前，请先<a href="${pageContext.request.contextPath}/templet/user.xls">下载模板</a>
 			  <p>
 			  <p>
      		  <input type="file" name="fileUpload" style="width:100%" id="uploadFile"/>
@@ -412,8 +436,8 @@
 	
 	<div id="dlg-buttonsdlgForUpload">
 		<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
-			onclick="upload()">Upload</a> <a href="#" class="easyui-linkbutton"
-			iconCls="icon-cancel" onclick="javascript:$('#dlgForUpload').dialog('close')">Cancel</a>
+			onclick="upload()">上传</a> <a href="#" class="easyui-linkbutton"
+			iconCls="icon-cancel" onclick="javascript:$('#dlgForUpload').dialog('close')">取消</a>
 	</div>
 </body>
 </html>

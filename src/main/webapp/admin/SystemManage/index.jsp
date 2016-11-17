@@ -63,7 +63,7 @@
 					<a href="${pageContext.request.contextPath}/admin/DataManage/departList.jsp" target="mainContent">部门管理</a>
 				</div>
 				<div>
-					<a href="${pageContext.request.contextPath}/organizationList" target="mainContent">人员管理</a>
+					<a href="${pageContext.request.contextPath}/admin/DataManage/userList.jsp" target="mainContent">人员管理</a>
 				</div>
 				<div>
 					<a href="${pageContext.request.contextPath}/organizationList" target="mainContent">问卷管理</a>

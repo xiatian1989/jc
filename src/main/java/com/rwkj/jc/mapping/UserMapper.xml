@@ -13,8 +13,8 @@
     <result column="webChat" property="webchat" jdbcType="VARCHAR" />
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="BIT" />
-    <association property="Depart" column="depart_No" select="com.rwkj.jc.IDao.DepartMapper.selectByNo"/>
-    <association property="User" column="leader_No" select="com.rwkj.jc.IDao.UserMapper.getUserByUserNo"/>
+    <association property="depart" column="depart_No" select="com.rwkj.jc.IDao.DepartMapper.selectByNo"/>
+    <association property="leader" column="leader_No" select="com.rwkj.jc.IDao.UserMapper.getUserByUserNo"/>
   </resultMap>
   <sql id="Base_Column_List" >
     id, depart_No, trueName, userNo, password, leader_No, sex, phone, webChat, createTime, 
@@ -171,16 +171,34 @@
     where userNo = #{userNo,jdbcType=VARCHAR}
   </select>
   
+  <select id="getUserByUserName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jc_user
+    where trueName = #{userName,jdbcType=VARCHAR}
+  </select>
+  
    <select id="getUserByColumnValue" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from jc_user where ${column} = #{param} order by userNo limit #{pageIndex},#{pageSize}
+  </select>
+   <select id="getUserByColumnValues" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_user where ${column} in #{param} order by userNo limit #{pageIndex},#{pageSize}
   </select>
   
    <select id="getUserCountByColumnValue" resultType="java.lang.Integer">
     select 
     count(*)
     from jc_user where ${column} = #{param}
+  </select>
+  
+   <select id="getUserCountByColumnValues" resultType="java.lang.Integer">
+    select 
+    count(*)
+    from jc_user where ${column} in #{param}
   </select>
   
    <select id="getAllUsersForPage" resultMap="BaseResultMap">
@@ -207,4 +225,29 @@
     from jc_user
     where depart_No = #{departNo,jdbcType=VARCHAR}
   </select>
+  <select id="getUsersByLeaderNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jc_user
+    where leader_No = #{leaderNo,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="deleteConnectionByLeaderNo" resultType="java.lang.Integer" parameterType="java.lang.String" >
+   update jc_user set leader_No = null
+    where leader_No = #{leaderNo,jdbcType=VARCHAR}
+  </select>
+  
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into jc_user (id, depart_No, trueName, 
+      userNo, password, leader_No, 
+      sex, phone, webChat, createTime, 
+      status)
+    values 
+    <foreach collection="list"  item="itm" separator=",">
+    (#{itm.id,jdbcType=VARCHAR}, #{itm.departNo,jdbcType=VARCHAR}, #{itm.truename,jdbcType=VARCHAR}, 
+      #{itm.userno,jdbcType=VARCHAR}, #{itm.password,jdbcType=VARCHAR}, #{itm.leaderNo,jdbcType=VARCHAR}, 
+      #{itm.sex,jdbcType=BIT}, #{itm.phone,jdbcType=CHAR}, #{itm.webchat,jdbcType=VARCHAR}, #{itm.createtime,jdbcType=TIMESTAMP}, 
+      #{itm.status,jdbcType=BIT})
+       </foreach>
+  </insert>
 </mapper>

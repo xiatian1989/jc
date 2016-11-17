@@ -20,10 +20,10 @@ public class User {
     private String phone;
 
     private String webchat;
-
-    private Date createtime;
-
+    
     private Boolean status;
+    
+    private Date createtime;
     
     private Depart depart;
     
@@ -101,20 +101,19 @@ public class User {
         this.webchat = webchat == null ? null : webchat.trim();
     }
 
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-
     public Boolean getStatus() {
         return status;
     }
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+    public Date getCreatetime() {
+    	return createtime;
+    }
+    
+    public void setCreatetime(Date createtime) {
+    	this.createtime = createtime;
     }
 
 	public Depart getDepart() {

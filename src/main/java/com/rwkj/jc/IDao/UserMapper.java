@@ -22,9 +22,15 @@ public interface UserMapper {
     
     User getUserByUserNo(String userNo);
     
+    List<User> getUsersByUserName(String userName);
+    
     List<User> getUserByColumnValue(@Param("column") String column,@Param("value") String value,@Param("pageIndex")int pageIndex,@Param("pageSize")int pageSize);
     
+    List<User> getUserByColumnValues(@Param("column") String column,@Param("value") String value,@Param("pageIndex")int pageIndex,@Param("pageSize")int pageSize);
+    
     int getUserCountByColumnValue(@Param("column") String column,@Param("value") String value);
+    
+    int getUserCountByColumnValues(@Param("column") String column,@Param("value") String value);
     
     List<User> getAllUsersForPage(@Param("pageIndex")int pageIndex,@Param("pageSize")int pageSize);
     
@@ -33,4 +39,10 @@ public interface UserMapper {
     List<User> getAllUsers();
     
     List<User> getUsersByDepartNo(String departNo);
+    
+    List<User> getUsersByLeaderNo(String leaderNo);
+    
+    int deleteConnectionByLeaderNo(String leaderNo);
+    
+    int batchInsert(List<User> list);
 }

@@ -229,4 +229,17 @@ public class DepartManageController {
 		return map;
 	}
 	
+	@RequestMapping("getDeparts")
+	public @ResponseBody JSONArray getDeparts(){
+		List<Depart> departs = departService.getDeparts();
+		JSONArray jsonArray = new JSONArray();  
+        for(Depart depart:departs){  
+             JSONObject jsonObject = new JSONObject();  
+             jsonObject.put("departName",depart.getDepartName());
+             jsonObject.put("departNo",depart.getDepartNo());
+             jsonArray.add(jsonObject) ;  
+        }  
+		return jsonArray;
+	}
+	
 }

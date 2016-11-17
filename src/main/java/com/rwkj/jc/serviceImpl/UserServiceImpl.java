@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
 	@Resource
 	private UserMapper userDao;
 	
-	public int AddUser(User user) {
+	public int addUser(User user) {
 		return userDao.insertSelective(user);
 	}
 
@@ -58,6 +58,38 @@ public class UserServiceImpl implements UserService {
 
 	public List<User> getAllUsers() {
 		return userDao.getAllUsers();
+	}
+
+	public User getUserByUserNo(String userNo) {
+		return userDao.getUserByUserNo(userNo);
+	}
+
+	public List<User> getUsersByUserName(String userName) {
+		return userDao.getUsersByUserName(userName);
+	}
+
+	public List<User> getUserByColumnValues(String column, String value, int pageIndex, int pageSize) {
+		return userDao.getUserByColumnValues(column, value, pageIndex, pageSize);
+	}
+
+	public int getUserCountByColumnValues(String column, String value) {
+		return userDao.getUserCountByColumnValues(column, value);
+	}
+
+	public List<User> getUsersByLeaderNo(String leaderNo) {
+		return userDao.getUsersByLeaderNo(leaderNo);
+	}
+
+	public User getUserByUserId(String userId) {
+		return userDao.selectByPrimaryKey(userId);
+	}
+
+	public int deleteConnectionByLeaderNo(String leaderNo) {
+		return userDao.deleteConnectionByLeaderNo(leaderNo);
+	}
+
+	public int batchInsert(List<User> list) {
+		return userDao.batchInsert(list);
 	}
 
 }
