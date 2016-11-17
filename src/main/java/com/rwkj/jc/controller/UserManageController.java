@@ -62,7 +62,7 @@ public class UserManageController {
 		String column= request.getParameter("column");
 		String value = request.getParameter("value");
 		List<User> users = null;
-		if(StringUtils.isNullOrEmpty(column)){
+		if(StringUtils.isNullOrEmpty(value)){
 			users = userService.getAllUsersForPage((page-1)*rows, rows);
 			total = userService.getAllUsersCount();
 		}else{

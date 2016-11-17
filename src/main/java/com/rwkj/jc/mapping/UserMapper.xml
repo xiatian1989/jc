@@ -181,24 +181,24 @@
    <select id="getUserByColumnValue" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jc_user where ${column} = #{param} order by userNo limit #{pageIndex},#{pageSize}
+    from jc_user where ${column} = #{value} order by userNo limit #{pageIndex},#{pageSize}
   </select>
    <select id="getUserByColumnValues" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jc_user where ${column} in #{param} order by userNo limit #{pageIndex},#{pageSize}
+    from jc_user where ${column} in ${value} order by userNo limit #{pageIndex},#{pageSize}
   </select>
   
    <select id="getUserCountByColumnValue" resultType="java.lang.Integer">
     select 
     count(*)
-    from jc_user where ${column} = #{param}
+    from jc_user where ${column} = #{value}
   </select>
   
    <select id="getUserCountByColumnValues" resultType="java.lang.Integer">
     select 
     count(*)
-    from jc_user where ${column} in #{param}
+    from jc_user where ${column} in ${value}
   </select>
   
    <select id="getAllUsersForPage" resultMap="BaseResultMap">
@@ -230,6 +230,12 @@
     <include refid="Base_Column_List" />
     from jc_user
     where leader_No = #{leaderNo,jdbcType=VARCHAR}
+  </select>
+  <select id="getUsersByUserName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jc_user
+    where trueName = #{userName,jdbcType=VARCHAR}
   </select>
   
   <select id="deleteConnectionByLeaderNo" resultType="java.lang.Integer" parameterType="java.lang.String" >

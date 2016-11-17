@@ -42,7 +42,7 @@ public interface UserMapper {
     
     List<User> getUsersByLeaderNo(String leaderNo);
     
-    int deleteConnectionByLeaderNo(String leaderNo);
+    Integer deleteConnectionByLeaderNo(String leaderNo);
     
     int batchInsert(List<User> list);
 }

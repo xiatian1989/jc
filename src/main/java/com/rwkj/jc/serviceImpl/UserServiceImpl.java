@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
 		return userDao.selectByPrimaryKey(userId);
 	}
 
-	public int deleteConnectionByLeaderNo(String leaderNo) {
+	public Integer deleteConnectionByLeaderNo(String leaderNo) {
 		return userDao.deleteConnectionByLeaderNo(leaderNo);
 	}
 

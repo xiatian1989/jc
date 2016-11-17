@@ -164,10 +164,8 @@
 										data : 'id=' + id,
 										async : false, //默认为true 异步   
 										success : function(msg) {
-											var obj = jQuery.parseJSON(msg);
-											if (obj.result == "success") {
+											if (msg.result == "success") {
 												$('#dg').datagrid('reload');
-												;
 											} else {
 												$.messager.alert('错误',obj.errorMsg,'error');
 											}
@@ -192,7 +190,7 @@
 		}
 		$('#dg').datagrid('load', {
 			column : column,
-			value : param,
+			value : value,
 		});
 	}
 
@@ -218,7 +216,7 @@
 				field : 'departName',
 				width : 80,
 			}, {
-				title : '真实姓名',
+				title : '姓名',
 				field : 'truename',
 				width : 60,
 			}, {
@@ -312,6 +310,22 @@
 		var url = "${pageContext.request.contextPath}/exportExcelForUser";
 		window.open(url);
 	}
+	function checkUniqNo(){
+		var userno =  $("#userno").val();
+		$.ajax({   
+		    url:'${pageContext.request.contextPath}/checkUserNoUnique',   
+		    type:'post',   
+		    data:'userNo='+userno,   
+		    async : false, //默认为true 异步   
+		    success:function(msg){
+		    	if(msg.result=="failed") {
+		    		$.messager.alert('警告','用户编号已经存在!','warning',function(){
+		    			$("#userno").focus().select();
+		    		});
+		    	}
+		    }
+		});
+	}
 </script>
 <style type="text/css">
 	body{
@@ -367,7 +381,7 @@
 				<tr>
 					<td style="height: 28px" width=120>用户编号：</td>
 					<td style="height: 28px" width=210><input id=userno
-						style="width: 190px" name=userno class="easyui-validatebox" required="true"></td>
+						style="width: 190px" name=userno class="easyui-validatebox" required="true" onchange="checkUniqNo()"></td>
 				</tr>
 				<tr>
 					<td style="height: 28px">密码：</td>

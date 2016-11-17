@@ -22,6 +22,6 @@ public interface UserService {
 	User getUserByUserNo(String userNo);
 	List<User> getUsersByUserName(String userName);
 	User getUserByUserId(String userId);
-	int deleteConnectionByLeaderNo(String leaderNo);
+	Integer deleteConnectionByLeaderNo(String leaderNo);
 	int batchInsert(List<User> list);
 }
