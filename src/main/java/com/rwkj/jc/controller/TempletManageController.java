@@ -1,5 +1,7 @@
 package com.rwkj.jc.controller;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,15 +20,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mysql.jdbc.StringUtils;
-import com.rwkj.jc.domain.Admin;
-import com.rwkj.jc.service.AdminService;
+import com.rwkj.jc.domain.Templet;
+import com.rwkj.jc.service.TempletService;
 import com.rwkj.jc.util.CommonUtils;
 
 @Controller
 public class TempletManageController {
 	
 	@Resource
-	private AdminService adminService;
+	private TempletService templetService;
 	
 	@InitBinder("templet")    
 	public void initBinder2(WebDataBinder binder) {    
@@ -39,24 +41,29 @@ public class TempletManageController {
             @RequestParam(required = false, defaultValue = "10") Integer rows){
 		Map<String, Object> result = new HashMap<String, Object>(2) ;
 		int total = 0;
-		String param = request.getParameter("param");
-		List<Admin> admins = null;
-		if(StringUtils.isNullOrEmpty(param)){
-			admins = adminService.getAdmins((page-1)*rows, rows);
-			total = adminService.getAdminsCount();
+		String column = request.getParameter("column");
+		String value = request.getParameter("value");
+		List<Templet> templets = null;
+		if(StringUtils.isNullOrEmpty(value)){
+			templets = templetService.getTemplets((page-1)*rows, rows);
+			total = templetService.getTempletsCount();
 		}else{
-			admins = adminService.getAdminsByUserName("%"+param+"%", (page-1)*rows, rows);
-			total = adminService.getAdminsCountByUserName("%"+param+"%");
+			value = "%"+value+"%";
+			templets = templetService.getTempletsByColumnValue(column, value, (page-1)*rows, rows);
+			total = templetService.getTempletsCountByColumnValue(column, value);
 		}
 		
 		JSONArray jsonArray = new JSONArray();  
-        for(Admin admin:admins){  
+        for(Templet templet:templets){  
              JSONObject jsonObject = new JSONObject();  
-             jsonObject.put("id",admin.getId());
-             jsonObject.put("username",admin.getUsername());
-             jsonObject.put("password",admin.getPassword());
-             jsonObject.put("level",admin.getLevel());
-             jsonObject.put("status",admin.getStatus());
+             jsonObject.put("id",templet.getId());
+             jsonObject.put("templettitle",templet.getTemplettitle());
+             jsonObject.put("keyword",templet.getKeyword());
+             jsonObject.put("description",templet.getDescription());
+             jsonObject.put("createtime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(templet.getCreatetime()));
+             jsonObject.put("updatetime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(templet.getUpdatetime()));
+             jsonObject.put("type",templet.getType());
+             jsonObject.put("status",templet.getStatus());
              jsonArray.add(jsonObject) ;  
         }  
 		result.put("total", total);  
@@ -65,14 +72,13 @@ public class TempletManageController {
 	}
 	
 	@RequestMapping("addTemplet")
-	public @ResponseBody Map<String,String> addTemplet(@ModelAttribute Admin admin){
+	public @ResponseBody Map<String,String> addTemplet(@ModelAttribute Templet templet){
 		Map<String, String> result = new HashMap<String,String>();
 		int count = 0;
-		admin.setId(CommonUtils.getUUID());
-		String password = admin.getPassword();
-		admin.setPassword(CommonUtils.getMD5Pssword(password));
-		admin.setLevel(false);
-		count = adminService.addAdmin(admin);
+		templet.setId(CommonUtils.getUUID());
+		templet.setCreatetime(new Date(System.currentTimeMillis()));
+		templet.setUpdatetime(new Date(System.currentTimeMillis()));
+		count = templetService.addTemplet(templet);
 		
 		if(count>0){
 			result.put("result", "success");
@@ -84,10 +90,11 @@ public class TempletManageController {
 	}
 	
 	@RequestMapping("updateTemplet")
-	public @ResponseBody Map<String,String> updateTemplet(@ModelAttribute Admin admin){
+	public @ResponseBody Map<String,String> updateTemplet(@ModelAttribute Templet templet){
 		int count = 0;
 		Map<String, String> result = new HashMap<String,String>();
-		count = adminService.updateAdmin(admin);
+		templet.setUpdatetime(new Date(System.currentTimeMillis()));
+		count = templetService.updateTemplet(templet);
 		if(count>0){
 			result.put("result", "success");
 		}else{
@@ -100,7 +107,7 @@ public class TempletManageController {
 	@RequestMapping("deleteTemplet")
 	public @ResponseBody Map<String,String> deleteTemplet(@RequestParam("id") String id){
 		Map<String,String> map = new HashMap<String,String>();
-		int count = adminService.deleteAdmin(id);
+		int count = templetService.deleteTemplets("("+id+")");
 		if(count>0){
 			map.put("result", "success");
 		}else {
@@ -109,10 +116,10 @@ public class TempletManageController {
 		return map;
 	}
 	
-	@RequestMapping("checkTempletName")
-	public @ResponseBody Map<String,String> checkAdminName(@RequestParam("name") String name){
+	@RequestMapping("checkTempletNameUnique")
+	public @ResponseBody Map<String,String> checkTempletNameUnique(@RequestParam("name") String name){
 		Map<String,String> map = new HashMap<String,String>();
-		if(adminService.checkAdminName(name)){
+		if(templetService.checkTempletName(name)){
 			map.put("result", "failed");
 		}else{
 			map.put("result", "success");

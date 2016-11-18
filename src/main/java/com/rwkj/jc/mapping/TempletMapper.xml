@@ -125,4 +125,39 @@
       status = #{status,jdbcType=BIT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="getTemplets" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_templet order by createTime limit #{pageIndex},#{pageSize}
+  </select>
+  
+   <select id="getTempletsCount" resultType="java.lang.Integer">
+    select 
+    count(*)
+    from jc_templet
+  </select> 
+  
+  <select id="getTempletsByColumnValue" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_templet where ${column} like #{value} order by createTime limit #{pageIndex},#{pageSize}
+  </select>
+  
+   <select id="getTempletsCountByColumnValue" resultType="java.lang.Integer">
+    select 
+    count(*)
+    from jc_templet where ${column} like #{value}
+  </select>
+  
+   <select id="selectTempletByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jc_templet
+    where templetTitle = #{name,jdbcType=VARCHAR}
+  </select>
+  
+   <delete id="deleteTempletByids" parameterType="java.lang.String" >
+    delete from jc_templet
+    where id in ${ids}
+  </delete>
 </mapper>

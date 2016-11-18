@@ -74,8 +74,8 @@
 	}
 	
 	function fillLeader(){
-		debugger;
 		var departNo = $("#departNo").val();
+		var userno = $("#userno").val();
 		$.ajax({
 			url : '${pageContext.request.contextPath}/getUsersByDepartNo',
 			type : 'post',
@@ -85,7 +85,9 @@
 				$("#leaderNo").empty();
 				$("#leaderNo").append("<option value=''></option>");
 				for(var i =0;i<objs.length;i++) {
-					$("#leaderNo").append("<option value='"+objs[i].userno+"'>"+objs[i].truename+"</option>");
+					if(userno != objs[i].userno) {
+						$("#leaderNo").append("<option value='"+objs[i].userno+"'>"+objs[i].truename+"</option>");
+					}
 				}
 			}
 		});
