@@ -7,8 +7,6 @@ public class TempletDetail {
 
     private Integer questionno;
 
-    private Short questiontype;
-
     private String optiona;
 
     private Short optionascore;
@@ -57,14 +55,6 @@ public class TempletDetail {
 
     public void setQuestionno(Integer questionno) {
         this.questionno = questionno;
-    }
-
-    public Short getQuestiontype() {
-        return questiontype;
-    }
-
-    public void setQuestiontype(Short questiontype) {
-        this.questiontype = questiontype;
     }
 
     public String getOptiona() {

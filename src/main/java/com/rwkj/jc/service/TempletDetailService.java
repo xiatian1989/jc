@@ -6,13 +6,13 @@ import com.rwkj.jc.domain.TempletDetail;
 
 public interface TempletDetailService {
 	
-	List<TempletDetail> getTempletDetails(int pageIndex, int pageSize);
-	int getTempletDetailsCount();
-	List<TempletDetail> getTempletDetailsByColumnValue(String column,String value,int pageIndex,int pageSize);
-	int getTempletDetailsCountByColumnValue(String column,String value);
+	List<TempletDetail> getTempletDetails(String templetId,int pageIndex, int pageSize);
+	int getTempletDetailsCount(String templetId);
+	List<TempletDetail> getTempletDetailsByColumnValue(String templetId,String column,String value,int pageIndex,int pageSize);
+	int getTempletDetailsCountByColumnValue(String templetId,String column,String value);
 	int addTempletDetail(TempletDetail templetDetail);
 	int updateTempletDetail(TempletDetail templetDetail);
 	int deleteTempletDetail(String id);
 	int deleteTempletDetails(String ids);
-	boolean checkTempletDetailQuestionName(String questionName);
+	boolean checkTempletDetailQuestionName(String templetId,String questionName);
 }

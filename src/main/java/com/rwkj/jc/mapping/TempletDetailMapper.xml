@@ -5,7 +5,6 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="templet_id" property="templetId" jdbcType="VARCHAR" />
     <result column="questionNO" property="questionno" jdbcType="INTEGER" />
-    <result column="questionType" property="questiontype" jdbcType="SMALLINT" />
     <result column="optionA" property="optiona" jdbcType="VARCHAR" />
     <result column="optionAScore" property="optionascore" jdbcType="SMALLINT" />
     <result column="optionB" property="optionb" jdbcType="VARCHAR" />
@@ -23,8 +22,8 @@
     <result column="question" property="question" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, templet_id, questionNO, questionType, optionA, optionAScore, optionB, optionBScore, 
-    optionC, optionCScore, optionD, optionDScore, optionE, optionEScore, optionF, optionFScore
+    id, templet_id, questionNO, optionA, optionAScore, optionB, optionBScore, optionC, 
+    optionCScore, optionD, optionDScore, optionE, optionEScore, optionF, optionFScore
   </sql>
   <sql id="Blob_Column_List" >
     question
@@ -43,17 +42,17 @@
   </delete>
   <insert id="insert" parameterType="com.rwkj.jc.domain.TempletDetail" >
     insert into jc_templetdetail (id, templet_id, questionNO, 
-      questionType, optionA, optionAScore, 
-      optionB, optionBScore, optionC, 
-      optionCScore, optionD, optionDScore, 
-      optionE, optionEScore, optionF, 
-      optionFScore, question)
+      optionA, optionAScore, optionB, 
+      optionBScore, optionC, optionCScore, 
+      optionD, optionDScore, optionE, 
+      optionEScore, optionF, optionFScore, 
+      question)
     values (#{id,jdbcType=VARCHAR}, #{templetId,jdbcType=VARCHAR}, #{questionno,jdbcType=INTEGER}, 
-      #{questiontype,jdbcType=SMALLINT}, #{optiona,jdbcType=VARCHAR}, #{optionascore,jdbcType=SMALLINT}, 
-      #{optionb,jdbcType=VARCHAR}, #{optionbscore,jdbcType=SMALLINT}, #{optionc,jdbcType=VARCHAR}, 
-      #{optioncscore,jdbcType=SMALLINT}, #{optiond,jdbcType=VARCHAR}, #{optiondscore,jdbcType=SMALLINT}, 
-      #{optione,jdbcType=VARCHAR}, #{optionescore,jdbcType=SMALLINT}, #{optionf,jdbcType=VARCHAR}, 
-      #{optionfscore,jdbcType=SMALLINT}, #{question,jdbcType=LONGVARCHAR})
+      #{optiona,jdbcType=VARCHAR}, #{optionascore,jdbcType=SMALLINT}, #{optionb,jdbcType=VARCHAR}, 
+      #{optionbscore,jdbcType=SMALLINT}, #{optionc,jdbcType=VARCHAR}, #{optioncscore,jdbcType=SMALLINT}, 
+      #{optiond,jdbcType=VARCHAR}, #{optiondscore,jdbcType=SMALLINT}, #{optione,jdbcType=VARCHAR}, 
+      #{optionescore,jdbcType=SMALLINT}, #{optionf,jdbcType=VARCHAR}, #{optionfscore,jdbcType=SMALLINT}, 
+      #{question,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.rwkj.jc.domain.TempletDetail" >
     insert into jc_templetdetail
@@ -66,9 +65,6 @@
       </if>
       <if test="questionno != null" >
         questionNO,
-      </if>
-      <if test="questiontype != null" >
-        questionType,
       </if>
       <if test="optiona != null" >
         optionA,
@@ -120,9 +116,6 @@
       <if test="questionno != null" >
         #{questionno,jdbcType=INTEGER},
       </if>
-      <if test="questiontype != null" >
-        #{questiontype,jdbcType=SMALLINT},
-      </if>
       <if test="optiona != null" >
         #{optiona,jdbcType=VARCHAR},
       </if>
@@ -173,9 +166,6 @@
       <if test="questionno != null" >
         questionNO = #{questionno,jdbcType=INTEGER},
       </if>
-      <if test="questiontype != null" >
-        questionType = #{questiontype,jdbcType=SMALLINT},
-      </if>
       <if test="optiona != null" >
         optionA = #{optiona,jdbcType=VARCHAR},
       </if>
@@ -222,7 +212,6 @@
     update jc_templetdetail
     set templet_id = #{templetId,jdbcType=VARCHAR},
       questionNO = #{questionno,jdbcType=INTEGER},
-      questionType = #{questiontype,jdbcType=SMALLINT},
       optionA = #{optiona,jdbcType=VARCHAR},
       optionAScore = #{optionascore,jdbcType=SMALLINT},
       optionB = #{optionb,jdbcType=VARCHAR},
@@ -242,7 +231,6 @@
     update jc_templetdetail
     set templet_id = #{templetId,jdbcType=VARCHAR},
       questionNO = #{questionno,jdbcType=INTEGER},
-      questionType = #{questiontype,jdbcType=SMALLINT},
       optionA = #{optiona,jdbcType=VARCHAR},
       optionAScore = #{optionascore,jdbcType=SMALLINT},
       optionB = #{optionb,jdbcType=VARCHAR},
@@ -257,40 +245,47 @@
       optionFScore = #{optionfscore,jdbcType=SMALLINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  
-  <select id="getTempletDetails" resultMap="BaseResultMap">
+    <select id="getTempletDetails" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jc_templetdetail order by questionNO limit #{pageIndex},#{pageSize}
+    from jc_templetdetail where templet_id = #{templetId} order by questionNO limit #{pageIndex},#{pageSize}
   </select>
   
-   <select id="getTempletsCount" resultType="java.lang.Integer">
+   <select id="getTempletDetailsCount" resultType="java.lang.Integer">
     select 
     count(*)
-    from jc_templet
+    from jc_templetdetail where templet_id = #{templetId}
   </select> 
   
-  <select id="getTempletsByColumnValue" resultMap="BaseResultMap">
+  <select id="getTempletDetailsByColumnValue" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jc_templet where ${column} like #{value} order by createTime limit #{pageIndex},#{pageSize}
+    from jc_templetdetail where ${column} like #{value} and templet_id = #{templetId} order by questionNO limit #{pageIndex},#{pageSize}
   </select>
   
-   <select id="getTempletsCountByColumnValue" resultType="java.lang.Integer">
+   <select id="getTempletDetailsCountByColumnValue" resultType="java.lang.Integer">
     select 
     count(*)
-    from jc_templet where ${column} like #{value}
+    from jc_templetdetail where ${column} like #{value} and templet_id = #{templetId}
   </select>
   
-   <select id="selectTempletByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+   <select id="selectTempletDetailByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from jc_templet
-    where templetTitle = #{name,jdbcType=VARCHAR}
+    from jc_templetdetail
+    where question like #{name} and templet_id = #{templetId}
   </select>
   
    <delete id="deleteTempletByids" parameterType="java.lang.String" >
     delete from jc_templet
     where id in ${ids}
   </delete>
+  
+  <select id="getTempletDetailsByTempletId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from jc_templetdetail where templet_id = #{templetId} order by questionNO
+  </select>
 </mapper>

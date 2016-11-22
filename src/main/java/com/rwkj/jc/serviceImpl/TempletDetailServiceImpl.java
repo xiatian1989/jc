@@ -16,49 +16,46 @@ public class TempletDetailServiceImpl implements TempletDetailService {
 	@Resource
 	private TempletDetailMapper templetDetailDao;
 
-	public List<TempletDetail> getTempletDetails(int pageIndex, int pageSize) {
-		return null;
+	public List<TempletDetail> getTempletDetails(String templetId,int pageIndex, int pageSize) {
+		return templetDetailDao.getTempletDetails(templetId, pageIndex, pageSize);
 	}
 
-	public int getTempletDetailsCount() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getTempletDetailsCount(String templetId) {
+		return templetDetailDao.getTempletDetailsCount(templetId);
 	}
 
-	public List<TempletDetail> getTempletDetailsByColumnValue(String column, String value, int pageIndex,
+	public List<TempletDetail> getTempletDetailsByColumnValue(String templetId,String column, String value, int pageIndex,
 			int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
+		return templetDetailDao.getTempletDetailsByColumnValue(templetId, column, value, pageIndex, pageSize);
 	}
 
-	public int getTempletDetailsCountByColumnValue(String column, String value) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getTempletDetailsCountByColumnValue(String templetId,String column, String value) {
+		return templetDetailDao.getTempletDetailsCountByColumnValue(templetId, column, value);
 	}
 
 	public int addTempletDetail(TempletDetail templetDetail) {
-		// TODO Auto-generated method stub
-		return 0;
+		return templetDetailDao.insert(templetDetail);
 	}
 
 	public int updateTempletDetail(TempletDetail templetDetail) {
-		// TODO Auto-generated method stub
-		return 0;
+		return templetDetailDao.updateByPrimaryKeySelective(templetDetail);
 	}
 
 	public int deleteTempletDetail(String id) {
-		// TODO Auto-generated method stub
-		return 0;
+		return templetDetailDao.deleteByPrimaryKey(id);
 	}
 
 	public int deleteTempletDetails(String ids) {
-		// TODO Auto-generated method stub
-		return 0;
+		return templetDetailDao.deleteTempletByids(ids);
 	}
 
-	public boolean checkTempletDetailQuestionName(String questionName) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean checkTempletDetailQuestionName(String templetId,String questionName) {
+		TempletDetail templetDetail = templetDetailDao.selectTempletDetailByName(templetId,questionName);
+		if(templetDetail != null){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	
