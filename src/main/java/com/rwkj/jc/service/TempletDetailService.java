@@ -15,4 +15,6 @@ public interface TempletDetailService {
 	int deleteTempletDetail(String id);
 	int deleteTempletDetails(String ids);
 	boolean checkTempletDetailQuestionName(String templetId,String questionName);
+	List<TempletDetail> getTempletDetailsByTempletId(String templetId);
+	int batchInsert(List<TempletDetail> list);
 }

@@ -35,4 +35,6 @@ public interface TempletDetailMapper {
     int deleteTempletByids(String ids);
     
     List<TempletDetail> getTempletDetailsByTempletId(String templetId);
+    
+    int batchInsert(List<TempletDetail> list);
 }

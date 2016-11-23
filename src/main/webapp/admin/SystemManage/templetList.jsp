@@ -199,7 +199,7 @@
 				field : 'id',
 				width : 80,
 				formatter : function(value, row, index) {
-					return '<a href="javaScript:void(0)" onClick="openView('+value+')">预览模板</a>&nbsp;&nbsp;<a href="">编辑模板详情</a>';
+					return '<a href="javaScript:void(0)" onClick="openView('+"'"+value+"'"+')">预览模板</a>&nbsp;&nbsp;<a href="">编辑模板详情</a>';
 				}
 			} ] ],
 			fitColumns : true,
@@ -240,13 +240,14 @@
 	
 	function openView(templetId){
 		
-		$('#p').panel({
+/* 		$('#p').panel({
 		    href:'${pageContext.request.contextPath}/templetPreview?templetId='+templetId,
 		    onLoad:function(){
 				alert('loaded successfully');
 		    }
-		});
-		$('#p').panel('open');
+		}); */
+		
+		$('#win').window('open');
 	}
 </script>
 <style type="text/css">
@@ -325,11 +326,9 @@
 				</tr>
 			</table>
 		</form>
-		<div id="p" class="easyui-panel" title="模板预览"
-		    style="width:500px;height:150px;padding:10px;background:#fafafa;"
-		    data-options="iconCls:'icon-save',closable:true,
-		    collapsible:true,minimizable:true,maximizable:true,cache:false ">
-		</div>
+	</div>
+	<div id="win" class="easyui-window" title="模板预览" style="width:600px;height:400px"
+   	 	data-options="iconCls:'icon-save',modal:true,closed:true">
 	</div>
 	<div id="dlg-buttons">
 		<a href="#" class="easyui-linkbutton" iconCls="icon-ok"

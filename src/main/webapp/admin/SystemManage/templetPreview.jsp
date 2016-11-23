@@ -19,20 +19,20 @@
 </style>
 </head>
 <body>
-	<c:forEach items="templetDetials" var="templetDetial">
-		${templetDetial.questionno }:${templetDetial.question }
+	<c:forEach items="templetDetails" var="templetDetail">
+		${templetDetail.questionno }:${templetDetail.question }
 		<p>
-		A:${templetDetial.optiona }&nbsp;&nbsp;
-		B:${templetDetial.optionb }&nbsp;&nbsp;
-		C:${templetDetial.optionc }&nbsp;&nbsp;
-		<c:if test="${templetDetial.optiond != null }">
-			D:${templetDetial.optiond }&nbsp;&nbsp;
+		A:${templetDetail.optiona }&nbsp;&nbsp;
+		B:${templetDetail.optionb }&nbsp;&nbsp;
+		C:${templetDetail.optionc }&nbsp;&nbsp;
+		<c:if test="${templetDetail.optiond != null }">
+			D:${templetDetail.optiond }&nbsp;&nbsp;
 		</c:if>
-		<c:if test="${templetDetial.optione != null }">
-			E:${templetDetial.optione }&nbsp;&nbsp;
+		<c:if test="${templetDetail.optione != null }">
+			E:${templetDetail.optione }&nbsp;&nbsp;
 		</c:if>
-		<c:if test="${templetDetial.optionf != null }">
-			F:${templetDetial.optionf }&nbsp;&nbsp;
+		<c:if test="${templetDetail.optionf != null }">
+			F:${templetDetail.optionf }&nbsp;&nbsp;
 		</c:if>
 		<p>
 	</c:forEach>

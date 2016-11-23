@@ -246,8 +246,10 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
     <select id="getTempletDetails" resultMap="BaseResultMap">
-    select 
+   select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from jc_templetdetail where templet_id = #{templetId} order by questionNO limit #{pageIndex},#{pageSize}
   </select>
   
@@ -258,8 +260,10 @@
   </select> 
   
   <select id="getTempletDetailsByColumnValue" resultMap="BaseResultMap">
-    select 
+   select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from jc_templetdetail where ${column} like #{value} and templet_id = #{templetId} order by questionNO limit #{pageIndex},#{pageSize}
   </select>
   
@@ -288,4 +292,23 @@
     <include refid="Blob_Column_List" />
     from jc_templetdetail where templet_id = #{templetId} order by questionNO
   </select>
+  
+   <insert id="batchInsert" parameterType="java.util.List">
+    insert into jc_templetdetail (id, templet_id, questionNO, 
+      optionA, optionAScore, optionB, 
+      optionBScore, optionC, optionCScore, 
+      optionD, optionDScore, optionE, 
+      optionEScore, optionF, optionFScore, 
+      question)
+    values 
+    <foreach collection="list"  item="itm" separator=",">
+   (#{itm.id,jdbcType=VARCHAR}, #{itm.templetId,jdbcType=VARCHAR}, #{itm.questionno,jdbcType=INTEGER}, 
+      #{itm.optiona,jdbcType=VARCHAR}, #{itm.optionascore,jdbcType=SMALLINT}, #{itm.optionb,jdbcType=VARCHAR}, 
+      #{itm.optionbscore,jdbcType=SMALLINT}, #{itm.optionc,jdbcType=VARCHAR}, #{itm.optioncscore,jdbcType=SMALLINT}, 
+      #{itm.optiond,jdbcType=VARCHAR}, #{itm.optiondscore,jdbcType=SMALLINT}, #{itm.optione,jdbcType=VARCHAR}, 
+      #{itm.optionescore,jdbcType=SMALLINT}, #{itm.optionf,jdbcType=VARCHAR}, #{itm.optionfscore,jdbcType=SMALLINT}, 
+      #{itm.question,jdbcType=LONGVARCHAR})
+       </foreach>
+      
+  </insert>
 </mapper>

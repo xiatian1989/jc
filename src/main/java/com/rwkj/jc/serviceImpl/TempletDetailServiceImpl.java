@@ -58,5 +58,11 @@ public class TempletDetailServiceImpl implements TempletDetailService {
 		}
 	}
 
-	
+	public List<TempletDetail> getTempletDetailsByTempletId(String templetId) {
+		return templetDetailDao.getTempletDetailsByTempletId(templetId);
+	}
+
+	public int batchInsert(List<TempletDetail> list) {
+		return templetDetailDao.batchInsert(list);
+	}
 }
