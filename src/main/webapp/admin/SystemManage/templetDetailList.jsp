@@ -14,52 +14,29 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 
-	function newUser() {
+	function newQuestion() {
 
-		$('#dlg').dialog('open').dialog('setTitle', '添加人员');
+		$('#dlg').dialog('open').dialog('setTitle', '添加题目');
 		$('#fm').form('clear');
-		url = "${pageContext.request.contextPath}/addUser"
-		fillDepart();
-		fillLeader();
+		url = "${pageContext.request.contextPath}/addTempletDetail"
 		model="add";
 	}
 
-	function editUser() {
+	function editQuestion() {
 
 		var selRow = $('#dg').datagrid('getSelections');
 		if (selRow.length == 1) {
-			$('#dlg').dialog('open').dialog('setTitle', '编辑人员');
+			$('#dlg').dialog('open').dialog('setTitle', '编辑题目');
 			$('#fm').form('clear');
 			$('#fm').form('load', selRow[0]);
-			fillDepart();
-			fillLeader();
-			if (selRow[0].sex) {
-				$("#sex").val("1")
-			} else {
-				$("#sex").val("0")
-			}
-			if(selRow[0].status) {
-				$("#status").val("1")
-			} else {
-				$("#status").val("0")
-			}
-			$("#password").val("")
-			$("#departNo option").each(function(){
-				if($(this).text()==selRow[0].departName)  
-                    $(this).attr("selected", "selected"); 
-			});
-			$("#leaderNo option").each(function(){
-				if($(this).text()==selRow[0].leaderName)  
-                    $(this).attr("selected", "selected"); 
-			});
-			url = "${pageContext.request.contextPath}/updateUser"
+			url = "${pageContext.request.contextPath}/updateTempletDetail"
 		} else {
 			$.messager.alert("提示", "请选择要编辑的一行数据！", "info");
 		}
 		model="update";
 	}
 
-	function saveUser() {
+	function saveQuestion() {
 
 		$('#fm').form('submit', {
 			url : url,
@@ -67,37 +44,6 @@
 				var flag = $(this).form('validate');
 				if (!flag) {
 					return flag;
-				}
-				var sex = $("#sex").val();
-				var status = $("#status").val();
-
-				if (sex = "" || sex == null) {
-					$.messager.alert('提示','请选择人员性别！','info');
-					return false;
-				}
-				if (status = "" || status == null) {
-					$.messager.alert('提示','请选择人员状态！','info');
-					return false;
-				}
-				if(model=="add") {
-					var password = $("#password").val();
-					var repassword = $("#repassword").val();
-					
-					if(password==""){
-						$.messager.alert('提示','请输入密码!','info');
-						return false;
-					}
-					if(password != repassword) {
-						$.messager.alert('提示','两次输入密码不匹配！','info');
-						return false;
-					}
-				}else if(model=="update") {
-					var password = $("#password").val();
-					var repassword = $("#repassword").val();
-					if(password != repassword) {
-						$.messager.alert('提示','两次输入密码不匹配！','info');
-						return false;
-					}
 				}
 			},
 			success : function(result) {
@@ -112,35 +58,36 @@
 		});
 	}
 
-	function destroyUser() {
+	function destroyQuestion() {
 
 		var row = $('#dg').datagrid('getSelections');
-		if (row) {
-			$.messager
-					.confirm(
-							'Confirm',
-							'你确定删除选择的人员吗?',
-							function(r) {
-								if (r) {
-									var id = "";
-									for (var i = 0; i < row.length; i++) {
-										id = id + row[i].id + ","
-									}
-									$.ajax({
-										url : '${pageContext.request.contextPath}/deleteUser',
-										type : 'post',
-										data : 'id=' + id,
-										async : false, //默认为true 异步   
-										success : function(msg) {
-											if (msg.result == "success") {
-												$('#dg').datagrid('reload');
-											} else {
-												$.messager.alert('错误',obj.errorMsg,'error');
-											}
-										}
-									});
+		if (row.length>0) {
+			$.messager.confirm(
+				'Confirm',
+				'你确定删除选择的题目吗?',
+				function(r) {
+					if (r) {
+						var id = "";
+						for (var i = 0; i < row.length; i++) {
+							id = id + row[i].id + ","
+						}
+						$.ajax({
+							url : '${pageContext.request.contextPath}/deleteTempletDetails',
+							type : 'post',
+							data : 'id=' + id,
+							async : false, //默认为true 异步   
+							success : function(msg) {
+								if (msg.result == "success") {
+									$('#dg').datagrid('reload');
+								} else {
+									$.messager.alert('错误',obj.errorMsg,'error');
 								}
-							});
+							}
+						});
+					}
+				});
+		} else {
+			$.messager.alert("提示", "请选择要删除的数据！", "info");
 		}
 	}
 
@@ -150,87 +97,91 @@
 	}
 
 	function doSearch() {
-		var column = $("#column").val();
 		var value =  $("#key").val();
 
-		if (value == "请输入查询值") {
+		if (value == "请输入题目名称") {
 			value = "";
 		}
 		$('#dg').datagrid('load', {
-			column : column,
 			value : value,
 		});
 	}
 
 	$(function() {
+		var templetId = GetQueryString("value");
 		$('#dg').datagrid({
 			nowrap : false,
 			idField : 'id',
 			striped : true,
 			fit : false,
 			singleSelect : false,
-			rownumbers : false,
+			rownumbers : true,
 			selectOnCheck : true,
 			pageSize : 10,
 			pageList : [ 5, 10, 15 ],
-			url : '${pageContext.request.contextPath}/templetDetailList',
-
-			columns : [ [ {
+			url : '${pageContext.request.contextPath}/templetDetailList?templetId='+templetId,
+			frozenColumns : [ [ {
 				field : 'ck',
 				checkbox : true,
 				width : '30'
 			}, {
-				title : '部门名称',
-				field : 'departName',
-				width : 80,
-			}, {
-				title : '姓名',
-				field : 'truename',
-				width : 60,
-			}, {
-				title : '用户编号',
-				field : 'userno',
-				width : 60,
-			}, {
-				title : '上级领导',
-				field : 'leaderName',
-				width : 60,
-			}, {
-				title : '性别',
-				field : 'sex',
+				title : '题号',
+				field : 'questionno',
 				width : 30,
-				formatter : function(value, row, index) {
-					if (value) {
-						return '女';
-					} else {
-						return '男';
-					}
-				}
 			}, {
-				title : '手机号码',
-				field : 'phone',
-				width : 80,
+				title : '题目',
+				field : 'question',
+				width : 260,
+			}] ],
+			columns : [ [{
+				title : '选项A',
+				field : 'optiona',
+				width : 120,
 			}, {
-				title : '微信号',
-				field : 'webchat',
-				width : 80,
+				title : '分数',
+				field : 'optionascore',
+				width : 30,
 			}, {
-				title : '创建时间',
-				field : 'createtime',
+				title : '选项B',
+				field : 'optionb',
+				width : 120,
+			}, {
+				title : '分数',
+				field : 'optionbscore',
+				width : 30,
+			}, {
+				title : '选项C',
+				field : 'optionc',
+				width : 120,
+			}, {
+				title : '分数',
+				field : 'optioncscore',
+				width : 30,
+			}, {
+				title : '选项D',
+				field : 'optiond',
+				width : 120,
+			}, {
+				title : '分数',
+				field : 'optiondscore',
+				width : 30,
+			}, {
+				title : '选项E',
+				field : 'optione',
 				width : 100,
 			}, {
-				title : '状态',
-				field : 'status',
-				width : 50,
-				formatter : function(value, row, index) {
-					if (value) {
-						return '启用';
-					} else {
-						return '禁用';
-					}
-				}
-			} ] ],
-			fitColumns : true,
+				title : '分数',
+				field : 'optionescore',
+				width : 30,
+			}, {
+				title : '选项F',
+				field : 'optionf',
+				width : 120,
+			}, {
+				title : '分数',
+				field : 'optionfscore',
+				width : 30,
+			}  ] ],
 			pagination : true,
 			toolbar : '#toolbar',
 			onLoadSuccess : function() {
@@ -238,13 +189,22 @@
 			}
 		});
 	});
+	function GetQueryString(name)
+	{
+	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	     var r = window.location.search.substr(1).match(reg);
+	     if(r!=null)return  unescape(r[2]); return null;
+	}
+	$(function(){
+		window.location.href
+	});
 
 	function upload() {
 
 		$('#uploadExcel').form(
 				'submit',
 				{
-					url : '${pageContext.request.contextPath}/uploadExcelForUser',
+					url : '${pageContext.request.contextPath}/uploadExcelForTempletDetail',
 					onSubmit : function() {
 						var fileName = $("#uploadFile").val();
 						if (fileName == "") {
@@ -269,25 +229,25 @@
 				});
 	}
 
-	function importUser() {
+	function importQuestion() {
 		$('#dlgForUpload').dialog('open').dialog('setTitle', '导入学生');
 		$('#uploadExcel').form('clear');
 		$('#dg').datagrid('reload');
 	}
-	function exportUser() {
-		var url = "${pageContext.request.contextPath}/exportExcelForUser";
+	function exportQuestion() {
+		var url = "${pageContext.request.contextPath}/exportExcelForTempletDetail";
 		window.open(url);
 	}
-	function checkUniqNo(){
-		var userno =  $("#userno").val();
+	function checkUniqName(){
+		var question =  $("#question").val();
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/checkUserNoUnique',   
+		    url:'${pageContext.request.contextPath}/checkTempletDetailNameUnique',   
 		    type:'post',   
-		    data:'userNo='+userno,   
+		    data:'name='+question,   
 		    async : false, //默认为true 异步   
 		    success:function(msg){
 		    	if(msg.result=="failed") {
-		    		$.messager.alert('警告','用户编号已经存在!','warning',function(){
+		    		$.messager.alert('警告','题目已经存在!','warning',function(){
 		    			$("#userno").focus().select();
 		    		});
 		    	}
@@ -302,26 +262,18 @@
 </style>
 </head>
 <body>
-<table id="dg" title="人员列表">
+<table id="dg" title="题目列表">
 		
 	</table>
 	<div id="toolbar">
+		<a href="${pageContext.request.contextPath}/admin/SystemManage/templetList.jsp" class="easyui-linkbutton" iconCls="icon-back" plain="true">返回</a>
 		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newQuestion()">添加题目</a>
 		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editQuestion()">编辑题目</a>
 		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyQuestion()">删除题目</a>
 		<a href="#" class="easyui-linkbutton" iconCls="icon-redo" plain="true" onclick="importQuestion()">导入题目</a>
 		<a href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="exportQuestion()">导出题目</a>
 		<div style="float:right;">
-			<select id="column" name="column">
-				<option value="depart_No">部门名称</option>
-				<option value="trueName">姓名</option>
-				<option value="userno">用户编号</option>
-				<option value="leader_No">上级领导</option>
-				<option value="sex">性别</option>
-				<option value="phone">电话号码</option>
-				<option value="wechat">微信号</option>
-			</select>
-			<input type="text" id="key" name="key" value="请输入查询值" onFocus="if(value==defaultValue){value='';this.style.color='#000'}" 
+			<input type="text" id="key" name="key" value="请输入题目名称" onFocus="if(value==defaultValue){value='';this.style.color='#000'}" 
 			onBlur="if(!value){value=defaultValue;this.style.color='#999'}" style="color:#999999">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="doSearch()">搜索</a>
 		</div>
@@ -329,72 +281,75 @@
 	</div>
 
 	<div id="dlg" class="easyui-dialog"
-		style="width: 400px; height: 420px; padding: 10px 20px" closed="true" buttons="#dlg-buttons">
+		style="width: 400px; height: 460px; padding: 10px 20px" closed="true" buttons="#dlg-buttons">
 		
 		<form id="fm" method="post">
 			<input id=id name=id  style="display:none">
 			<table>
 				<tr>
-					<td style="height: 28px" width=120>部门：</td>
+					<td style="height: 28px" width=120>题号：</td>
 					<td style="height: 28px" width=210>
-						<select id="departNo" name="departNo" style="width:195px;" onchange="fillLeader()">
-						</select>
+						<input id=questionno style="width: 190px" name=questionno class="easyui-validatebox" required="true">
 					</td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>姓名：</td>
-					<td style="height: 28px" width=210><input id=truename
-						style="width: 190px" name=truename class="easyui-validatebox" required="true"></td>
+					<td style="height: 28px" width=120>题目：</td>
+					<td style="height: 28px" width=210><input id=question
+						style="width: 195px;height:80px" name=question class="easyui-textbox"  data-options="multiline:true" required="true"  onchange="checkUniqName()"></td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>用户编号：</td>
-					<td style="height: 28px" width=210><input id=userno
-						style="width: 190px" name=userno class="easyui-validatebox" required="true" onchange="checkUniqNo()"></td>
+					<td style="height: 28px" width=120>选项A：</td>
+					<td style="height: 28px" width=210><input id=optiona
+						style="width: 190px" name=optiona class="easyui-validatebox" required="true"></td>
 				</tr>
 				<tr>
-					<td style="height: 28px">密码：</td>
-					<td style="height: 28px" width=210><input id=password style="width: 190px"
-						type=password name=password></td>
+					<td style="height: 28px">选项A分数：</td>
+					<td style="height: 28px" width=210><input id=optionascore style="width: 190px" class="easyui-validatebox" name=optionascore required="true"></td>
 				</tr>
 				<tr>
-					<td style="height: 28px">确认密码：</td>
-					<td style="height: 28px" width=210><input id=repassword style="width: 190px"
-						type=password name=repassword></td>
+					<td style="height: 28px" width=120>选项B：</td>
+					<td style="height: 28px" width=210><input id=optionb
+						style="width: 190px" name=optionb class="easyui-validatebox" required="true"></td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>上级领导：</td>
-					<td style="height: 28px" width=210>
-						<select id="leaderNo" name="leaderNo" style="width:195px;">
-						</select>
-					</td>
+					<td style="height: 28px">选项B分数：</td>
+					<td style="height: 28px" width=210><input id=optionbscore style="width: 190px" class="easyui-validatebox" name=optionbscore required="true"></td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>性别：</td>
-					<td style="height: 28px">
-						<select id="sex" name="sex" style="width:195px;">
-							<option value="1">女</option>
-							<option value="0">男</option>
-						</select>
-					</td>
+					<td style="height: 28px" width=120>选项C：</td>
+					<td style="height: 28px" width=210><input id=optionc
+						style="width: 190px" name=optionc class="easyui-validatebox" required="true"></td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>电话号码：</td>
-					<td style="height: 28px" width=210><input id=phone
-						style="width: 190px" name=phone class="easyui-validatebox" required="true" validType="length[11,11]"></td>
+					<td style="height: 28px">选项C分数：</td>
+					<td style="height: 28px" width=210><input id=optioncscore style="width: 190px" name=optioncscore class="easyui-validatebox" required="true"></td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>微信号：</td>
-					<td style="height: 28px" width=210><input id=webchat
-						style="width: 190px" name=webchat class="easyui-validatebox" required="true"></td>
+					<td style="height: 28px" width=120>选项D：</td>
+					<td style="height: 28px" width=210><input id=optiond
+						style="width: 190px" name=optiond class="easyui-validatebox" required="true"></td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>状态：</td>
-					<td style="height: 28px">
-						<select id="status" name="status" style="width:195px;" >
-							<option value="1">启用</option>
-							<option value="0">禁用</option>
-						</select>
-					</td>
+					<td style="height: 28px">选项D分数：</td>
+					<td style="height: 28px" width=210><input id=optiondscore style="width: 190px" name=optiondscore class="easyui-validatebox" required="true"></td>
+				</tr>
+				<tr>
+					<td style="height: 28px" width=120>选项E：</td>
+					<td style="height: 28px" width=210><input id=optione
+						style="width: 190px" name=optione ></td>
+				</tr>
+				<tr>
+					<td style="height: 28px">选项E分数：</td>
+					<td style="height: 28px" width=210><input id=optionescore style="width: 190px" name=optionescore></td>
+				</tr>
+				<tr>
+					<td style="height: 28px" width=120>选项F：</td>
+					<td style="height: 28px" width=210><input id=optionf
+						style="width: 190px" name=optionf></td>
+				</tr>
+				<tr>
+					<td style="height: 28px">选项F分数：</td>
+					<td style="height: 28px" width=210><input id=optionfscore style="width: 190px" name=optionfscore></td>
 				</tr>
 			</table>
 		</form>
@@ -402,14 +357,14 @@
 	</div>
 	<div id="dlg-buttons">
 		<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
-			onclick="saveUser()">保存</a> <a href="#" class="easyui-linkbutton"
+			onclick="saveQuestion()">保存</a> <a href="#" class="easyui-linkbutton"
 			iconCls="icon-cancel" onclick="cancel();">取消</a>
 	</div>
 	
 	<div id="dlgForUpload" class="easyui-dialog"
 		style="width: 410px; height: 200px; padding: 10px 20px" closed="true" buttons="#dlg-buttonsdlgForUpload">
 		<form method="post" enctype="multipart/form-data" id="uploadExcel" style="margin-top:20px">
-			 导入数据之前，请先<a href="${pageContext.request.contextPath}/templet/user.xls">下载模板</a>
+			 导入数据之前，请先<a href="${pageContext.request.contextPath}/templet/templetDetail.xls">下载模板</a>
 			  <p>
 			  <p>
      		  <input type="file" name="fileUpload" style="width:100%" id="uploadFile"/>

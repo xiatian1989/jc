@@ -142,7 +142,7 @@
 			striped : true,
 			fit : false,
 			singleSelect : false,
-			rownumbers : false,
+			rownumbers : true,
 			selectOnCheck : true,
 			pageSize : 10,
 			pageList : [ 5, 10, 15 ],
@@ -163,7 +163,7 @@
 			}, {
 				title : '描述',
 				field : 'description',
-				width : 150,
+				width : 140,
 			}, {
 				title : '创建时间',
 				field : 'createtime',
@@ -197,9 +197,9 @@
 			}, {
 				title : '操作',
 				field : 'id',
-				width : 80,
+				width : 90,
 				formatter : function(value, row, index) {
-					return '<a href="javaScript:void(0)" onClick="openView('+"'"+value+"'"+')">预览模板</a>&nbsp;&nbsp;<a href="">编辑模板详情</a>';
+					return '<a href="javaScript:void(0)" onClick="openView('+"'"+value+"'"+')">预览模板</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/admin/SystemManage/templetDetailList.jsp?value='+value+'" target="mainContent">编辑模板详情</a>';
 				}
 			} ] ],
 			fitColumns : true,
@@ -239,15 +239,8 @@
 	}
 	
 	function openView(templetId){
-		
-/* 		$('#p').panel({
-		    href:'${pageContext.request.contextPath}/templetPreview?templetId='+templetId,
-		    onLoad:function(){
-				alert('loaded successfully');
-		    }
-		}); */
-		
 		$('#win').window('open');
+		$('#win').window('refresh', '${pageContext.request.contextPath}/templetPreview?templetId='+templetId);
 	}
 </script>
 <style type="text/css">
@@ -327,7 +320,7 @@
 			</table>
 		</form>
 	</div>
-	<div id="win" class="easyui-window" title="模板预览" style="width:600px;height:400px"
+	<div id="win" class="easyui-window" title="模板预览" style="width:800px;height:460px"
    	 	data-options="iconCls:'icon-save',modal:true,closed:true">
 	</div>
 	<div id="dlg-buttons">

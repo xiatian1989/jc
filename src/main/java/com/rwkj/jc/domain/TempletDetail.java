@@ -6,6 +6,8 @@ public class TempletDetail {
     private String templetId;
 
     private Integer questionno;
+    
+    private String question;
 
     private String optiona;
 
@@ -31,8 +33,6 @@ public class TempletDetail {
 
     private Short optionfscore;
 
-    private String question;
-
     public String getId() {
         return id;
     }
@@ -57,6 +57,14 @@ public class TempletDetail {
         this.questionno = questionno;
     }
 
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question == null ? null : question.trim();
+    }
+    
     public String getOptiona() {
         return optiona;
     }
@@ -151,13 +159,5 @@ public class TempletDetail {
 
     public void setOptionfscore(Short optionfscore) {
         this.optionfscore = optionfscore;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question == null ? null : question.trim();
     }
 }

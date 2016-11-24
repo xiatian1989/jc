@@ -40,9 +40,9 @@ public class TempletDetailManageController {
 	@Resource
 	private TempletDetailService templetDetailService;
 	
-	@InitBinder("templet")    
+	@InitBinder("templetDetail")    
 	public void initBinder2(WebDataBinder binder) {    
-		binder.setFieldDefaultPrefix("templet.");    
+		binder.setFieldDefaultPrefix("templetDetail.");    
 	}    
 	
 	@RequestMapping("templetPreview")
@@ -61,11 +61,16 @@ public class TempletDetailManageController {
             @RequestParam(required = false, defaultValue = "10") Integer rows){
 		Map<String, Object> result = new HashMap<String, Object>(2) ;
 		int total = 0;
-		String column = request.getParameter("column");
+		String column = "question";
 		String value = request.getParameter("value");
 		String templetId = request.getParameter("templetId");
 		HttpSession session = request.getSession(true);
-		session.setAttribute("templetId", templetId);
+		if(StringUtils.isNullOrEmpty(templetId)) {
+			templetId = (String)session.getAttribute("templetId");
+		}else{
+			session.setAttribute("templetId", templetId);
+		}
+		
 		List<TempletDetail> templetDetails = null;
 		
 		if(StringUtils.isNullOrEmpty(value)){
@@ -86,16 +91,16 @@ public class TempletDetailManageController {
              jsonObject.put("questionno",templetDetail.getQuestionno());
              jsonObject.put("optiona",templetDetail.getOptiona());
              jsonObject.put("optionascore",templetDetail.getOptionascore());
-             jsonObject.put("optionb",templetDetail.getOptiona());
-             jsonObject.put("optionbscore",templetDetail.getOptionascore());
-             jsonObject.put("optionc",templetDetail.getOptiona());
-             jsonObject.put("optioncscore",templetDetail.getOptionascore());
-             jsonObject.put("optiond",templetDetail.getOptiona());
-             jsonObject.put("optiondscore",templetDetail.getOptionascore());
-             jsonObject.put("optione",templetDetail.getOptiona());
-             jsonObject.put("optionescore",templetDetail.getOptionascore());
-             jsonObject.put("optionf",templetDetail.getOptiona());
-             jsonObject.put("optionfscore",templetDetail.getOptionascore());
+             jsonObject.put("optionb",templetDetail.getOptionb());
+             jsonObject.put("optionbscore",templetDetail.getOptionbscore());
+             jsonObject.put("optionc",templetDetail.getOptionc());
+             jsonObject.put("optioncscore",templetDetail.getOptioncscore());
+             jsonObject.put("optiond",templetDetail.getOptiond());
+             jsonObject.put("optiondscore",templetDetail.getOptiondscore());
+             jsonObject.put("optione",templetDetail.getOptione());
+             jsonObject.put("optionescore",templetDetail.getOptionescore());
+             jsonObject.put("optionf",templetDetail.getOptionf());
+             jsonObject.put("optionfscore",templetDetail.getOptionfscore());
              jsonArray.add(jsonObject) ;  
         }  
 		result.put("total", total);  
@@ -139,7 +144,7 @@ public class TempletDetailManageController {
 	@RequestMapping("deleteTempletDetail")
 	public @ResponseBody Map<String,String> deleteTempletDetail(@RequestParam("id") String id){
 		Map<String,String> map = new HashMap<String,String>();
-		int count = templetDetailService.deleteTempletDetail(id);
+		int count = templetDetailService.deleteTempletDetails(id);
 		if(count>0){
 			map.put("result", "success");
 		}else {
@@ -148,8 +153,8 @@ public class TempletDetailManageController {
 		return map;
 	}
 	
-	@RequestMapping("checkTempletNameUnique")
-	public @ResponseBody Map<String,String> checkTempletNameUnique(HttpServletRequest request,@RequestParam("name") String name){
+	@RequestMapping("checkTempletDetailNameUnique")
+	public @ResponseBody Map<String,String> checkTempletDetailNameUnique(HttpServletRequest request,@RequestParam("name") String name){
 		Map<String,String> map = new HashMap<String,String>();
 		HttpSession session = request.getSession(true);
 		String templetId = (String)session.getAttribute("templetId");

@@ -49,6 +49,9 @@ public class ExcelUtil<E> {
         a:for(int i = 1;i<rows;i++){
         	object = EntityClass.newInstance();
         	for(int j = 0;j<columns;j++){
+        		if(fields[j+1].getName().equals("templetId") || fields[j+1].getName().equals("paperId")){
+        			continue;
+        		}
         		cell = sheet.getCell(j, i);
         		value = cell.getContents();
         		if(StringUtils.isNullOrEmpty(value) && j==0) {
@@ -67,8 +70,12 @@ public class ExcelUtil<E> {
         			fields[j+1].set(object, false);
         		}else if(CommonUtils.isValidDate(value)){
         			fields[j+1].set(object, new SimpleDateFormat("yyyy-MM-dd").parse(value));
-        		}else if(CommonUtils.isValidDouble(value) && value.contains(".")){
+        		}else if(fields[j+1].getType().equals(Double.class)){
         			fields[j+1].set(object, Double.valueOf(value));
+        		}else if(fields[j+1].getType().equals(Integer.class)){
+        			fields[j+1].set(object, Integer.valueOf(value));
+        		}else if(fields[j+1].getType().equals(Short.class)){
+        			fields[j+1].set(object, Short.valueOf(value));
         		}else{
         			fields[j+1].set(object, value);
         		}
