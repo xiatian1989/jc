@@ -66,7 +66,7 @@
 					<a href="${pageContext.request.contextPath}/admin/DataManage/userList.jsp" target="mainContent">人员管理</a>
 				</div>
 				<div>
-					<a href="${pageContext.request.contextPath}/organizationList" target="mainContent">问卷管理</a>
+					<a href="${pageContext.request.contextPath}/admin/DataManage/papertList.jsp" target="mainContent">问卷管理</a>
 				</div>
 			</div>
 			<div title="测评管理" data-options="iconCls:'icon-tip'" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">

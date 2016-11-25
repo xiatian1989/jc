@@ -20,50 +20,47 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mysql.jdbc.StringUtils;
-import com.rwkj.jc.domain.Templet;
-import com.rwkj.jc.service.TempletService;
+import com.rwkj.jc.domain.Paper;
+import com.rwkj.jc.service.PaperService;
 import com.rwkj.jc.util.CommonUtils;
 
 @Controller
-public class TempletManageController {
+public class PaperManageController {
 	
 	@Resource
-	private TempletService templetService;
+	private PaperService paperService;
 	
-	@InitBinder("templet")    
+	@InitBinder("paper")    
 	public void initBinder2(WebDataBinder binder) {    
-		binder.setFieldDefaultPrefix("templet.");    
+		binder.setFieldDefaultPrefix("paper.");    
 	}    
 	
-	@RequestMapping("templetList")
-	public @ResponseBody Object getTempletList(HttpServletRequest request, 
+	@RequestMapping("paperList")
+	public @ResponseBody Object getPaperList(HttpServletRequest request, 
 			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
             @RequestParam(required = false, defaultValue = "10") Integer rows){
 		Map<String, Object> result = new HashMap<String, Object>(2) ;
 		int total = 0;
 		String column = request.getParameter("column");
 		String value = request.getParameter("value");
-		List<Templet> templets = null;
+		List<Paper> papers = null;
 		if(StringUtils.isNullOrEmpty(value)){
-			templets = templetService.getTemplets((page-1)*rows, rows);
-			total = templetService.getTempletsCount();
+			papers = paperService.getPapers((page-1)*rows, rows);
+			total = paperService.getPapersCount();
 		}else{
 			value = "%"+value+"%";
-			templets = templetService.getTempletsByColumnValue(column, value, (page-1)*rows, rows);
-			total = templetService.getTempletsCountByColumnValue(column, value);
+			papers = paperService.getPapersByColumnValue(column, value, (page-1)*rows, rows);
+			total = paperService.getPapersCountByColumnValue(column, value);
 		}
 		
 		JSONArray jsonArray = new JSONArray();  
-        for(Templet templet:templets){  
+        for(Paper paper:papers){  
              JSONObject jsonObject = new JSONObject();  
-             jsonObject.put("id",templet.getId());
-             jsonObject.put("templettitle",templet.getTemplettitle());
-             jsonObject.put("keyword",templet.getKeyword());
-             jsonObject.put("description",templet.getDescription());
-             jsonObject.put("createtime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(templet.getCreatetime()));
-             jsonObject.put("updatetime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(templet.getUpdatetime()));
-             jsonObject.put("type",templet.getType());
-             jsonObject.put("status",templet.getStatus());
+             jsonObject.put("id",paper.getId());
+             jsonObject.put("papertitle",paper.getPapertitle());
+             jsonObject.put("createtime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(paper.getCreatetime()));
+             jsonObject.put("type",paper.getType());
+             jsonObject.put("status",paper.getStatus());
              jsonArray.add(jsonObject) ;  
         }  
 		result.put("total", total);  
@@ -71,14 +68,13 @@ public class TempletManageController {
 		return result;
 	}
 	
-	@RequestMapping("addTemplet")
-	public @ResponseBody Map<String,String> addTemplet(@ModelAttribute Templet templet){
+	@RequestMapping("addPaper")
+	public @ResponseBody Map<String,String> addPaper(@ModelAttribute Paper paper){
 		Map<String, String> result = new HashMap<String,String>();
 		int count = 0;
-		templet.setId(CommonUtils.getUUID());
-		templet.setCreatetime(new Date(System.currentTimeMillis()));
-		templet.setUpdatetime(new Date(System.currentTimeMillis()));
-		count = templetService.addTemplet(templet);
+		paper.setId(CommonUtils.getUUID());
+		paper.setCreatetime(new Date(System.currentTimeMillis()));
+		count = paperService.addPaper(paper);
 		
 		if(count>0){
 			result.put("result", "success");
@@ -89,12 +85,12 @@ public class TempletManageController {
 		return result;
 	}
 	
-	@RequestMapping("updateTemplet")
-	public @ResponseBody Map<String,String> updateTemplet(@ModelAttribute Templet templet){
+	@RequestMapping("updatePaper")
+	public @ResponseBody Map<String,String> updatePaper(@ModelAttribute Paper paper){
 		int count = 0;
 		Map<String, String> result = new HashMap<String,String>();
-		templet.setUpdatetime(new Date(System.currentTimeMillis()));
-		count = templetService.updateTemplet(templet);
+		paper.setCreatetime(new Date(System.currentTimeMillis()));
+		count = paperService.updatePaper(paper);
 		if(count>0){
 			result.put("result", "success");
 		}else{
@@ -104,11 +100,11 @@ public class TempletManageController {
 		return result;
 	}
 	
-	@RequestMapping("deleteTemplet")
-	public @ResponseBody Map<String,String> deleteTemplet(@RequestParam("id") String id){
+	@RequestMapping("deletePaper")
+	public @ResponseBody Map<String,String> deletePaper(@RequestParam("id") String id){
 		Map<String,String> map = new HashMap<String,String>();
 		id = id.substring(0,id.length()-1);
-		int count = templetService.deleteTemplets("("+id+")");
+		int count = paperService.deletePapers("("+id+")");
 		if(count>0){
 			map.put("result", "success");
 		}else {
@@ -117,10 +113,10 @@ public class TempletManageController {
 		return map;
 	}
 	
-	@RequestMapping("checkTempletNameUnique")
-	public @ResponseBody Map<String,String> checkTempletNameUnique(@RequestParam("name") String name){
+	@RequestMapping("checkPaperNameUnique")
+	public @ResponseBody Map<String,String> checkPaperNameUnique(@RequestParam("name") String name){
 		Map<String,String> map = new HashMap<String,String>();
-		if(templetService.checkTempletName(name)){
+		if(paperService.checkPaperName(name)){
 			map.put("result", "failed");
 		}else{
 			map.put("result", "success");
