@@ -320,7 +320,7 @@
 			</table>
 		</form>
 	</div>
-	<div id="win" class="easyui-window" title="模板预览" style="width:800px;height:460px"
+	<div id="win" class="easyui-window" title="模板预览" style="width:980px;height:460px"
    	 	data-options="iconCls:'icon-save',modal:true,closed:true">
 	</div>
 	<div id="dlg-buttons">

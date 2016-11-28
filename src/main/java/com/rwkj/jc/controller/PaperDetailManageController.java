@@ -101,6 +101,7 @@ public class PaperDetailManageController {
              jsonObject.put("optionescore",paperDetail.getOptionescore());
              jsonObject.put("optionf",paperDetail.getOptionf());
              jsonObject.put("optionfscore",paperDetail.getOptionfscore());
+             jsonObject.put("issuggest",paperDetail.getIssuggest());
              jsonArray.add(jsonObject) ;  
         }  
 		result.put("total", total);  
@@ -175,8 +176,8 @@ public class PaperDetailManageController {
 		ExcelUtil<PaperDetail> excelUtil = new ExcelUtil<PaperDetail>(PaperDetail.class);
 		List<Map<String,Object>> list = excelUtil.createExcelRecord(paperDetails, "模板题目一览");
 		
-		String columnNames[]={"题号","题目","选项A","选项A分数","选项B","选项B分数","选项C","选项C分数","选项D","选项D分数","选项E","选项E分数","选项F","选项F分数"};//列名
-		String keys[]={"questionno","question","optiona","optionascore","optionb","optionbscore","optionc","optioncscore","optiond","optiondscore","optione","optionescore","optionf","optionfscore"};//map中的key
+		String columnNames[]={"题号","题目","选项A","选项A分数","选项B","选项B分数","选项C","选项C分数","选项D","选项D分数","选项E","选项E分数","选项F","选项F分数","是否添加建议项"};//列名
+		String keys[]={"questionno","question","optiona","optionascore","optionb","optionbscore","optionc","optioncscore","optiond","optiondscore","optione","optionescore","optionf","optionfscore","issuggest"};//map中的key
 		
 		ServletOutputStream out = response.getOutputStream();
 

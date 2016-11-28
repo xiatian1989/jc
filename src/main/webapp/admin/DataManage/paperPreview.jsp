@@ -19,20 +19,20 @@
 </style>
 </head>
 <body>
-	<c:forEach items="${templetDetails }" var="templetDetail">
-		${templetDetail.questionno }:${templetDetail.question }
+	<c:forEach items="${paperDetails }" var="paperDetail">
+		${paperDetail.questionno }:${paperDetail.question }
 		<p>
-		&nbsp;&nbsp;<input type="checkbox" disabled="disabled">A:${templetDetail.optiona }&nbsp;&nbsp;
-		<input type="checkbox" disabled="disabled">B:${templetDetail.optionb }&nbsp;&nbsp;
-		<input type="checkbox" disabled="disabled">C:${templetDetail.optionc }&nbsp;&nbsp;
-		<input type="checkbox" disabled="disabled">D:${templetDetail.optiond }&nbsp;&nbsp;
-		<c:if test="${templetDetail.optione != null }">
-			<input type="checkbox" disabled="disabled">E:${templetDetail.optione }&nbsp;&nbsp;
+		&nbsp;&nbsp;<input type="checkbox" disabled="disabled">A:${paperDetail.optiona }&nbsp;&nbsp;
+		<input type="checkbox" disabled="disabled">B:${paperDetail.optionb }&nbsp;&nbsp;
+		<input type="checkbox" disabled="disabled">C:${paperDetail.optionc }&nbsp;&nbsp;
+		<input type="checkbox" disabled="disabled">D:${paperDetail.optiond }&nbsp;&nbsp;
+		<c:if test="${paperDetail.optione != null }">
+			<input type="checkbox" disabled="disabled">E:${paperDetail.optione }&nbsp;&nbsp;
 		</c:if>
-		<c:if test="${templetDetail.optionf != null }">
-			<input type="checkbox" disabled="disabled">F:${templetDetail.optionf }&nbsp;&nbsp;
+		<c:if test="${paperDetail.optionf != null }">
+			<input type="checkbox" disabled="disabled">F:${paperDetail.optionf }&nbsp;&nbsp;
 		</c:if>
-		<c:if test="${templetDetail.issuggest}">
+		<c:if test="${paperDetail.issuggest}">
 			建议：<input type="text" disabled="disabled">
 		</c:if>
 		<p>

@@ -32,6 +32,8 @@ public class TempletDetail {
     private String optionf;
 
     private Short optionfscore;
+    
+    private Boolean issuggest;
 
     public String getId() {
         return id;
@@ -160,4 +162,12 @@ public class TempletDetail {
     public void setOptionfscore(Short optionfscore) {
         this.optionfscore = optionfscore;
     }
+
+	public Boolean getIssuggest() {
+		return issuggest;
+	}
+
+	public void setIssuggest(Boolean issuggest) {
+		this.issuggest = issuggest;
+	}
 }

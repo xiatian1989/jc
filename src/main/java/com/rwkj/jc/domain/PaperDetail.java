@@ -6,6 +6,8 @@ public class PaperDetail {
     private String paperId;
 
     private Integer questionno;
+    
+    private String question;
 
     private String optiona;
 
@@ -31,7 +33,7 @@ public class PaperDetail {
 
     private Short optionfscore;
 
-    private String question;
+    private Boolean issuggest;
 
     public String getId() {
         return id;
@@ -49,6 +51,14 @@ public class PaperDetail {
         this.paperId = paperId == null ? null : paperId.trim();
     }
 
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question == null ? null : question.trim();
+    }
+    
     public Integer getQuestionno() {
         return questionno;
     }
@@ -153,11 +163,11 @@ public class PaperDetail {
         this.optionfscore = optionfscore;
     }
 
-    public String getQuestion() {
-        return question;
+    public Boolean getIssuggest() {
+        return issuggest;
     }
 
-    public void setQuestion(String question) {
-        this.question = question == null ? null : question.trim();
+    public void setIssuggest(Boolean issuggest) {
+        this.issuggest = issuggest;
     }
 }

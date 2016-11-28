@@ -29,6 +29,11 @@
 			$('#dlg').dialog('open').dialog('setTitle', '编辑题目');
 			$('#fm').form('clear');
 			$('#fm').form('load', selRow[0]);
+			if (selRow[0].issuggest) {
+				$("#issuggest").val("1")
+			} else {
+				$("#issuggest").val("0")
+			}
 			url = "${pageContext.request.contextPath}/updatePaperDetail"
 		} else {
 			$.messager.alert("提示", "请选择要编辑的一行数据！", "info");
@@ -181,7 +186,18 @@
 				title : '分数',
 				field : 'optionfscore',
 				width : 30,
-			}  ] ],
+			}, {
+				title : '是否添加建议项',
+				field : 'issuggest',
+				width : 90,
+				formatter : function(value, row, index) {
+					if (value) {
+						return '是';
+					} else {
+						return '否';
+					}
+				}
+			}   ] ],
 			pagination : true,
 			toolbar : '#toolbar',
 			onLoadSuccess : function() {
@@ -248,7 +264,7 @@
 		    success:function(msg){
 		    	if(msg.result=="failed") {
 		    		$.messager.alert('警告','题目已经存在!','warning',function(){
-		    			$("#userno").focus().select();
+		    			$("#question").focus().select();
 		    		});
 		    	}
 		    }
@@ -349,6 +365,15 @@
 				<tr>
 					<td style="height: 28px">选项F分数：</td>
 					<td style="height: 28px" width=210><input id=optionfscore style="width: 190px" name=optionfscore></td>
+				</tr>
+				<tr>
+					<td style="height: 28px" width=120>是否添加建议项：</td>
+					<td style="height: 28px">
+						<select id="issuggest" name="issuggest" style="width:195px;" >
+							<option value="1">是</option>
+							<option value="0">否</option>
+						</select>
+					</td>
 				</tr>
 			</table>
 		</form>

@@ -200,11 +200,11 @@
 	});
 
 	function checkUniqName(){
-		var templettitle =  $("#templettitle").val();
+		var papertitle =  $("#papertitle").val();
 		$.ajax({   
 		    url:'${pageContext.request.contextPath}/checkPaperNameUnique',   
 		    type:'post',   
-		    data:'name='+templettitle,   
+		    data:'name='+papertitle,   
 		    async : false, //默认为true 异步   
 		    success:function(msg){
 		    	if(msg.result=="failed") {
@@ -245,6 +245,7 @@
 		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newPaper()">添加试卷</a>
 		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editPaper()">编辑试卷</a>
 		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyPaper()">删除试卷</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyPaper()">选择模板</a>
 		<div style="float:right;">
 			<select id="column" name="column" onchange="changeColumn()">
 				<option value="paperTitle">试卷标题</option>
