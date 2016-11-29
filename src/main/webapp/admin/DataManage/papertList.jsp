@@ -209,7 +209,7 @@
 		    success:function(msg){
 		    	if(msg.result=="failed") {
 		    		$.messager.alert('警告','试卷标题已经存在!','warning',function(){
-		    			$("#userno").focus().select();
+		    			$("#papertitle").focus().select();
 		    		});
 		    	}
 		    }
@@ -230,6 +230,10 @@
 		$('#win').window('open');
 		$('#win').window('refresh', '${pageContext.request.contextPath}/paperPreview?paperId='+paperId);
 	}
+	function newPaperByTemplet(){
+		$('#winForTemplet').window('open');
+		$('#winForTemplet').window('refresh', '${pageContext.request.contextPath}/templetListForPage');
+	}
 </script>
 <style type="text/css">
 	body{
@@ -238,14 +242,14 @@
 </style>
 </head>
 <body>
-<table id="dg" title="人员列表">
+<table id="dg" title="试卷列表">
 		
 	</table>
 	<div id="toolbar">
 		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newPaper()">添加试卷</a>
 		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editPaper()">编辑试卷</a>
 		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyPaper()">删除试卷</a>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyPaper()">选择模板</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-more" plain="true" onclick="newPaperByTemplet()">根据模板创建试卷</a>
 		<div style="float:right;">
 			<select id="column" name="column" onchange="changeColumn()">
 				<option value="paperTitle">试卷标题</option>
@@ -295,8 +299,11 @@
 			</table>
 		</form>
 	</div>
-	<div id="win" class="easyui-window" title="试卷预览" style="width:800px;height:460px"
+	<div id="win" class="easyui-window" title="试卷预览" style="width:900px;height:460px"
    	 	data-options="iconCls:'icon-save',modal:true,closed:true">
+	</div>
+	<div id="winForTemplet" class="easyui-window" title="试卷预览" style="width:800px;height:460px"
+   	 	data-options="iconCls:'icon-save',closed:true">
 	</div>
 	<div id="dlg-buttons">
 		<a href="#" class="easyui-linkbutton" iconCls="icon-ok"

@@ -14,4 +14,5 @@ public interface TempletService {
 	int deleteTemplet(String id);
 	int deleteTemplets(String ids);
 	boolean checkTempletName(String templetTitle);
+	Templet getTemepletById(String id);
 }

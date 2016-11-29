@@ -2,6 +2,7 @@ package com.rwkj.jc.controller;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -21,7 +23,13 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mysql.jdbc.StringUtils;
 import com.rwkj.jc.domain.Paper;
+import com.rwkj.jc.domain.PaperDetail;
+import com.rwkj.jc.domain.Templet;
+import com.rwkj.jc.domain.TempletDetail;
+import com.rwkj.jc.service.PaperDetailService;
 import com.rwkj.jc.service.PaperService;
+import com.rwkj.jc.service.TempletDetailService;
+import com.rwkj.jc.service.TempletService;
 import com.rwkj.jc.util.CommonUtils;
 
 @Controller
@@ -29,6 +37,12 @@ public class PaperManageController {
 	
 	@Resource
 	private PaperService paperService;
+	@Resource
+	private PaperDetailService paperDetailService;
+	@Resource
+	private TempletService templetService;
+	@Resource
+	private TempletDetailService templetDetailService;
 	
 	@InitBinder("paper")    
 	public void initBinder2(WebDataBinder binder) {    
@@ -74,6 +88,38 @@ public class PaperManageController {
 		int count = 0;
 		paper.setId(CommonUtils.getUUID());
 		paper.setCreatetime(new Date(System.currentTimeMillis()));
+		count = paperService.addPaper(paper);
+		
+		if(count>0){
+			result.put("result", "success");
+		}else{
+			result.put("result", "failed");
+			result.put("errorMsg", "添加失败，请联系管理员！");
+		}
+		return result;
+	}
+	
+	@RequestMapping("addPaperByTemplet")
+	public @ResponseBody Map<String,String> addPaperByTemplet(@ModelAttribute Paper paper){
+		Map<String, String> result = new HashMap<String,String>();
+		int count = 0;
+		String templetId = paper.getId();
+		Templet templet = templetService.getTemepletById(templetId);
+		List<TempletDetail> templetDetails = templetDetailService.getTempletDetailsByTempletId(templetId);
+		String paperId = CommonUtils.getUUID();
+		paper.setId(paperId);
+		paper.setStatus(true);
+		paper.setType(templet.getType());
+		paper.setCreatetime(new Date(System.currentTimeMillis()));
+		
+		List<PaperDetail> paperDetails = new ArrayList<PaperDetail>();
+		PaperDetail paperDetail = null;
+		for(TempletDetail templetDetail:templetDetails) {
+			paperDetail = new PaperDetail();
+			BeanUtils.copyProperties(templetDetail, paperDetail);
+			paperDetails.add(paperDetail);
+		}
+		paperDetailService.batchInsert(paperDetails);
 		count = paperService.addPaper(paper);
 		
 		if(count>0){

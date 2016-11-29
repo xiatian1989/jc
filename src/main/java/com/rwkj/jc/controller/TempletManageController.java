@@ -3,6 +3,7 @@ package com.rwkj.jc.controller;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -69,6 +71,31 @@ public class TempletManageController {
 		result.put("total", total);  
 	    result.put("rows",jsonArray);
 		return result;
+	}
+	
+	@RequestMapping("templetListForPage")
+	public ModelAndView templetListForPage(HttpServletRequest request, 
+			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
+			@RequestParam(required = false, defaultValue = "10") Integer rows){
+		String column = request.getParameter("column");
+		String value = request.getParameter("value");
+		List<Templet> templets = null;
+		if(StringUtils.isNullOrEmpty(value)){
+			templets = templetService.getTemplets((page-1)*rows, rows);
+		}else{
+			value = "%"+value+"%";
+			templets = templetService.getTempletsByColumnValue(column, value, (page-1)*rows, rows);
+		}
+		Iterator<Templet> iterator = templets.iterator();
+		while(iterator.hasNext()){
+			if(!iterator.next().getStatus()) {
+				iterator.remove();
+			}
+		}
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("templets",templets);
+		modelAndView.setViewName("admin/SystemManage/templetListForPage");
+		return modelAndView;
 	}
 	
 	@RequestMapping("addTemplet")

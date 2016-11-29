@@ -55,5 +55,9 @@ public class TempletServiceImpl implements TempletService {
 	public int deleteTemplets(String ids) {
 		return templetDao.deleteTempletByids(ids);
 	}
+
+	public Templet getTemepletById(String id) {
+		return templetDao.selectByPrimaryKey(id);
+	}
 	
 }
