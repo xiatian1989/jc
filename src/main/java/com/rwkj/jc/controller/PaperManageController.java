@@ -117,6 +117,8 @@ public class PaperManageController {
 		for(TempletDetail templetDetail:templetDetails) {
 			paperDetail = new PaperDetail();
 			BeanUtils.copyProperties(templetDetail, paperDetail);
+			paperDetail.setId(CommonUtils.getUUID());
+			paperDetail.setPaperId(paperId);
 			paperDetails.add(paperDetail);
 		}
 		paperDetailService.batchInsert(paperDetails);

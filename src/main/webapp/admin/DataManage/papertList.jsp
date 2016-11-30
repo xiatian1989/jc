@@ -226,13 +226,72 @@
 		}
 	}
 	
-	function openView(templetId){
+	function openView(paperId){
 		$('#win').window('open');
 		$('#win').window('refresh', '${pageContext.request.contextPath}/paperPreview?paperId='+paperId);
 	}
 	function newPaperByTemplet(){
 		$('#winForTemplet').window('open');
-		$('#winForTemplet').window('refresh', '${pageContext.request.contextPath}/templetListForPage');
+		$('#winForTemplet').window('refresh', '${pageContext.request.contextPath}/templetListForPaper');
+	}
+	
+	function copyTemplet(templetId) {
+		$('#dlg1').dialog('open').dialog('setTitle', '设置试卷标题');
+		$('#fm1').form('clear');
+		$("#id1").val(templetId);
+		url = "${pageContext.request.contextPath}/addPaperByTemplet"
+	}
+	function changeColumn1() {
+		var column = $("#column1").val();
+		if (column == 'type') {
+			$("#param1").show();
+			$("#key1").hide();
+		} else {
+			$("#key1").show();
+			$("#param1").hide();
+		}
+	}
+	function doSearch1() {
+		var column = $("#column1").val();
+		var value =  $("#key1").val();
+		if(column == "type") {
+			value = $("#param1").val();
+		}
+
+		if (value == "请输入查询值") {
+			value = "";
+		}
+		$('#winForTemplet').window('refresh', '${pageContext.request.contextPath}/templetListForPaper?column='+column+'&value='+value);
+	}
+	function openView1(templetId){
+		$('#win1').window('open');
+		$('#win1').window('refresh', '${pageContext.request.contextPath}/templetPreview?templetId='+templetId);
+	}
+	function cancel1() {
+		$('#fm1').form('clear');
+		$('#dlg1').dialog('close');
+	}
+	function savePaper1() {
+
+		$('#fm1').form('submit', {
+			url : url,
+			onSubmit : function() {
+				var flag = $(this).form('validate');
+				if (!flag) {
+					return flag;
+				}
+			},
+			success : function(result) {
+				var obj = jQuery.parseJSON(result);
+				if (obj.result == "success") {
+					$('#dlg1').dialog('close');
+					$('#winForTemplet').window('close');
+					$('#dg').datagrid('reload');
+				} else {
+					$.messager.alert('错误', obj.errorMsg, 'error');
+				}
+			}
+		});
 	}
 </script>
 <style type="text/css">
@@ -299,11 +358,11 @@
 			</table>
 		</form>
 	</div>
-	<div id="win" class="easyui-window" title="试卷预览" style="width:900px;height:460px"
-   	 	data-options="iconCls:'icon-save',modal:true,closed:true">
+	<div id="win" class="easyui-window" title="试卷预览" style="width:980px;height:460px"
+   	 	data-options="iconCls:'icon-save',modal:true,closed:true,cache: false">
 	</div>
-	<div id="winForTemplet" class="easyui-window" title="试卷预览" style="width:800px;height:460px"
-   	 	data-options="iconCls:'icon-save',closed:true">
+	<div id="winForTemplet" class="easyui-window" title="模板选择" style="width:1100px;height:460px"
+   	 	data-options="iconCls:'icon-save',closed:true,modal:true">
 	</div>
 	<div id="dlg-buttons">
 		<a href="#" class="easyui-linkbutton" iconCls="icon-ok"

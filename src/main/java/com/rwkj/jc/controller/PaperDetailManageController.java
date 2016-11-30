@@ -49,7 +49,7 @@ public class PaperDetailManageController {
 	public ModelAndView paperPreview(HttpServletRequest request){
 		
 		ModelAndView modelAndView = new ModelAndView();
-		String paperId = request.getParameter("PaperId");
+		String paperId = request.getParameter("paperId");
 		List<PaperDetail> paperDetails = paperDetailService.getPaperDetailsByPaperId(paperId);
 		modelAndView.addObject("paperDetails",paperDetails);
 		modelAndView.setViewName("admin/DataManage/paperPreview");

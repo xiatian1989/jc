@@ -73,7 +73,7 @@ public class TempletManageController {
 		return result;
 	}
 	
-	@RequestMapping("templetListForPage")
+	@RequestMapping("templetListForPaper")
 	public ModelAndView templetListForPage(HttpServletRequest request, 
 			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
 			@RequestParam(required = false, defaultValue = "10") Integer rows){
@@ -94,7 +94,7 @@ public class TempletManageController {
 		}
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("templets",templets);
-		modelAndView.setViewName("admin/SystemManage/templetListForPage");
+		modelAndView.setViewName("admin/SystemManage/templetListForPaper");
 		return modelAndView;
 	}
 	

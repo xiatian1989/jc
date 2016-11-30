@@ -41,7 +41,16 @@ public class ExcelUtil<E> {
         Sheet sheet = book.getSheet(0);
         int rows=sheet.getRows();
         int columns=sheet.getColumns();
-        Field[] fields = EntityClass.getDeclaredFields();
+        Field[] tempfields = EntityClass.getDeclaredFields();
+        Field[] fields = new Field[tempfields.length];
+        int k = 0;
+        for(Field field:tempfields) {
+        	if("templetId".equals(field.getName()) || "paperId".equals(field.getName())) {
+        		continue;
+        	}
+        	fields[k] = field;
+        	k++;
+        }
         List<E> objects = new ArrayList<E>();
         Object object = null;
         Cell cell = null;
@@ -49,9 +58,6 @@ public class ExcelUtil<E> {
         a:for(int i = 1;i<rows;i++){
         	object = EntityClass.newInstance();
         	for(int j = 0;j<columns;j++){
-        		if(fields[j+1].getName().equals("templetId") || fields[j+1].getName().equals("paperId")){
-        			continue;
-        		}
         		cell = sheet.getCell(j, i);
         		value = cell.getContents();
         		if(StringUtils.isNullOrEmpty(value) && j==0) {
