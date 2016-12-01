@@ -135,7 +135,7 @@
 					$.messager.alert('错误',"测评开始时间不能早于当前时间",'error');
 					return false;
 				}
-				if(begintime()>=endtime) {
+				if(beginTime>=endTime) {
 					$.messager.alert('错误',"测评结束时间不能早于测评开始时间",'error');
 					return false;
 				}
@@ -161,7 +161,7 @@
 				$.messager.alert('错误',"测评计划已经结束,不能删除",'error');
 				return;
 			}
-			var beginTime = selRow.begintime;
+			var beginTime = row.begintime;
 			if(getNowFormatDate()>=beginTime){
 				$.messager.alert('错误',"测评计划已经开始,不能删除",'error');
 				return;
