@@ -71,7 +71,7 @@
 			</div>
 			<div title="测评管理" data-options="iconCls:'icon-tip'" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
 				<div>
-					<a href="${pageContext.request.contextPath}/organizationList" target="mainContent">测评计划管理</a>
+					<a href="${pageContext.request.contextPath}/admin/EvaluationManage/planList.jsp" target="mainContent">测评计划管理</a>
 				</div>
 				<div>
 					<a href="${pageContext.request.contextPath}/organizationList" target="mainContent">测评关系管理</a>

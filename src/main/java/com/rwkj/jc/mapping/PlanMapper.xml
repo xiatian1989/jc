@@ -103,4 +103,30 @@
       createTime = #{createtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+   <select id="getPlans" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_plan order by createTime limit #{pageIndex},#{pageSize}
+  </select>
+   <select id="getPlansByPlanTitle" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_plan where planTitle like #{planTitle} order by createTime limit #{pageIndex},#{pageSize}
+  </select>
+   <select id="getPlansCount" resultType="java.lang.Integer" >
+    select 
+    count(*)
+    from jc_plan
+  </select>
+   <select id="getPlansCountByPlanTitle" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select 
+    count(*)
+    from jc_plan where planTitle like #{planTitle}
+  </select>
+  <select id="getPlanByPlanTitle" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jc_plan
+    where planTitle = #{planTitle,jdbcType=VARCHAR}
+  </select>
 </mapper>
