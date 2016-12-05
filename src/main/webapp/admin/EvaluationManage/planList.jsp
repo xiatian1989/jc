@@ -27,7 +27,7 @@
 			url:'${pageContext.request.contextPath}/planList',
 			columns: [ [ 
 			{
-				title : '用户名',
+				title : '计划名',
 				field : 'plantitle',
 				width : 100,
 			},{

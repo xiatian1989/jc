@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rwkj.jc.IDao.RuleMapper" >
+  <resultMap id="BaseResultMap" type="com.rwkj.jc.domain.Rule" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="level1" property="level1" jdbcType="INTEGER" />
+    <result column="level2" property="level2" jdbcType="INTEGER" />
+    <result column="level3" property="level3" jdbcType="INTEGER" />
+    <result column="level4" property="level4" jdbcType="INTEGER" />
+    <result column="level5" property="level5" jdbcType="INTEGER" />
+    <result column="level6" property="level6" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, level1, level2, level3, level4, level5, level6
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jc_rule
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from jc_rule
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.rwkj.jc.domain.Rule" >
+    insert into jc_rule (id, level1, level2, 
+      level3, level4, level5, 
+      level6)
+    values (#{id,jdbcType=VARCHAR}, #{level1,jdbcType=INTEGER}, #{level2,jdbcType=INTEGER}, 
+      #{level3,jdbcType=INTEGER}, #{level4,jdbcType=INTEGER}, #{level5,jdbcType=INTEGER}, 
+      #{level6,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rwkj.jc.domain.Rule" >
+    insert into jc_rule
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="level1 != null" >
+        level1,
+      </if>
+      <if test="level2 != null" >
+        level2,
+      </if>
+      <if test="level3 != null" >
+        level3,
+      </if>
+      <if test="level4 != null" >
+        level4,
+      </if>
+      <if test="level5 != null" >
+        level5,
+      </if>
+      <if test="level6 != null" >
+        level6,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="level1 != null" >
+        #{level1,jdbcType=INTEGER},
+      </if>
+      <if test="level2 != null" >
+        #{level2,jdbcType=INTEGER},
+      </if>
+      <if test="level3 != null" >
+        #{level3,jdbcType=INTEGER},
+      </if>
+      <if test="level4 != null" >
+        #{level4,jdbcType=INTEGER},
+      </if>
+      <if test="level5 != null" >
+        #{level5,jdbcType=INTEGER},
+      </if>
+      <if test="level6 != null" >
+        #{level6,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rwkj.jc.domain.Rule" >
+    update jc_rule
+    <set >
+      <if test="level1 != null" >
+        level1 = #{level1,jdbcType=INTEGER},
+      </if>
+      <if test="level2 != null" >
+        level2 = #{level2,jdbcType=INTEGER},
+      </if>
+      <if test="level3 != null" >
+        level3 = #{level3,jdbcType=INTEGER},
+      </if>
+      <if test="level4 != null" >
+        level4 = #{level4,jdbcType=INTEGER},
+      </if>
+      <if test="level5 != null" >
+        level5 = #{level5,jdbcType=INTEGER},
+      </if>
+      <if test="level6 != null" >
+        level6 = #{level6,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rwkj.jc.domain.Rule" >
+    update jc_rule
+    set level1 = #{level1,jdbcType=INTEGER},
+      level2 = #{level2,jdbcType=INTEGER},
+      level3 = #{level3,jdbcType=INTEGER},
+      level4 = #{level4,jdbcType=INTEGER},
+      level5 = #{level5,jdbcType=INTEGER},
+      level6 = #{level6,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
