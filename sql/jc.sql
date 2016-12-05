@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50087
 File Encoding         : 65001
 
-Date: 2016-12-01 17:38:44
+Date: 2016-12-05 17:24:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -157,10 +157,12 @@ CREATE TABLE `jc_relation` (
   `id` varchar(50) NOT NULL,
   `plan_id` varchar(50) NOT NULL,
   `testPerson` varchar(50) NOT NULL,
-  `beTestedPerson` varchar(50) NOT NULL,
-  `isPerson` tinyint(1) default NULL,
-  `isFinish` tinyint(1) NOT NULL,
+  `beTestedObject` varchar(50) NOT NULL,
+  `isPerson` tinyint(1) unsigned zerofill NOT NULL,
+  `isFinish` tinyint(1) unsigned zerofill NOT NULL,
   `paper_id` varchar(50) NOT NULL,
+  `rule_id` varchar(50) NOT NULL,
+  `isSupportSMS` tinyint(1) unsigned zerofill NOT NULL,
   `createTime` datetime NOT NULL,
   `status` tinyint(1) NOT NULL,
   PRIMARY KEY  (`id`)
@@ -206,6 +208,25 @@ CREATE TABLE `jc_resultdetail` (
 
 -- ----------------------------
 -- Records of jc_resultdetail
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for jc_rule
+-- ----------------------------
+DROP TABLE IF EXISTS `jc_rule`;
+CREATE TABLE `jc_rule` (
+  `id` varchar(50) NOT NULL,
+  `level1` int(3) NOT NULL,
+  `level2` int(3) NOT NULL,
+  `level3` int(3) NOT NULL,
+  `level4` int(3) default NULL,
+  `level5` int(3) default NULL,
+  `level6` int(3) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of jc_rule
 -- ----------------------------
 
 -- ----------------------------
