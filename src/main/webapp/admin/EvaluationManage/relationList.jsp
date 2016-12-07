@@ -73,16 +73,6 @@
 		});
 	});
 	
-	function doSearch() {
-		param = $("#key").val();
-		if (param == "请输入计划名称") {
-			param ="";
-		}
-		  $('#dg').datagrid('load',{  
-			  param: param, 
-	       });  
-	}
-	
 	function newRelation() {
 	}
 
@@ -123,10 +113,46 @@
 			});
 		}
 	}
+	function changeColumn(){
+		var column = $("#column").val();
+		if(column=='isPerson' || column=='isFinish' || column=='isSupportSMS') {
+			$("#key").hide();
+			$("#param1").hide();
+			$("#param").show();
+			
+		}else if(column=='status'){
+			$("#key").hide();
+			$("#param1").show();
+			$("#param").hide();
+		}else{
+			$("#key").show();
+			$("#param1").hide();
+			$("#param").hide();
+		}
+		
+	}
+	
+	function doSearch() {
+		var column = $("#column").val();
+		var value="";
+		if(column=='isPerson' || column=='isFinish' || column=='isSupportSMS') {
+			value= $("#param").value();
+		}else if(column=='status'){
+			value= $("#param1").value();
+		}else{
+			value= $("#key").value();
+			if(value="请输入查询值") {
+				value ="";
+			}
+		}
+		  $('#dg').datagrid('load',{  
+			  param: param,
+			  value:value,
+	       });  
+	}
 
 	function cancel() {
 		$('#fm').form('clear');
-		$('#dlg').dialog('close');
 	}
 	
 </script>
@@ -147,7 +173,7 @@
 			<select id="column" name="column" onchange="changeColumn()">
 				<option value="plan_id">计划标题</option>
 				<option value="testPerson">测评人</option>
-				<option value="betestedobject">被测评人</option>
+				<option value="betestedobject">被测评对象</option>
 				<option value="isPerson">被测评是否是人</option>
 				<option value="isFinish">是否完成</option>
 				<option value="isSupportSMS">是否支持短信</option>

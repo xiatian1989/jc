@@ -1,6 +1,7 @@
 package com.rwkj.jc.domain;
 
 public class Rule {
+	
     private String id;
 
     private Integer level1;

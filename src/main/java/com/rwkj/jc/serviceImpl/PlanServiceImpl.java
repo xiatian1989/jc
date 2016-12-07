@@ -51,4 +51,8 @@ public class PlanServiceImpl implements PlanService {
 	public int getPlansCountByPlanTitle(String planTitle) {
 		return planDao.getPlansCountByPlanTitle(planTitle);
 	}
+
+	public Plan getPlanByPlanTitle(String planTitle) {
+		return planDao.getPlanByPlanTitle(planTitle);
+	}
 }

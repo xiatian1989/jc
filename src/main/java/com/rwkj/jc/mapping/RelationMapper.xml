@@ -5,7 +5,8 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="plan_id" property="planId" jdbcType="VARCHAR" />
     <result column="testPerson" property="testperson" jdbcType="VARCHAR" />
-    <result column="beTestedObject" property="betestedobject" jdbcType="VARCHAR" />
+    <result column="beTestedPerson" property="betestedperson" jdbcType="VARCHAR" />
+    <result column="beTestedDepart" property="betesteddepart" jdbcType="VARCHAR" />
     <result column="isPerson" property="isperson" jdbcType="BIT" />
     <result column="isFinish" property="isfinish" jdbcType="BIT" />
     <result column="paper_id" property="paperId" jdbcType="VARCHAR" />
@@ -13,10 +14,13 @@
     <result column="isSupportSMS" property="issupportsms" jdbcType="BIT" />
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="BIT" />
+    <association property="plan" column="plan_id" select="com.rwkj.jc.IDao.PlanMapper.selectByPrimaryKey"/>
+    <association property="paper" column="paper_id" select="com.rwkj.jc.IDao.PaperMapper.selectByPrimaryKey"/>
+    <association property="rule" column="rule_id" select="com.rwkj.jc.IDao.RuleMapper.selectByPrimaryKey"/>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, plan_id, testPerson, beTestedObject, isPerson, isFinish, paper_id, rule_id, isSupportSMS, 
-    createTime, status
+    id, plan_id, testPerson, beTestedPerson, beTestedDepart, isPerson, isFinish, paper_id, 
+    rule_id, isSupportSMS, createTime, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -30,13 +34,15 @@
   </delete>
   <insert id="insert" parameterType="com.rwkj.jc.domain.Relation" >
     insert into jc_relation (id, plan_id, testPerson, 
-      beTestedObject, isPerson, isFinish, 
-      paper_id, rule_id, isSupportSMS, 
-      createTime, status)
+      beTestedPerson, beTestedDepart, isPerson, 
+      isFinish, paper_id, rule_id, 
+      isSupportSMS, createTime, status
+      )
     values (#{id,jdbcType=VARCHAR}, #{planId,jdbcType=VARCHAR}, #{testperson,jdbcType=VARCHAR}, 
-      #{betestedobject,jdbcType=VARCHAR}, #{isperson,jdbcType=BIT}, #{isfinish,jdbcType=BIT}, 
-      #{paperId,jdbcType=VARCHAR}, #{ruleId,jdbcType=VARCHAR}, #{issupportsms,jdbcType=BIT}, 
-      #{createtime,jdbcType=TIMESTAMP}, #{status,jdbcType=BIT})
+      #{betestedperson,jdbcType=VARCHAR}, #{betesteddepart,jdbcType=VARCHAR}, #{isperson,jdbcType=BIT}, 
+      #{isfinish,jdbcType=BIT}, #{paperId,jdbcType=VARCHAR}, #{ruleId,jdbcType=VARCHAR}, 
+      #{issupportsms,jdbcType=BIT}, #{createtime,jdbcType=TIMESTAMP}, #{status,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.rwkj.jc.domain.Relation" >
     insert into jc_relation
@@ -50,8 +56,11 @@
       <if test="testperson != null" >
         testPerson,
       </if>
-      <if test="betestedobject != null" >
-        beTestedObject,
+      <if test="betestedperson != null" >
+        beTestedPerson,
+      </if>
+      <if test="betesteddepart != null" >
+        beTestedDepart,
       </if>
       <if test="isperson != null" >
         isPerson,
@@ -85,8 +94,11 @@
       <if test="testperson != null" >
         #{testperson,jdbcType=VARCHAR},
       </if>
-      <if test="betestedobject != null" >
-        #{betestedobject,jdbcType=VARCHAR},
+      <if test="betestedperson != null" >
+        #{betestedperson,jdbcType=VARCHAR},
+      </if>
+      <if test="betesteddepart != null" >
+        #{betesteddepart,jdbcType=VARCHAR},
       </if>
       <if test="isperson != null" >
         #{isperson,jdbcType=BIT},
@@ -120,8 +132,11 @@
       <if test="testperson != null" >
         testPerson = #{testperson,jdbcType=VARCHAR},
       </if>
-      <if test="betestedobject != null" >
-        beTestedObject = #{betestedobject,jdbcType=VARCHAR},
+      <if test="betestedperson != null" >
+        beTestedPerson = #{betestedperson,jdbcType=VARCHAR},
+      </if>
+      <if test="betesteddepart != null" >
+        beTestedDepart = #{betesteddepart,jdbcType=VARCHAR},
       </if>
       <if test="isperson != null" >
         isPerson = #{isperson,jdbcType=BIT},
@@ -151,7 +166,8 @@
     update jc_relation
     set plan_id = #{planId,jdbcType=VARCHAR},
       testPerson = #{testperson,jdbcType=VARCHAR},
-      beTestedObject = #{betestedobject,jdbcType=VARCHAR},
+      beTestedPerson = #{betestedperson,jdbcType=VARCHAR},
+      beTestedDepart = #{betesteddepart,jdbcType=VARCHAR},
       isPerson = #{isperson,jdbcType=BIT},
       isFinish = #{isfinish,jdbcType=BIT},
       paper_id = #{paperId,jdbcType=VARCHAR},
@@ -161,4 +177,64 @@
       status = #{status,jdbcType=BIT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+    <select id="getRelations" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from jc_relation order by createTime limit #{pageIndex},#{pageSize}
+  </select>
+  
+   <select id="getRelationsCount" resultType="java.lang.Integer">
+    select 
+    count(*)
+    from jc_relation
+  </select> 
+  
+  <select id="getRelationsByColumnValueForNoSureValue" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from jc_relation where ${column} in #{value} order by createTime limit #{pageIndex},#{pageSize}
+  </select>
+  
+   <select id="getRelationsCountByColumnValueForNoSureValue" resultType="java.lang.Integer">
+    select 
+    count(*)
+    from jc_relation where ${column} in #{value}
+  </select>
+  <select id="getRelationsByColumnValue" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from jc_relation where ${column} = ${value} order by createTime limit #{pageIndex},#{pageSize}
+  </select>
+  
+   <select id="getRelationsCountByColumnValue" resultType="java.lang.Integer">
+    select 
+    count(*)
+    from jc_relation where ${column} = ${value}
+  </select>
+  
+   <delete id="deleteRelationByids" parameterType="java.lang.String" >
+    update jc_relation set status = 0
+    where id in ${ids}
+  </delete>
+  
+  <select id="getAllRelations" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_relation order by createTime
+  </select>
+  
+   <insert id="batchInsert" parameterType="java.util.List">
+     insert into jc_relation (id, plan_id, testPerson, 
+      beTestedPerson, beTestedDepart, isPerson, 
+      isFinish, paper_id, rule_id, 
+      isSupportSMS, createTime, status
+      )
+    values 
+	<foreach collection="list" item="itm" separator=",">
+	(#{itm.id,jdbcType=VARCHAR}, #{itm.planId,jdbcType=VARCHAR}, #{itm.testperson,jdbcType=VARCHAR}, 
+      #{itm.beTestedPerson,jdbcType=VARCHAR},#{itm.beTestedDepart,jdbcType=VARCHAR}, #{itm.isperson,jdbcType=BIT}, #{itm.isfinish,jdbcType=BIT}, 
+      #{itm.paperId,jdbcType=VARCHAR}, #{itm.ruleId,jdbcType=VARCHAR}, #{itm.issupportsms,jdbcType=BIT}, 
+      #{itm.createtime,jdbcType=TIMESTAMP}, #{itm.status,jdbcType=BIT})
+     </foreach>
+  </insert>
 </mapper>

@@ -74,7 +74,7 @@
 					<a href="${pageContext.request.contextPath}/admin/EvaluationManage/planList.jsp" target="mainContent">测评计划管理</a>
 				</div>
 				<div>
-					<a href="${pageContext.request.contextPath}/organizationList" target="mainContent">测评关系管理</a>
+					<a href="${pageContext.request.contextPath}/admin/EvaluationManage/relationList.jsp" target="mainContent">测评关系管理</a>
 				</div>
 				<div>
 					<a href="${pageContext.request.contextPath}/organizationList" target="mainContent">测评方式管理</a>

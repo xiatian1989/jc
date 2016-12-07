@@ -15,4 +15,6 @@ public interface PlanService {
 	List<Plan> getPlansByPlanTitle(String planTitle,int pageIndex, int pageSize);
 	int getPlansCount();
 	int getPlansCountByPlanTitle(String planTitle);
+	
+	Plan getPlanByPlanTitle(String planTitle);
 }

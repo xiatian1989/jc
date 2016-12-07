@@ -9,7 +9,9 @@ public class Relation {
 
     private String testperson;
 
-    private String betestedobject;
+    private String betestedperson;
+
+    private String betesteddepart;
 
     private Boolean isperson;
 
@@ -24,6 +26,18 @@ public class Relation {
     private Date createtime;
 
     private Boolean status;
+    
+    private User testUser;
+    
+    private User beTestedUser;
+    
+    private Depart beTestedDepart;
+    
+    private Plan plan;
+    
+    private Paper paper;
+    
+    private Rule rule;
 
     public String getId() {
         return id;
@@ -49,12 +63,20 @@ public class Relation {
         this.testperson = testperson == null ? null : testperson.trim();
     }
 
-    public String getBetestedobject() {
-        return betestedobject;
+    public String getBetestedperson() {
+        return betestedperson;
     }
 
-    public void setBetestedobject(String betestedobject) {
-        this.betestedobject = betestedobject == null ? null : betestedobject.trim();
+    public void setBetestedperson(String betestedperson) {
+        this.betestedperson = betestedperson == null ? null : betestedperson.trim();
+    }
+
+    public String getBetesteddepart() {
+        return betesteddepart;
+    }
+
+    public void setBetesteddepart(String betesteddepart) {
+        this.betesteddepart = betesteddepart == null ? null : betesteddepart.trim();
     }
 
     public Boolean getIsperson() {
@@ -112,4 +134,52 @@ public class Relation {
     public void setStatus(Boolean status) {
         this.status = status;
     }
+
+	public User getTestUser() {
+		return testUser;
+	}
+
+	public void setTestUser(User testUser) {
+		this.testUser = testUser;
+	}
+
+	public User getBeTestedUser() {
+		return beTestedUser;
+	}
+
+	public void setBeTestedUser(User beTestedUser) {
+		this.beTestedUser = beTestedUser;
+	}
+
+	public Depart getBeTestedDepart() {
+		return beTestedDepart;
+	}
+
+	public void setBeTestedDepart(Depart beTestedDepart) {
+		this.beTestedDepart = beTestedDepart;
+	}
+
+	public Plan getPlan() {
+		return plan;
+	}
+
+	public void setPlan(Plan plan) {
+		this.plan = plan;
+	}
+
+	public Paper getPaper() {
+		return paper;
+	}
+
+	public void setPaper(Paper paper) {
+		this.paper = paper;
+	}
+
+	public Rule getRule() {
+		return rule;
+	}
+
+	public void setRule(Rule rule) {
+		this.rule = rule;
+	}
 }
