@@ -71,9 +71,17 @@
 	          $('#dg').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题  
 	       } 
 		});
+		$('#win').window({
+			onLoad:function(){
+				alert('loaded successfully');
+				fillDepart();
+		    }
+		});
 	});
 	
 	function newRelation() {
+		$('#win').window('open');
+		$('#win').window('refresh', '${pageContext.request.contextPath}/admin/EvaluationManage/relationListConnect.jsp');
 	}
 
 
@@ -155,6 +163,20 @@
 		$('#fm').form('clear');
 	}
 	
+	function fillDepart(){
+		$.ajax({
+			url : '${pageContext.request.contextPath}/getDeparts',
+			type : 'post',
+			async : false, //默认为true 异步   
+			success : function(objs) {
+				debugger;
+				$("#departNo").empty();
+				for(var i =0;i<objs.length;i++) {
+					$("#departNo").append("<option value='"+objs[i].departNo+"'>"+objs[i].departName+"</option>");
+				}
+			}
+		});
+	}
 </script>
 <style type="text/css">
 	body{
@@ -191,6 +213,9 @@
 			</select>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="doSearch()">搜索</a>
 		</div>
+	</div>
+	<div id="win" class="easyui-window" title="添加测评关系" style="width:980px;height:660px"
+   	 	data-options="iconCls:'icon-save',modal:true,closed:true,cache: false">
 	</div>
 </body>
 </html>
