@@ -19,38 +19,30 @@
 		padding:0px;
 	}
 </style>
-</head>
+</head>	
 <body>
 	<div class="easyui-layout" style="width:100%;height:100%;">
-		<div data-options="region:'east',split:true" title="East" style="width:350px;">
-			请选择部门:<select id="departNoRight" name="departNoRight" style="width:195px;" onchange="changeDepartRight()">
+		<div data-options="region:'east',split:true" title="" style="width:350px;">
+			&nbsp;部门:<select id="departNoRight" name="departNoRight" style="width:140px;" onchange="changeDepartRight()">
 			</select>
-			&nbsp;&nbsp;请选择测评对象类型：
-			<select id="beTestedType" name="beTestedType" style="width:195px;" onchange="changeBeTestedType()">
+			&nbsp;&nbsp;对象类型:
+			<select id="beTestedType" name="beTestedType" style="width:100px;" onchange="changeDepartRight()">
 				<option value="0">人员</option>
 				<option value="1">部门</option>
 			</select>
 			<ul class="easyui-tree" data-options="url:'${pageContext.request.contextPath}/departListForUser',checkbox:true,lines:true" id="ttRight" ></ul>
 		</div>
-		<div data-options="region:'west',split:true" title="West" style="width:350px;">
-			请选择部门:<select id="departNoLeft" name="departNoLeft" style="width:195px;" onchange="changeDepartLeft()">
+		<div data-options="region:'west',split:true" title="" style="width:350px;">
+			&nbsp;部门:<select id="departNoLeft" name="departNoLeft" style="width:140px;" onchange="changeDepartLeft()">
 			</select>
 			<ul class="easyui-tree" data-options="url:'${pageContext.request.contextPath}/departListForUser',checkbox:true,lines:true" id="ttLeft" ></ul>
 		</div>
-		<div data-options="region:'center',title:'Main Title',iconCls:'icon-ok'">
-			<table class="easyui-datagrid"
-					data-options="url:'datagrid_data1.json',method:'get',border:false,singleSelect:true,fit:true,fitColumns:true">
-				<thead>
-					<tr>
-						<th data-options="field:'itemid'" width="80">Item ID</th>
-						<th data-options="field:'productid'" width="100">Product ID</th>
-						<th data-options="field:'listprice',align:'right'" width="80">List Price</th>
-						<th data-options="field:'unitcost',align:'right'" width="80">Unit Cost</th>
-						<th data-options="field:'attr1'" width="150">Attribute</th>
-						<th data-options="field:'status',align:'center'" width="60">Status</th>
-					</tr>
-				</thead>
-			</table>
+		<div data-options="region:'center',title:'',iconCls:'icon-ok'">
+			<div style="text-align: center;margin-top: 50px">
+				<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加测评试卷</a><br><br>
+				<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加测评规则</a><br><br>
+				<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'">建立测评关系</a><br><br>
+			</div>
 		</div>
 	</div>
 </body>

@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -82,7 +83,6 @@ public class DepartManageController {
 		List<User> users = null;
 		if(StringUtils.isNullOrEmpty(parentNo)){
 			departs = departService.getFirstLevelDeparts();
-			
 		}else{
 			departs = departService.getDepartsByParentNo(parentNo);
 			users = userService.getUsersByDepartNo(parentNo);
@@ -91,13 +91,15 @@ public class DepartManageController {
 		JSONArray jsonArray = new JSONArray();
 		JSONArray subJsonArray = new JSONArray();
 		JSONObject subjsonObject = null;
-		for(User user:users) {
-			  subjsonObject = new JSONObject();  
-	          subjsonObject.put("id",user.getUserno());
-	          subjsonObject.put("text",user.getTruename());
-	          subjsonObject.put("iconCls","icon-man");
-	          subjsonObject.put("state","closed");
-	          subJsonArray.add(subjsonObject);
+		if(!CollectionUtils.isEmpty(users)) {
+			for(User user:users) {
+				  subjsonObject = new JSONObject();  
+		          subjsonObject.put("id",user.getUserno());
+		          subjsonObject.put("text",user.getTruename());
+		          subjsonObject.put("iconCls","icon-man");
+		          subjsonObject.put("state","open");
+		          subJsonArray.add(subjsonObject);
+			}
 		}
         for(Depart depart:departs){  
             subjsonObject = new JSONObject();  

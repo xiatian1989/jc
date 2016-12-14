@@ -73,7 +73,6 @@
 		});
 		$('#win').window({
 			onLoad:function(){
-				alert('loaded successfully');
 				fillDepart();
 		    }
 		});
@@ -169,13 +168,31 @@
 			type : 'post',
 			async : false, //默认为true 异步   
 			success : function(objs) {
-				debugger;
-				$("#departNo").empty();
+				$("#departNoLeft").empty();
+				$("#departNoLeft").append("<option value=''></option>");
 				for(var i =0;i<objs.length;i++) {
-					$("#departNo").append("<option value='"+objs[i].departNo+"'>"+objs[i].departName+"</option>");
+					$("#departNoLeft").append("<option value='"+objs[i].departNo+"'>"+objs[i].departName+"</option>");
+				}
+				$("#departNoRight").empty();
+				$("#departNoRight").append("<option value=''></option>");
+				for(var i =0;i<objs.length;i++) {
+					$("#departNoRight").append("<option value='"+objs[i].departNo+"'>"+objs[i].departName+"</option>");
 				}
 			}
 		});
+	}
+	function changeDepartLeft(){
+		 $("#ttLeft").tree("options").url="${pageContext.request.contextPath}/departListForUser?id="+$("#departNoLeft").val();
+		$('#ttLeft').tree('reload');
+	}
+	function changeDepartRight(){
+		var type = $("#beTestedType").val();
+		if(type==0){
+			$("#ttRight").tree("options").url="${pageContext.request.contextPath}/departListForUser?id="+$("#departNoRight").val();
+		}else{
+			$("#ttRight").tree("options").url="${pageContext.request.contextPath}/departList?id="+$("#departNoRight").val();
+		}
+		$('#ttRight').tree('reload');
 	}
 </script>
 <style type="text/css">
