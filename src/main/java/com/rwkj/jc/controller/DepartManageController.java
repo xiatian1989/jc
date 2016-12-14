@@ -20,7 +20,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mysql.jdbc.StringUtils;
 import com.rwkj.jc.domain.Depart;
+import com.rwkj.jc.domain.User;
 import com.rwkj.jc.service.DepartService;
+import com.rwkj.jc.service.UserService;
 import com.rwkj.jc.util.CommonUtils;
 
 @Controller
@@ -28,6 +30,8 @@ public class DepartManageController {
 	
 	@Resource
 	private DepartService departService;
+	@Resource
+	private UserService userService;
 	
 	@InitBinder("depart")    
 	public void initBinder2(WebDataBinder binder) {    
@@ -70,6 +74,54 @@ public class DepartManageController {
         	return subJsonArray;
         }
 	}
+	
+	@RequestMapping("departListForUser")
+	public @ResponseBody Object getDepartListForUser(HttpServletRequest request){
+		String parentNo = request.getParameter("id");
+		List<Depart> departs = null;
+		List<User> users = null;
+		if(StringUtils.isNullOrEmpty(parentNo)){
+			departs = departService.getFirstLevelDeparts();
+			
+		}else{
+			departs = departService.getDepartsByParentNo(parentNo);
+			users = userService.getUsersByDepartNo(parentNo);
+		}
+		
+		JSONArray jsonArray = new JSONArray();
+		JSONArray subJsonArray = new JSONArray();
+		JSONObject subjsonObject = null;
+		for(User user:users) {
+			  subjsonObject = new JSONObject();  
+	          subjsonObject.put("id",user.getUserno());
+	          subjsonObject.put("text",user.getTruename());
+	          subjsonObject.put("iconCls","icon-man");
+	          subjsonObject.put("state","closed");
+	          subJsonArray.add(subjsonObject);
+		}
+        for(Depart depart:departs){  
+            subjsonObject = new JSONObject();  
+            subjsonObject.put("id",depart.getDepartNo());
+            subjsonObject.put("text",depart.getDepartName());
+             if(depart.getIsleaf()){
+            	 subjsonObject.put("state","open");
+             }else{
+            	 subjsonObject.put("state","closed");
+             }
+             subJsonArray.add(subjsonObject);
+        }
+        if(StringUtils.isNullOrEmpty(parentNo)){
+        	 JSONObject jsonObject = new JSONObject();
+             jsonObject.put("id", "0");
+             jsonObject.put("text", "部门列表");
+             jsonObject.put("children", subJsonArray);
+             jsonArray.add(jsonObject);
+     		return jsonArray;
+        }else{
+        	return subJsonArray;
+        }
+	}
+	
 	
 	@RequestMapping("subDepartList")
 	public @ResponseBody Object getSubDepartList(HttpServletRequest request, 

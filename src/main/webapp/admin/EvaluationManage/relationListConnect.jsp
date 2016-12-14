@@ -23,12 +23,19 @@
 <body>
 	<div class="easyui-layout" style="width:100%;height:100%;">
 		<div data-options="region:'east',split:true" title="East" style="width:350px;">
-			<select id="departNo" name="departNo" style="width:195px;" onchange="fillLeader()">
+			请选择部门:<select id="departNoRight" name="departNoRight" style="width:195px;" onchange="changeDepartRight()">
 			</select>
-			<ul class="easyui-tree" data-options="url:'${pageContext.request.contextPath}/departList',checkbox:true,lines:true" id="tt" ></ul>
+			&nbsp;&nbsp;请选择测评对象类型：
+			<select id="beTestedType" name="beTestedType" style="width:195px;" onchange="changeBeTestedType()">
+				<option value="0">人员</option>
+				<option value="1">部门</option>
+			</select>
+			<ul class="easyui-tree" data-options="url:'${pageContext.request.contextPath}/departListForUser',checkbox:true,lines:true" id="ttRight" ></ul>
 		</div>
 		<div data-options="region:'west',split:true" title="West" style="width:350px;">
-			<ul class="easyui-tree" data-options="url:'${pageContext.request.contextPath}/departList',checkbox:true,lines:true" id="tt1" ></ul>
+			请选择部门:<select id="departNoLeft" name="departNoLeft" style="width:195px;" onchange="changeDepartLeft()">
+			</select>
+			<ul class="easyui-tree" data-options="url:'${pageContext.request.contextPath}/departListForUser',checkbox:true,lines:true" id="ttLeft" ></ul>
 		</div>
 		<div data-options="region:'center',title:'Main Title',iconCls:'icon-ok'">
 			<table class="easyui-datagrid"
