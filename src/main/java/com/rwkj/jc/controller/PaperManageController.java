@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -80,6 +82,31 @@ public class PaperManageController {
 		result.put("total", total);  
 	    result.put("rows",jsonArray);
 		return result;
+	}
+	
+	@RequestMapping("paperListForPaper")
+	public ModelAndView paperListForPaper(HttpServletRequest request, 
+			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
+			@RequestParam(required = false, defaultValue = "10") Integer rows){
+		String column = request.getParameter("column");
+		String value = request.getParameter("value");
+		List<Paper> papers = null;
+		if(StringUtils.isNullOrEmpty(value)){
+			papers = paperService.getPapers((page-1)*rows, rows);
+		}else{
+			value = "%"+value+"%";
+			papers = paperService.getPapersByColumnValue(column, value, (page-1)*rows, rows);
+		}
+		Iterator<Paper> iterator = papers.iterator();
+		while(iterator.hasNext()){
+			if(!iterator.next().getStatus()) {
+				iterator.remove();
+			}
+		}
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("papers",papers);
+		modelAndView.setViewName("admin/EvaluationManage/paperForChoose");
+		return modelAndView;
 	}
 	
 	@RequestMapping("addPaper")

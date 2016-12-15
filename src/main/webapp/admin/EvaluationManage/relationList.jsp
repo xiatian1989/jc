@@ -61,7 +61,7 @@
 				width : 100,
 			},{
 				title : '操作',
-				field : 'createtime',
+				field : 'id',
 				width : 100,
 			}] ],
 			fitColumns:true,
@@ -194,10 +194,64 @@
 		}
 		$('#ttRight').tree('reload');
 	}
+	function choosePaper(){
+		$('#winForpaper').window('open');
+		$('#winForpaper').window('refresh', '${pageContext.request.contextPath}/paperListForPaper');
+	}
+	function changeColumnForpaper() {
+		var column = $("#columnForpaper").val();
+		if (column == 'type') {
+			$("#paramForpaper").show();
+			$("#keyForpaper").hide();
+		} else {
+			$("#keyForpaper").show();
+			$("#paramForpaper").hide();
+		}
+	}
+	function doSearchForpaper() {
+		var column = $("#columnForpaper").val();
+		var value =  $("#keyForpaper").val();
+		if(column == "type") {
+			value = $("#paramForpaper").val();
+		}
+
+		if (value == "请输入查询值") {
+			value = "";
+		}
+		$('#winForpaper').window('refresh', '${pageContext.request.contextPath}/paperListForPaper?column='+column+'&value='+value);
+	}
+	
+	function openPaper(paperId){
+		$('#winForPapeForPreview').window('open');
+		$('#winForPapeForPreview').window('refresh', '${pageContext.request.contextPath}/paperPreview?paperId='+paperId);
+	}
+	
+	function makesurePaper(paperId,type) {
+		if(type){
+			$("#addRelationRule").show();
+		}else{
+			$("#addRelationRule").hide();
+		}
+		$('#winForpaper').window('close');
+		$("#paperId").val(paperId);
+	}
+	
+	function newPaper() {
+
+		$('#dlg').dialog('open').dialog('setTitle', '添加试卷');
+		$('#fm').form('clear');
+		url = "${pageContext.request.contextPath}/addPaper"
+		fillDepart();
+		fillLeader();
+		model="add";
+	}
 </script>
 <style type="text/css">
-	body{
+	#win,body{
 		padding:0px;
+	}
+	.panel-body{
+		overflow: hidden!important;
 	}
 </style>
 </head>
@@ -231,7 +285,7 @@
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="doSearch()">搜索</a>
 		</div>
 	</div>
-	<div id="win" class="easyui-window" title="添加测评关系" style="width:980px;height:660px"
+	<div id="win" class="easyui-window" title="添加测评关系" style="width:980px;height:520px"
    	 	data-options="iconCls:'icon-save',modal:true,closed:true,cache: false">
 	</div>
 </body>

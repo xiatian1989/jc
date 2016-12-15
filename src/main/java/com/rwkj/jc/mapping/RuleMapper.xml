@@ -3,15 +3,20 @@
 <mapper namespace="com.rwkj.jc.IDao.RuleMapper" >
   <resultMap id="BaseResultMap" type="com.rwkj.jc.domain.Rule" >
     <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="level1" property="level1" jdbcType="INTEGER" />
-    <result column="level2" property="level2" jdbcType="INTEGER" />
-    <result column="level3" property="level3" jdbcType="INTEGER" />
-    <result column="level4" property="level4" jdbcType="INTEGER" />
-    <result column="level5" property="level5" jdbcType="INTEGER" />
-    <result column="level6" property="level6" jdbcType="INTEGER" />
+    <result column="first" property="first" jdbcType="INTEGER" />
+    <result column="firstName" property="firstname" jdbcType="VARCHAR" />
+    <result column="second" property="second" jdbcType="INTEGER" />
+    <result column="secondName" property="secondname" jdbcType="VARCHAR" />
+    <result column="third" property="third" jdbcType="INTEGER" />
+    <result column="thirdName" property="thirdname" jdbcType="VARCHAR" />
+    <result column="forth" property="forth" jdbcType="INTEGER" />
+    <result column="forthName" property="forthname" jdbcType="VARCHAR" />
+    <result column="fifth" property="fifth" jdbcType="INTEGER" />
+    <result column="fifthName" property="fifthname" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, level1, level2, level3, level4, level5, level6
+    id, first, firstName, second, secondName, third, thirdName, forth, forthName, fifth, 
+    fifthName
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -24,12 +29,14 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.rwkj.jc.domain.Rule" >
-    insert into jc_rule (id, level1, level2, 
-      level3, level4, level5, 
-      level6)
-    values (#{id,jdbcType=VARCHAR}, #{level1,jdbcType=INTEGER}, #{level2,jdbcType=INTEGER}, 
-      #{level3,jdbcType=INTEGER}, #{level4,jdbcType=INTEGER}, #{level5,jdbcType=INTEGER}, 
-      #{level6,jdbcType=INTEGER})
+    insert into jc_rule (id, first, firstName, 
+      second, secondName, third, 
+      thirdName, forth, forthName, 
+      fifth, fifthName)
+    values (#{id,jdbcType=VARCHAR}, #{first,jdbcType=INTEGER}, #{firstname,jdbcType=VARCHAR}, 
+      #{second,jdbcType=INTEGER}, #{secondname,jdbcType=VARCHAR}, #{third,jdbcType=INTEGER}, 
+      #{thirdname,jdbcType=VARCHAR}, #{forth,jdbcType=INTEGER}, #{forthname,jdbcType=VARCHAR}, 
+      #{fifth,jdbcType=INTEGER}, #{fifthname,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.rwkj.jc.domain.Rule" >
     insert into jc_rule
@@ -37,81 +44,121 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="level1 != null" >
-        level1,
+      <if test="first != null" >
+        first,
       </if>
-      <if test="level2 != null" >
-        level2,
+      <if test="firstname != null" >
+        firstName,
       </if>
-      <if test="level3 != null" >
-        level3,
+      <if test="second != null" >
+        second,
       </if>
-      <if test="level4 != null" >
-        level4,
+      <if test="secondname != null" >
+        secondName,
       </if>
-      <if test="level5 != null" >
-        level5,
+      <if test="third != null" >
+        third,
       </if>
-      <if test="level6 != null" >
-        level6,
+      <if test="thirdname != null" >
+        thirdName,
+      </if>
+      <if test="forth != null" >
+        forth,
+      </if>
+      <if test="forthname != null" >
+        forthName,
+      </if>
+      <if test="fifth != null" >
+        fifth,
+      </if>
+      <if test="fifthname != null" >
+        fifthName,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="level1 != null" >
-        #{level1,jdbcType=INTEGER},
+      <if test="first != null" >
+        #{first,jdbcType=INTEGER},
       </if>
-      <if test="level2 != null" >
-        #{level2,jdbcType=INTEGER},
+      <if test="firstname != null" >
+        #{firstname,jdbcType=VARCHAR},
       </if>
-      <if test="level3 != null" >
-        #{level3,jdbcType=INTEGER},
+      <if test="second != null" >
+        #{second,jdbcType=INTEGER},
       </if>
-      <if test="level4 != null" >
-        #{level4,jdbcType=INTEGER},
+      <if test="secondname != null" >
+        #{secondname,jdbcType=VARCHAR},
       </if>
-      <if test="level5 != null" >
-        #{level5,jdbcType=INTEGER},
+      <if test="third != null" >
+        #{third,jdbcType=INTEGER},
       </if>
-      <if test="level6 != null" >
-        #{level6,jdbcType=INTEGER},
+      <if test="thirdname != null" >
+        #{thirdname,jdbcType=VARCHAR},
+      </if>
+      <if test="forth != null" >
+        #{forth,jdbcType=INTEGER},
+      </if>
+      <if test="forthname != null" >
+        #{forthname,jdbcType=VARCHAR},
+      </if>
+      <if test="fifth != null" >
+        #{fifth,jdbcType=INTEGER},
+      </if>
+      <if test="fifthname != null" >
+        #{fifthname,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.rwkj.jc.domain.Rule" >
     update jc_rule
     <set >
-      <if test="level1 != null" >
-        level1 = #{level1,jdbcType=INTEGER},
+      <if test="first != null" >
+        first = #{first,jdbcType=INTEGER},
       </if>
-      <if test="level2 != null" >
-        level2 = #{level2,jdbcType=INTEGER},
+      <if test="firstname != null" >
+        firstName = #{firstname,jdbcType=VARCHAR},
       </if>
-      <if test="level3 != null" >
-        level3 = #{level3,jdbcType=INTEGER},
+      <if test="second != null" >
+        second = #{second,jdbcType=INTEGER},
       </if>
-      <if test="level4 != null" >
-        level4 = #{level4,jdbcType=INTEGER},
+      <if test="secondname != null" >
+        secondName = #{secondname,jdbcType=VARCHAR},
       </if>
-      <if test="level5 != null" >
-        level5 = #{level5,jdbcType=INTEGER},
+      <if test="third != null" >
+        third = #{third,jdbcType=INTEGER},
       </if>
-      <if test="level6 != null" >
-        level6 = #{level6,jdbcType=INTEGER},
+      <if test="thirdname != null" >
+        thirdName = #{thirdname,jdbcType=VARCHAR},
+      </if>
+      <if test="forth != null" >
+        forth = #{forth,jdbcType=INTEGER},
+      </if>
+      <if test="forthname != null" >
+        forthName = #{forthname,jdbcType=VARCHAR},
+      </if>
+      <if test="fifth != null" >
+        fifth = #{fifth,jdbcType=INTEGER},
+      </if>
+      <if test="fifthname != null" >
+        fifthName = #{fifthname,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.rwkj.jc.domain.Rule" >
     update jc_rule
-    set level1 = #{level1,jdbcType=INTEGER},
-      level2 = #{level2,jdbcType=INTEGER},
-      level3 = #{level3,jdbcType=INTEGER},
-      level4 = #{level4,jdbcType=INTEGER},
-      level5 = #{level5,jdbcType=INTEGER},
-      level6 = #{level6,jdbcType=INTEGER}
+    set first = #{first,jdbcType=INTEGER},
+      firstName = #{firstname,jdbcType=VARCHAR},
+      second = #{second,jdbcType=INTEGER},
+      secondName = #{secondname,jdbcType=VARCHAR},
+      third = #{third,jdbcType=INTEGER},
+      thirdName = #{thirdname,jdbcType=VARCHAR},
+      forth = #{forth,jdbcType=INTEGER},
+      forthName = #{forthname,jdbcType=VARCHAR},
+      fifth = #{fifth,jdbcType=INTEGER},
+      fifthName = #{fifthname,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

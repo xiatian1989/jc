@@ -1,20 +1,27 @@
 package com.rwkj.jc.domain;
 
 public class Rule {
-	
     private String id;
 
-    private Integer level1;
+    private Integer first;
 
-    private Integer level2;
+    private String firstname;
 
-    private Integer level3;
+    private Integer second;
 
-    private Integer level4;
+    private String secondname;
 
-    private Integer level5;
+    private Integer third;
 
-    private Integer level6;
+    private String thirdname;
+
+    private Integer forth;
+
+    private String forthname;
+
+    private Integer fifth;
+
+    private String fifthname;
 
     public String getId() {
         return id;
@@ -24,51 +31,83 @@ public class Rule {
         this.id = id == null ? null : id.trim();
     }
 
-    public Integer getLevel1() {
-        return level1;
+    public Integer getFirst() {
+        return first;
     }
 
-    public void setLevel1(Integer level1) {
-        this.level1 = level1;
+    public void setFirst(Integer first) {
+        this.first = first;
     }
 
-    public Integer getLevel2() {
-        return level2;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setLevel2(Integer level2) {
-        this.level2 = level2;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname == null ? null : firstname.trim();
     }
 
-    public Integer getLevel3() {
-        return level3;
+    public Integer getSecond() {
+        return second;
     }
 
-    public void setLevel3(Integer level3) {
-        this.level3 = level3;
+    public void setSecond(Integer second) {
+        this.second = second;
     }
 
-    public Integer getLevel4() {
-        return level4;
+    public String getSecondname() {
+        return secondname;
     }
 
-    public void setLevel4(Integer level4) {
-        this.level4 = level4;
+    public void setSecondname(String secondname) {
+        this.secondname = secondname == null ? null : secondname.trim();
     }
 
-    public Integer getLevel5() {
-        return level5;
+    public Integer getThird() {
+        return third;
     }
 
-    public void setLevel5(Integer level5) {
-        this.level5 = level5;
+    public void setThird(Integer third) {
+        this.third = third;
     }
 
-    public Integer getLevel6() {
-        return level6;
+    public String getThirdname() {
+        return thirdname;
     }
 
-    public void setLevel6(Integer level6) {
-        this.level6 = level6;
+    public void setThirdname(String thirdname) {
+        this.thirdname = thirdname == null ? null : thirdname.trim();
+    }
+
+    public Integer getForth() {
+        return forth;
+    }
+
+    public void setForth(Integer forth) {
+        this.forth = forth;
+    }
+
+    public String getForthname() {
+        return forthname;
+    }
+
+    public void setForthname(String forthname) {
+        this.forthname = forthname == null ? null : forthname.trim();
+    }
+
+    public Integer getFifth() {
+        return fifth;
+    }
+
+    public void setFifth(Integer fifth) {
+        this.fifth = fifth;
+    }
+
+    public String getFifthname() {
+        return fifthname;
+    }
+
+    public void setFifthname(String fifthname) {
+        this.fifthname = fifthname == null ? null : fifthname.trim();
     }
 }
