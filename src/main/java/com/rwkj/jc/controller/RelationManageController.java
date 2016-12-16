@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
@@ -149,13 +148,29 @@ public class RelationManageController {
 		return map;
 	}
 	
-	 @RequestMapping("uploadExcelForRelation")  
-	 public @ResponseBody Map<String,String> upload(HttpServletRequest request, HttpServletResponse response)  
+	 @RequestMapping("addRelations")  
+	 public @ResponseBody Map<String,String> addRelations(HttpServletRequest request)  
     {
 		 int count = 0;
 		 Map<String,String> result = new HashMap<String,String>();
+		 String paperId = request.getParameter("paperId");
+		 String ruleId = request.getParameter("ruleId");
+		 String testPeople = request.getParameter("testPeople");
+		 String beTestObject = request.getParameter("beTestObject");
+		 String isPerson = request.getParameter("isPerson");
+		 Relation relation = null;
+		 List<Plan> plans = planService.getPlans(1, 1);
+		 if(CollectionUtils.isEmpty(plans)) {
+			 	result.put("result", "failed");
+				result.put("errorMsg", "请先添加计划！");
+				return result;
+		 }
 		 try{
 			 List<Relation> relations = new ArrayList<Relation>();
+			 if("0".equals(isPerson)) {
+				 relation = new Relation();
+				 relation.setPlanId(plans.get(0).getId());
+			 }
 			 count = relationService.batchInsert(relations);
 		 } catch (Exception e) {
 			result.put("result", "failed");

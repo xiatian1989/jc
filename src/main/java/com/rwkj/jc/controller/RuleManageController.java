@@ -31,11 +31,13 @@ public class RuleManageController {
 	public @ResponseBody Map<String,String> addRule(@ModelAttribute Rule rule){
 		Map<String, String> result = new HashMap<String,String>();
 		int count = 0;
-		rule.setId(CommonUtils.getUUID());
+		String id = CommonUtils.getUUID();
+		rule.setId(id);
 		count = ruleService.addRule(rule);
 		
 		if(count>0){
 			result.put("result", "success");
+			result.put("id", id);
 		}else{
 			result.put("result", "failed");
 			result.put("errorMsg", "添加失败，请联系管理员！");

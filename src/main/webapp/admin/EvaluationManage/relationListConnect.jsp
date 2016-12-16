@@ -6,15 +6,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/easyui/themes/icon.css">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/easyui/demo/demo.css">
-<script type="text/javascript" src="${pageContext.request.contextPath}/easyui/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/easyui/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/easyui/locale/easyui-lang-zh_CN.js"></script>
 </head>	
 <body>
 	<input type="text" id="paperId" style="display: none">
+	<input type="text" id="type" style="display: none">
+	<input type="text" id="ruleId" style="display: none">
 	<div class="easyui-layout" style="width:970px;height:100%;overflow: hidden;">
 		<div data-options="region:'east',split:true" title="" style="width:350px;">
 			&nbsp;部门:<select id="departNoRight" name="departNoRight" style="width:140px;" onchange="changeDepartRight()">
@@ -43,73 +39,73 @@
    	 	data-options="iconCls:'icon-save',modal:true,closed:true,cache: false">
 	</div>
 	<div id="dlgForRule" class="easyui-dialog"
-		style="width: 350px; height: 200px; padding: 10px 20px" closed="true" buttons="dlg-buttonsForRule">
+		style="width: 450px; height: 418px; padding: 10px 20px" closed="true" buttons="#dlg-buttonsForRule">
 		
 		<form id="fmForRule" method="post">
 			<input id=id name=id  style="display:none">
 			<table>
 				<tr>
-					<td style="height: 28px" width=120>第一档次描述：</td>
-					<td style="height: 28px" width=210>
-						<input id=firstname style="width: 190px" name=firstname class="easyui-validatebox" required="true">
+					<td style="height: 28px" width=130>第一档次描述：</td>
+					<td style="height: 28px" width=300>
+						<input id=firstname style="width: 255px" name=firstname class="easyui-validatebox" required="true">
 					</td>
 				</tr>
 				<tr>
 					<td style="height: 28px" width=120>第一档次范围：</td>
-					<td style="height: 28px" width=210>
-						<input class="easyui-numberspinner" value="100" data-options="min:0,max:200,required:true" style="width:120px;" name="first" id="first"></input>
+					<td style="height: 28px" width=300>
+						<input class="easyui-numberspinner" value="100" data-options="min:0,max:200,required:true,onChange:function(value){changeFirst(value)}" style="width:120px;" name="first" id="first"></input>
 						~ 满分
 					</td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>第二档次描述：</td>
-					<td style="height: 28px" width=210>
-						<input id=secondname style="width: 190px" name=secondname class="easyui-validatebox" required="true">
+					<td style="height: 28px" width=130>第二档次描述：</td>
+					<td style="height: 28px" width=300>
+						<input id=secondname style="width: 255px" name=secondname class="easyui-validatebox" required="true">
 					</td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>第二档次范围：</td>
-					<td style="height: 28px" width=210>
-						<input class="easyui-numberspinner" value="80" data-options="min:0,max:200,required:true" style="width:120px;" name="second" id="second"></input> ~ 
-						<input class="easyui-numberbox" value="" style="width:120px;" id="firstCopy" readonly="readonly"></input>
+					<td style="height: 28px" width=130>第二档次范围：</td>
+					<td style="height: 28px" width=300>
+						<input class="easyui-numberspinner" value="80" data-options="min:0,max:200,required:true,onChange:function(value){changeSecond(value)}" style="width:120px;"name="second" id="second"></input> ~ 
+						<input class="easyui-numberbox" value="" id="firstCopy" style="width:120px;" readonly="readonly"></input>
 					</td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>第三档次描述：</td>
-					<td style="height: 28px" width=210>
-						<input id=thirdname style="width: 190px" name=thirdname class="easyui-validatebox" required="true">
+					<td style="height: 28px" width=130>第三档次描述：</td>
+					<td style="height: 28px" width=300>
+						<input id=thirdname style="width: 255px" name=thirdname class="easyui-validatebox" required="true">
 					</td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>第三档次范围：</td>
-					<td style="height: 28px" width=210>
-						<input class="easyui-numberspinner" value="60" data-options="min:0,max:200,required:true" style="width:120px;" name="third" id="third"></input> ~ 
+					<td style="height: 28px" width=130>第三档次范围：</td>
+					<td style="height: 28px" width=300>
+						<input class="easyui-numberspinner" value="60" data-options="min:0,max:200,required:true,onChange:function(value){changeThird(value)}" style="width:120px;" name="third" id="third"></input> ~ 
 						<input class="easyui-numberbox" value="" style="width:120px;" id="secondCopy" readonly="readonly"></input>
 					</td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>第四档次描述：</td>
-					<td style="height: 28px" width=210>
-						<input id=forthname style="width: 190px" name=forthname class="easyui-validatebox">
+					<td style="height: 28px" width=130>第四档次描述：</td>
+					<td style="height: 28px" width=300>
+						<input id=forthname style="width: 255px" name=forthname class="easyui-validatebox">
 					</td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>第四档次范围：</td>
-					<td style="height: 28px" width=210>
-						<input class="easyui-numberspinner" value="40" data-options="min:0,max:200,required:true" style="width:120px;" name="forth" id="forth"></input> ~ 
+					<td style="height: 28px" width=130>第四档次范围：</td>
+					<td style="height: 28px" width=300>
+						<input class="easyui-numberspinner" value="40" data-options="min:0,max:200,onChange:function(value){changeForth(value)}" style="width:120px;" name="forth" id="forth"></input> ~ 
 						<input class="easyui-numberbox" value="" style="width:120px;" id="thirdCopy" readonly="readonly"></input>
 					</td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>第五档次描述：</td>
-					<td style="height: 28px" width=210>
-						<input id=fifthname style="width: 190px" name=fifthname class="easyui-validatebox">
+					<td style="height: 28px" width=130>第五档次描述：</td>
+					<td style="height: 28px" width=300>
+						<input id=fifthname style="width: 255px" name=fifthname class="easyui-validatebox">
 					</td>
 				</tr>
 				<tr>
-					<td style="height: 28px" width=120>第五档次范围：</td>
-					<td style="height: 28px" width=210>
-						<input class="easyui-numberspinner" value="20" data-options="min:0,max:200,required:true" style="width:120px;" name="fifth" id="fifth"></input> ~ 
+					<td style="height: 28px" width=130>第五档次范围：</td>
+					<td style="height: 28px" width=300>
+						<input class="easyui-numberspinner" value="20" data-options="min:0,max:200" style="width:120px;" name="fifth" id="fifth"></input> ~ 
 						<input class="easyui-numberbox" value="" style="width:120px;" id="forthCopy" readonly="readonly"></input>
 					</td>
 				</tr>

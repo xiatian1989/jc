@@ -69,6 +69,7 @@ public class DepartManageController {
              jsonObject.put("id", "0");
              jsonObject.put("text", "部门列表");
              jsonObject.put("children", subJsonArray);
+             jsonObject.put("attributes","0");
              jsonArray.add(jsonObject);
      		return jsonArray;
         }else{
@@ -98,6 +99,7 @@ public class DepartManageController {
 		          subjsonObject.put("text",user.getTruename());
 		          subjsonObject.put("iconCls","icon-man");
 		          subjsonObject.put("state","open");
+		          subjsonObject.put("attributes","1");
 		          subJsonArray.add(subjsonObject);
 			}
 		}
@@ -105,12 +107,9 @@ public class DepartManageController {
             subjsonObject = new JSONObject();  
             subjsonObject.put("id",depart.getDepartNo());
             subjsonObject.put("text",depart.getDepartName());
-             if(depart.getIsleaf()){
-            	 subjsonObject.put("state","open");
-             }else{
-            	 subjsonObject.put("state","closed");
-             }
-             subJsonArray.add(subjsonObject);
+            subjsonObject.put("state","closed");
+            subjsonObject.put("attributes","0");
+            subJsonArray.add(subjsonObject);
         }
         if(StringUtils.isNullOrEmpty(parentNo)){
         	 JSONObject jsonObject = new JSONObject();

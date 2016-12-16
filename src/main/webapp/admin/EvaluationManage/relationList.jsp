@@ -184,6 +184,7 @@
 	function changeDepartLeft(){
 		 $("#ttLeft").tree("options").url="${pageContext.request.contextPath}/departListForUser?id="+$("#departNoLeft").val();
 		$('#ttLeft').tree('reload');
+		 $("#ttLeft").tree("options").url="${pageContext.request.contextPath}/departListForUser";
 	}
 	function changeDepartRight(){
 		var type = $("#beTestedType").val();
@@ -193,6 +194,11 @@
 			$("#ttRight").tree("options").url="${pageContext.request.contextPath}/departList?id="+$("#departNoRight").val();
 		}
 		$('#ttRight').tree('reload');
+		if(type==0){
+			$("#ttRight").tree("options").url="${pageContext.request.contextPath}/departListForUser";
+		}else{
+			$("#ttRight").tree("options").url="${pageContext.request.contextPath}/departList";
+		}
 	}
 	function choosePaper(){
 		$('#winForpaper').window('open');
@@ -229,21 +235,133 @@
 	function makesurePaper(paperId,type) {
 		if(type){
 			$("#addRelationRule").show();
+			$("#type").val("1");
 		}else{
 			$("#addRelationRule").hide();
+			$("#type").val("0")
 		}
 		$('#winForpaper').window('close');
 		$("#paperId").val(paperId);
+		
 	}
 	
-	function newPaper() {
+	function addRelationRule() {
 
-		$('#dlg').dialog('open').dialog('setTitle', '添加试卷');
-		$('#fm').form('clear');
-		url = "${pageContext.request.contextPath}/addPaper"
-		fillDepart();
-		fillLeader();
-		model="add";
+		$('#dlgForRule').dialog('open').dialog('setTitle', '添加测评规则');
+		$('#fmForRule').form('clear');
+		url = "${pageContext.request.contextPath}/addRule"
+	}
+	
+	function saveRule(){
+		$('#fmForRule').form('submit', {
+			url : url,
+			onSubmit : function() {
+				var flag = $(this).form('validate');
+				if (!flag) {
+					return flag;
+				}
+				var first = $('#first').numberspinner('getValue');
+				var second = $('#second').numberspinner('getValue');
+				var third = $('#third').numberspinner('getValue');
+				var forth = $('#forth').numberspinner('getValue');
+				var fifth = $('#fifth').numberspinner('getValue');
+				if(second>first) {
+					$.messager.alert('提示','第二档次的范围的值不能大于第一档次！','info');
+					return false;
+				}
+				if(third>second) {
+					$.messager.alert('提示','第三档次的范围的值不能大于第二档次！','info');
+					return false;
+				}
+				if(forth>third) {
+					$.messager.alert('提示','第四档次的范围的值不能大于第三档次！','info');
+					return false;
+				}
+				if(fifth>forth) {
+					$.messager.alert('提示','第五档次的范围的值不能大于第四档次！','info');
+					return false;
+				}
+			},
+			success : function(result) {
+				var obj = jQuery.parseJSON(result);
+				if (obj.result == "success") {
+					$('#dlgForRule').dialog('close');
+					$("#ruleId").val(obj.id);
+				} else {
+					$.messager.alert('错误', obj.errorMsg, 'error');
+				}
+			}
+		});
+	}
+	function cancelForRule(){
+		$('#fmForRule').form('clear');
+		$('#dlgForRule').dialog('close');
+	}
+	
+	function changeFirst(value){
+		$('#firstCopy').numberbox('setValue',value);
+	}
+	function changeSecond(value){
+		$('#secondCopy').numberbox('setValue',value);
+	}
+	function changeThird(value){
+		$('#thirdCopy').numberbox('setValue',value);
+	}
+	function changeForth(value){
+		$('#forthCopy').numberbox('setValue',value);
+	}
+	
+	function createRelation(){
+		debugger;
+		var ruleId = $("#ruleId").val(); 
+		var paperId = $("#paperId").val();
+		var type = $("#type").val();
+		if(paperId==""){
+			$.messager.alert('错误', "请先添加测评试卷", 'error');
+			return;
+		}
+		if(type == "1" && ruleId==""){
+			$.messager.alert('错误', "请先添加测评规则", 'error');
+			return;
+		}
+		var leftNodes = $('#ttLeft').tree('getChecked');
+		var testPeople = ""
+		var beTestObject=""
+		var isPerson =  $("#beTestedType").val();
+		for(var i = 0;i<leftNodes.length;i++){
+			if(leftNodes[i]=='1') {
+				testPeople = testPeople+leftNodes[i].id;
+				testPeople = testPeople+",";
+			}
+		}
+		var rightNodes = $('#ttRight').tree('getChecked');
+		for(var i = 0;i<rightNodes.length;i++){
+			if(isPerson == '0'){
+				if(rightNodes[i]=='1') {
+					beTestObject = beTestObject+rightNodes[i].id;
+					beTestObject = beTestObject+",";
+				}
+			}else{
+				if(rightNodes[i]=='1') {
+					beTestObject = beTestObject+rightNodes[i].id;
+					beTestObject = beTestObject+",";
+				}
+			}
+		}
+		$.ajax({
+			url : '${pageContext.request.contextPath}/addRelations',
+			type : 'post',
+			data : 'paperId='+ paperId+"&ruleId="+ruleId+"&testPeople="+testPeople+"&beTestObject="+beTestObject+"&isPerson="+isPerson,
+			async : false, //默认为true 异步   
+			success : function(msg) {
+				if (msg.result == "success") {
+					$('#win').window('close');
+					$('#dg').datagrid('reload');
+				} else {
+					$.messager.alert('错误',obj.errorMsg,'error');
+				}
+			}
+	});
 	}
 </script>
 <style type="text/css">
@@ -256,7 +374,7 @@
 </style>
 </head>
 <body>
-	<table id="dg" title="计划列表">
+	<table id="dg" title="关系列表">
 		
 	</table>
 	<div id="toolbar">

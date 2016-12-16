@@ -23,6 +23,10 @@
 		line-height: 36px;
 		position: relative;
 	}
+	.panel-title{
+		font-weight: bold!important;
+		font-size:16px!important;
+	}
 </style>
 <script type="text/javascript">
 	function setalign(align){
