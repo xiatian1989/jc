@@ -25,7 +25,7 @@
 			pageSize:10,
 	        pageList:[5,10,15],
 			url:'${pageContext.request.contextPath}/relationList',
-			columns: [ [ 
+			columns: [ [ 	
 			{
 				title : '计划名',
 				field : 'plantitle',
@@ -41,16 +41,37 @@
 			}, {
 				title : '被测评是否是人',
 				field : 'isperson',
-				width : 100,
+				width : 60,
+				formatter : function(value, row, index) {
+					if (value) {
+						return '是';
+					} else {
+						return '否';
+					}
+				}
 				
 			},{
 				title : '是否完成',
 				field : 'isfinish',
-				width : 100,
+				width : 60,
+				formatter : function(value, row, index) {
+					if (value) {
+						return '是';
+					} else {
+						return '否';
+					}
+				}
 			},{
 				title : '是否支持短信考试',
 				field : 'issupportsms',
-				width : 100,
+				width : 80,
+				formatter : function(value, row, index) {
+					if (value) {
+						return '是';
+					} else {
+						return '否';
+					}
+				}
 			},{
 				title : '创建时间',
 				field : 'createtime',
@@ -58,11 +79,29 @@
 			},{
 				title : '状态',
 				field : 'status',
-				width : 100,
+				width : 30,
+				formatter : function(value, row, index) {
+					if (value) {
+						return '启用';
+					} else {
+						return '作废';
+					}
+				}
 			},{
-				title : '操作',
-				field : 'id',
-				width : 100,
+				title : '规则',
+				field : 'ruleId',
+				width : 60,
+				formatter : function(value, row, index) {
+					return '<a href="javaScript:void(0)" onClick="openRule('+"'"+value+"'"+')">查看规则</a>';
+				}
+			}
+			,{
+				title : '试卷',
+				field : 'paperId',
+				width : 60,
+				formatter : function(value, row, index) {
+					return '<a href="javaScript:void(0)" onClick="openPaperForRelation('+"'"+value+"'"+')">预览试卷</a>';
+				}
 			}] ],
 			fitColumns:true,
 			pagination:true,
@@ -328,25 +367,34 @@
 		var testPeople = ""
 		var beTestObject=""
 		var isPerson =  $("#beTestedType").val();
+		
 		for(var i = 0;i<leftNodes.length;i++){
-			if(leftNodes[i]=='1') {
+			if(leftNodes[i].attributes=='1') {
 				testPeople = testPeople+leftNodes[i].id;
 				testPeople = testPeople+",";
 			}
 		}
+		if(testPeople==""){
+			$.messager.alert('错误', "请先勾选左侧树的人员", 'error');
+			return;
+		}
 		var rightNodes = $('#ttRight').tree('getChecked');
 		for(var i = 0;i<rightNodes.length;i++){
 			if(isPerson == '0'){
-				if(rightNodes[i]=='1') {
+				if(rightNodes[i].attributes=='1') {
 					beTestObject = beTestObject+rightNodes[i].id;
 					beTestObject = beTestObject+",";
 				}
 			}else{
-				if(rightNodes[i]=='1') {
+				if(rightNodes[i].attributes=='0') {
 					beTestObject = beTestObject+rightNodes[i].id;
 					beTestObject = beTestObject+",";
 				}
 			}
+		}
+		if(beTestObject==""){
+			$.messager.alert('错误', "请先勾选右侧树的人员或者部门", 'error');
+			return;
 		}
 		$.ajax({
 			url : '${pageContext.request.contextPath}/addRelations',
@@ -358,10 +406,19 @@
 					$('#win').window('close');
 					$('#dg').datagrid('reload');
 				} else {
-					$.messager.alert('错误',obj.errorMsg,'error');
+					$.messager.alert('错误',msg.errorMsg,'error');
 				}
 			}
-	});
+		});
+	}
+	function openPaperForRelation(paperId){
+		$('#winForRelationPaper').window('open');
+		$('#winForRelationPaper').window('refresh', '${pageContext.request.contextPath}/paperPreview?paperId='+paperId);
+	}
+	
+	function openRule(ruleId){
+		$('#winForRule').window('open');
+		$('#winForRule').window('refresh', '${pageContext.request.contextPath}/rulePreview?ruleId='+ruleId);
 	}
 </script>
 <style type="text/css">
@@ -404,6 +461,12 @@
 		</div>
 	</div>
 	<div id="win" class="easyui-window" title="添加测评关系" style="width:980px;height:520px"
+   	 	data-options="iconCls:'icon-save',modal:true,closed:true,cache: false">
+	</div>
+	<div id="winForRelationPaper" class="easyui-window" title="预览测评试卷" style="width:1000px;height:460px"
+   	 	data-options="iconCls:'icon-save',modal:true,closed:true,cache: false">
+	</div>
+	<div id="winForRule" class="easyui-window" title="添加测评试卷" style="width:900px;height:460px"
    	 	data-options="iconCls:'icon-save',modal:true,closed:true,cache: false">
 	</div>
 </body>

@@ -31,7 +31,7 @@ public class Relation {
     
     private User beTestedUser;
     
-    private Depart beTestedDepart;
+    private Depart testedDepart;
     
     private Plan plan;
     
@@ -151,14 +151,6 @@ public class Relation {
 		this.beTestedUser = beTestedUser;
 	}
 
-	public Depart getBeTestedDepart() {
-		return beTestedDepart;
-	}
-
-	public void setBeTestedDepart(Depart beTestedDepart) {
-		this.beTestedDepart = beTestedDepart;
-	}
-
 	public Plan getPlan() {
 		return plan;
 	}
@@ -181,5 +173,13 @@ public class Relation {
 
 	public void setRule(Rule rule) {
 		this.rule = rule;
+	}
+
+	public Depart getTestedDepart() {
+		return testedDepart;
+	}
+
+	public void setTestedDepart(Depart testedDepart) {
+		this.testedDepart = testedDepart;
 	}
 }

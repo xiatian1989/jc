@@ -22,4 +22,8 @@ public class RuleServiceImpl implements RuleService {
 		return ruleDao.updateByPrimaryKeySelective(rule);
 	}
 
+	public Rule getRuleById(String ruleId) {
+		return ruleDao.selectByPrimaryKey(ruleId);
+	}
+
 }

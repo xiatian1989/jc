@@ -17,6 +17,9 @@
     <association property="plan" column="plan_id" select="com.rwkj.jc.IDao.PlanMapper.selectByPrimaryKey"/>
     <association property="paper" column="paper_id" select="com.rwkj.jc.IDao.PaperMapper.selectByPrimaryKey"/>
     <association property="rule" column="rule_id" select="com.rwkj.jc.IDao.RuleMapper.selectByPrimaryKey"/>
+    <association property="testUser" column="testPerson" select="com.rwkj.jc.IDao.UserMapper.getUserByUserNo"/>
+    <association property="beTestedUser" column="beTestedPerson" select="com.rwkj.jc.IDao.UserMapper.getUserByUserNo"/>
+    <association property="testedDepart" column="beTestedDepart" select="com.rwkj.jc.IDao.DepartMapper.selectByNo"/>
   </resultMap>
   <sql id="Base_Column_List" >
     id, plan_id, testPerson, beTestedPerson, beTestedDepart, isPerson, isFinish, paper_id, 
@@ -232,9 +235,10 @@
     values 
 	<foreach collection="list" item="itm" separator=",">
 	(#{itm.id,jdbcType=VARCHAR}, #{itm.planId,jdbcType=VARCHAR}, #{itm.testperson,jdbcType=VARCHAR}, 
-      #{itm.beTestedPerson,jdbcType=VARCHAR},#{itm.beTestedDepart,jdbcType=VARCHAR}, #{itm.isperson,jdbcType=BIT}, #{itm.isfinish,jdbcType=BIT}, 
-      #{itm.paperId,jdbcType=VARCHAR}, #{itm.ruleId,jdbcType=VARCHAR}, #{itm.issupportsms,jdbcType=BIT}, 
-      #{itm.createtime,jdbcType=TIMESTAMP}, #{itm.status,jdbcType=BIT})
+      #{itm.betestedperson,jdbcType=VARCHAR}, #{itm.betesteddepart,jdbcType=VARCHAR}, #{itm.isperson,jdbcType=BIT}, 
+      #{itm.isfinish,jdbcType=BIT}, #{itm.paperId,jdbcType=VARCHAR}, #{itm.ruleId,jdbcType=VARCHAR}, 
+      #{itm.issupportsms,jdbcType=BIT}, #{itm.createtime,jdbcType=TIMESTAMP}, #{itm.status,jdbcType=BIT}
+      )
      </foreach>
   </insert>
 </mapper>

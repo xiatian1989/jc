@@ -2,6 +2,7 @@ package com.rwkj.jc.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import com.rwkj.jc.service.DepartService;
 import com.rwkj.jc.service.PlanService;
 import com.rwkj.jc.service.RelationService;
 import com.rwkj.jc.service.UserService;
+import com.rwkj.jc.util.CommonUtils;
 
 @Controller
 public class RelationManageController {
@@ -119,7 +121,7 @@ public class RelationManageController {
              if(relation.getIsperson()) {
             	 jsonObject.put("betestedobject",relation.getBeTestedUser().getTruename());
              }else{
-            	 jsonObject.put("betestedobject",relation.getBeTestedDepart().getDepartName());
+            	 jsonObject.put("betestedobject",relation.getTestedDepart().getDepartName());
              }
              jsonObject.put("isperson",relation.getIsperson());
              jsonObject.put("isfinish",relation.getIsfinish());
@@ -127,6 +129,7 @@ public class RelationManageController {
              jsonObject.put("createtime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(relation.getCreatetime()));
              jsonObject.put("ruleId",relation.getRuleId());
              jsonObject.put("paperId", relation.getPaperId());
+             jsonObject.put("status", relation.getStatus());
              jsonArray.add(jsonObject) ;  
         }  
 		result.put("total", total);  
@@ -158,6 +161,8 @@ public class RelationManageController {
 		 String testPeople = request.getParameter("testPeople");
 		 String beTestObject = request.getParameter("beTestObject");
 		 String isPerson = request.getParameter("isPerson");
+		 String[] testPeopleArr = testPeople.split(",");
+		 String[] beTestObjectArr = beTestObject.split(",");
 		 Relation relation = null;
 		 List<Plan> plans = planService.getPlans(1, 1);
 		 if(CollectionUtils.isEmpty(plans)) {
@@ -167,14 +172,34 @@ public class RelationManageController {
 		 }
 		 try{
 			 List<Relation> relations = new ArrayList<Relation>();
-			 if("0".equals(isPerson)) {
-				 relation = new Relation();
-				 relation.setPlanId(plans.get(0).getId());
+			 for(String tempTestPeople:testPeopleArr) {
+				 for(String tempbeTestObject:beTestObjectArr) {
+					 relation = new Relation();
+					 relation.setId(CommonUtils.getUUID());
+					 relation.setPlanId(plans.get(0).getId());
+					 relation.setIsfinish(false);
+					 relation.setPaperId(paperId);
+					 relation.setRuleId(ruleId);
+					 relation.setIssupportsms(false);
+					 relation.setCreatetime(new Date(System.currentTimeMillis()));
+					 relation.setStatus(true);
+					 relation.setTestperson(tempTestPeople);
+					 if("0".equals(isPerson)) {
+						 relation.setIsperson(true);
+						 relation.setBetestedperson(tempbeTestObject);
+						 relation.setBetesteddepart("");
+					 }else{
+						 relation.setIsperson(true);
+						 relation.setBetesteddepart(tempbeTestObject);
+						 relation.setBetestedperson("");
+					 }
+					 relations.add(relation);
+				 }
 			 }
 			 count = relationService.batchInsert(relations);
 		 } catch (Exception e) {
 			result.put("result", "failed");
-			result.put("errorMsg", "导入发生异常，请联系管理员！");
+			result.put("errorMsg", "添加关系发生异常，请联系管理员！");
 			e.printStackTrace();
 			return result;
 		 }  

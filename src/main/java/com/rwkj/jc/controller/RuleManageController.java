@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.rwkj.jc.domain.Rule;
 import com.rwkj.jc.service.RuleService;
@@ -43,6 +45,16 @@ public class RuleManageController {
 			result.put("errorMsg", "添加失败，请联系管理员！");
 		}
 		return result;
+	}
+	
+	@RequestMapping("rulePreview")
+	public ModelAndView rulePreview(HttpServletRequest request){
+		ModelAndView modelAndView = new ModelAndView();
+		String ruleId = request.getParameter("ruleId");
+		Rule rule= ruleService.getRuleById(ruleId);
+		modelAndView.addObject("rule",rule);
+		modelAndView.setViewName("admin/EvaluationManage/ruleview");
+		return modelAndView;
 	}
 	
 	@RequestMapping("updateRule")
