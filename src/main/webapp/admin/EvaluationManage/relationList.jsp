@@ -466,7 +466,7 @@
 	<div id="winForRelationPaper" class="easyui-window" title="预览测评试卷" style="width:1000px;height:460px"
    	 	data-options="iconCls:'icon-save',modal:true,closed:true,cache: false">
 	</div>
-	<div id="winForRule" class="easyui-window" title="添加测评试卷" style="width:900px;height:460px"
+	<div id="winForRule" class="easyui-window" title="添加测评试卷" style="width:400px;height:180px"
    	 	data-options="iconCls:'icon-save',modal:true,closed:true,cache: false">
 	</div>
 </body>
