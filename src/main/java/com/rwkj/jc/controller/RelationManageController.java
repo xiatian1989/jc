@@ -116,6 +116,7 @@ public class RelationManageController {
 		JSONArray jsonArray = new JSONArray();  
         for(Relation relation:relations){  
              JSONObject jsonObject = new JSONObject();  
+             jsonObject.put("id",relation.getId());
              jsonObject.put("plantitle",relation.getPlan().getPlantitle());
              jsonObject.put("testperson",relation.getTestUser().getTruename());
              if(relation.getIsperson()) {
@@ -137,12 +138,39 @@ public class RelationManageController {
 		return result;
 	}
 	
-	
 	@RequestMapping("deleteRelation")
 	public @ResponseBody Map<String,String> deleteRelation(@RequestParam("id") String id){
 		
 		Map<String,String> map = new HashMap<String,String>();
-		int count = relationService.deleteRelation(id);
+		int count = relationService.deleteRelation("("+id.substring(1)+")");
+		if(count>0){
+			map.put("result", "success");
+		}else {
+			map.put("result", "failed");
+		}
+		return map;
+	}
+	
+	@RequestMapping("openSMSRelationByid")
+	public @ResponseBody Map<String,String> openSMSRelationByid(@RequestParam("id") String id){
+		
+		Map<String,String> map = new HashMap<String,String>();
+		int count = relationService.openSMSRelationByid(id);
+		List<Relation> relations = relationService.getRelationsByPlanId(id);
+		if(count>0){
+			map.put("result", "success");
+		}else {
+			map.put("result", "failed");
+		}
+		return map;
+	}
+	
+	@RequestMapping("disabledSMSRelationByid")
+	public @ResponseBody Map<String,String> disabledSMSRelationByid(@RequestParam("id") String id){
+		
+		Map<String,String> map = new HashMap<String,String>();
+		int count = relationService.disabledSMSRelationByid(id);
+		List<Relation> relations = relationService.getRelationsByPlanId(id);
 		if(count>0){
 			map.put("result", "success");
 		}else {

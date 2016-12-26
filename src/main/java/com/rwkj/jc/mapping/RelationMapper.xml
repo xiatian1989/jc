@@ -209,16 +209,31 @@
     from jc_relation where ${column} = ${value} order by createTime limit #{pageIndex},#{pageSize}
   </select>
   
+  <select id="getRelationsByPlanId" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from jc_relation where plan_id = ${planId} order by createTime
+  </select>
+  
    <select id="getRelationsCountByColumnValue" resultType="java.lang.Integer">
     select 
     count(*)
     from jc_relation where ${column} = ${value}
   </select>
   
-   <delete id="deleteRelationByids" parameterType="java.lang.String" >
+   <update id="deleteRelationByids" parameterType="java.lang.String" >
     update jc_relation set status = 0
     where id in ${ids}
-  </delete>
+  </update>
+  
+   <update id="openSMSRelationByid" parameterType="java.lang.String" >
+    update jc_relation set isSupportSMS = 1
+    where id = ${id}
+  </update>
+   <update id="disabledSMSRelationByid" parameterType="java.lang.String" >
+    update jc_relation set isSupportSMS = 0
+    where id = ${id}
+  </update>
   
   <select id="getAllRelations" resultMap="BaseResultMap" parameterType="java.lang.String">
     select 

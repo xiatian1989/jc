@@ -19,13 +19,17 @@
 			idField:'id',
 			striped: true,
 			fit: false,
-			singleSelect:true,
+			singleSelect:false,
 			rownumbers:false,
 			selectOnCheck:true,
 			pageSize:10,
 	        pageList:[5,10,15],
 			url:'${pageContext.request.contextPath}/relationList',
-			columns: [ [ 	
+			columns: [ [ {
+				field : 'ck',
+				checkbox : true,
+				width : '30'
+			}, 	
 			{
 				title : '计划名',
 				field : 'plantitle',
@@ -125,25 +129,18 @@
 
 	function destroyRelation() {
 		
-		var row = $('#dg').datagrid('getSelected');
-		if (row) {
-			var isfinish = row.isfinish;
-			if(isfinish) {
-				$.messager.alert('错误',"测评计划已经结束,不能删除",'error');
-				return;
-			}
-			var beginTime = row.begintime;
-			if(getNowFormatDate()>=beginTime){
-				$.messager.alert('错误',"测评计划已经开始,不能删除",'error');
-				return;
-			} 
+		var row = $('#dg').datagrid('getSelections');
+		if (row.length>0) {
 			$.messager.confirm(
-				'Confirm','你确定删除选择的计划吗?',
+				'Confirm','你确定取消选中的测评关系吗?',
 					function(r) {
 					if (r) {
-						var id =row.id;
+						var id = "";
+						for (var i = 0; i < row.length; i++) {
+							id = ","+id +"'"+ row[i].id+"'";
+						}
 						$.ajax({
-								url : '${pageContext.request.contextPath}/deletePlan',
+								url : '${pageContext.request.contextPath}/deleteRelation',
 								type : 'post',
 								data : 'id='+ id,
 								async : false, //默认为true 异步   
@@ -272,7 +269,8 @@
 	}
 	
 	function makesurePaper(paperId,type) {
-		if(type){
+		debugger;
+		if(type=="true"){
 			$("#addRelationRule").show();
 			$("#type").val("1");
 		}else{

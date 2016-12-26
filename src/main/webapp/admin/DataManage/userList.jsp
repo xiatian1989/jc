@@ -149,7 +149,7 @@
 	function destroyUser() {
 
 		var row = $('#dg').datagrid('getSelections');
-		if (row) {
+		if (row.length>0) {
 			$.messager
 					.confirm(
 							'Confirm',

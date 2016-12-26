@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rwkj.jc.IDao.TestForMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.rwkj.jc.domain.TestForMessage" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="plan_id" property="planId" jdbcType="VARCHAR" />
+    <result column="relation_id" property="relationId" jdbcType="VARCHAR" />
+    <result column="isUse" property="isuse" jdbcType="BIT" />
+    <result column="createTime" property="createtime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, plan_id, relation_id, isUse, createTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jc_testformessage
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from jc_testformessage
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.rwkj.jc.domain.TestForMessage" >
+    insert into jc_testformessage (id, plan_id, relation_id, 
+      isUse, createTime)
+    values (#{id,jdbcType=VARCHAR}, #{planId,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}, 
+      #{isuse,jdbcType=BIT}, #{createtime,jdbcType=VARCHAR})
+  </insert>
+   <insert id="batchInsert" parameterType="java.util.List">
+      insert into jc_testformessage (id, plan_id, relation_id, 
+      isUse, createTime)
+    values 
+	<foreach collection="list" item="itm" separator=",">
+	 (#{itm.id,jdbcType=VARCHAR}, #{itm.planId,jdbcType=VARCHAR}, #{itm.relationId,jdbcType=VARCHAR}, 
+      #{itm.isuse,jdbcType=BIT}, #{itm.createtime,jdbcType=VARCHAR})
+     </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.rwkj.jc.domain.TestForMessage" >
+    insert into jc_testformessage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="planId != null" >
+        plan_id,
+      </if>
+      <if test="relationId != null" >
+        relation_id,
+      </if>
+      <if test="isuse != null" >
+        isUse,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="planId != null" >
+        #{planId,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null" >
+        #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="isuse != null" >
+        #{isuse,jdbcType=BIT},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rwkj.jc.domain.TestForMessage" >
+    update jc_testformessage
+    <set >
+      <if test="planId != null" >
+        plan_id = #{planId,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null" >
+        relation_id = #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="isuse != null" >
+        isUse = #{isuse,jdbcType=BIT},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="sendMessage" parameterType="java.lang.String" >
+    update jc_testformessage set isUse = 1 and createTime = ${createTime}
+    where id in ${id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rwkj.jc.domain.TestForMessage" >
+    update jc_testformessage
+    set plan_id = #{planId,jdbcType=VARCHAR},
+      relation_id = #{relationId,jdbcType=VARCHAR},
+      isUse = #{isuse,jdbcType=BIT},
+      createTime = #{createtime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

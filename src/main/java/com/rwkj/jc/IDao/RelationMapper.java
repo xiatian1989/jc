@@ -31,9 +31,15 @@ public interface RelationMapper {
     
     int getRelationsCountByColumnValue(@Param("column") String column,@Param("value") String value);
     
-    int deleteRelationByids(String ids);
+    int deleteRelationByids(@Param("ids") String ids);
+    
+    int openSMSRelationByid(String id);
+    
+    int disabledSMSRelationByid(String id);
     
     List<Relation> getAllRelations();
+    
+    List<Relation> getRelationsByPlanId(String planId);
     
     int batchInsert(List<Relation> list);
 }

@@ -15,4 +15,7 @@ public interface RelationService {
 	List<Relation> getAllRelations();
 	int batchInsert(List<Relation> list);
 	int deleteRelation(String ids);
+    int openSMSRelationByid(String id);
+    int disabledSMSRelationByid(String id);
+    List<Relation> getRelationsByPlanId(String planId);
 }
