@@ -12,6 +12,10 @@ public class TestForMessage {
     private Boolean isuse;
 
     private Date createtime;
+    
+    private Plan plan;
+    
+    private Relation relation;
 
     public String getId() {
         return id;
@@ -52,4 +56,20 @@ public class TestForMessage {
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
     }
+
+	public Plan getPlan() {
+		return plan;
+	}
+
+	public void setPlan(Plan plan) {
+		this.plan = plan;
+	}
+
+	public Relation getRelation() {
+		return relation;
+	}
+
+	public void setRelation(Relation relation) {
+		this.relation = relation;
+	}
 }

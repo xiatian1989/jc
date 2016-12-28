@@ -72,15 +72,15 @@
 	
 	function openSMS(id){
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/checkPaperNameUnique',   
+		    url:'${pageContext.request.contextPath}/openSMSRelationByid',   
 		    type:'post',   
-		    data:'name='+papertitle,   
+		    data:'id='+id,   
 		    async : false, //默认为true 异步   
 		    success:function(msg){
-		    	if(msg.result=="failed") {
-		    		$.messager.alert('警告','试卷标题已经存在!','warning',function(){
-		    			$("#papertitle").focus().select();
-		    		});
+		    	if(msg.result=="success") {
+		    		$.messager.alert('提示','短信启用成功!','info')
+		    	}else{
+		    		$.messager.alert('错误','短信启用失败，请刷新以后重试!','error');
 		    	}
 		    }
 		});
@@ -88,15 +88,15 @@
 	
 	function disabledSMS(id){
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/checkPaperNameUnique',   
+		    url:'${pageContext.request.contextPath}/disabledSMSRelationByid',   
 		    type:'post',   
-		    data:'name='+papertitle,   
+		    data:'id='+id,   
 		    async : false, //默认为true 异步   
 		    success:function(msg){
-		    	if(msg.result=="failed") {
-		    		$.messager.alert('警告','试卷标题已经存在!','warning',function(){
-		    			$("#papertitle").focus().select();
-		    		});
+		    	if(msg.result=="success") {
+		    		$.messager.alert('提示','短信取消成功!','info')
+		    	}else{
+		    		$.messager.alert('错误','短信取消失败，请刷新以后重试!','error');
 		    	}
 		    }
 		});

@@ -212,7 +212,7 @@
   <select id="getRelationsByPlanId" resultMap="BaseResultMap">
    select 
     <include refid="Base_Column_List" />
-    from jc_relation where plan_id = ${planId} order by createTime
+    from jc_relation where plan_id = #{planId,jdbcType=VARCHAR} order by createTime
   </select>
   
    <select id="getRelationsCountByColumnValue" resultType="java.lang.Integer">
@@ -228,11 +228,11 @@
   
    <update id="openSMSRelationByid" parameterType="java.lang.String" >
     update jc_relation set isSupportSMS = 1
-    where plan_id = ${planId}
+    where plan_id = #{planId,jdbcType=VARCHAR}
   </update>
    <update id="disabledSMSRelationByid" parameterType="java.lang.String" >
     update jc_relation set isSupportSMS = 0
-    where plan_id = ${planId}
+    where plan_id = #{planId,jdbcType=VARCHAR}
   </update>
   
   <select id="getAllRelations" resultMap="BaseResultMap" parameterType="java.lang.String">

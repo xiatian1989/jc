@@ -7,6 +7,8 @@
     <result column="relation_id" property="relationId" jdbcType="VARCHAR" />
     <result column="isUse" property="isuse" jdbcType="BIT" />
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <association property="plan" column="plan_id" select="com.rwkj.jc.IDao.PlanMapper.selectByPrimaryKey"/>
+    <association property="relation" column="relation_id" select="com.rwkj.jc.IDao.RelationMapper.selectByPrimaryKey"/>
   </resultMap>
   <sql id="Base_Column_List" >
     id, plan_id, relation_id, isUse, createTime
@@ -107,4 +109,29 @@
       createTime = #{createtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+   <select id="getTestForMessages" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_testformessage order by createTime limit #{pageIndex},#{pageSize}
+  </select>
+  
+   <select id="getTestForMessagesCount" resultType="java.lang.Integer">
+    select 
+    count(*)
+    from jc_testformessage
+  </select> 
+  
+  <select id="getTestForMessagesByColumnValue" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_testformessage where relation_id in (select id from jc_relation
+    where testPerson in #{value} ) order by createTime limit #{pageIndex},#{pageSize}
+  </select>
+  
+   <select id="getTestForMessagesCountByColumnValue" resultType="java.lang.Integer">
+    select 
+    count(*)
+    from jc_testformessage where relation_id in (select id from jc_relation
+    where testPerson in #{value} )
+  </select>
 </mapper>

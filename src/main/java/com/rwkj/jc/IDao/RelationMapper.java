@@ -33,13 +33,13 @@ public interface RelationMapper {
     
     int deleteRelationByids(@Param("ids") String ids);
     
-    int openSMSRelationByid(String planId);
+    int openSMSRelationByid(String planId );
     
-    int disabledSMSRelationByid(String planId);
+    int disabledSMSRelationByid(String planId );
     
     List<Relation> getAllRelations();
     
-    List<Relation> getRelationsByPlanId(String planId);
+    List<Relation> getRelationsByPlanId(String planId );
     
     int batchInsert(List<Relation> list);
 }

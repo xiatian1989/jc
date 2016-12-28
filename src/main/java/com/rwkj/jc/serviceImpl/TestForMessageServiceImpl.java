@@ -29,4 +29,22 @@ public class TestForMessageServiceImpl implements TestForMessageService {
 		return testForMessageDao.sendMessage(id, updateTime);
 	}
 
+	public List<TestForMessage> getTestForMessages(int pageIndex, int pageSize) {
+		return testForMessageDao.getTestForMessages(pageIndex, pageSize);
+	}
+
+	public int getTestForMessagesCount() {
+		return testForMessageDao.getTestForMessagesCount();
+	}
+
+	public List<TestForMessage> getTestForMessagesByColumnValue(
+			String value, int pageIndex, int pageSize) {
+		return testForMessageDao.getTestForMessagesByColumnValue(value, pageIndex, pageSize);
+	}
+
+	public int getTestForMessagesCountByColumnValue(String value) {
+		return testForMessageDao.getTestForMessagesCountByColumnValue(value);
+	}
+
+
 }

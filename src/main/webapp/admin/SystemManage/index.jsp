@@ -83,13 +83,8 @@
 				<div>
 					<a href="${pageContext.request.contextPath}/admin/EvaluationManage/planListForTestType.jsp" target="mainContent">测评方式管理</a>
 				</div>
-			</div>
-			<div title="推送与监控" data-options="iconCls:'icon-tip'" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
 				<div>
-					<a href="${pageContext.request.contextPath}/organizationList" target="mainContent">短信推送</a>
-				</div>
-				<div>
-					<a href="${pageContext.request.contextPath}/organizationList" target="mainContent">短信查询</a>
+					<a href="${pageContext.request.contextPath}/admin/EvaluationManage/smsList.jsp" target="mainContent">测评短信管理</a>
 				</div>
 			</div>
 			<div title="统计分析" data-options="iconCls:'icon-tip',collapsed:false" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">

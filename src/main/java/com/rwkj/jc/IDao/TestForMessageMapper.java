@@ -25,5 +25,13 @@ public interface TestForMessageMapper {
     
     int sendMessage(@Param("id") String id,@Param("createTime") Date createTime);
     
-    int batchInsert(List<TestForMessage> list);
+    int batchInsert(List<TestForMessage> list);	
+    
+    List<TestForMessage> getTestForMessages(@Param("pageIndex")int pageIndex,@Param("pageSize")int pageSize);
+    
+    int getTestForMessagesCount();
+    
+    List<TestForMessage> getTestForMessagesByColumnValue(@Param("value") String value,@Param("pageIndex")int pageIndex,@Param("pageSize")int pageSize);
+    
+    int getTestForMessagesCountByColumnValue(@Param("value") String value);
 }
