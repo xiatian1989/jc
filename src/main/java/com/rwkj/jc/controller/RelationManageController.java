@@ -24,10 +24,12 @@ import com.mysql.jdbc.StringUtils;
 import com.rwkj.jc.domain.Depart;
 import com.rwkj.jc.domain.Plan;
 import com.rwkj.jc.domain.Relation;
+import com.rwkj.jc.domain.TestForMessage;
 import com.rwkj.jc.domain.User;
 import com.rwkj.jc.service.DepartService;
 import com.rwkj.jc.service.PlanService;
 import com.rwkj.jc.service.RelationService;
+import com.rwkj.jc.service.TestForMessageService;
 import com.rwkj.jc.service.UserService;
 import com.rwkj.jc.util.CommonUtils;
 
@@ -42,6 +44,8 @@ public class RelationManageController {
 	private UserService userService;
 	@Resource
 	private DepartService departService;
+	@Resource
+	private TestForMessageService testForMessageService;
 	
 	
 	@InitBinder("relation")    
@@ -155,10 +159,23 @@ public class RelationManageController {
 	public @ResponseBody Map<String,String> openSMSRelationByid(@RequestParam("id") String id){
 		
 		Map<String,String> map = new HashMap<String,String>();
-		int count = relationService.openSMSRelationByid(id);
+		int count = relationService.openSMSRelationByPlanId(id);
 		List<Relation> relations = relationService.getRelationsByPlanId(id);
+		List<TestForMessage> testForMessages = new ArrayList<TestForMessage>();
+		TestForMessage testForMessage = null;
+		for(Relation relation:relations) {
+			testForMessage = new TestForMessage();
+			testForMessage.setId(CommonUtils.getUUID());
+			testForMessage.setPlanId(id);
+			testForMessage.setIsuse(false);
+			testForMessage.setRelationId(relation.getId());
+			testForMessage.setCreatetime(new Date(System.currentTimeMillis()));
+			testForMessages.add(testForMessage);
+		}
+		
 		if(count>0){
 			map.put("result", "success");
+			testForMessageService.batchInsert(testForMessages);
 		}else {
 			map.put("result", "failed");
 		}
@@ -169,10 +186,11 @@ public class RelationManageController {
 	public @ResponseBody Map<String,String> disabledSMSRelationByid(@RequestParam("id") String id){
 		
 		Map<String,String> map = new HashMap<String,String>();
-		int count = relationService.disabledSMSRelationByid(id);
-		List<Relation> relations = relationService.getRelationsByPlanId(id);
+		int count = relationService.disabledSMSRelationByPlanId(id);
+		
 		if(count>0){
 			map.put("result", "success");
+			testForMessageService.deleteTestForMessage(id);
 		}else {
 			map.put("result", "failed");
 		}

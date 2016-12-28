@@ -53,11 +53,11 @@ public class RelationServiceImpl implements RelationService {
 		return relationDao.deleteRelationByids(ids);
 	}
 
-	public int openSMSRelationByid(String id) {
+	public int openSMSRelationByPlanId(String id) {
 		return relationDao.openSMSRelationByid(id);
 	}
 
-	public int disabledSMSRelationByid(String id) {
+	public int disabledSMSRelationByPlanId(String id) {
 		return relationDao.disabledSMSRelationByid(id);
 	}
 

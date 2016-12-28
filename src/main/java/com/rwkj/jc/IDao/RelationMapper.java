@@ -33,9 +33,9 @@ public interface RelationMapper {
     
     int deleteRelationByids(@Param("ids") String ids);
     
-    int openSMSRelationByid(String id);
+    int openSMSRelationByid(String planId);
     
-    int disabledSMSRelationByid(String id);
+    int disabledSMSRelationByid(String planId);
     
     List<Relation> getAllRelations();
     

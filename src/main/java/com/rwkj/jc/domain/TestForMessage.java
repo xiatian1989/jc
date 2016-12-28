@@ -1,5 +1,7 @@
 package com.rwkj.jc.domain;
 
+import java.util.Date;
+
 public class TestForMessage {
     private String id;
 
@@ -9,7 +11,7 @@ public class TestForMessage {
 
     private Boolean isuse;
 
-    private String createtime;
+    private Date createtime;
 
     public String getId() {
         return id;
@@ -43,11 +45,11 @@ public class TestForMessage {
         this.isuse = isuse;
     }
 
-    public String getCreatetime() {
+    public Date getCreatetime() {
         return createtime;
     }
 
-    public void setCreatetime(String createtime) {
-        this.createtime = createtime == null ? null : createtime.trim();
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
     }
 }

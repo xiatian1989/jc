@@ -6,7 +6,7 @@
     <result column="plan_id" property="planId" jdbcType="VARCHAR" />
     <result column="relation_id" property="relationId" jdbcType="VARCHAR" />
     <result column="isUse" property="isuse" jdbcType="BIT" />
-    <result column="createTime" property="createtime" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, plan_id, relation_id, isUse, createTime
@@ -21,11 +21,15 @@
     delete from jc_testformessage
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteByPlanId" parameterType="java.lang.String" >
+    delete from jc_testformessage
+    where plan_id = #{planId,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.rwkj.jc.domain.TestForMessage" >
     insert into jc_testformessage (id, plan_id, relation_id, 
       isUse, createTime)
     values (#{id,jdbcType=VARCHAR}, #{planId,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}, 
-      #{isuse,jdbcType=BIT}, #{createtime,jdbcType=VARCHAR})
+      #{isuse,jdbcType=BIT}, #{createtime,jdbcType=TIMESTAMP})
   </insert>
    <insert id="batchInsert" parameterType="java.util.List">
       insert into jc_testformessage (id, plan_id, relation_id, 
@@ -33,7 +37,7 @@
     values 
 	<foreach collection="list" item="itm" separator=",">
 	 (#{itm.id,jdbcType=VARCHAR}, #{itm.planId,jdbcType=VARCHAR}, #{itm.relationId,jdbcType=VARCHAR}, 
-      #{itm.isuse,jdbcType=BIT}, #{itm.createtime,jdbcType=VARCHAR})
+      #{itm.isuse,jdbcType=BIT}, #{itm.createtime,jdbcType=TIMESTAMP})
      </foreach>
   </insert>
   <insert id="insertSelective" parameterType="com.rwkj.jc.domain.TestForMessage" >
@@ -69,7 +73,7 @@
         #{isuse,jdbcType=BIT},
       </if>
       <if test="createtime != null" >
-        #{createtime,jdbcType=VARCHAR},
+        #{createtime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -86,7 +90,7 @@
         isUse = #{isuse,jdbcType=BIT},
       </if>
       <if test="createtime != null" >
-        createTime = #{createtime,jdbcType=VARCHAR},
+        createTime = #{createtime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -100,7 +104,7 @@
     set plan_id = #{planId,jdbcType=VARCHAR},
       relation_id = #{relationId,jdbcType=VARCHAR},
       isUse = #{isuse,jdbcType=BIT},
-      createTime = #{createtime,jdbcType=VARCHAR}
+      createTime = #{createtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
