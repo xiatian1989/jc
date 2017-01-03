@@ -212,7 +212,7 @@
   <select id="getRelationsByPlanId" resultMap="BaseResultMap">
    select 
     <include refid="Base_Column_List" />
-    from jc_relation where plan_id = #{planId,jdbcType=VARCHAR} order by createTime
+    from jc_relation where plan_id = #{planId,jdbcType=VARCHAR} and status = 1 order by createTime
   </select>
   
    <select id="getRelationsCountByColumnValue" resultType="java.lang.Integer">
