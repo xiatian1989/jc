@@ -1,6 +1,7 @@
 package com.rwkj.jc.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,5 +67,19 @@ public class TestForMessageController {
 		result.put("total", total);  
 	    result.put("rows",jsonArray);
 		return result;
+	}
+	
+	@RequestMapping("sendMessage")
+	public @ResponseBody Map<String,String> sendMessage(@RequestParam("id") String id){
+		
+		Map<String,String> map = new HashMap<String,String>();
+		int count = testForMessageService.sendMessage(id.substring(1), new Date());
+		
+		if(count>0){
+			map.put("result", "success");
+		}else {
+			map.put("result", "failed");
+		}
+		return map;
 	}
 }

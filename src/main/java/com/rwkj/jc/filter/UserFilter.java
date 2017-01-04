@@ -23,7 +23,7 @@ public class UserFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         String servletPath = request.getServletPath();
         
-        if (servletPath.equals("client/login.jsp")) {
+        if (servletPath.equals("client/login.jsp") || servletPath.endsWith("client/login.jsp")) {
             chain.doFilter(req, res);
             return;
         }
@@ -31,7 +31,8 @@ public class UserFilter implements Filter {
         Object sessionObj = request.getSession().getAttribute("User");
         // 如果Session为空，则跳转到指定页面
         if (sessionObj == null) {
-            response.sendRedirect("${pageContext.request.contextPath}/client/login.jsp");
+        	 String contextPath = request.getContextPath();
+             response.sendRedirect(contextPath + "/client/login.jsp");
         } else {
             chain.doFilter(req, res);
         }

@@ -75,6 +75,28 @@
 			}
 		});
 	});
+	function sendMessage(){
+		var row = $('#dg').datagrid('getSelections');
+		if (row.length>0) {
+				var id = "";
+				for (var i = 0; i < row.length; i++) {
+					id = id +","+ row[i].id;
+				}
+				$.ajax({
+					url : '${pageContext.request.contextPath}/sendMessage',
+					type : 'post',
+					data : 'id=' + id,
+					async : false, //默认为true 异步   
+					success : function(msg) {
+						if (msg.result == "success") {
+							$('#dg').datagrid('reload');
+						} else {
+							$.messager.alert('错误',obj.errorMsg,'error');
+						}
+					}
+				});
+			}
+	}
 </script>
 <style type="text/css">
 	body{
@@ -93,61 +115,6 @@
 			onBlur="if(!value){value=defaultValue;this.style.color='#999'}" style="color:#999999">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="doSearch()">搜索</a>
 		</div>
-		
-	</div>
-
-	<div id="dlg" class="easyui-dialog"
-		style="width: 380px; height: 360px; padding: 10px 20px" closed="true" buttons="#dlg-buttons">
-		
-		<form id="fm" method="post">
-			<input id=id name=id  style="display:none">
-			<table>
-				<tr>
-					<td style="height: 28px" width=120>模板标题：</td>
-					<td style="height: 28px" width=210>
-						<input id=templettitle style="width: 190px" name=templettitle class="easyui-validatebox" required="true" onchange="checkUniqName()">
-					</td>
-				</tr>
-				<tr>
-					<td style="height: 28px" width=120>关键词：</td>
-					<td style="height: 28px" width=210>
-					<input id=keyword
-						style="width: 195px;height:80px" name=keyword class="easyui-textbox"  data-options="multiline:true" required="true">
-					</td>
-				</tr>
-				<tr>
-					<td style="height: 50px" width=120>描述：</td>
-					<td style="height: 50px" width=210><input id=description
-						style="width: 195px;height:80px" name=description class="easyui-textbox"  data-options="multiline:true" required="true"></td>
-				</tr>
-				<tr>
-					<td style="height: 28px" width=120>类型：</td>
-					<td style="height: 28px">
-						<select id="type" name="type" style="width:195px;">
-							<option value="0">问卷</option>
-							<option value="1">人事考核</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td style="height: 28px" width=120>状态：</td>
-					<td style="height: 28px">
-						<select id="status" name="status" style="width:195px;" >
-							<option value="1">启用</option>
-							<option value="0">禁用</option>
-						</select>
-					</td>
-				</tr>
-			</table>
-		</form>
-	</div>
-	<div id="win" class="easyui-window" title="模板预览" style="width:980px;height:460px"
-   	 	data-options="iconCls:'icon-save',modal:true,closed:true">
-	</div>
-	<div id="dlg-buttons">
-		<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
-			onclick="saveTemplet()">保存</a> <a href="#" class="easyui-linkbutton"
-			iconCls="icon-cancel" onclick="cancel();">取消</a>
 	</div>
 </body>
 </html>
