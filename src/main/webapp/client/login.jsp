@@ -1,74 +1,49 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>欢迎登录</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/easyui/themes/icon.css">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/easyui/demo/demo.css">
-<script type="text/javascript" src="${pageContext.request.contextPath}/easyui/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/easyui/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/easyui/locale/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript">
-document.onkeydown = function(e){
-    var event = e || window.event;  
-    var code = event.keyCode || event.which || event.charCode;
-    if (code == 13) {
-        login();
-    }
-}
-$(function(){
-    $("input[name='login']").focus();
-});
-function cleardata(){
-    $('#loginForm').form('clear');
-}
-function login(){
-     if($("input[name='login']").val()=="" || $("input[name='password']").val()==""){
-         $("#showMsg").html("用户名或密码为空，请输入");
-         $("input[name='login']").focus();
-    }else{
-            //ajax异步提交  
-           $.ajax({            
-                  type:"POST",   //post提交方式默认是get
-                  url:"login.action", 
-                  data:$("#loginForm").serialize(),   //序列化               
-                  error:function(request) {      // 设置表单提交出错                 
-                      $("#showMsg").html(request);  //登录错误提示信息
-                  },
-                  success:function(data) {
-                      document.location = "index.action";
-                  }            
-            });       
-        } 
-}
-</script>
-</head>
-<body>
-<div id="loginWin" class="easyui-window" title="登录" style="width:350px;height:188px;padding:5px;"
-   minimizable="false" maximizable="false" resizable="false" collapsible="false" draggable="false" closable= "false">
-    <div class="easyui-layout" fit="true">
-            <div region="center" border="false" style="padding:5px;background:#fff;border:1px solid #ccc;">
-        <form id="loginForm" method="post">
-            <div style="padding:5px 0;">
-                <label for="login">帐号:</label>
-                <input type="text" name="login" style="width:260px;"></input>
-            </div>
-            <div style="padding:5px 0;">
-                <label for="password">密码:</label>
-                <input type="password" name="password" style="width:260px;"></input>
-            </div>
-             <div style="padding:5px 0;text-align: center;color: red;" id="showMsg"></div>
-        </form>
-            </div>
-            <div region="south" border="false" style="text-align:right;padding:5px 0;">
-                <a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:void(0)" onclick="login()">登录</a>
-                <a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="cleardata()">重置</a>
-            </div>
-    </div>
-</div>
-</body>
-
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6 lt8"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7 lt8"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8 lt8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="UTF-8" />
+        <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">  -->
+        <title>用户登录</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <meta name="description" content="Login and Registration Form with HTML5 and CSS3" />
+        <meta name="keywords" content="html5, css3, form, switch, animation, :target, pseudo-class" />
+        <meta name="author" content="Codrops" />
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/demo.css" />
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css" />
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/animate-custom.css" />
+    </head>
+    <body>
+        <div class="container">
+            <section>				
+                <div id="container_demo" >
+                    <a class="hiddenanchor" id="toregister"></a>
+                    <a class="hiddenanchor" id="tologin"></a>
+                    <div id="wrapper">
+                        <div id="login" class="animate form">
+                            <form  action="${pageContext.request.contextPath}/client/userLogin" autocomplete="on"> 
+                                <h1>登录</h1> 
+                                <p> 
+                                    <label for="username" class="uname" data-icon="u" > 用户名 </label>
+                                    <input id="username" name="username" required="required" type="text" placeholder="username"/>
+                                </p>
+                                <p> 
+                                    <label for="password" class="youpasswd" data-icon="p"> 密码 </label>
+                                    <input id="password" name="password" required="required" type="password" placeholder="password" /> 
+                                </p>
+                                <p class="login button"> 
+                                    <input type="submit" value="登录" /> <input type="reset" value="重置" /> 
+								</p>
+                            </form>
+                        </div>
+                    </div>
+                </div>  
+            </section>
+        </div>
+    </body>
 </html>

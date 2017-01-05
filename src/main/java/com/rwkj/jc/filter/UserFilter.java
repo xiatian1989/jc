@@ -28,7 +28,7 @@ public class UserFilter implements Filter {
             return;
         }
         
-        Object sessionObj = request.getSession().getAttribute("User");
+        Object sessionObj = request.getSession().getAttribute("user");
         // 如果Session为空，则跳转到指定页面
         if (sessionObj == null) {
         	 String contextPath = request.getContextPath();
