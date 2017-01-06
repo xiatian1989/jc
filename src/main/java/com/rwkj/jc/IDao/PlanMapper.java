@@ -28,4 +28,6 @@ public interface PlanMapper {
 	int getPlansCountByPlanTitle(@Param("planTitle")String planTitle);
 	
 	Plan getPlanByPlanTitle(String planTitle);
+	
+	List<Plan> getAllPlans();
 }

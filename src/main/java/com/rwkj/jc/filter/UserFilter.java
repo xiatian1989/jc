@@ -23,7 +23,8 @@ public class UserFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         String servletPath = request.getServletPath();
         
-        if (servletPath.equals("client/login.jsp") || servletPath.endsWith("client/login.jsp")) {
+        if (servletPath.equals("/client/login.jsp") || servletPath.endsWith("client/login.jsp")
+        		|| servletPath.endsWith("/client/userLogin") || servletPath.endsWith("/client/userLogin")) {
             chain.doFilter(req, res);
             return;
         }

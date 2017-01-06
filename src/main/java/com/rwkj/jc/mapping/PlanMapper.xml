@@ -108,6 +108,11 @@
     <include refid="Base_Column_List" />
     from jc_plan order by createTime desc limit #{pageIndex},#{pageSize}
   </select>
+   <select id="getAllPlans" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_plan order by createTime desc
+  </select>
    <select id="getPlansByPlanTitle" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

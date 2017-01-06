@@ -64,4 +64,12 @@ public class RelationServiceImpl implements RelationService {
 	public List<Relation> getRelationsByPlanId(String planId) {
 		return relationDao.getRelationsByPlanId(planId);
 	}
+
+	public List<Relation> getRelationsByPlanIdAndUserNo(String planId, String userNo) {
+		return relationDao.getRelationsByPlanIdAndUserNo(planId, userNo);
+	}
+
+	public List<Relation> getRelationsByUserNo(String userNo) {
+		return null;
+	}
 }

@@ -235,7 +235,7 @@ public class RelationManageController {
 						 relation.setBetestedperson(tempbeTestObject);
 						 relation.setBetesteddepart("");
 					 }else{
-						 relation.setIsperson(true);
+						 relation.setIsperson(false);
 						 relation.setBetesteddepart(tempbeTestObject);
 						 relation.setBetestedperson("");
 					 }

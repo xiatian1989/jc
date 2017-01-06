@@ -18,4 +18,6 @@ public interface RelationService {
     int openSMSRelationByPlanId(String planId);
     int disabledSMSRelationByPlanId(String planId);
     List<Relation> getRelationsByPlanId(String planId);
+    List<Relation> getRelationsByPlanIdAndUserNo(String planId,String userNo);
+    List<Relation> getRelationsByUserNo(String userNo);
 }

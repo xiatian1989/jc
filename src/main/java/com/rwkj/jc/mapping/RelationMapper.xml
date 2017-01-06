@@ -214,6 +214,16 @@
     <include refid="Base_Column_List" />
     from jc_relation where plan_id = #{planId,jdbcType=VARCHAR} and status = 1 order by createTime
   </select>
+  <select id="getRelationsByPlanIdAndUserNo" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from jc_relation where plan_id = ${planId} and testPerson = ${userNo} and status = 1 order by createTime
+  </select>
+  <select id="getRelationsByUserNo" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from jc_relation where testPerson = ${userNo} and status = 1 order by createTime
+  </select>
   
    <select id="getRelationsCountByColumnValue" resultType="java.lang.Integer">
     select 

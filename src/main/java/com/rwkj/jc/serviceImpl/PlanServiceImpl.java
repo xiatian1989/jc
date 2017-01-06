@@ -55,4 +55,8 @@ public class PlanServiceImpl implements PlanService {
 	public Plan getPlanByPlanTitle(String planTitle) {
 		return planDao.getPlanByPlanTitle(planTitle);
 	}
+
+	public List<Plan> getAllPlans() {
+		return planDao.getAllPlans();
+	}
 }

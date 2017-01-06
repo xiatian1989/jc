@@ -62,6 +62,7 @@ public class DepartManageController {
              }else{
             	 subjsonObject.put("state","closed");
              }
+             subjsonObject.put("attributes","0");
              subJsonArray.add(subjsonObject);
         }
         if(StringUtils.isNullOrEmpty(parentNo)){
@@ -69,7 +70,6 @@ public class DepartManageController {
              jsonObject.put("id", "0");
              jsonObject.put("text", "部门列表");
              jsonObject.put("children", subJsonArray);
-             jsonObject.put("attributes","0");
              jsonArray.add(jsonObject);
      		return jsonArray;
         }else{

@@ -223,7 +223,7 @@
 		 $("#ttLeft").tree("options").url="${pageContext.request.contextPath}/departListForUser";
 	}
 	function changeDepartRight(){
-		var type = $("#beTestedType").val();
+		var type = $("#beTestedType").val()
 		if(type==0){
 			$("#ttRight").tree("options").url="${pageContext.request.contextPath}/departListForUser?id="+$("#departNoRight").val();
 		}else{
@@ -464,7 +464,7 @@
 	<div id="winForRelationPaper" class="easyui-window" title="预览测评试卷" style="width:1000px;height:460px"
    	 	data-options="iconCls:'icon-save',modal:true,closed:true,cache: false">
 	</div>
-	<div id="winForRule" class="easyui-window" title="添加测评试卷" style="width:400px;height:180px"
+	<div id="winForRule" class="easyui-window" title="查看规则" style="width:400px;height:180px"
    	 	data-options="iconCls:'icon-save',modal:true,closed:true,cache: false">
 	</div>
 </body>

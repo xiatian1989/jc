@@ -26,7 +26,7 @@
                     <a class="hiddenanchor" id="tologin"></a>
                     <div id="wrapper">
                         <div id="login" class="animate form">
-                            <form  action="${pageContext.request.contextPath}/client/userLogin" autocomplete="on"> 
+                            <form  action="${pageContext.request.contextPath}/client/userLogin" autocomplete="on" method="post"> 
                                 <h1>登录</h1> 
                                 <p> 
                                     <label for="username" class="uname" data-icon="u" > 用户名 </label>

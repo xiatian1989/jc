@@ -41,5 +41,9 @@ public interface RelationMapper {
     
     List<Relation> getRelationsByPlanId(String planId );
     
+    List<Relation> getRelationsByPlanIdAndUserNo(@Param("planId") String planId,@Param("userNo") String userNo);
+    
+    List<Relation> getRelationsByUserNo(@Param("userNo") String userNo);
+    
     int batchInsert(List<Relation> list);
 }

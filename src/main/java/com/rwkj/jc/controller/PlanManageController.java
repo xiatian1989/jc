@@ -129,5 +129,4 @@ public class PlanManageController {
 		}
 		return map;
 	}
-	
 }
