@@ -1,8 +1,10 @@
 package com.rwkj.jc.controller;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -32,10 +34,44 @@ public class PlanStatusForUserController {
 		String userNo = ((User)session.getAttribute("user")).getUserno();
 		List<Relation> relations =  relationService.getRelationsByUserNo(userNo);
 		Map<String, LinkedHashMap<String, String>> planStatus = new LinkedHashMap<String,LinkedHashMap<String,String>>();
+		LinkedHashMap<String,String> userForRelations = null;
+		Map<String,List<Relation>> planForRelations = new LinkedHashMap<String,List<Relation>>();
+		List<Relation> tempRelations = null;
+		String planTitle= "";
 		for(Relation relation:relations) {
-			
+			planTitle = relation.getPlan().getPlantitle();
+			if(planForRelations.containsKey(planTitle)){
+				tempRelations = planForRelations.get(planTitle);
+				tempRelations.add(relation);
+				planForRelations.put(planTitle, tempRelations);
+			}else{
+				tempRelations = new ArrayList<Relation>();
+				tempRelations.add(relation);
+				planForRelations.put(planTitle, tempRelations);
+			}
 		}
-		modelAndView.setViewName("client/login");
+		for(Entry<String, List<Relation>> entry:planForRelations.entrySet()) {
+			userForRelations = new LinkedHashMap<String,String>();
+			planTitle = entry.getKey();
+			tempRelations = entry.getValue();
+			long total = 0;
+			long noTested = 0;
+			long tested = 0;
+			for(Relation relation:tempRelations) {
+				total++;
+				if(relation.getIsfinish()) {
+					tested++;
+				}else{
+					noTested++;
+				}
+			}
+			userForRelations.put("total", String.valueOf(total));
+			userForRelations.put("tested", String.valueOf(tested));
+			userForRelations.put("noTested", String.valueOf(noTested));
+			planStatus.put(planTitle, userForRelations);
+		}
+		modelAndView.addObject("planStatus",planStatus);
+		modelAndView.setViewName("client/main/planStatus");
 		return modelAndView;
 	}
 }
