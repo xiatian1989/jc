@@ -2,7 +2,7 @@
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
+<html style="height: 100%;">
 <head>
 <title>人事测评管理系统</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/easyui/themes/default/easyui.css">
@@ -28,20 +28,26 @@
 	    });
 	});
 </script>
+<style type="text/css">
+	body {
+		padding:0px;
+	}
+}
+</style>
 </head>
-<body>
-	<div class="easyui-accordion" style="width:100%;height:100%;">
+<body style="height: 100%;">
+	<div class="easyui-accordion" style="width:100%;height: 100%;">
 		<c:forEach items="${planStatus }" var="map">
-			<div title="${map.key }" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+			<div title="${map.key }" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:0px;">
 				<c:forEach items="${map.value}" var="mapForRelation">
 					<c:if test="${mapForRelation.key=='total'}">
-						<p>总共${mapForRelation.value}人需要你进行测评！</p>
+						<p>总共${mapForRelation.value}个对象需要你进行测评！</p>
 					</c:if>
 					<c:if test="${mapForRelation.key=='tested'}">
-						<p>已经有${mapForRelation.value}人被你测评了</p>
+						<p>已经有${mapForRelation.value}个对象被你测评了</p>
 					</c:if>
 					<c:if test="${mapForRelation.key=='noTested'}">
-						<p>还有${mapForRelation.value}人没有需要你进行测评</p>
+						<p>还有${mapForRelation.value}个对象需要你进行测评</p>
 					</c:if>
 				</c:forEach>
 			</div>

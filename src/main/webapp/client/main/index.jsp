@@ -27,6 +27,11 @@
 	    	window.location.href="${pageContext.request.contextPath}/client/userLogout";
 	    });
 	});
+	$('#tt').tree({
+		onClick: function(node){
+			alert(node.text);  // alert node text property when clicked
+		}
+	});
 </script>
 </head>
 <body class="easyui-layout">

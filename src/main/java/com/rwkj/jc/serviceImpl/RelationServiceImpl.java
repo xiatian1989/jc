@@ -70,6 +70,6 @@ public class RelationServiceImpl implements RelationService {
 	}
 
 	public List<Relation> getRelationsByUserNo(String userNo) {
-		return null;
+		return relationDao.getRelationsByUserNo(userNo);
 	}
 }
