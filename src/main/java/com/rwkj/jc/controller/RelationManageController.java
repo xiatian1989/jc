@@ -210,7 +210,7 @@ public class RelationManageController {
 		 String[] testPeopleArr = testPeople.split(",");
 		 String[] beTestObjectArr = beTestObject.split(",");
 		 Relation relation = null;
-		 List<Plan> plans = planService.getPlans(1, 1);
+		 List<Plan> plans = planService.getPlans(0, 1);
 		 if(CollectionUtils.isEmpty(plans)) {
 			 	result.put("result", "failed");
 				result.put("errorMsg", "请先添加计划！");

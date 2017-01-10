@@ -27,11 +27,6 @@
 	    	window.location.href="${pageContext.request.contextPath}/client/userLogout";
 	    });
 	});
-	$('#tt').tree({
-		onClick: function(node){
-			alert(node.text);  // alert node text property when clicked
-		}
-	});
 </script>
 </head>
 <body class="easyui-layout">
@@ -48,10 +43,10 @@
 			<c:forEach items="${planForRelations}" var="map" varStatus="status">
 				<c:choose>
 					<c:when test="${status.index == 0}">
-						<li data-options="state:'closed'">
+						<li>
 					</c:when>
 					<c:otherwise>
-						<li>
+						<li data-options="state:'closed'">
 					</c:otherwise>
 				</c:choose>				
 					<span>${map.key.plantitle}
@@ -68,7 +63,7 @@
 						<c:forEach items="${map.value}" var="relation" >
 							<li>
 								<span>
-									<a href="#"> 
+									<a href="${pageContext.request.contextPath}/paperPreview?paperId=${relation.paperId}" target="mainContent">
 										<c:choose>
 											<c:when test="${relation.isperson}">
 												${relation.beTestedUser.truename}
