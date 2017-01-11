@@ -21,20 +21,21 @@
 </style>
 <script type="text/javascript">
 	function submit() {
+		debugger;
 		var total = $("#total").val();
 		var relationId = $("#relationId").val();
 		var type = $("#type").val();
-		var answerTotal;
+		var answerTotal=0;
 		var answer;
-		var resultMessage;
-		var extraMeassge;
+		var resultMessage="";
+		var extraMeassge="";
 		for(var i = 1;i<=total;i++) {
-			answer==$("input[name='"+i+"']:checked").val();
-			if(answer!="") {
+			answer=$("input[name='"+i+"']:checked").val();
+			if(answer) {
 				answerTotal++;
 				resultMessage = resultMessage + ",";
 				resultMessage = resultMessage+i +":"+answer;
-				if($("#"+i).val()!=""){
+				if($("#"+i).val()){
 					extraMeassge = extraMeassge + ",";
 					extraMeassge = extraMeassge+i +":"+$("#"+i).val();
 				}
@@ -47,11 +48,12 @@
 					$.ajax({
 						url : '${pageContext.request.contextPath}/client/submitPaper',
 						type : 'post',
-						data : 'total='+total+"&answerTotal"+answerTotal+"&relationId"+relationId+"&type"+type+"&resultMessage"+resultMessage+"&extraMeassge"+extraMeassge,
+						data : 'total='+total+"&answerTotal="+answerTotal+"&relationId="+relationId+"&type="+type+"&resultMessage="+resultMessage+"&extraMeassge="+extraMeassge,
 						async : false, //默认为true 异步   
 						success : function(msg) {
 							if (msg.result == "success") {
 								$.messager.alert('成功',"提交成功！",'info');
+								parent.document.location.reload();
 							} else {
 								$.messager.alert('错误',"提交失败！",'error');
 							}

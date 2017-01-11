@@ -67,9 +67,25 @@
 										<c:choose>
 											<c:when test="${relation.isperson}">
 												${relation.beTestedUser.truename}
+												<c:choose>
+													<c:when test="${relation.isfinish}">
+														(已测评)
+													</c:when>
+													<c:otherwise>
+														(未测评)
+													</c:otherwise>
+												</c:choose>
 											</c:when>
 											 <c:otherwise>
 												 ${relation.testedDepart.departName	}
+												 <c:choose>
+													<c:when test="${relation.isfinish}">
+														(已测评)
+													</c:when>
+													<c:otherwise>
+														(未测评)
+													</c:otherwise>
+												</c:choose>
 											</c:otherwise>
 										</c:choose>
 									</a>
