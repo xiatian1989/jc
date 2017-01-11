@@ -55,6 +55,20 @@ public class PaperDetailManageController {
 		modelAndView.setViewName("admin/DataManage/paperPreview");
 		return modelAndView;
 	}
+	@RequestMapping("paperTest")
+	public ModelAndView paperTest(HttpServletRequest request){
+		
+		ModelAndView modelAndView = new ModelAndView();
+		String paperId = request.getParameter("paperId");
+		String relationId = request.getParameter("relationId");
+		String type = request.getParameter("type");
+		List<PaperDetail> paperDetails = paperDetailService.getPaperDetailsByPaperId(paperId);
+		modelAndView.addObject("paperDetails",paperDetails);
+		modelAndView.addObject("relationId",relationId);
+		modelAndView.addObject("type",type);
+		modelAndView.setViewName("client/main/paperTest");
+		return modelAndView;
+	}
 	@RequestMapping("paperDetailList")
 	public @ResponseBody Object getPaperDetailList(HttpServletRequest request, 
 			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  

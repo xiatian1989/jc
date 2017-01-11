@@ -22,15 +22,15 @@
 	<c:forEach items="${paperDetails }" var="paperDetail">
 		${paperDetail.questionno }:${paperDetail.question }
 		<p>
-		&nbsp;&nbsp;<input type="checkbox" disabled="disabled">A:${paperDetail.optiona }&nbsp;&nbsp;
-		<input type="checkbox" disabled="disabled">B:${paperDetail.optionb }&nbsp;&nbsp;
-		<input type="checkbox" disabled="disabled">C:${paperDetail.optionc }&nbsp;&nbsp;
-		<input type="checkbox" disabled="disabled">D:${paperDetail.optiond }&nbsp;&nbsp;
+		&nbsp;&nbsp;<input type="radio" disabled="disabled">A:${paperDetail.optiona }&nbsp;&nbsp;
+		<input type="radio" disabled="disabled">B:${paperDetail.optionb }&nbsp;&nbsp;
+		<input type="radio" disabled="disabled">C:${paperDetail.optionc }&nbsp;&nbsp;
+		<input type="radio" disabled="disabled">D:${paperDetail.optiond }&nbsp;&nbsp;
 		<c:if test="${paperDetail.optione != null }">
-			<input type="checkbox" disabled="disabled">E:${paperDetail.optione }&nbsp;&nbsp;
+			<input type="radio" disabled="disabled">E:${paperDetail.optione }&nbsp;&nbsp;
 		</c:if>
 		<c:if test="${paperDetail.optionf != null }">
-			<input type="checkbox" disabled="disabled">F:${paperDetail.optionf }&nbsp;&nbsp;
+			<input type="radio" disabled="disabled">F:${paperDetail.optionf }&nbsp;&nbsp;
 		</c:if>
 		<c:if test="${paperDetail.issuggest}">
 			建议：<input type="text" disabled="disabled">

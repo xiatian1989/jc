@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rwkj.jc.IDao.ResultMapper" >
+  <resultMap id="BaseResultMap" type="com.rwkj.jc.domain.Result" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="relation_id" property="relationId" jdbcType="VARCHAR" />
+    <result column="answerproportion" property="answerproportion" jdbcType="INTEGER" />
+    <result column="resultMessage" property="resultmessage" jdbcType="VARCHAR" />
+    <result column="extraMeassge" property="extrameassge" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="BIT" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <association property="Relation" column="relation_id" select="com.rwkj.jc.IDao.RelationMapper.selectByPrimaryKey"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, relation_id, answerproportion, resultMessage, extraMeassge, score, status, createTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jc_result
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from jc_result
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.rwkj.jc.domain.Result" >
+    insert into jc_result (id, relation_id, answerproportion, 
+      resultMessage, extraMeassge, score, 
+      status, createTime)
+    values (#{id,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}, #{answerproportion,jdbcType=INTEGER}, 
+      #{resultmessage,jdbcType=VARCHAR}, #{extrameassge,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, 
+      #{status,jdbcType=BIT}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rwkj.jc.domain.Result" >
+    insert into jc_result
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="relationId != null" >
+        relation_id,
+      </if>
+      <if test="answerproportion != null" >
+        answerproportion,
+      </if>
+      <if test="resultmessage != null" >
+        resultMessage,
+      </if>
+      <if test="extrameassge != null" >
+        extraMeassge,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null" >
+        #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="answerproportion != null" >
+        #{answerproportion,jdbcType=INTEGER},
+      </if>
+      <if test="resultmessage != null" >
+        #{resultmessage,jdbcType=VARCHAR},
+      </if>
+      <if test="extrameassge != null" >
+        #{extrameassge,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rwkj.jc.domain.Result" >
+    update jc_result
+    <set >
+      <if test="relationId != null" >
+        relation_id = #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="answerproportion != null" >
+        answerproportion = #{answerproportion,jdbcType=INTEGER},
+      </if>
+      <if test="resultmessage != null" >
+        resultMessage = #{resultmessage,jdbcType=VARCHAR},
+      </if>
+      <if test="extrameassge != null" >
+        extraMeassge = #{extrameassge,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rwkj.jc.domain.Result" >
+    update jc_result
+    set relation_id = #{relationId,jdbcType=VARCHAR},
+      answerproportion = #{answerproportion,jdbcType=INTEGER},
+      resultMessage = #{resultmessage,jdbcType=VARCHAR},
+      extraMeassge = #{extrameassge,jdbcType=VARCHAR},
+      score = #{score,jdbcType=INTEGER},
+      status = #{status,jdbcType=BIT},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

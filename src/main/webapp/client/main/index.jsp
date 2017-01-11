@@ -63,7 +63,7 @@
 						<c:forEach items="${map.value}" var="relation" >
 							<li>
 								<span>
-									<a href="${pageContext.request.contextPath}/paperPreview?paperId=${relation.paperId}" target="mainContent">
+									<a href="${pageContext.request.contextPath}/paperTest?paperId=${relation.paperId}&relationId=${relation.id}&type=${relation.paper.type}" target="mainContent">
 										<c:choose>
 											<c:when test="${relation.isperson}">
 												${relation.beTestedUser.truename}
