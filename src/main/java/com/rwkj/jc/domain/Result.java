@@ -18,6 +18,8 @@ public class Result {
     private Boolean status;
 
     private Date createtime;
+    
+    private Relation relation;
 
     public String getId() {
         return id;
@@ -82,4 +84,12 @@ public class Result {
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
     }
+
+	public Relation getRelation() {
+		return relation;
+	}
+
+	public void setRelation(Relation relation) {
+		this.relation = relation;
+	}
 }

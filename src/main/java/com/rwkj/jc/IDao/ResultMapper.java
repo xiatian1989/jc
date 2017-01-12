@@ -1,5 +1,9 @@
 package com.rwkj.jc.IDao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.rwkj.jc.domain.Result;
 
 public interface ResultMapper {
@@ -14,4 +18,20 @@ public interface ResultMapper {
     int updateByPrimaryKeySelective(Result record);
 
     int updateByPrimaryKey(Result record);
+    
+    List<Result> getResults(@Param("pageIndex")int pageIndex,@Param("pageSize")int pageSize);
+    
+    int getResultsCount();
+    
+    List<Result> getResultsByRegion(@Param("column") String column,@Param("value") String value,@Param("pageIndex")int pageIndex,@Param("pageSize")int pageSize);
+    
+    int getResultsCountByRegion(@Param("column") String column,@Param("value") String value);
+    
+    int getResultsCountByColumnValue(@Param("column") String column,@Param("value") String value);
+    
+    List<Result> getResultsByColumnValue(@Param("column") String column,@Param("value") String value,@Param("pageIndex")int pageIndex,@Param("pageSize")int pageSize);
+    
+    int ensabledResultByids(@Param("ids") String ids);
+    
+    int disabledResultByids(@Param("ids") String ids);
 }

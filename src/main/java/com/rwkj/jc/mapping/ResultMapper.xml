@@ -126,4 +126,48 @@
       createTime = #{createtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+   <select id="getResults" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from jc_result order by createTime limit #{pageIndex},#{pageSize}
+  </select>
+  
+   <select id="getResultsCount" resultType="java.lang.Integer">
+    select 
+    count(*)
+    from jc_result
+  </select> 
+   <select id="getResultsByRegion" resultMap="BaseResultMap">
+   <![CDATA[ select 
+    <include refid="Base_Column_List" />
+    from jc_result where ${column} <= ${value} order by createTime  limit #{pageIndex},#{pageSize} ]]> 
+  </select>
+  
+   <select id="getResultsCountByRegion" resultType="java.lang.Integer">
+   <![CDATA[ select 
+    count(*)
+    from jc_result where ${column} <= ${value} ]]> 
+  </select> 
+  
+    <select id="getResultsCountByColumnValue" resultType="java.lang.Integer">
+    select 
+    count(*)
+    from jc_result where ${column} = ${value}
+  </select>
+  
+   <select id="getResultsByColumnValue" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from jc_result where ${column} = ${value} order by createTime limit #{pageIndex},#{pageSize}
+  </select>
+  
+    <update id="ensabledResultByids" parameterType="java.lang.String" >
+    update jc_result set status = 1
+    where id in ${ids}
+  </update>
+   <update id="disabledResultByids" parameterType="java.lang.String" >
+    update jc_result set status = 0
+    where id in ${ids}
+  </update>
 </mapper>
