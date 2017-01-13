@@ -45,5 +45,13 @@ public interface RelationMapper {
     
     List<Relation> getRelationsByUserNo(@Param("userNo") String userNo);
     
+    List<Relation> getRelationsByUserNos(@Param("userNos") String userNos);
+    
+    List<Relation> getRelationsByBeTestedUserNo(@Param("userNo") String userNo);
+    
+    List<Relation> getRelationsByBeTestedUserNos(@Param("userNos") String userNos);
+    
+    List<Relation> getRelationsByBeTestedDepartNo(@Param("departNo") String departNo);
+    
     int batchInsert(List<Relation> list);
 }

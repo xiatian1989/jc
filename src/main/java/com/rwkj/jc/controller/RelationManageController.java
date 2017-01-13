@@ -77,7 +77,7 @@ public class RelationManageController {
 					relations = relationService.getRelationsByColumnValue(column, plan.getId(), (page-1)*rows, rows);
 					total = relationService.getRelationsCountByColumnValue(column,plan.getId());
 				}
-			}else if("testPerson".equals(column)){
+			}else if("betestedobject".equals(column)){
 				users = userService.getUsersByUserName(value);
 				StringBuffer uerIds = new StringBuffer();
 				if(CollectionUtils.isEmpty(users)) {
@@ -85,8 +85,8 @@ public class RelationManageController {
 					if(depart == null) {
 						relations = new ArrayList<Relation>();
 					}else{
-						relations = relationService.getRelationsByColumnValue(column, depart.getId(), (page-1)*rows, rows);
-						total = relationService.getRelationsCountByColumnValue(column,depart.getId());
+						relations = relationService.getRelationsByColumnValue("beTestedDepart", depart.getId(), (page-1)*rows, rows);
+						total = relationService.getRelationsCountByColumnValue("beTestedDepart",depart.getId());
 					}
 				}else{
 					for(User user:users){
@@ -94,10 +94,10 @@ public class RelationManageController {
 						uerIds.append(user.getId());
 					}
 					
-					relations = relationService.getRelationsByColumnValueForNoSureValue(column, uerIds.substring(1), (page-1)*rows, rows);
-					total = relationService.getRelationsCountByColumnValueForNoSureValue(column, uerIds.substring(1));
+					relations = relationService.getRelationsByColumnValueForNoSureValue("beTestedPerson", uerIds.substring(1), (page-1)*rows, rows);
+					total = relationService.getRelationsCountByColumnValueForNoSureValue("beTestedPerson", uerIds.substring(1));
 				}
-			}else if("betestedobject".equals(column)){
+			}else if("testPerson".equals(column)){
 				users = userService.getUsersByUserName(value);
 				StringBuffer uerIds = new StringBuffer();
 				if(CollectionUtils.isEmpty(users)) {

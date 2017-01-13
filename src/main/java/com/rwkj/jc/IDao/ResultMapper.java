@@ -31,6 +31,10 @@ public interface ResultMapper {
     
     List<Result> getResultsByColumnValue(@Param("column") String column,@Param("value") String value,@Param("pageIndex")int pageIndex,@Param("pageSize")int pageSize);
     
+    int getResultsCountByRelationIds(@Param("value") String value);
+    
+    List<Result> getResultsByRelationIds(@Param("value") String value,@Param("pageIndex")int pageIndex,@Param("pageSize")int pageSize);
+    
     int ensabledResultByids(@Param("ids") String ids);
     
     int disabledResultByids(@Param("ids") String ids);

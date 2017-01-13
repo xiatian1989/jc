@@ -20,7 +20,13 @@ public interface ResultService {
 	
 	List<Result> getResultsByColumnValue(String column,String value,int pageIndex,int pageSize);
 	
+	int getResultsCountByRelationIds(String value);
+	
+	List<Result> getResultsByRelationIds(String value, int pageIndex, int pageSize);
+	
 	int ensabledResultByids(String ids);
 	
 	int disabledResultByids(String ids);
+	
+	Result getResultById(String id);
 }

@@ -20,6 +20,10 @@ public interface RelationService {
     List<Relation> getRelationsByPlanId(String planId);
     List<Relation> getRelationsByPlanIdAndUserNo(String planId,String userNo);
     List<Relation> getRelationsByUserNo(String userNo);
+    List<Relation> getRelationsByUserNos(String userNos);
+    List<Relation> getRelationsByBeTestedUserNo(String userNo);
+    List<Relation> getRelationsByBeTestedUserNos(String userNos);
+    List<Relation> getRelationsByBeTestedDepartNo(String departNo);
     Relation getRelationById(String id);
     int updateRelation(Relation relation);
 }

@@ -10,7 +10,7 @@
     <result column="score" property="score" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="BIT" />
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
-    <association property="Relation" column="relation_id" select="com.rwkj.jc.IDao.RelationMapper.selectByPrimaryKey"/>
+    <association property="relation" column="relation_id" select="com.rwkj.jc.IDao.RelationMapper.selectByPrimaryKey"/>
   </resultMap>
   <sql id="Base_Column_List" >
     id, relation_id, answerproportion, resultMessage, extraMeassge, score, status, createTime
@@ -153,13 +153,25 @@
     <select id="getResultsCountByColumnValue" resultType="java.lang.Integer">
     select 
     count(*)
-    from jc_result where ${column} = ${value}
+    from jc_result where ${column} = #{value}
   </select>
   
    <select id="getResultsByColumnValue" resultMap="BaseResultMap">
    select 
     <include refid="Base_Column_List" />
-    from jc_result where ${column} = ${value} order by createTime limit #{pageIndex},#{pageSize}
+    from jc_result where ${column} = #{value} order by createTime limit #{pageIndex},#{pageSize}
+  </select>
+  
+    <select id="getResultsCountByRelationIds" resultType="java.lang.Integer">
+    select 
+    count(*)
+    from jc_result where relation_id in ${value}
+  </select>
+  
+   <select id="getResultsByRelationIds" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from jc_result where relation_id in ${value} order by createTime limit #{pageIndex},#{pageSize}
   </select>
   
     <update id="ensabledResultByids" parameterType="java.lang.String" >

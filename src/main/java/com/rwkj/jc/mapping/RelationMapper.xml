@@ -224,6 +224,27 @@
     <include refid="Base_Column_List" />
     from jc_relation where testPerson = ${userNo} and status = 1 order by createTime
   </select>
+  <select id="getRelationsByUserNos" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from jc_relation where testPerson in ${userNos} and status = 1 order by createTime
+  </select>
+  
+  <select id="getRelationsByBeTestedUserNo" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from jc_relation where beTestedPerson = ${userNo} and status = 1 order by createTime
+  </select>
+  <select id="getRelationsByBeTestedUserNos" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from jc_relation where beTestedPerson in ${userNos} and status = 1 order by createTime
+  </select>
+  <select id="getRelationsByBeTestedDepartNo" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from jc_relation where beTestedDepart = ${departNo} and status = 1 order by createTime
+  </select>
   
    <select id="getRelationsCountByColumnValue" resultType="java.lang.Integer">
     select 

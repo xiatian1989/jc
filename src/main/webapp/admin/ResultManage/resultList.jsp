@@ -43,7 +43,7 @@
 				field : 'betestedobject',
 				width : 60,
 			}, {
-				title : '被测评是否是人',
+				title : '答题比例',
 				field : 'answerproportion',
 				width : 60,
 				formatter : function(value, row, index) {
@@ -70,7 +70,7 @@
 				field : 'id',
 				width : 60,
 				formatter : function(value, row, index) {
-					return '<a href="javaScript:void(0)" onClick="openPaperForRelation('+"'"+value+"'"+')">试卷详情</a>';
+					return '<a href="javaScript:void(0)" onClick="openPaperForTest('+"'"+value+"'"+')">测评详情</a>';
 				}
 			}] ],
 			fitColumns:true,
@@ -84,45 +84,108 @@
 
 	function changeColumn(){
 		var column = $("#column").val();
-		if(column=='isPerson' || column=='isFinish' || column=='isSupportSMS') {
+		$("#text1").hide();
+		$("#text2").hide();
+		if(column=='status') {
 			$("#key").hide();
-			$("#param1").hide();
 			$("#param").show();
 			
-		}else if(column=='status'){
-			$("#key").hide();
-			$("#param1").show();
-			$("#param").hide();
 		}else{
 			$("#key").show();
-			$("#param1").hide();
 			$("#param").hide();
+			if(column=='answerproportion') {
+				$("#text1").show();
+				$("#text2").show();
+			}
 		}
-		
 	}
 	
 	function doSearch() {
 		var column = $("#column").val();
 		var value="";
-		if(column=='isPerson' || column=='isFinish' || column=='isSupportSMS') {
+		if(column=='status') {
 			value= $("#param").value();
-		}else if(column=='status'){
-			value= $("#param1").value();
 		}else{
 			value= $("#key").value();
 			if(value="请输入查询值") {
 				value ="";
 			}
 		}
-		  $('#dg').datagrid('load',{  
-			  param: param,
-			  value:value,
-	       });  
+	  	$('#dg').datagrid('load',{  
+		  param: param,
+		  value:value,
+      	});  
 	}
 	
-	function openPaperForRelation(paperId){
-		$('#winForRelationPaper').window('open');
-		$('#winForRelationPaper').window('refresh', '${pageContext.request.contextPath}/paperPreview?paperId='+paperId);
+	function openPaperForTest(resultId){
+		$('#winForTestPaper').window('open');
+		$('#winForTestPaper').window('refresh', '${pageContext.request.contextPath}/admin/paperTestDetail?resultId='+resultId);
+	}
+	
+	function ensabledResultByids() {
+
+		var row = $('#dg').datagrid('getSelections');
+		if (row.length>0) {
+			$.messager.confirm(
+				'Confirm',
+				'你确定将选中的结果设置为有效吗?',
+				function(r) {
+					if (r) {
+						var id = "";
+						for (var i = 0; i < row.length; i++) {
+							id = id +  ",'"+row[i].id +"'";
+						}
+						$.ajax({
+							url : '${pageContext.request.contextPath}/admin/ensabledResultByids',
+							type : 'post',
+							data : 'ids=' + id,
+							async : false, //默认为true 异步   
+							success : function(msg) {
+								if (msg.result == "success") {
+									$('#dg').datagrid('reload');
+								} else {
+									$.messager.alert('错误',obj.errorMsg,'error');
+								}
+							}
+						});
+					}
+				});
+		} else {
+			$.messager.alert("提示", "请选择要处理的数据！", "info");
+		}
+	}
+	
+	function disabledResultByids() {
+
+		var row = $('#dg').datagrid('getSelections');
+		if (row.length>0) {
+			$.messager.confirm(
+				'Confirm',
+				'你确定将选中的结果设置为有效吗?',
+				function(r) {
+					if (r) {
+						var id = "";
+						for (var i = 0; i < row.length; i++) {
+							id = id +  ",'"+row[i].id +"'";
+						}
+						$.ajax({
+							url : '${pageContext.request.contextPath}/admin/disabledResultByids',
+							type : 'post',
+							data : 'ids=' + id,
+							async : false, //默认为true 异步   
+							success : function(msg) {
+								if (msg.result == "success") {
+									$('#dg').datagrid('reload');
+								} else {
+									$.messager.alert('错误',obj.errorMsg,'error');
+								}
+							}
+						});
+					}
+				});
+		} else {
+			$.messager.alert("提示", "请选择要处理的数据！", "info");
+		}
 	}
 	
 </script>
@@ -147,28 +210,19 @@
 				<option value="plan_id">计划标题</option>
 				<option value="testPerson">测评人</option>
 				<option value="betestedobject">被测评对象</option>
+				<option value="answerproportion">答题比例</option>
 				<option value="status">状态</option>
 			</select>
-			<input type="text" id="key" name="key" value="请输入查询值" onFocus="if(value==defaultValue){value='';this.style.color='#000'}" 
-			onBlur="if(!value){value=defaultValue;this.style.color='#999'}" style="color:#999999">
+			<span id="text1">答题比例低于</span><input type="text" id="key" name="key" value="请输入查询值" onFocus="if(value==defaultValue){value='';this.style.color='#000'}" 
+			onBlur="if(!value){value=defaultValue;this.style.color='#999'}" style="color:#999999"><span id="text2">%</span>
 			<select id="param" name="param" style="display: none">
-				<option value=1>是</option>
-				<option value=0>否</option>
-			</select>
-			<select id="param1" name="param1" style="display: none">
 				<option value=1>有效</option>
-				<option value=0>作废</option>
+				<option value=0>无效</option>
 			</select>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="doSearch()">搜索</a>
 		</div>
 	</div>
-	<div id="win" class="easyui-window" title="添加测评关系" style="width:980px;height:520px"
-   	 	data-options="iconCls:'icon-save',modal:true,closed:true,cache: false">
-	</div>
-	<div id="winForRelationPaper" class="easyui-window" title="预览测评试卷" style="width:1000px;height:460px"
-   	 	data-options="iconCls:'icon-save',modal:true,closed:true,cache: false">
-	</div>
-	<div id="winForRule" class="easyui-window" title="查看规则" style="width:400px;height:180px"
+	<div id="winForTestPaper" class="easyui-window" title="试卷测评详情" style="width:1000px;height:460px"
    	 	data-options="iconCls:'icon-save',modal:true,closed:true,cache: false">
 	</div>
 </body>

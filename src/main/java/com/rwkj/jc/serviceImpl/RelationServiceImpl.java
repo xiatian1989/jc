@@ -80,4 +80,20 @@ public class RelationServiceImpl implements RelationService {
 	public int updateRelation(Relation relation) {
 		return relationDao.updateByPrimaryKeySelective(relation);
 	}
+
+	public List<Relation> getRelationsByBeTestedUserNo(String userNo) {
+		return relationDao.getRelationsByBeTestedUserNo(userNo);
+	}
+
+	public List<Relation> getRelationsByBeTestedDepartNo(String departNo) {
+		return relationDao.getRelationsByBeTestedDepartNo(departNo);
+	}
+
+	public List<Relation> getRelationsByUserNos(String userNos) {
+		return relationDao.getRelationsByUserNos(userNos);
+	}
+
+	public List<Relation> getRelationsByBeTestedUserNos(String userNos) {
+		return relationDao.getRelationsByBeTestedUserNos(userNos);
+	}
 }

@@ -89,7 +89,7 @@
 			</div>
 			<div title="统计分析" data-options="iconCls:'icon-tip',collapsed:false" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
 				<div>
-					<a href="${pageContext.request.contextPath}/organizationList" target="mainContent">答卷管理</a>
+					<a href="${pageContext.request.contextPath}/admin/ResultManage/resultList.jsp" target="mainContent">答卷管理</a>
 				</div>
 				<div>
 					<a href="${pageContext.request.contextPath}/organizationList" target="mainContent">结果生成</a>

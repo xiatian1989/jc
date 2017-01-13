@@ -43,6 +43,13 @@ public class ResultServiceImpl implements ResultService {
 	public List<Result> getResultsByColumnValue(String column, String value, int pageIndex, int pageSize) {
 		return resultDao.getResultsByColumnValue(column, value, pageIndex, pageSize);
 	}
+	public int getResultsCountByRelationIds(String value) {
+		return resultDao.getResultsCountByRelationIds(value);
+	}
+	
+	public List<Result> getResultsByRelationIds(String value, int pageIndex, int pageSize) {
+		return resultDao.getResultsByRelationIds(value, pageIndex, pageSize);
+	}
 
 	public int ensabledResultByids(String ids) {
 		return resultDao.ensabledResultByids(ids);
@@ -50,6 +57,10 @@ public class ResultServiceImpl implements ResultService {
 
 	public int disabledResultByids(String ids) {
 		return resultDao.disabledResultByids(ids);
+	}
+
+	public Result getResultById(String id) {
+		return resultDao.selectByPrimaryKey(id);
 	}
 
 }
