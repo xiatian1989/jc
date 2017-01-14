@@ -1,6 +1,7 @@
 package com.rwkj.jc.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +83,7 @@ public class ResultManageController {
 							userNos.append(user.getUserno());
 							userNos.append("'");
 						}
-						relations = relationService.getRelationsByUserNos(userNos.substring(1));
+						relations = relationService.getRelationsByUserNos("("+userNos.substring(1)+")");
 					}
 				}else if("betestedobject".equals(column)){
 					users = userService.getUsersByUserName(value);
@@ -101,19 +102,21 @@ public class ResultManageController {
 							userNos.append("'");
 						}
 						
-						relations = relationService.getRelationsByBeTestedUserNos(userNos.substring(1));
+						relations = relationService.getRelationsByBeTestedUserNos("("+userNos.substring(1)+")");
 					}
 				}
 				StringBuffer relationIds = new StringBuffer();
-				for(Relation relation:relations) {
-					relationIds.append(",");
-					relationIds.append("'");
-					relationIds.append(relation.getId());
-					relationIds.append("'");
-				}
-				if(relationIds.length()>0) {
-					results = resultService.getResultsByRelationIds(value, (page-1)*rows, rows);
-					total = resultService.getResultsCountByRelationIds(value);
+				if(CollectionUtils.isEmpty(relations)) {
+					results = new ArrayList<Result>();
+				}else{
+					for(Relation relation:relations) {
+						relationIds.append(",");
+						relationIds.append("'");
+						relationIds.append(relation.getId());
+						relationIds.append("'");
+					}
+					results = resultService.getResultsByRelationIds("("+relationIds.substring(1)+")", (page-1)*rows, rows);
+					total = resultService.getResultsCountByRelationIds("("+relationIds.substring(1)+")");
 				}
 			}else if("answerproportion".equals(column)){
 				results = resultService.getResultsByRegion(column, value, (page-1)*rows, rows);
@@ -147,7 +150,7 @@ public class ResultManageController {
 	public @ResponseBody Map<String,String> ensabledResultByids(@RequestParam("ids") String ids){
 		
 		Map<String,String> map = new HashMap<String,String>();
-		int count = resultService.ensabledResultByids(ids.substring(1));
+		int count = resultService.ensabledResultByids("("+ids.substring(1)+")");
 		if(count>0){
 			map.put("result", "success");
 		}else {
@@ -161,7 +164,7 @@ public class ResultManageController {
 	public @ResponseBody Map<String,String> disabledResultByids(@RequestParam("ids") String ids){
 		
 		Map<String,String> map = new HashMap<String,String>();
-		int count = resultService.disabledResultByids(ids.substring(1));
+		int count = resultService.disabledResultByids("("+ids.substring(1)+")");
 		if(count>0){
 			map.put("result", "success");
 		}else {

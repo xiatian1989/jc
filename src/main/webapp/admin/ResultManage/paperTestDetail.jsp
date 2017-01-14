@@ -20,27 +20,11 @@
 	}
 </style>
 <script type="text/javascript">
-	$(function(){
-		var resultMessage = $("#resultMessage").val();
-		var extraMeassge = $("#extraMeassge").val();
-		var resultMessageArr = resultMessage.split(",");
-		for(var i= 0;i<resultMessageArr.length;i++){
-			var questionno = resultMessageArr[i].split(":")[0];
-			var value = resultMessageArr[i].split(":")[1];
-			$("input[name='"+questionno+"'][value="+value+"]").attr("checked",true); 
-		}
-		var extraMeassgeArr = extraMeassge.split(",");
-		for(var i= 0;i<extraMeassgeArr.length;i++){
-			var questionno = extraMeassgeArr[i].split(":")[0];
-			var suggest = extraMeassgeArr[i].split(":")[1];
-			$("#"+questionno).val(suggest);
-		}
-	});
 </script>
 </head>
 <body>
 	<input type="text" id="resultMessage" value="${resultMessage}" style="display: none">
-	<input type="text" id="extraMeassge" value="${extraMeassge}" style="display: none">
+	<input type="text" id="extraMeassge" value="${extraMeassge}"  style="display: none">
 	<c:forEach items="${paperDetails }" var="paperDetail">
 		${paperDetail.questionno }:${paperDetail.question }
 		<p >

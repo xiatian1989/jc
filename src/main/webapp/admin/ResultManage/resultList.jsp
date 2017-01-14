@@ -104,22 +104,44 @@
 		var column = $("#column").val();
 		var value="";
 		if(column=='status') {
-			value= $("#param").value();
+			value= $("#param").val();
 		}else{
-			value= $("#key").value();
-			if(value="请输入查询值") {
+			value= $("#key").val();
+			if(value=="请输入查询值") {
 				value ="";
 			}
 		}
-	  	$('#dg').datagrid('load',{  
-		  param: param,
-		  value:value,
-      	});  
+		$('#dg').datagrid('load', {
+			column : column,
+			value : value,
+		});
 	}
 	
 	function openPaperForTest(resultId){
 		$('#winForTestPaper').window('open');
 		$('#winForTestPaper').window('refresh', '${pageContext.request.contextPath}/admin/paperTestDetail?resultId='+resultId);
+		
+		var t=setTimeout(function(){
+			var resultMessage = $("#resultMessage").val();
+			var extraMeassge = $("#extraMeassge").val();
+			if(resultMessage) {
+				var resultMessageArr = resultMessage.split(",");
+				for(var i= 0;i<resultMessageArr.length;i++){
+					var questionno = resultMessageArr[i].split(":")[0];
+					var value = resultMessageArr[i].split(":")[1];
+					$("input[name='"+questionno+"'][value="+value+"]").attr("checked",true); 
+				}
+				var extraMeassgeArr = extraMeassge.split(",");
+				for(var i= 0;i<extraMeassgeArr.length;i++){
+					var questionno = extraMeassgeArr[i].split(":")[0];
+					var suggest = extraMeassgeArr[i].split(":")[1];
+					$("#"+questionno).val(suggest);
+				}
+				clearTimeout(t);
+			}
+		},500)
+		
+		
 	}
 	
 	function ensabledResultByids() {
@@ -213,8 +235,8 @@
 				<option value="answerproportion">答题比例</option>
 				<option value="status">状态</option>
 			</select>
-			<span id="text1">答题比例低于</span><input type="text" id="key" name="key" value="请输入查询值" onFocus="if(value==defaultValue){value='';this.style.color='#000'}" 
-			onBlur="if(!value){value=defaultValue;this.style.color='#999'}" style="color:#999999"><span id="text2">%</span>
+			<span id="text1" style="display: none">答题比例低于</span><input type="text" id="key" name="key" value="请输入查询值" onFocus="if(value==defaultValue){value='';this.style.color='#000'}" 
+			onBlur="if(!value){value=defaultValue;this.style.color='#999'}" style="color:#999999"><span id="text2" style="display: none">%</span>
 			<select id="param" name="param" style="display: none">
 				<option value=1>有效</option>
 				<option value=0>无效</option>

@@ -139,9 +139,9 @@
     from jc_result
   </select> 
    <select id="getResultsByRegion" resultMap="BaseResultMap">
-   <![CDATA[ select 
+   select 
     <include refid="Base_Column_List" />
-    from jc_result where ${column} <= ${value} order by createTime  limit #{pageIndex},#{pageSize} ]]> 
+   <![CDATA[ from jc_result where ${column} <= ${value} order by createTime  limit #{pageIndex},#{pageSize} ]]> 
   </select>
   
    <select id="getResultsCountByRegion" resultType="java.lang.Integer">

@@ -92,7 +92,7 @@
 					<a href="${pageContext.request.contextPath}/admin/ResultManage/resultList.jsp" target="mainContent">答卷管理</a>
 				</div>
 				<div>
-					<a href="${pageContext.request.contextPath}/organizationList" target="mainContent">结果生成</a>
+					<a href="${pageContext.request.contextPath}/admin/ResultManage/resultSearch.jsp" target="mainContent">结果查询</a>
 				</div>
 				<div>
 					<a href="${pageContext.request.contextPath}/organizationList" target="mainContent">统计分析</a>
