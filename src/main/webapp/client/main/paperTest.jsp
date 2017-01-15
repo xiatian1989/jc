@@ -33,10 +33,10 @@
 			answer=$("input[name='"+i+"']:checked").val();
 			if(answer) {
 				answerTotal++;
-				resultMessage = resultMessage + ",";
+				resultMessage = resultMessage + "#";
 				resultMessage = resultMessage+i +":"+answer;
 				if($("#"+i).val()){
-					extraMeassge = extraMeassge + ",";
+					extraMeassge = extraMeassge + "#";
 					extraMeassge = extraMeassge+i +":"+$("#"+i).val();
 				}
 			}

@@ -63,4 +63,8 @@ public class ResultServiceImpl implements ResultService {
 		return resultDao.selectByPrimaryKey(id);
 	}
 
+	public List<Result> getResultsByRelationIds(String value) {
+		return resultDao.getResultsByRelationIdsNoPage(value);
+	}
+
 }

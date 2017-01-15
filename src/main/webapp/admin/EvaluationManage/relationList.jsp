@@ -179,19 +179,19 @@
 		var column = $("#column").val();
 		var value="";
 		if(column=='isPerson' || column=='isFinish' || column=='isSupportSMS') {
-			value= $("#param").value();
+			value= $("#param").val();
 		}else if(column=='status'){
-			value= $("#param1").value();
+			value= $("#param1").val();
 		}else{
-			value= $("#key").value();
+			value= $("#key").val();
 			if(value="请输入查询值") {
 				value ="";
 			}
 		}
-		  $('#dg').datagrid('load',{  
-			  param: param,
-			  value:value,
-	       });  
+		$('#dg').datagrid('load', {
+			column : column,
+			value : value,
+		});
 	}
 
 	function cancel() {

@@ -174,6 +174,12 @@
     from jc_result where relation_id in ${value} order by createTime limit #{pageIndex},#{pageSize}
   </select>
   
+   <select id="getResultsByRelationIdsNoPage" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from jc_result where relation_id in ${value} and status = 1 order by createTime
+  </select>
+  
     <update id="ensabledResultByids" parameterType="java.lang.String" >
     update jc_result set status = 1
     where id in ${ids}

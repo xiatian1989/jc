@@ -87,7 +87,10 @@
 					<a href="${pageContext.request.contextPath}/admin/EvaluationManage/smsList.jsp" target="mainContent">测评短信管理</a>
 				</div>
 			</div>
-			<div title="统计分析" data-options="iconCls:'icon-tip',collapsed:false" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
+			<div title="查询分析" data-options="iconCls:'icon-tip',collapsed:false" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
+				<div>
+					<a href="${pageContext.request.contextPath}/admin/allPlanStatus" target="mainContent">计划概况</a>
+				</div>
 				<div>
 					<a href="${pageContext.request.contextPath}/admin/ResultManage/resultList.jsp" target="mainContent">答卷管理</a>
 				</div>
@@ -95,15 +98,12 @@
 					<a href="${pageContext.request.contextPath}/admin/ResultManage/resultSearch.jsp" target="mainContent">结果查询</a>
 				</div>
 				<div>
-					<a href="${pageContext.request.contextPath}/organizationList" target="mainContent">统计分析</a>
-				</div>
-				<div>
-					<a href="${pageContext.request.contextPath}/organizationList" target="mainContent">结果导出</a>
+					<a href="${pageContext.request.contextPath}/admin/initResultExportSearch" target="mainContent">结果导出</a>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div data-options="region:'south',border:false" style="height:50px;background:#A9FACD;">south region</div>
+	<div data-options="region:'south',border:false" style="height:50px;background:#A9FACD;text-align: center;"><p>Copyright ©2017</div>
 	<div data-options="region:'center'">
 		<iframe src="${pageContext.request.contextPath}/admin/SystemManage/systemInfo.jsp" scrolling="auto" width="100%"  height="99%" style="border: 0" name="mainContent"></iframe>
 	</div>

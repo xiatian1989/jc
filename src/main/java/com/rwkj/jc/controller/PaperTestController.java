@@ -70,7 +70,7 @@ public class PaperTestController {
 				scores.put("F", paperDetail.getOptionfscore());
 				scoreMap.put(String.valueOf(paperDetail.getQuestionno()), scores);
 			}
-			String[] answerArr = resultMessage.substring(1).split(",");
+			String[] answerArr = resultMessage.substring(1).split("#");
 			for(String str:answerArr) {
 				String questionNo = str.split(":")[0];
 				String answer = str.split(":")[1];

@@ -24,6 +24,8 @@ public interface ResultService {
 	
 	List<Result> getResultsByRelationIds(String value, int pageIndex, int pageSize);
 	
+	List<Result> getResultsByRelationIds(String value);
+	
 	int ensabledResultByids(String ids);
 	
 	int disabledResultByids(String ids);

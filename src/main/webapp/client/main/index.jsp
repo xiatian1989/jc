@@ -27,6 +27,10 @@
 	    	window.location.href="${pageContext.request.contextPath}/client/userLogout";
 	    });
 	});
+	function notice(){
+		$.messager.alert("提示", "该对象已经被测评了，请选择其他人员测评！", "info");
+		window.open("${pageContext.request.contextPath}/client/planStatus","mainContent");
+	}
 </script>
 </head>
 <body class="easyui-layout">
@@ -63,7 +67,14 @@
 						<c:forEach items="${map.value}" var="relation" >
 							<li>
 								<span>
-									<a href="${pageContext.request.contextPath}/paperTest?paperId=${relation.paperId}&relationId=${relation.id}&type=${relation.paper.type}" target="mainContent">
+									<c:choose>
+										<c:when test="${relation.isfinish}">
+											<a href="javascript:void(0)" onclick="notice()">
+										</c:when>
+										<c:otherwise>
+											<a href="${pageContext.request.contextPath}/paperTest?paperId=${relation.paperId}&relationId=${relation.id}&type=${relation.paper.type}" target="mainContent">
+										</c:otherwise>
+									</c:choose>
 										<c:choose>
 											<c:when test="${relation.isperson}">
 												${relation.beTestedUser.truename}
@@ -97,7 +108,7 @@
 			</c:forEach>
 		</ul>
 	</div>
-	<div data-options="region:'south',border:false" style="height:50px;background:#A9FACD;">south region</div>
+	<div data-options="region:'south',border:false" style="height:50px;background:#A9FACD;text-align: center;"><p>Copyright ©2017</div>
 	<div data-options="region:'center'">
 		<iframe src="${pageContext.request.contextPath}/client/planStatus" scrolling="auto" width="100%"  height="99%" style="border: 0" name="mainContent"></iframe>
 	</div>

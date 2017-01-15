@@ -125,13 +125,13 @@
 			var resultMessage = $("#resultMessage").val();
 			var extraMeassge = $("#extraMeassge").val();
 			if(resultMessage) {
-				var resultMessageArr = resultMessage.split(",");
+				var resultMessageArr = resultMessage.split("#");
 				for(var i= 0;i<resultMessageArr.length;i++){
 					var questionno = resultMessageArr[i].split(":")[0];
 					var value = resultMessageArr[i].split(":")[1];
 					$("input[name='"+questionno+"'][value="+value+"]").attr("checked",true); 
 				}
-				var extraMeassgeArr = extraMeassge.split(",");
+				var extraMeassgeArr = extraMeassge.split("#");
 				for(var i= 0;i<extraMeassgeArr.length;i++){
 					var questionno = extraMeassgeArr[i].split(":")[0];
 					var suggest = extraMeassgeArr[i].split(":")[1];

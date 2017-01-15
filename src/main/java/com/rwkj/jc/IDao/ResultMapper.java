@@ -35,6 +35,8 @@ public interface ResultMapper {
     
     List<Result> getResultsByRelationIds(@Param("value") String value,@Param("pageIndex")int pageIndex,@Param("pageSize")int pageSize);
     
+    List<Result> getResultsByRelationIdsNoPage(@Param("value") String value);
+    
     int ensabledResultByids(@Param("ids") String ids);
     
     int disabledResultByids(@Param("ids") String ids);
