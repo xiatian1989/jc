@@ -64,7 +64,7 @@
 <body>
 	<input type="text" value="${search }" style="display: none" id="search">
 	<div id="header" class="easyui-panel" title="查询条件" style="height:70px;text-align: center; line-height:40px;">
-		用户账号：<input class="easyui-textbox right" style="width:140px;height:20px" id="userno" value="${userno}">
+		用户编号：<input class="easyui-textbox right" style="width:140px;height:20px" id="userno" value="${userno}">
 		姓名：<input class="easyui-textbox right" style="width:140px;height:20px" id="truename" value="${truename}" >
 		部门：<input class="easyui-textbox right" style="width:140px;height:20px" id="departname" value="${departname}">
 		<input type="button" value="搜索" onclick="search()"> 

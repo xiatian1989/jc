@@ -65,4 +65,7 @@ public class PaperDetailServiceImpl implements PaperDetailService {
 		return paperDetailDao.batchInsert(list);
 	}
 
+	public List<PaperDetail> getPaperDetailByIds(String ids) {
+		return paperDetailDao.getPaperDetailsByIds(ids);
+	}
 }

@@ -293,11 +293,18 @@
     where question like #{name} and templet_id = #{templetId}
   </select>
   
-   <delete id="deleteTempletByids" parameterType="java.lang.String" >
-    delete from jc_templet
+   <delete id="deleteTempletDetailByIds" parameterType="java.lang.String" >
+    delete from jc_templetdetail
     where id in ${ids}
   </delete>
   
+  <select id="getTempletDetailsByIds" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from jc_templetdetail where id in ${ids} order by questionNO
+  </select>
   <select id="getTempletDetailsByTempletId" resultMap="BaseResultMap" parameterType="java.lang.String">
     select 
     <include refid="Base_Column_List" />

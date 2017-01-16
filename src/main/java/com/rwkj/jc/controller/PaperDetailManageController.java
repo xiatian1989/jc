@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import jxl.write.WritableWorkbook;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -31,8 +33,6 @@ import com.rwkj.jc.domain.PaperDetail;
 import com.rwkj.jc.service.PaperDetailService;
 import com.rwkj.jc.util.CommonUtils;
 import com.rwkj.jc.util.ExcelUtil;
-
-import jxl.write.WritableWorkbook;
 
 @Controller
 public class PaperDetailManageController {
@@ -142,6 +142,16 @@ public class PaperDetailManageController {
 		return result;
 	}
 	
+	@RequestMapping("/admin/getPaperDetailNo")
+	public @ResponseBody Map<String,String> getTempletDetailNo(HttpServletRequest request){
+		Map<String, String> result = new HashMap<String,String>();
+		HttpSession session = request.getSession(true);
+		String paperId = (String)session.getAttribute("paperId");
+		int total = paperDetailService.getPaperDetailsCount(paperId);
+		result.put("total", String.valueOf(total+1));
+		return result;
+	}
+	
 	@RequestMapping("/admin/updatePaperDetail")
 	public @ResponseBody Map<String,String> updatePaperDetail(@ModelAttribute PaperDetail paperDetail){
 		int count = 0;
@@ -157,11 +167,22 @@ public class PaperDetailManageController {
 	}
 	
 	@RequestMapping("/admin/deletePaperDetail")
-	public @ResponseBody Map<String,String> deletePaperDetail(@RequestParam("id") String id){
+	public @ResponseBody Map<String,String> deletePaperDetail(HttpServletRequest request,@RequestParam("id") String id){
 		Map<String,String> map = new HashMap<String,String>();
-		int count = paperDetailService.deletePaperDetails(id);
+		List<PaperDetail> deletePaperDetails = paperDetailService.getPaperDetailByIds("("+id.substring(1)+")");
+		int questionNo= deletePaperDetails.get(deletePaperDetails.size()-1).getQuestionno();
+		HttpSession session = request.getSession(true);
+		String paperId = (String)session.getAttribute("paperId");
+		List<PaperDetail> paperDetails = paperDetailService.getPaperDetailsByPaperId(paperId);
+		int count = paperDetailService.deletePaperDetails("("+id.substring(1)+")");
 		if(count>0){
 			map.put("result", "success");
+			for(PaperDetail tempPaperDetail:paperDetails) {
+				if(tempPaperDetail.getQuestionno()>questionNo) {
+					tempPaperDetail.setQuestionno(tempPaperDetail.getQuestionno()-deletePaperDetails.size());
+					paperDetailService.updatePaperDetail(tempPaperDetail);
+				}
+			}
 		}else {
 			map.put("result", "failed");
 		}

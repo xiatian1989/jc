@@ -66,6 +66,7 @@ public class PlanManageController {
              jsonObject.put("plantitle",plan.getPlantitle());
              jsonObject.put("begintime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(plan.getBegintime()));
              jsonObject.put("endtime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(plan.getEndtime()));
+             jsonObject.put("isstart",plan.getIsstart());
              jsonObject.put("isfinish",plan.getIsfinish());
              jsonObject.put("createtime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(plan.getCreatetime()));
              jsonArray.add(jsonObject) ;  
@@ -82,6 +83,7 @@ public class PlanManageController {
 		plan.setId(CommonUtils.getUUID());
 		plan.setCreatetime(new Date(System.currentTimeMillis()));
 		plan.setIsfinish(false);
+		plan.setIsstart(false);
 		count = planService.addPlan(plan);
 		
 		if(count>0){

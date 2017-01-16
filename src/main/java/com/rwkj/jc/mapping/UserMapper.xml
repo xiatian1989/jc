@@ -225,6 +225,13 @@
     from jc_user
     where depart_No = #{departNo,jdbcType=VARCHAR}
   </select>
+  
+  <select id="getUserByWebChat" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jc_user
+    where webChat = #{webChat,jdbcType=VARCHAR}
+  </select>
   <select id="getUsersByLeaderNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

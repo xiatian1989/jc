@@ -13,6 +13,8 @@ public class Plan {
 
     private Boolean isfinish;
 
+    private Boolean isstart;
+
     private Date createtime;
 
     public String getId() {
@@ -53,6 +55,14 @@ public class Plan {
 
     public void setIsfinish(Boolean isfinish) {
         this.isfinish = isfinish;
+    }
+
+    public Boolean getIsstart() {
+        return isstart;
+    }
+
+    public void setIsstart(Boolean isstart) {
+        this.isstart = isstart;
     }
 
     public Date getCreatetime() {

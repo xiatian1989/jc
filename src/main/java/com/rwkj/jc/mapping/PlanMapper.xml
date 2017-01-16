@@ -7,10 +7,11 @@
     <result column="beginTime" property="begintime" jdbcType="TIMESTAMP" />
     <result column="endTime" property="endtime" jdbcType="TIMESTAMP" />
     <result column="isFinish" property="isfinish" jdbcType="BIT" />
+    <result column="isStart" property="isstart" jdbcType="BIT" />
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, planTitle, beginTime, endTime, isFinish, createTime
+    id, planTitle, beginTime, endTime, isFinish, isStart, createTime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -24,11 +25,11 @@
   </delete>
   <insert id="insert" parameterType="com.rwkj.jc.domain.Plan" >
     insert into jc_plan (id, planTitle, beginTime, 
-      endTime, isFinish, createTime
-      )
+      endTime, isFinish, isStart, 
+      createTime)
     values (#{id,jdbcType=VARCHAR}, #{plantitle,jdbcType=VARCHAR}, #{begintime,jdbcType=TIMESTAMP}, 
-      #{endtime,jdbcType=TIMESTAMP}, #{isfinish,jdbcType=BIT}, #{createtime,jdbcType=TIMESTAMP}
-      )
+      #{endtime,jdbcType=TIMESTAMP}, #{isfinish,jdbcType=BIT}, #{isstart,jdbcType=BIT}, 
+      #{createtime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.rwkj.jc.domain.Plan" >
     insert into jc_plan
@@ -47,6 +48,9 @@
       </if>
       <if test="isfinish != null" >
         isFinish,
+      </if>
+      <if test="isstart != null" >
+        isStart,
       </if>
       <if test="createtime != null" >
         createTime,
@@ -68,6 +72,9 @@
       <if test="isfinish != null" >
         #{isfinish,jdbcType=BIT},
       </if>
+      <if test="isstart != null" >
+        #{isstart,jdbcType=BIT},
+      </if>
       <if test="createtime != null" >
         #{createtime,jdbcType=TIMESTAMP},
       </if>
@@ -88,6 +95,9 @@
       <if test="isfinish != null" >
         isFinish = #{isfinish,jdbcType=BIT},
       </if>
+      <if test="isstart != null" >
+        isStart = #{isstart,jdbcType=BIT},
+      </if>
       <if test="createtime != null" >
         createTime = #{createtime,jdbcType=TIMESTAMP},
       </if>
@@ -100,6 +110,7 @@
       beginTime = #{begintime,jdbcType=TIMESTAMP},
       endTime = #{endtime,jdbcType=TIMESTAMP},
       isFinish = #{isfinish,jdbcType=BIT},
+      isStart = #{isstart,jdbcType=BIT},
       createTime = #{createtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>

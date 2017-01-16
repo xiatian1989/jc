@@ -31,7 +31,9 @@ public interface PaperDetailMapper {
     
     PaperDetail selectPaperDetailByName(@Param("paperId")String paperId,@Param("name") String name);
     
-    int deletePaperDetails(String ids);
+    int deletePaperDetails(@Param("ids")String ids);
+    
+    List<PaperDetail> getPaperDetailsByIds(@Param("ids")String ids);
     
     List<PaperDetail> getPaperDetailsByPaperId(String paperId);
     

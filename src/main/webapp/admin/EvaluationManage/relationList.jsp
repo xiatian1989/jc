@@ -286,7 +286,7 @@
 
 		$('#dlgForRule').dialog('open').dialog('setTitle', '添加测评规则');
 		$('#fmForRule').form('clear');
-		url = "${pageContext.request.contextPath}/addRule"
+		url = "${pageContext.request.contextPath}/admin/addRule"
 	}
 	
 	function saveRule(){
@@ -422,9 +422,6 @@
 <style type="text/css">
 	#win,body{
 		padding:0px;
-	}
-	.panel-body{
-		overflow: hidden!important;
 	}
 </style>
 </head>

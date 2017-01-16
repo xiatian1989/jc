@@ -17,4 +17,5 @@ public interface PaperDetailService {
 	boolean checkPaperDetailQuestionName(String paperId,String questionName);
 	List<PaperDetail> getPaperDetailsByPaperId(String paperId);
 	int batchInsert(List<PaperDetail> list);
+	List<PaperDetail> getPaperDetailByIds(String ids);
 }

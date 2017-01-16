@@ -29,7 +29,7 @@
                             <form  action="${pageContext.request.contextPath}/client/userLogin" autocomplete="on" method="post"> 
                                 <h1>登录</h1> 
                                 <p> 
-                                    <label for="username" class="uname" data-icon="u" > 用户名 </label>
+                                    <label for="username" class="uname" data-icon="u" > 用户编号 </label>
                                     <input id="username" name="username" required="required" type="text" placeholder="username"/>
                                 </p>
                                 <p> 

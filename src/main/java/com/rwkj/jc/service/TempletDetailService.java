@@ -17,5 +17,5 @@ public interface TempletDetailService {
 	boolean checkTempletDetailQuestionName(String templetId,String questionName);
 	List<TempletDetail> getTempletDetailsByTempletId(String templetId);
 	int batchInsert(List<TempletDetail> list);
-	TempletDetail getTempletDetailById(String templetDetailId);
+	List<TempletDetail> getTempletDetailByIds(String ids);
 }

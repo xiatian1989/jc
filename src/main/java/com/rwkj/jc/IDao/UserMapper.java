@@ -22,6 +22,8 @@ public interface UserMapper {
     
     User getUserByUserNo(String userNo);
     
+    User getUserByWebChat(String webChat);
+    
     List<User> getUsersByUserName(String userName);
     
     List<User> getUserByColumnValue(@Param("column") String column,@Param("value") String value,@Param("pageIndex")int pageIndex,@Param("pageSize")int pageSize);

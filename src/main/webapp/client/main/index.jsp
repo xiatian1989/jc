@@ -31,6 +31,10 @@
 		$.messager.alert("提示", "该对象已经被测评了，请选择其他人员测评！", "info");
 		window.open("${pageContext.request.contextPath}/client/planStatus","mainContent");
 	}
+	function notice(){
+		$.messager.alert("提示", "测评还未开始，请等待测评开始！", "info");
+		window.open("${pageContext.request.contextPath}/client/planStatus","mainContent");
+	}
 	function editUser() {
 		$('#dlg').dialog('open').dialog('setTitle', '编辑资料');
 		$('#fm').form('clear');
@@ -118,7 +122,14 @@
 								(结束)
 							</c:when>
 							<c:otherwise>
-								(未结束)
+								<c:choose>
+									<c:when test="${map.key.isstart}">
+										(进行中)
+									</c:when>
+									<c:otherwise>
+										(未开始)
+									</c:otherwise>
+								</c:choose>
 							</c:otherwise>
 						</c:choose>
 					</span>
@@ -127,37 +138,45 @@
 							<li>
 								<span>
 									<c:choose>
-										<c:when test="${relation.isfinish}">
-											<a href="javascript:void(0)" onclick="notice()">
+										<c:when test="${map.key.isstart && !map.key.isfinish}">
+											<c:choose>
+												<c:when test="${relation.isfinish}">
+													<a href="javascript:void(0)" onclick="notice()">
+												</c:when>
+												<c:otherwise>
+													<a href="${pageContext.request.contextPath}/paperTest?paperId=${relation.paperId}&relationId=${relation.id}&type=${relation.paper.type}" target="mainContent">
+												</c:otherwise>
+											</c:choose>
 										</c:when>
 										<c:otherwise>
-											<a href="${pageContext.request.contextPath}/paperTest?paperId=${relation.paperId}&relationId=${relation.id}&type=${relation.paper.type}" target="mainContent">
+											<a href="javascript:void(0)" onclick="notice()">
 										</c:otherwise>
 									</c:choose>
-										<c:choose>
-											<c:when test="${relation.isperson}">
-												${relation.beTestedUser.truename}
-												<c:choose>
-													<c:when test="${relation.isfinish}">
-														(已测评)
-													</c:when>
-													<c:otherwise>
-														(未测评)
-													</c:otherwise>
-												</c:choose>
-											</c:when>
-											 <c:otherwise>
-												 ${relation.testedDepart.departName	}
-												 <c:choose>
-													<c:when test="${relation.isfinish}">
-														(已测评)
-													</c:when>
-													<c:otherwise>
-														(未测评)
-													</c:otherwise>
-												</c:choose>
-											</c:otherwise>
-										</c:choose>
+									
+									<c:choose>
+										<c:when test="${relation.isperson}">
+											${relation.beTestedUser.truename}
+											<c:choose>
+												<c:when test="${relation.isfinish}">
+													(已测评)
+												</c:when>
+												<c:otherwise>
+													(未测评)
+												</c:otherwise>
+											</c:choose>
+										</c:when>
+										 <c:otherwise>
+											 ${relation.testedDepart.departName	}
+											 <c:choose>
+												<c:when test="${relation.isfinish}">
+													(已测评)
+												</c:when>
+												<c:otherwise>
+													(未测评)
+												</c:otherwise>
+											</c:choose>
+										</c:otherwise>
+									</c:choose>
 									</a>
 								</span>
 							</li>

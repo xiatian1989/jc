@@ -155,21 +155,21 @@ public class TempletDetailManageController {
 	@RequestMapping("/admin/deleteTempletDetail")
 	public @ResponseBody Map<String,String> deleteTempletDetail(HttpServletRequest request,@RequestParam("id") String id){
 		Map<String,String> map = new HashMap<String,String>();
-		TempletDetail templetDetail = templetDetailService.getTempletDetailById(id);
-		int questionNo = templetDetail.getQuestionno();
+		List<TempletDetail> deleteTempletDetail = templetDetailService.getTempletDetailByIds("("+id.substring(1)+")");
+		int questionNo = deleteTempletDetail.get(deleteTempletDetail.size()-1).getQuestionno();
 		HttpSession session = request.getSession(true);
 		String templetId = (String)session.getAttribute("templetId");
 		List<TempletDetail> templetDetails = templetDetailService.getTempletDetailsByTempletId(templetId);
-		int count = templetDetailService.deleteTempletDetails(id);
+		int count = templetDetailService.deleteTempletDetails("("+id.substring(1)+")");
 		if(count>0){
 			map.put("result", "success");
 			for(TempletDetail tempTempletDetail:templetDetails) {
 				int tempQuestionNo = tempTempletDetail.getQuestionno();
 				if(tempQuestionNo>questionNo) {
-					tempTempletDetail.setQuestionno(tempQuestionNo-1);
+					tempTempletDetail.setQuestionno(tempQuestionNo-deleteTempletDetail.size());
+					templetDetailService.updateTempletDetail(tempTempletDetail);
 				}
 			}
-			templetDetailService.batchInsert(templetDetails);
 		}else {
 			map.put("result", "failed");
 		}

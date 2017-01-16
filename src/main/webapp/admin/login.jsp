@@ -24,7 +24,7 @@ TD {
 	function refreshCode(obj){
 		var day = new Date();
 		var t = day.getTime();
-		obj.src="/jc/code?t="+t;
+		obj.src="${pageContext.request.contextPath}/admin/code?t="+t;
 	}
 	
 	function submitBefore(){

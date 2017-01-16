@@ -20,6 +20,14 @@
 		$('#fm').form('clear');
 		url = "${pageContext.request.contextPath}/admin/addPaperDetail"
 		model="add";
+		$.ajax({
+			url : '${pageContext.request.contextPath}/admin/getPaperDetailNo',
+			type : 'post',
+			async : false, //默认为true 异步   
+			success : function(msg) {
+				$("#questionno").val(msg.total);
+			}
+		});
 	}
 
 	function editQuestion() {
@@ -50,6 +58,13 @@
 				if (!flag) {
 					return flag;
 				}
+				var issuggest = $("#issuggest").val();
+				if(issuggest) {
+					return true;
+				}else{
+					$.messager.alert("提示", "请选择是否添加建议选项！", "info");
+					return false;
+				}
 			},
 			success : function(result) {
 				var obj = jQuery.parseJSON(result);
@@ -74,10 +89,10 @@
 					if (r) {
 						var id = "";
 						for (var i = 0; i < row.length; i++) {
-							id = id + row[i].id + ","
+							id = id + ",'"+ row[i].id+"'";
 						}
 						$.ajax({
-							url : '${pageContext.request.contextPath}/admin/deletePaperDetails',
+							url : '${pageContext.request.contextPath}/admin/deletePaperDetail',
 							type : 'post',
 							data : 'id=' + id,
 							async : false, //默认为true 异步   
@@ -301,7 +316,7 @@
 				<tr>
 					<td style="height: 28px" width=120>题号：</td>
 					<td style="height: 28px" width=210>
-						<input id=questionno style="width: 190px" name=questionno class="easyui-validatebox" required="true">
+						<input id=questionno style="width: 190px" name=questionno class="easyui-validatebox" readonly="readonly">
 					</td>
 				</tr>
 				<tr>

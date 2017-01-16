@@ -20,12 +20,12 @@
 				<option value="0">人员</option>
 				<option value="1">部门</option>
 			</select>
-			<ul class="easyui-tree" data-options="url:'${pageContext.request.contextPath}/departListForUser',checkbox:true,lines:true" id="ttRight" ></ul>
+			<ul class="easyui-tree" data-options="url:'${pageContext.request.contextPath}/admin/departListForUser',checkbox:true,lines:true" id="ttRight" ></ul>
 		</div>
 		<div data-options="region:'west',split:true" title="" style="width:350px;">
 			&nbsp;部门:<select id="departNoLeft" name="departNoLeft" style="width:140px;" onchange="changeDepartLeft()">
 			</select>
-			<ul class="easyui-tree" data-options="url:'${pageContext.request.contextPath}/departListForUser',checkbox:true,lines:true" id="ttLeft" ></ul>
+			<ul class="easyui-tree" data-options="url:'${pageContext.request.contextPath}/admin/departListForUser',checkbox:true,lines:true" id="ttLeft" ></ul>
 		</div>
 		<div data-options="region:'center',title:'',iconCls:'icon-ok'">
 			<div style="text-align: center;margin-top: 50px">

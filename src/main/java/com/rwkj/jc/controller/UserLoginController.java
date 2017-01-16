@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -63,6 +64,49 @@ public class UserLoginController {
 					modelAndView.addObject("planForRelations",planForRelations);
 					modelAndView.setViewName("client/main/index");
 				}
+			}
+		}
+		return modelAndView;
+	}
+	
+	@RequestMapping("/client/userLoginByWebChat")
+	public ModelAndView userLoginByWebChat(HttpServletRequest req){
+		
+		ModelAndView modelAndView = new ModelAndView();
+		Map<Plan,List<Relation>> planForRelations = new LinkedHashMap<Plan,List<Relation>>();
+		String webChat = req.getParameter("webChat");
+		
+		if(StringUtils.isEmpty(webChat)) {
+			modelAndView.addObject("errorMsg", "客户端未接收到用户微信号，请联系管理员进行处理！");
+			modelAndView.setViewName("client/main/error");
+			
+		}else{
+			HttpSession session = req.getSession(true);
+			
+			int count = userService.getUserCountByColumnValue("webChat", webChat);
+			if(count == 1) {
+				User user = userService.getUserByWebChat(webChat);
+						if("0".equals(user.getStatus())){
+							modelAndView.addObject("errorMsg", "用户处于禁用状态，请联系管理员进行处理！");
+							modelAndView.setViewName("client/main/error");
+						}else{
+							session.setAttribute("user", user);
+							List<Plan> plans = planService.getAllPlans();
+							for(Plan plan:plans) {
+								List<Relation> relations = relationService.getRelationsByPlanIdAndUserNo("'"+plan.getId()+"'", "'"+user.getUserno()+"'");
+								planForRelations.put(plan,relations);
+							}
+							modelAndView.addObject("planForRelations",planForRelations);
+							modelAndView.setViewName("client/main/index");
+						}
+			}else{
+				if(count == 0) {
+					modelAndView.addObject("errorMsg", "用户在系统中不存在，请联系管理员处理！");
+				}else{
+					modelAndView.addObject("errorMsg", "用户的微信号与其他人重复，请联系管理员处理！");
+				}
+				
+				modelAndView.setViewName("client/main/error");
 			}
 		}
 		return modelAndView;

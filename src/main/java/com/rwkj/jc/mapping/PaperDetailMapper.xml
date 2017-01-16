@@ -293,11 +293,18 @@
     where question like #{name} and paper_id = #{paperId}
   </select>
   
-   <delete id="deletePaperByids" parameterType="java.lang.String" >
+   <delete id="deletePaperDetails" parameterType="java.lang.String" >
     delete from jc_paperdetail
     where id in ${ids}
   </delete>
   
+  <select id="getPaperDetailsByIds" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from jc_paperdetail where id in ${ids} order by questionNO
+  </select>
   <select id="getPaperDetailsByPaperId" resultMap="BaseResultMap" parameterType="java.lang.String">
     select 
     <include refid="Base_Column_List" />

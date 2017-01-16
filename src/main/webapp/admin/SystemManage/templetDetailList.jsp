@@ -89,10 +89,10 @@
 					if (r) {
 						var id = "";
 						for (var i = 0; i < row.length; i++) {
-							id = id + row[i].id + ","
+							id = id + ",'"+ row[i].id+"'";
 						}
 						$.ajax({
-							url : '${pageContext.request.contextPath}/admin/deleteTempletDetails',
+							url : '${pageContext.request.contextPath}/admin/deleteTempletDetail',
 							type : 'post',
 							data : 'id=' + id,
 							async : false, //默认为true 异步   
@@ -265,7 +265,7 @@
 		$('#dg').datagrid('reload');
 	}
 	function exportQuestion() {
-		var url = "${pageContext.request.contextPath}/exportExcelForTempletDetail";
+		var url = "${pageContext.request.contextPath}/admin/exportExcelForTempletDetail";
 		window.open(url);
 	}
 	function checkUniqName(){

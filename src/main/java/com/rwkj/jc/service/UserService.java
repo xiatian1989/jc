@@ -24,4 +24,5 @@ public interface UserService {
 	User getUserByUserId(String userId);
 	Integer deleteConnectionByLeaderNo(String leaderNo);
 	int batchInsert(List<User> list);
+	User getUserByWebChat(String webChat);
 }

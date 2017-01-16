@@ -92,4 +92,8 @@ public class UserServiceImpl implements UserService {
 		return userDao.batchInsert(list);
 	}
 
+	public User getUserByWebChat(String webChat) {
+		return userDao.getUserByWebChat(webChat);
+	}
+
 }

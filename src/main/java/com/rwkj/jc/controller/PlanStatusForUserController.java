@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.rwkj.jc.domain.Plan;
 import com.rwkj.jc.domain.Relation;
 import com.rwkj.jc.domain.User;
 import com.rwkj.jc.service.PlanService;
@@ -39,7 +40,11 @@ public class PlanStatusForUserController {
 		List<Relation> tempRelations = null;
 		String planTitle= "";
 		for(Relation relation:relations) {
-			planTitle = relation.getPlan().getPlantitle();
+			Plan plan = relation.getPlan();
+			if(!plan.getIsstart() || plan.getIsfinish()) {
+				continue;
+			}
+			planTitle = plan.getPlantitle();
 			if(planForRelations.containsKey(planTitle)){
 				tempRelations = planForRelations.get(planTitle);
 				tempRelations.add(relation);

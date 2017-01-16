@@ -32,9 +32,11 @@ public interface TempletDetailMapper {
     
     TempletDetail selectTempletDetailByName(@Param("templetId")String templetId,@Param("name") String name);
     
-    int deleteTempletByids(String ids);
+    int deleteTempletDetailByIds(@Param("ids")String ids);
     
     List<TempletDetail> getTempletDetailsByTempletId(String templetId);
+    
+    List<TempletDetail> getTempletDetailsByIds(@Param("ids")String ids);
     
     int batchInsert(List<TempletDetail> list);
 }

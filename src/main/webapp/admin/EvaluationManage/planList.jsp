@@ -39,6 +39,17 @@
 				field : 'endtime',
 				width : 100,
 			}, {
+				title : '是否开始',
+				field : 'isstart',
+				width : 100,
+				formatter: function(value,row,index){
+					if(value) {
+						return '进行中';
+					}else{
+						return '未开始';
+					}
+				}
+			}, {
 				title : '是否完成',
 				field : 'isfinish',
 				width : 100,

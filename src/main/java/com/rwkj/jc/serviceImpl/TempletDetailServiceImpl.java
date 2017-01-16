@@ -46,7 +46,7 @@ public class TempletDetailServiceImpl implements TempletDetailService {
 	}
 
 	public int deleteTempletDetails(String ids) {
-		return templetDetailDao.deleteTempletByids(ids);
+		return templetDetailDao.deleteTempletDetailByIds(ids);
 	}
 
 	public boolean checkTempletDetailQuestionName(String templetId,String questionName) {
@@ -66,7 +66,8 @@ public class TempletDetailServiceImpl implements TempletDetailService {
 		return templetDetailDao.batchInsert(list);
 	}
 
-	public TempletDetail getTempletDetailById(String templetDetailId) {
-		return templetDetailDao.selectByPrimaryKey(templetDetailId);
+	public List<TempletDetail> getTempletDetailByIds(String ids) {
+		return templetDetailDao.getTempletDetailsByIds(ids);
 	}
+
 }
