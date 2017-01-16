@@ -18,7 +18,7 @@
 
 		$('#dlg').dialog('open').dialog('setTitle', '添加试卷');
 		$('#fm').form('clear');
-		url = "${pageContext.request.contextPath}/addPaper"
+		url = "${pageContext.request.contextPath}/admin/addPaper"
 		fillDepart();
 		fillLeader();
 		model="add";
@@ -41,7 +41,7 @@
 			} else {
 				$("#status").val("0")
 			}
-			url = "${pageContext.request.contextPath}/updatePaper"
+			url = "${pageContext.request.contextPath}/admin/updatePaper"
 		} else {
 			$.messager.alert("提示", "请选择要编辑的一行数据！", "info");
 		}
@@ -95,7 +95,7 @@
 							id = id + row[i].id + "',"
 						}
 						$.ajax({
-							url : '${pageContext.request.contextPath}/deletePaper',
+							url : '${pageContext.request.contextPath}/admin/deletePaper',
 							type : 'post',
 							data : 'id=' + id,
 							async : false, //默认为true 异步   
@@ -146,7 +146,7 @@
 			selectOnCheck : true,
 			pageSize : 10,
 			pageList : [ 5, 10, 15 ],
-			url : '${pageContext.request.contextPath}/paperList',
+			url : '${pageContext.request.contextPath}/admin/paperList',
 
 			columns : [ [ {
 				field : 'ck',
@@ -202,7 +202,7 @@
 	function checkUniqName(){
 		var papertitle =  $("#papertitle").val();
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/checkPaperNameUnique',   
+		    url:'${pageContext.request.contextPath}/admin/checkPaperNameUnique',   
 		    type:'post',   
 		    data:'name='+papertitle,   
 		    async : false, //默认为true 异步   
@@ -228,18 +228,18 @@
 	
 	function openView(paperId){
 		$('#win').window('open');
-		$('#win').window('refresh', '${pageContext.request.contextPath}/paperPreview?paperId='+paperId);
+		$('#win').window('refresh', '${pageContext.request.contextPath}/admin/paperPreview?paperId='+paperId);
 	}
 	function newPaperByTemplet(){
 		$('#winForTemplet').window('open');
-		$('#winForTemplet').window('refresh', '${pageContext.request.contextPath}/templetListForPaper');
+		$('#winForTemplet').window('refresh', '${pageContext.request.contextPath}/admin/templetListForPaper');
 	}
 	
 	function copyTemplet(templetId) {
 		$('#dlg1').dialog('open').dialog('setTitle', '设置试卷标题');
 		$('#fm1').form('clear');
 		$("#id1").val(templetId);
-		url = "${pageContext.request.contextPath}/addPaperByTemplet"
+		url = "${pageContext.request.contextPath}/admin/addPaperByTemplet"
 	}
 	function changeColumn1() {
 		var column = $("#column1").val();
@@ -261,11 +261,11 @@
 		if (value == "请输入查询值") {
 			value = "";
 		}
-		$('#winForTemplet').window('refresh', '${pageContext.request.contextPath}/templetListForPaper?column='+column+'&value='+value);
+		$('#winForTemplet').window('refresh', '${pageContext.request.contextPath}/admin/templetListForPaper?column='+column+'&value='+value);
 	}
 	function openView1(templetId){
 		$('#win1').window('open');
-		$('#win1').window('refresh', '${pageContext.request.contextPath}/templetPreview?templetId='+templetId);
+		$('#win1').window('refresh', '${pageContext.request.contextPath}/admin/templetPreview?templetId='+templetId);
 	}
 	function cancel1() {
 		$('#fm1').form('clear');

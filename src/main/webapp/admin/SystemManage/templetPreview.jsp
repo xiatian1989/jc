@@ -22,15 +22,15 @@
 	<c:forEach items="${templetDetails }" var="templetDetail">
 		${templetDetail.questionno }:${templetDetail.question }
 		<p>
-		&nbsp;&nbsp;<input type="checkbox" disabled="disabled">A:${templetDetail.optiona }&nbsp;&nbsp;
-		<input type="checkbox" disabled="disabled">B:${templetDetail.optionb }&nbsp;&nbsp;
-		<input type="checkbox" disabled="disabled">C:${templetDetail.optionc }&nbsp;&nbsp;
-		<input type="checkbox" disabled="disabled">D:${templetDetail.optiond }&nbsp;&nbsp;
-		<c:if test="${templetDetail.optione != null }">
-			<input type="checkbox" disabled="disabled">E:${templetDetail.optione }&nbsp;&nbsp;
+		&nbsp;&nbsp;<input type="radio" disabled="disabled">A:${templetDetail.optiona }&nbsp;&nbsp;
+		<input type="radio" disabled="disabled">B:${templetDetail.optionb }&nbsp;&nbsp;
+		<input type="radio" disabled="disabled">C:${templetDetail.optionc }&nbsp;&nbsp;
+		<input type="radio" disabled="disabled">D:${templetDetail.optiond }&nbsp;&nbsp;
+		<c:if test="${templetDetail.optione != null && templetDetail.optione != ''}">
+			<input type="radio" disabled="disabled">E:${templetDetail.optione }&nbsp;&nbsp;
 		</c:if>
-		<c:if test="${templetDetail.optionf != null }">
-			<input type="checkbox" disabled="disabled">F:${templetDetail.optionf }&nbsp;&nbsp;
+		<c:if test="${templetDetail.optionf != null && templetDetail.optionf != '' }">
+			<input type="radio" disabled="disabled">F:${templetDetail.optionf }&nbsp;&nbsp;
 		</c:if>
 		<c:if test="${templetDetail.issuggest}">
 			建议：<input type="text" disabled="disabled">

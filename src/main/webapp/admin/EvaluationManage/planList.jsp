@@ -24,7 +24,7 @@
 			selectOnCheck:true,
 			pageSize:10,
 	        pageList:[5,10,15],
-			url:'${pageContext.request.contextPath}/planList',
+			url:'${pageContext.request.contextPath}/admin/planList',
 			columns: [ [ 
 			{
 				title : '计划名',
@@ -76,7 +76,7 @@
 	function newPlan() {
 		$('#dlg').dialog('open').dialog('setTitle', '添加计划');
 		$('#fm').form('clear');
-		url = "${pageContext.request.contextPath}/addPlan"
+		url = "${pageContext.request.contextPath}/admin/addPlan"
 		model="add";
 	}
 
@@ -96,7 +96,7 @@
 			$('#dlg').dialog('open').dialog('setTitle', '编辑计划');
 			$('#fm').form('clear');
 			$('#fm').form('load', selRow);
-			url = "${pageContext.request.contextPath}/updatePlan"
+			url = "${pageContext.request.contextPath}/admin/updatePlan"
 			model="update";
 		}
 
@@ -172,7 +172,7 @@
 					if (r) {
 						var id =row.id;
 						$.ajax({
-								url : '${pageContext.request.contextPath}/deletePlan',
+								url : '${pageContext.request.contextPath}/admin/deletePlan',
 								type : 'post',
 								data : 'id='+ id,
 								async : false, //默认为true 异步   
@@ -197,7 +197,7 @@
 	function checkUniqName(){
 		var plantitle = $("#plantitle").val();
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/checkPlantitle',   
+		    url:'${pageContext.request.contextPath}/admin/checkPlantitle',   
 		    type:'post',   
 		    data:'plantitle='+plantitle,   
 		    async : false, //默认为true 异步   

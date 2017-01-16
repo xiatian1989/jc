@@ -31,7 +31,7 @@ public class TestForMessageController {
 	private UserService userService;
 	
 	
-	@RequestMapping("smsList")
+	@RequestMapping("/admin/smsList")
 	public @ResponseBody Object getTempletList(HttpServletRequest request, 
 			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
             @RequestParam(required = false, defaultValue = "10") Integer rows){
@@ -69,7 +69,7 @@ public class TestForMessageController {
 		return result;
 	}
 	
-	@RequestMapping("sendMessage")
+	@RequestMapping("/admin/sendMessage")
 	public @ResponseBody Map<String,String> sendMessage(@RequestParam("id") String id){
 		
 		Map<String,String> map = new HashMap<String,String>();

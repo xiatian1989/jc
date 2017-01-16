@@ -535,6 +535,219 @@ public class ResultManageController {
 		return modelAndView;
 	}
 	
+	@RequestMapping("/client/resultSearchForSingle")
+	public ModelAndView resultSearchForSingle(HttpServletRequest request) throws UnsupportedEncodingException{
+		ModelAndView modelAndView = new ModelAndView();
+		String userno = request.getParameter("userno");
+		List<Relation> relations = new ArrayList<Relation>();
+		List<Result> results = new ArrayList<Result>();
+		List<Result> tempResults = null;
+		List<Relation> tempRelations = null;
+		if(!StringUtils.isEmpty(userno)) {
+			tempRelations = relationService.getRelationsByBeTestedUserNo("'"+userno+"'");
+			relations.addAll(tempRelations);
+			modelAndView.addObject("userno", userno);
+		}
+		
+		StringBuffer relationIds = new StringBuffer();
+		if(CollectionUtils.isEmpty(relations)) {
+			results = new ArrayList<Result>();
+		}else{
+			for(Relation relation:relations) {
+				relationIds.append(",");
+				relationIds.append("'");
+				relationIds.append(relation.getId());
+				relationIds.append("'");
+			}
+			results = resultService.getResultsByRelationIds("("+relationIds.substring(1)+")");
+		}
+		Map<String,Map<String,Map<String,LinkedHashMap<String,String>>>> map = new LinkedHashMap<String,Map<String,Map<String,LinkedHashMap<String,String>>>>();
+		
+		Map<String,List<Result>> mapForPlan = new LinkedHashMap<String,List<Result>>();
+		for(Result result:results) {
+			Relation relation = result.getRelation();
+			String planTitle = relation.getPlan().getPlantitle();
+			if(mapForPlan.containsKey(planTitle)) {
+				tempResults = mapForPlan.get(planTitle);
+				tempResults.add(result);
+				mapForPlan.put(planTitle, tempResults);
+			}else{
+				tempResults = new ArrayList<Result>();
+				tempResults.add(result);
+				mapForPlan.put(planTitle, tempResults);
+			}
+		}
+		
+		Map<String,Map<String,List<Result>>> mapForPalnAndBeTestedObject = new LinkedHashMap<String,Map<String,List<Result>>>();
+		Map<String,List<Result>> mapForBeTestedObject = null;
+		
+		for(Entry<String, List<Result>> entry: mapForPlan.entrySet()) {
+			mapForBeTestedObject = new HashMap<String,List<Result>>();
+			for(Result result:entry.getValue()) {
+				Relation relation = result.getRelation();
+				String key = "";
+				if(relation.getIsperson()) {
+					key = relation.getBeTestedUser().getTruename()+"("+relation.getBetestedperson()+")";
+				}else{
+					key = relation.getTestedDepart().getDepartName()+"("+relation.getBetesteddepart()+")";
+				}
+				if(mapForBeTestedObject.containsKey(key)) {
+					tempResults = mapForBeTestedObject.get(key);
+					tempResults.add(result);
+					mapForBeTestedObject.put(key, tempResults);
+				}else{
+					tempResults = new ArrayList<Result>();
+					tempResults.add(result);
+					mapForBeTestedObject.put(key, tempResults);
+				}
+			}
+			mapForPalnAndBeTestedObject.put(entry.getKey(), mapForBeTestedObject);
+		}
+		
+		Map<String,List<Result>> mapForPaper = null;
+		Map<String,Map<String,Map<String,List<Result>>>> mapForPalnAndBeTestedObjectAndPaper = new LinkedHashMap<String,Map<String,Map<String,List<Result>>>>();
+		Map<String,Map<String,List<Result>>> mapForBeTestedObjectAndPaper = null;
+		
+		for(Entry<String, Map<String, List<Result>>> entry: mapForPalnAndBeTestedObject.entrySet()) {
+			mapForBeTestedObjectAndPaper = new HashMap<String,Map<String,List<Result>>>();
+			for(Entry<String, List<Result>> entryForBeTestedObject: entry.getValue().entrySet()) {
+				mapForPaper = new HashMap<String,List<Result>>();
+				for(Result result:entryForBeTestedObject.getValue()) {
+					Relation relation = result.getRelation();
+					String key = relation.getPaper().getPapertitle();
+					if(mapForPaper.containsKey(key)) {
+						tempResults = mapForPaper.get(key);
+						tempResults.add(result);
+						mapForPaper.put(key, tempResults);
+					}else{
+						tempResults = new ArrayList<Result>();
+						tempResults.add(result);
+						mapForPaper.put(key, tempResults);
+					}
+				}
+				mapForBeTestedObjectAndPaper.put(entryForBeTestedObject.getKey(), mapForPaper);
+			}
+			mapForPalnAndBeTestedObjectAndPaper.put(entry.getKey(), mapForBeTestedObjectAndPaper);
+		}
+		
+		LinkedHashMap<String,String> detail = null;
+		Map<String, LinkedHashMap<String, String>> mapForPaperAndDetail = null;
+		Map<String, Map<String, LinkedHashMap<String, String>>> mapForBeTestedObjectAndPaperAndDetail = null;
+		
+		for(Entry<String, Map<String, Map<String, List<Result>>>> entry: mapForPalnAndBeTestedObjectAndPaper.entrySet()){
+			mapForBeTestedObjectAndPaperAndDetail = new HashMap<String,Map<String,LinkedHashMap<String,String>>>();
+			for(Entry<String, Map<String, List<Result>>> entryForBeTestedObject:entry.getValue().entrySet()) {
+				mapForPaperAndDetail = new HashMap<String,LinkedHashMap<String,String>>();
+				for(Entry<String, List<Result>> entryForpaper:entryForBeTestedObject.getValue().entrySet()) {
+					detail = new LinkedHashMap<String,String>();
+					Paper paper = null;
+					Rule rule = null;
+					tempResults = entryForpaper.getValue();
+					if(CollectionUtils.isEmpty(tempResults)) {
+						continue;
+					}else{
+						paper= tempResults.get(0).getRelation().getPaper();
+						rule = tempResults.get(0).getRelation().getRule();
+					}
+					List<PaperDetail> paperDetails = paperDetailService.getPaperDetailsByPaperId(paper.getId());
+					if(paper.getType()) {
+						StringBuffer extraMessage = null;
+						int allScore = 0;
+						int firstCount = 0;
+						int secondCount = 0;
+						int thirdCount = 0;
+						int forthCount = 0;
+						int fifthCount = 0;
+						int allCount = 0;
+						int firstLevlel = rule.getFirst();
+						int secondLevel = rule.getSecond();
+						int thirdLevel = rule.getThird();
+						int forthLevel = rule.getForth()==null?0:rule.getForth();
+						int fifthLevel = rule.getFifth()==null?0:rule.getFifth();
+						String firstName = rule.getFirstname();
+						String sencondName = rule.getSecondname();
+						String thirdName = rule.getThirdname();
+						String forthName = rule.getForthname()==null?"":rule.getForthname();
+						String fifthName = rule.getFifthname()==null?"":rule.getFifthname();
+						
+						for(Result result:tempResults) {
+							int score = result.getScore();
+							allScore = allScore + score;
+							allCount++;
+							if(score>firstLevlel) {
+								firstCount++;
+							}else if(score>secondLevel){
+								secondCount++;
+							}else if(score>thirdLevel){
+								thirdCount++;
+							}else if(score>forthLevel){
+								forthCount++;
+							}else if(score>fifthLevel){
+								fifthCount++;
+							}
+						}
+						StringBuffer allMessage = new StringBuffer();
+						double averageScore = (double)allScore/allCount;
+						if(allCount>0){
+							allMessage.append("总共"+allCount+"人做出评价,");
+						}
+						if(firstCount>0){
+							allMessage.append("其中"+firstCount+"人评价:"+firstName+";");
+						}
+						if(secondCount>0){
+							allMessage.append("其中"+secondCount+"人评价:"+sencondName+";");
+						}
+						if(thirdCount>0){
+							allMessage.append("其中"+thirdCount+"人评价:"+thirdName+";");
+						}
+						if(forthCount>0){
+							allMessage.append("其中"+forthCount+"人评价:"+forthName+";");
+						}
+						if(fifthCount>0){
+							allMessage.append("其中"+fifthCount+"人评价:"+fifthName+";");
+						}
+						
+						if(averageScore>(double)firstLevlel) {
+							allMessage.append("综合评价:"+firstName+"("+averageScore+")");
+						}else if(averageScore>(double)secondLevel){
+							allMessage.append("综合评价:"+sencondName+"("+averageScore+")");
+						}else if(averageScore>(double)thirdLevel){
+							allMessage.append("综合评价:"+thirdName+"("+averageScore+")");
+						}else if(averageScore>(double)forthLevel){
+							allMessage.append("综合评价:"+forthName+"("+averageScore+")");
+						}else if(averageScore>(double)fifthLevel){
+							allMessage.append("综合评价:"+fifthName+"("+averageScore+")");
+						}
+						detail.put("总结：", allMessage.toString());
+						for(PaperDetail paperDetail:paperDetails) {
+							extraMessage = new StringBuffer("建议:");
+							String questionno = String.valueOf(paperDetail.getQuestionno());
+							for(Result result:tempResults) {
+								String extramessage = result.getExtrameassge();
+								if(extramessage != null && extramessage.contains(questionno)) {
+									int beginIndex = extramessage.indexOf(questionno+":");
+									extraMessage.append(extramessage.substring(beginIndex,extramessage.indexOf("#",beginIndex)));
+									extraMessage.append(";");
+								}
+							}
+							if(!"建议:".equals(extraMessage.toString())) {
+								detail.put(questionno+":"+paperDetail.getQuestion(), extraMessage.toString());
+							}
+						}
+					}
+					mapForPaperAndDetail.put(entryForpaper.getKey(), (LinkedHashMap<String, String>) detail);
+				}
+				mapForBeTestedObjectAndPaperAndDetail.put(entryForBeTestedObject.getKey(), mapForPaperAndDetail);
+			}
+			map.put(entry.getKey(), mapForBeTestedObjectAndPaperAndDetail);
+		}
+		
+		modelAndView.addObject("map", map);
+		modelAndView.addObject("search", "1");
+		modelAndView.setViewName("client/main/resultSearchForSingle");
+		return modelAndView;
+	}
+	
 	@RequestMapping("/admin/allPlanStatus")
 	public ModelAndView allPlanStatus(HttpServletRequest request){
 		ModelAndView modelAndView = new ModelAndView();

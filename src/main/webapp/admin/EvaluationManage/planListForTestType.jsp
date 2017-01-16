@@ -24,7 +24,7 @@
 			selectOnCheck:true,
 			pageSize:10,
 	        pageList:[5,10,15],
-			url:'${pageContext.request.contextPath}/planList',
+			url:'${pageContext.request.contextPath}/admin/planList',
 			columns: [ [ 
 			{
 				title : '计划名',
@@ -72,7 +72,7 @@
 	
 	function openSMS(id){
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/openSMSRelationByid',   
+		    url:'${pageContext.request.contextPath}/admin/openSMSRelationByid',   
 		    type:'post',   
 		    data:'id='+id,   
 		    async : false, //默认为true 异步   
@@ -88,7 +88,7 @@
 	
 	function disabledSMS(id){
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/disabledSMSRelationByid',   
+		    url:'${pageContext.request.contextPath}/admin/disabledSMSRelationByid',   
 		    type:'post',   
 		    data:'id='+id,   
 		    async : false, //默认为true 异步   

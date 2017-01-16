@@ -24,7 +24,7 @@
 			selectOnCheck:true,
 			pageSize:10,
 	        pageList:[5,10,15],
-			url:'${pageContext.request.contextPath}/relationList',
+			url:'${pageContext.request.contextPath}/admin/relationList',
 			columns: [ [ {
 				field : 'ck',
 				checkbox : true,
@@ -140,7 +140,7 @@
 							id = ","+id +"'"+ row[i].id+"'";
 						}
 						$.ajax({
-								url : '${pageContext.request.contextPath}/deleteRelation',
+								url : '${pageContext.request.contextPath}/admin/deleteRelation',
 								type : 'post',
 								data : 'id='+ id,
 								async : false, //默认为true 异步   
@@ -200,7 +200,7 @@
 	
 	function fillDepart(){
 		$.ajax({
-			url : '${pageContext.request.contextPath}/getDeparts',
+			url : '${pageContext.request.contextPath}/admin/getDeparts',
 			type : 'post',
 			async : false, //默认为true 异步   
 			success : function(objs) {
@@ -218,27 +218,27 @@
 		});
 	}
 	function changeDepartLeft(){
-		 $("#ttLeft").tree("options").url="${pageContext.request.contextPath}/departListForUser?id="+$("#departNoLeft").val();
+		 $("#ttLeft").tree("options").url="${pageContext.request.contextPath}/admin/departListForUser?id="+$("#departNoLeft").val();
 		$('#ttLeft').tree('reload');
-		 $("#ttLeft").tree("options").url="${pageContext.request.contextPath}/departListForUser";
+		 $("#ttLeft").tree("options").url="${pageContext.request.contextPath}/admin/departListForUser";
 	}
 	function changeDepartRight(){
 		var type = $("#beTestedType").val()
 		if(type==0){
-			$("#ttRight").tree("options").url="${pageContext.request.contextPath}/departListForUser?id="+$("#departNoRight").val();
+			$("#ttRight").tree("options").url="${pageContext.request.contextPath}/admin/departListForUser?id="+$("#departNoRight").val();
 		}else{
-			$("#ttRight").tree("options").url="${pageContext.request.contextPath}/departList?id="+$("#departNoRight").val();
+			$("#ttRight").tree("options").url="${pageContext.request.contextPath}/admin/departList?id="+$("#departNoRight").val();
 		}
 		$('#ttRight').tree('reload');
 		if(type==0){
-			$("#ttRight").tree("options").url="${pageContext.request.contextPath}/departListForUser";
+			$("#ttRight").tree("options").url="${pageContext.request.contextPath}/admin/departListForUser";
 		}else{
-			$("#ttRight").tree("options").url="${pageContext.request.contextPath}/departList";
+			$("#ttRight").tree("options").url="${pageContext.request.contextPath}/admin/departList";
 		}
 	}
 	function choosePaper(){
 		$('#winForpaper').window('open');
-		$('#winForpaper').window('refresh', '${pageContext.request.contextPath}/paperListForPaper');
+		$('#winForpaper').window('refresh', '${pageContext.request.contextPath}/admin/paperListForPaper');
 	}
 	function changeColumnForpaper() {
 		var column = $("#columnForpaper").val();
@@ -260,12 +260,12 @@
 		if (value == "请输入查询值") {
 			value = "";
 		}
-		$('#winForpaper').window('refresh', '${pageContext.request.contextPath}/paperListForPaper?column='+column+'&value='+value);
+		$('#winForpaper').window('refresh', '${pageContext.request.contextPath}/admin/paperListForPaper?column='+column+'&value='+value);
 	}
 	
 	function openPaper(paperId){
 		$('#winForPapeForPreview').window('open');
-		$('#winForPapeForPreview').window('refresh', '${pageContext.request.contextPath}/paperPreview?paperId='+paperId);
+		$('#winForPapeForPreview').window('refresh', '${pageContext.request.contextPath}/admin/paperPreview?paperId='+paperId);
 	}
 	
 	function makesurePaper(paperId,type) {
@@ -395,7 +395,7 @@
 			return;
 		}
 		$.ajax({
-			url : '${pageContext.request.contextPath}/addRelations',
+			url : '${pageContext.request.contextPath}/admin/addRelations',
 			type : 'post',
 			data : 'paperId='+ paperId+"&ruleId="+ruleId+"&testPeople="+testPeople+"&beTestObject="+beTestObject+"&isPerson="+isPerson,
 			async : false, //默认为true 异步   
@@ -411,12 +411,12 @@
 	}
 	function openPaperForRelation(paperId){
 		$('#winForRelationPaper').window('open');
-		$('#winForRelationPaper').window('refresh', '${pageContext.request.contextPath}/paperPreview?paperId='+paperId);
+		$('#winForRelationPaper').window('refresh', '${pageContext.request.contextPath}/admin/paperPreview?paperId='+paperId);
 	}
 	
 	function openRule(ruleId){
 		$('#winForRule').window('open');
-		$('#winForRule').window('refresh', '${pageContext.request.contextPath}/rulePreview?ruleId='+ruleId);
+		$('#winForRule').window('refresh', '${pageContext.request.contextPath}/admin/rulePreview?ruleId='+ruleId);
 	}
 </script>
 <style type="text/css">

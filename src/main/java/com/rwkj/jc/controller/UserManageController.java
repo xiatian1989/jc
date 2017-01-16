@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
@@ -51,7 +52,7 @@ public class UserManageController {
 		binder.setFieldDefaultPrefix("user.");    
 	}    
 	
-	@RequestMapping("userList")
+	@RequestMapping("/admin/userList")
 	public @ResponseBody Object getuserList(HttpServletRequest request, 
 			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
             @RequestParam(required = false, defaultValue = "10") Integer rows){
@@ -115,7 +116,7 @@ public class UserManageController {
 		return result;
 	}
 	
-	@RequestMapping("addUser")
+	@RequestMapping("/admin/addUser")
 	public @ResponseBody Map<String,String> addUser(@ModelAttribute User user){
 		Map<String, String> result = new HashMap<String,String>();
 		int count = 0;
@@ -134,13 +135,16 @@ public class UserManageController {
 		return result;
 	}
 	
-	@RequestMapping("updateUser")
-	public @ResponseBody Map<String,String> updateUser(@ModelAttribute User user){
+	@RequestMapping("/admin/updateUser")
+	public @ResponseBody Map<String,String> updateUser(@ModelAttribute User user,HttpServletRequest req){
 		int count = 0;
 		Map<String, String> result = new HashMap<String,String>();
 		count = userService.updateUser(user);
 		if(count>0){
 			result.put("result", "success");
+			HttpSession session = req.getSession(true);
+			User newUser = userService.getUserByUserNo(user.getUserno());
+			session.setAttribute("user", newUser);
 		}else{
 			result.put("result", "failed");
 			result.put("errorMsg", "更新失败");
@@ -148,7 +152,7 @@ public class UserManageController {
 		return result;
 	}
 	
-	@RequestMapping("deleteUser")
+	@RequestMapping("/admin/deleteUser")
 	public @ResponseBody Map<String,String> deleteUser(@RequestParam("id") String id){
 		
 		String[] idArr = id.split(",");
@@ -168,7 +172,7 @@ public class UserManageController {
 		return map;
 	}
 	
-	@RequestMapping("getUsersByDepartNo")
+	@RequestMapping("/admin/getUsersByDepartNo")
 	public @ResponseBody JSONArray getUsersByDepartNo(@RequestParam("departNo") String departNo){
 		List<User> users = userService.getUsersByDepartNo(departNo);
 		JSONArray jsonArray = new JSONArray();  
@@ -192,7 +196,7 @@ public class UserManageController {
 		return map;
 	}
 	
-	@RequestMapping("exportExcelForUser")
+	@RequestMapping("/admin/exportExcelForUser")
 	public void exportExcel(HttpServletResponse response) throws Exception{
 		String fileName = "人员信息表";
 		List<User> users = userService.getAllUsers();
@@ -214,7 +218,7 @@ public class UserManageController {
         out.close();  
 	}
 	
-	 @RequestMapping("uploadExcelForUser")  
+	 @RequestMapping("/admin/uploadExcelForUser")  
 	 public @ResponseBody Map<String,String> upload(HttpServletRequest request, HttpServletResponse response)  
     {
 		 int count = 0;

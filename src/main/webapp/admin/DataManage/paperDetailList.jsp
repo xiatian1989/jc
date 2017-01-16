@@ -18,7 +18,7 @@
 
 		$('#dlg').dialog('open').dialog('setTitle', '添加题目');
 		$('#fm').form('clear');
-		url = "${pageContext.request.contextPath}/addPaperDetail"
+		url = "${pageContext.request.contextPath}/admin/addPaperDetail"
 		model="add";
 	}
 
@@ -34,7 +34,7 @@
 			} else {
 				$("#issuggest").val("0")
 			}
-			url = "${pageContext.request.contextPath}/updatePaperDetail"
+			url = "${pageContext.request.contextPath}/admin/updatePaperDetail"
 		} else {
 			$.messager.alert("提示", "请选择要编辑的一行数据！", "info");
 		}
@@ -77,7 +77,7 @@
 							id = id + row[i].id + ","
 						}
 						$.ajax({
-							url : '${pageContext.request.contextPath}/deletePaperDetails',
+							url : '${pageContext.request.contextPath}/admin/deletePaperDetails',
 							type : 'post',
 							data : 'id=' + id,
 							async : false, //默认为true 异步   
@@ -124,7 +124,7 @@
 			selectOnCheck : true,
 			pageSize : 10,
 			pageList : [ 5, 10, 15 ],
-			url : '${pageContext.request.contextPath}/paperDetailList?paperId='+paperId,
+			url : '${pageContext.request.contextPath}/admin/paperDetailList?paperId='+paperId,
 			frozenColumns : [ [ {
 				field : 'ck',
 				checkbox : true,
@@ -217,7 +217,7 @@
 		$('#uploadExcel').form(
 				'submit',
 				{
-					url : '${pageContext.request.contextPath}/uploadExcelForPaperDetail',
+					url : '${pageContext.request.contextPath}/admin/uploadExcelForPaperDetail',
 					onSubmit : function() {
 						var fileName = $("#uploadFile").val();
 						if (fileName == "") {
@@ -248,13 +248,13 @@
 		$('#dg').datagrid('reload');
 	}
 	function exportQuestion() {
-		var url = "${pageContext.request.contextPath}/exportExcelForPaperDetail";
+		var url = "${pageContext.request.contextPath}/admin/exportExcelForPaperDetail";
 		window.open(url);
 	}
 	function checkUniqName(){
 		var question =  $("#question").val();
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/checkPaperDetailNameUnique',   
+		    url:'${pageContext.request.contextPath}/admin/checkPaperDetailNameUnique',   
 		    type:'post',   
 		    data:'name='+question,   
 		    async : false, //默认为true 异步   

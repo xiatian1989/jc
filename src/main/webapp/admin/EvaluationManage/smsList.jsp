@@ -33,7 +33,7 @@
 			selectOnCheck : true,
 			pageSize : 10,
 			pageList : [ 5, 10, 15 ],
-			url : '${pageContext.request.contextPath}/smsList',
+			url : '${pageContext.request.contextPath}/admin/smsList',
 
 			columns : [ [ {
 				field : 'ck',
@@ -83,7 +83,7 @@
 					id = id +","+ row[i].id;
 				}
 				$.ajax({
-					url : '${pageContext.request.contextPath}/sendMessage',
+					url : '${pageContext.request.contextPath}/admin/sendMessage',
 					type : 'post',
 					data : 'id=' + id,
 					async : false, //默认为true 异步   

@@ -18,8 +18,16 @@
 
 		$('#dlg').dialog('open').dialog('setTitle', '添加题目');
 		$('#fm').form('clear');
-		url = "${pageContext.request.contextPath}/addTempletDetail"
+		url = "${pageContext.request.contextPath}/admin/addTempletDetail"
 		model="add";
+		$.ajax({
+			url : '${pageContext.request.contextPath}/admin/getTempletDetailNo',
+			type : 'post',
+			async : false, //默认为true 异步   
+			success : function(msg) {
+				$("#questionno").val(msg.total);
+			}
+		});
 	}
 
 	function editQuestion() {
@@ -34,7 +42,7 @@
 			} else {
 				$("#issuggest").val("0")
 			}
-			url = "${pageContext.request.contextPath}/updateTempletDetail"
+			url = "${pageContext.request.contextPath}/admin/updateTempletDetail"
 		} else {
 			$.messager.alert("提示", "请选择要编辑的一行数据！", "info");
 		}
@@ -49,6 +57,13 @@
 				var flag = $(this).form('validate');
 				if (!flag) {
 					return flag;
+				}
+				var issuggest = $("#issuggest").val();
+				if(issuggest) {
+					return true;
+				}else{
+					$.messager.alert("提示", "请选择是否添加建议选项！", "info");
+					return false;
 				}
 			},
 			success : function(result) {
@@ -77,7 +92,7 @@
 							id = id + row[i].id + ","
 						}
 						$.ajax({
-							url : '${pageContext.request.contextPath}/deleteTempletDetails',
+							url : '${pageContext.request.contextPath}/admin/deleteTempletDetails',
 							type : 'post',
 							data : 'id=' + id,
 							async : false, //默认为true 异步   
@@ -124,7 +139,7 @@
 			selectOnCheck : true,
 			pageSize : 10,
 			pageList : [ 5, 10, 15 ],
-			url : '${pageContext.request.contextPath}/templetDetailList?templetId='+templetId,
+			url : '${pageContext.request.contextPath}/admin/templetDetailList?templetId='+templetId,
 			frozenColumns : [ [ {
 				field : 'ck',
 				checkbox : true,
@@ -219,7 +234,7 @@
 		$('#uploadExcel').form(
 				'submit',
 				{
-					url : '${pageContext.request.contextPath}/uploadExcelForTempletDetail',
+					url : '${pageContext.request.contextPath}/admin/uploadExcelForTempletDetail',
 					onSubmit : function() {
 						var fileName = $("#uploadFile").val();
 						if (fileName == "") {
@@ -256,7 +271,7 @@
 	function checkUniqName(){
 		var question =  $("#question").val();
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/checkTempletDetailNameUnique',   
+		    url:'${pageContext.request.contextPath}/admin/checkTempletDetailNameUnique',   
 		    type:'post',   
 		    data:'name='+question,   
 		    async : false, //默认为true 异步   
@@ -304,7 +319,7 @@
 				<tr>
 					<td style="height: 28px" width=120>题号：</td>
 					<td style="height: 28px" width=210>
-						<input id=questionno style="width: 190px" name=questionno class="easyui-validatebox" required="true">
+						<input id=questionno style="width: 190px" name=questionno class="easyui-validatebox" readonly="readonly">
 					</td>
 				</tr>
 				<tr>

@@ -43,7 +43,7 @@ public class PlanManageController {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
 	}
 	
-	@RequestMapping("planList")
+	@RequestMapping("/admin/planList")
 	public @ResponseBody Object getPlanList(HttpServletRequest request, 
 			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
             @RequestParam(required = false, defaultValue = "10") Integer rows){
@@ -75,7 +75,7 @@ public class PlanManageController {
 		return result;
 	}
 	
-	@RequestMapping("addPlan")
+	@RequestMapping("/admin/addPlan")
 	public @ResponseBody Map<String,String> addPlan(@ModelAttribute Plan plan){
 		Map<String, String> result = new HashMap<String,String>();
 		int count = 0;
@@ -93,7 +93,7 @@ public class PlanManageController {
 		return result;
 	}
 	
-	@RequestMapping("updatePlan")
+	@RequestMapping("/admin/updatePlan")
 	public @ResponseBody Map<String,String> updatePlan(@ModelAttribute Plan plan){
 		int count = 0;
 		Map<String, String> result = new HashMap<String,String>();
@@ -107,7 +107,7 @@ public class PlanManageController {
 		return result;
 	}
 	
-	@RequestMapping("deletePlan")
+	@RequestMapping("/admin/deletePlan")
 	public @ResponseBody Map<String,String> deletePlan(@RequestParam("id") String id){
 		Map<String,String> map = new HashMap<String,String>();
 		int count = planService.deletePlan(id);
@@ -119,7 +119,7 @@ public class PlanManageController {
 		return map;
 	}
 	
-	@RequestMapping("checkPlantitle")
+	@RequestMapping("/admin/checkPlantitle")
 	public @ResponseBody Map<String,String> checkPlantitle(@RequestParam("plantitle") String plantitle){
 		Map<String,String> map = new HashMap<String,String>();
 		if(planService.checkPlantitle(plantitle)){

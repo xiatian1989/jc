@@ -125,7 +125,7 @@
       <if test="userno != null" >
         userNo = #{userno,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
+      <if test="password != ''" >
         password = #{password,jdbcType=VARCHAR},
       </if>
       <if test="leaderNo != null" >

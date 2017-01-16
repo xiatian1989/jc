@@ -53,7 +53,7 @@ public class RelationManageController {
 		binder.setFieldDefaultPrefix("relation.");    
 	}    
 	
-	@RequestMapping("relationList")
+	@RequestMapping("/admin/relationList")
 	public @ResponseBody Object getRelationList(HttpServletRequest request, 
 			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
             @RequestParam(required = false, defaultValue = "10") Integer rows){
@@ -142,7 +142,7 @@ public class RelationManageController {
 		return result;
 	}
 	
-	@RequestMapping("deleteRelation")
+	@RequestMapping("/admin/deleteRelation")
 	public @ResponseBody Map<String,String> deleteRelation(@RequestParam("id") String id){
 		
 		Map<String,String> map = new HashMap<String,String>();
@@ -155,7 +155,7 @@ public class RelationManageController {
 		return map;
 	}
 	
-	@RequestMapping("openSMSRelationByid")
+	@RequestMapping("/admin/openSMSRelationByid")
 	public @ResponseBody Map<String,String> openSMSRelationByid(@RequestParam("id") String id){
 		
 		Map<String,String> map = new HashMap<String,String>();
@@ -182,7 +182,7 @@ public class RelationManageController {
 		return map;
 	}
 	
-	@RequestMapping("disabledSMSRelationByid")
+	@RequestMapping("/admin/disabledSMSRelationByid")
 	public @ResponseBody Map<String,String> disabledSMSRelationByid(@RequestParam("id") String id){
 		
 		Map<String,String> map = new HashMap<String,String>();
@@ -197,7 +197,7 @@ public class RelationManageController {
 		return map;
 	}
 	
-	 @RequestMapping("addRelations")  
+	 @RequestMapping("/admin/addRelations")  
 	 public @ResponseBody Map<String,String> addRelations(HttpServletRequest request)  
     {
 		 int count = 0;

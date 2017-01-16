@@ -72,7 +72,7 @@ TD {
 								<TR>
 									<TD width=360></TD>
 									<TD>
-										<form action="${pageContext.request.contextPath}/adminLogin" method="post" id="form1" onsubmit="return submitBefore()">
+										<form action="${pageContext.request.contextPath}/admin/adminLogin" method="post" id="form1" onsubmit="return submitBefore()">
 											<TABLE cellSpacing=0 cellPadding=2 border=0>
 												<TBODY>
 														<TR>
@@ -95,7 +95,7 @@ TD {
 															<TD style="HEIGHT: 28px">验证码：</TD>
 															<TD style="HEIGHT: 28px"><INPUT id=txtcode
 																style="WIDTH: 130px" name=txtcode ></TD>
-															<TD style="HEIGHT: 28px"><img src="${pageContext.request.contextPath}/code" onclick="refreshCode(this)"/><SPAN
+															<TD style="HEIGHT: 28px"><img src="${pageContext.request.contextPath}/admin/code" onclick="refreshCode(this)"/><SPAN
 																id=RequiredFieldtxtCode
 																style="FONT-WEIGHT: bold; display: none; COLOR: red;">&nbsp;请输入验证码</SPAN></TD>
 														</TR>

@@ -23,7 +23,9 @@ public class AdminFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         String servletPath = request.getServletPath();
         
-        if (servletPath.equals("admin/login.jsp") || servletPath.endsWith("admin/login.jsp")) {
+        if (servletPath.equals("admin/login.jsp") || servletPath.endsWith("admin/login.jsp") 
+        		|| servletPath.endsWith("/admin/adminLogin") || servletPath.endsWith("/admin/adminLogin") 
+        		|| servletPath.endsWith("/admin/code") || servletPath.endsWith("/admin/code")) {
             chain.doFilter(req, res);
             return;
         }

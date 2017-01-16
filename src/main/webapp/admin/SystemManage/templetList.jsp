@@ -18,7 +18,7 @@
 
 		$('#dlg').dialog('open').dialog('setTitle', '添加模板');
 		$('#fm').form('clear');
-		url = "${pageContext.request.contextPath}/addTemplet"
+		url = "${pageContext.request.contextPath}/admin/addTemplet"
 		fillDepart();
 		fillLeader();
 		model="add";
@@ -41,7 +41,7 @@
 			} else {
 				$("#status").val("0")
 			}
-			url = "${pageContext.request.contextPath}/updateTemplet"
+			url = "${pageContext.request.contextPath}/admin/updateTemplet"
 		} else {
 			$.messager.alert("提示", "请选择要编辑的一行数据！", "info");
 		}
@@ -95,7 +95,7 @@
 							id = id + row[i].id + "',"
 						}
 						$.ajax({
-							url : '${pageContext.request.contextPath}/deleteTemplet',
+							url : '${pageContext.request.contextPath}/admin/deleteTemplet',
 							type : 'post',
 							data : 'id=' + id,
 							async : false, //默认为true 异步   
@@ -146,7 +146,7 @@
 			selectOnCheck : true,
 			pageSize : 10,
 			pageList : [ 5, 10, 15 ],
-			url : '${pageContext.request.contextPath}/templetList',
+			url : '${pageContext.request.contextPath}/admin/templetList',
 
 			columns : [ [ {
 				field : 'ck',
@@ -214,7 +214,7 @@
 	function checkUniqName(){
 		var templettitle =  $("#templettitle").val();
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/checkTempletNameUnique',   
+		    url:'${pageContext.request.contextPath}/admin/checkTempletNameUnique',   
 		    type:'post',   
 		    data:'name='+templettitle,   
 		    async : false, //默认为true 异步   
@@ -240,7 +240,7 @@
 	
 	function openView(templetId){
 		$('#win').window('open');
-		$('#win').window('refresh', '${pageContext.request.contextPath}/templetPreview?templetId='+templetId);
+		$('#win').window('refresh', '${pageContext.request.contextPath}/admin/templetPreview?templetId='+templetId);
 	}
 </script>
 <style type="text/css">

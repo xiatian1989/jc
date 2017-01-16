@@ -23,7 +23,7 @@ public class AdminLoginController {
 	@Resource
 	private AdminService adminService;
 	
-	@RequestMapping("adminLogin")
+	@RequestMapping("/admin/adminLogin")
 	public ModelAndView adminLogin(HttpServletRequest req){
 		
 		ModelAndView modelAndView = new ModelAndView();
@@ -90,7 +90,7 @@ public class AdminLoginController {
 		return modelAndView;
 	}
 	
-	@RequestMapping("adminLogout")
+	@RequestMapping("/admin/adminLogout")
 	public ModelAndView adminLogout(HttpServletRequest req){
 		ModelAndView modelAndView = new ModelAndView();
 		HttpSession session = req.getSession(true);

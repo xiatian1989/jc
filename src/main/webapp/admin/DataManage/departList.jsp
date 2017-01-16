@@ -24,7 +24,7 @@
 			selectOnCheck:true,
 			pageSize:10,
 	        pageList:[5,10,15],
-			url:'${pageContext.request.contextPath}/subDepartList',
+			url:'${pageContext.request.contextPath}/admin/subDepartList',
 			columns: [ [ 
 			{
 				title : '部门编号',
@@ -69,7 +69,7 @@
 			animate:true,
 			onClick: function(node){
 				$.ajax({   
-				    url:'${pageContext.request.contextPath}/getDepartDetail',   
+				    url:'${pageContext.request.contextPath}/admin/getDepartDetail',   
 				    type:'post',   
 				    data:'departNo='+node.id,   
 				    async : false, //默认为true 异步   
@@ -121,7 +121,7 @@
 		$("#subNodepath").val(nodepath);
 		$("#subStatus").val("1")
 		
-		url = "${pageContext.request.contextPath}/addDepart"
+		url = "${pageContext.request.contextPath}/admin/addDepart"
 		model="add";
 	}
 
@@ -132,7 +132,7 @@
 			$('#dlg').dialog('open').dialog('setTitle', '编辑部门');
 			$('#fm').form('clear');
 			$('#fm').form('load', selRow);
-			url = "${pageContext.request.contextPath}/updateDepart"
+			url = "${pageContext.request.contextPath}/admin/updateDepart"
 			model="update";
 			
 			$("#subDepartNo").attr("readonly", "readonly")
@@ -184,7 +184,7 @@
 								if (r) {
 									var id =row.id;
 									$.ajax({
-											url : '${pageContext.request.contextPath}/deleteDepart',
+											url : '${pageContext.request.contextPath}/admin/deleteDepart',
 											type : 'post',
 											data : 'id='
 													+ id,
@@ -224,7 +224,7 @@
 			return;
 		}
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/checkDepartDepartNo',   
+		    url:'${pageContext.request.contextPath}/admin/checkDepartDepartNo',   
 		    type:'post',   
 		    data:'departNo='+departNo,   
 		    async : false, //默认为true 异步   
@@ -241,7 +241,7 @@
 	function checkUniqName(){
 		var departName = $("#subDepartName").val();
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/checkDepartDepartName',   
+		    url:'${pageContext.request.contextPath}/admin/checkDepartDepartName',   
 		    type:'post',   
 		    data:'departName='+departName,   
 		    async : false, //默认为true 异步   
@@ -264,7 +264,7 @@
 <body>
 	<div id="cc" class="easyui-layout" style="height:520px;">
 	    <div data-options="region:'west',title:'部门列表',split:true" style="width:150px;">
-			<ul class="easyui-tree" data-options="url:'${pageContext.request.contextPath}/departList'" id="tt" ></ul>
+			<ul class="easyui-tree" data-options="url:'${pageContext.request.contextPath}/admin/departList'" id="tt" ></ul>
 	    </div>
 	    <div data-options="region:'center',title:'部门详情'" style="padding:5px;background:#eee;">
 	    	<table id="dd" title="详细信息" style="width: 100%">

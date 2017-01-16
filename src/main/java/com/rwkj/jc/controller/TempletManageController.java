@@ -37,7 +37,7 @@ public class TempletManageController {
 		binder.setFieldDefaultPrefix("templet.");    
 	}    
 	
-	@RequestMapping("templetList")
+	@RequestMapping("/admin/templetList")
 	public @ResponseBody Object getTempletList(HttpServletRequest request, 
 			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
             @RequestParam(required = false, defaultValue = "10") Integer rows){
@@ -73,7 +73,7 @@ public class TempletManageController {
 		return result;
 	}
 	
-	@RequestMapping("templetListForPaper")
+	@RequestMapping("/admin/templetListForPaper")
 	public ModelAndView templetListForPage(HttpServletRequest request, 
 			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
 			@RequestParam(required = false, defaultValue = "10") Integer rows){
@@ -98,7 +98,7 @@ public class TempletManageController {
 		return modelAndView;
 	}
 	
-	@RequestMapping("addTemplet")
+	@RequestMapping("/admin/addTemplet")
 	public @ResponseBody Map<String,String> addTemplet(@ModelAttribute Templet templet){
 		Map<String, String> result = new HashMap<String,String>();
 		int count = 0;
@@ -116,7 +116,7 @@ public class TempletManageController {
 		return result;
 	}
 	
-	@RequestMapping("updateTemplet")
+	@RequestMapping("/admin/updateTemplet")
 	public @ResponseBody Map<String,String> updateTemplet(@ModelAttribute Templet templet){
 		int count = 0;
 		Map<String, String> result = new HashMap<String,String>();
@@ -131,7 +131,7 @@ public class TempletManageController {
 		return result;
 	}
 	
-	@RequestMapping("deleteTemplet")
+	@RequestMapping("/admin/deleteTemplet")
 	public @ResponseBody Map<String,String> deleteTemplet(@RequestParam("id") String id){
 		Map<String,String> map = new HashMap<String,String>();
 		id = id.substring(0,id.length()-1);
@@ -144,7 +144,7 @@ public class TempletManageController {
 		return map;
 	}
 	
-	@RequestMapping("checkTempletNameUnique")
+	@RequestMapping("/admin/checkTempletNameUnique")
 	public @ResponseBody Map<String,String> checkTempletNameUnique(@RequestParam("name") String name){
 		Map<String,String> map = new HashMap<String,String>();
 		if(templetService.checkTempletName(name)){

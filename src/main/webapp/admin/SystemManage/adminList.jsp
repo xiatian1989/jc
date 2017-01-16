@@ -24,7 +24,7 @@
 			selectOnCheck:true,
 			pageSize:10,
 	        pageList:[5,10,15],
-			url:'${pageContext.request.contextPath}/adminList',
+			url:'${pageContext.request.contextPath}/admin/adminList',
 			columns: [ [ 
 			{
 				title : '用户名',
@@ -77,7 +77,7 @@
 /* 		$("#level").removeAttr("disabled") */
 		$('#dlg').dialog('open').dialog('setTitle', '添加管理员');
 		$('#fm').form('clear');
-		url = "${pageContext.request.contextPath}/addAdmin"
+		url = "${pageContext.request.contextPath}/admin/addAdmin"
 		model="add";
 		$("#mode").val("add");
 	}
@@ -89,7 +89,7 @@
 			$('#dlg').dialog('open').dialog('setTitle', '编辑管理员');
 			$('#fm').form('clear');
 			$('#fm').form('load', selRow);
-			url = "${pageContext.request.contextPath}/updateAdmin"
+			url = "${pageContext.request.contextPath}/admin/updateAdmin"
 			model="update";
 			
 			$("#username").attr("readonly", "readonly")
@@ -167,7 +167,7 @@
 								if (r) {
 									var id =row.id;
 									$.ajax({
-											url : '${pageContext.request.contextPath}/deleteAdmin',
+											url : '${pageContext.request.contextPath}/admin/deleteAdmin',
 											type : 'post',
 											data : 'id='
 													+ id,
@@ -196,7 +196,7 @@
 		}
 		var username = $("#username").val();
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/checkAdminName',   
+		    url:'${pageContext.request.contextPath}/admin/checkAdminName',   
 		    type:'post',   
 		    data:'name='+username,   
 		    async : false, //默认为true 异步   

@@ -33,7 +33,7 @@ public class AdminManageController {
 		binder.setFieldDefaultPrefix("admin.");    
 	}    
 	
-	@RequestMapping("adminList")
+	@RequestMapping("/admin/adminList")
 	public @ResponseBody Object getAdminList(HttpServletRequest request, 
 			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
             @RequestParam(required = false, defaultValue = "10") Integer rows){
@@ -64,7 +64,7 @@ public class AdminManageController {
 		return result;
 	}
 	
-	@RequestMapping("addAdmin")
+	@RequestMapping("/admin/addAdmin")
 	public @ResponseBody Map<String,String> addAdmin(@ModelAttribute Admin admin){
 		Map<String, String> result = new HashMap<String,String>();
 		int count = 0;
@@ -83,10 +83,11 @@ public class AdminManageController {
 		return result;
 	}
 	
-	@RequestMapping("updateAdmin")
+	@RequestMapping("/admin/updateAdmin")
 	public @ResponseBody Map<String,String> updateAdmin(@ModelAttribute Admin admin){
 		int count = 0;
 		Map<String, String> result = new HashMap<String,String>();
+		admin.setPassword(CommonUtils.getMD5Pssword(admin.getPassword()));
 		count = adminService.updateAdmin(admin);
 		if(count>0){
 			result.put("result", "success");
@@ -97,7 +98,7 @@ public class AdminManageController {
 		return result;
 	}
 	
-	@RequestMapping("deleteAdmin")
+	@RequestMapping("/admin/deleteAdmin")
 	public @ResponseBody Map<String,String> deleteAdmin(@RequestParam("id") String id){
 		Map<String,String> map = new HashMap<String,String>();
 		int count = adminService.deleteAdmin(id);
@@ -109,7 +110,7 @@ public class AdminManageController {
 		return map;
 	}
 	
-	@RequestMapping("checkAdminName")
+	@RequestMapping("/admin/checkAdminName")
 	public @ResponseBody Map<String,String> checkAdminName(@RequestParam("name") String name){
 		Map<String,String> map = new HashMap<String,String>();
 		if(adminService.checkAdminName(name)){

@@ -45,7 +45,7 @@ public class PaperDetailManageController {
 		binder.setFieldDefaultPrefix("paperDetail.");    
 	}    
 	
-	@RequestMapping("paperPreview")
+	@RequestMapping("/admin/paperPreview")
 	public ModelAndView paperPreview(HttpServletRequest request){
 		
 		ModelAndView modelAndView = new ModelAndView();
@@ -55,7 +55,7 @@ public class PaperDetailManageController {
 		modelAndView.setViewName("admin/DataManage/paperPreview");
 		return modelAndView;
 	}
-	@RequestMapping("paperTest")
+	@RequestMapping("/admin/paperTest")
 	public ModelAndView paperTest(HttpServletRequest request){
 		
 		ModelAndView modelAndView = new ModelAndView();
@@ -69,7 +69,7 @@ public class PaperDetailManageController {
 		modelAndView.setViewName("client/main/paperTest");
 		return modelAndView;
 	}
-	@RequestMapping("paperDetailList")
+	@RequestMapping("/admin/paperDetailList")
 	public @ResponseBody Object getPaperDetailList(HttpServletRequest request, 
 			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
             @RequestParam(required = false, defaultValue = "10") Integer rows){
@@ -123,7 +123,7 @@ public class PaperDetailManageController {
 		return result;
 	}
 	
-	@RequestMapping("addPaperDetail")
+	@RequestMapping("/admin/addPaperDetail")
 	public @ResponseBody Map<String,String> addPaperDetail(HttpServletRequest request,@ModelAttribute PaperDetail paperDetail){
 		Map<String, String> result = new HashMap<String,String>();
 		int count = 0;
@@ -142,7 +142,7 @@ public class PaperDetailManageController {
 		return result;
 	}
 	
-	@RequestMapping("updatePaperDetail")
+	@RequestMapping("/admin/updatePaperDetail")
 	public @ResponseBody Map<String,String> updatePaperDetail(@ModelAttribute PaperDetail paperDetail){
 		int count = 0;
 		Map<String, String> result = new HashMap<String,String>();
@@ -156,7 +156,7 @@ public class PaperDetailManageController {
 		return result;
 	}
 	
-	@RequestMapping("deletePaperDetail")
+	@RequestMapping("/admin/deletePaperDetail")
 	public @ResponseBody Map<String,String> deletePaperDetail(@RequestParam("id") String id){
 		Map<String,String> map = new HashMap<String,String>();
 		int count = paperDetailService.deletePaperDetails(id);
@@ -168,7 +168,7 @@ public class PaperDetailManageController {
 		return map;
 	}
 	
-	@RequestMapping("checkPaperDetailNameUnique")
+	@RequestMapping("/admin/checkPaperDetailNameUnique")
 	public @ResponseBody Map<String,String> checkPaperDetailNameUnique(HttpServletRequest request,@RequestParam("name") String name){
 		Map<String,String> map = new HashMap<String,String>();
 		HttpSession session = request.getSession(true);
@@ -181,7 +181,7 @@ public class PaperDetailManageController {
 		return map;
 	}
 	
-	@RequestMapping("exportExcelForPaperDetail")
+	@RequestMapping("/admin/exportExcelForPaperDetail")
 	public void exportExcel(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String fileName = "模板题目一览表";
 		HttpSession session = request.getSession(true);
@@ -205,7 +205,7 @@ public class PaperDetailManageController {
         out.close();  
 	}
 	
-	 @RequestMapping("uploadExcelForPaperDetail")  
+	 @RequestMapping("/admin/uploadExcelForPaperDetail")  
 	 public @ResponseBody Map<String,String> upload(HttpServletRequest request, HttpServletResponse response)  
     {
 		 int count = 0;

@@ -18,7 +18,7 @@
 
 		$('#dlg').dialog('open').dialog('setTitle', '添加人员');
 		$('#fm').form('clear');
-		url = "${pageContext.request.contextPath}/addUser"
+		url = "${pageContext.request.contextPath}/admin/addUser"
 		fillDepart();
 		fillLeader();
 		model="add";
@@ -52,7 +52,7 @@
 				if($(this).text()==selRow[0].leaderName)  
                     $(this).attr("selected", "selected"); 
 			});
-			url = "${pageContext.request.contextPath}/updateUser"
+			url = "${pageContext.request.contextPath}/admin/updateUser"
 		} else {
 			$.messager.alert("提示", "请选择要编辑的一行数据！", "info");
 		}
@@ -61,7 +61,7 @@
 	
 	function fillDepart(){
 		$.ajax({
-			url : '${pageContext.request.contextPath}/getDeparts',
+			url : '${pageContext.request.contextPath}/admin/getDeparts',
 			type : 'post',
 			async : false, //默认为true 异步   
 			success : function(objs) {
@@ -77,7 +77,7 @@
 		var departNo = $("#departNo").val();
 		var userno = $("#userno").val();
 		$.ajax({
-			url : '${pageContext.request.contextPath}/getUsersByDepartNo',
+			url : '${pageContext.request.contextPath}/admin/getUsersByDepartNo',
 			type : 'post',
 			data : 'departNo='+departNo,
 			async : false, //默认为true 异步   
@@ -161,7 +161,7 @@
 										id = id + row[i].id + ","
 									}
 									$.ajax({
-										url : '${pageContext.request.contextPath}/deleteUser',
+										url : '${pageContext.request.contextPath}/admin/deleteUser',
 										type : 'post',
 										data : 'id=' + id,
 										async : false, //默认为true 异步   
@@ -207,7 +207,7 @@
 			selectOnCheck : true,
 			pageSize : 10,
 			pageList : [ 5, 10, 15 ],
-			url : '${pageContext.request.contextPath}/userList',
+			url : '${pageContext.request.contextPath}/admin/userList',
 
 			columns : [ [ {
 				field : 'ck',
@@ -278,7 +278,7 @@
 		$('#uploadExcel').form(
 				'submit',
 				{
-					url : '${pageContext.request.contextPath}/uploadExcelForUser',
+					url : '${pageContext.request.contextPath}/admin/uploadExcelForUser',
 					onSubmit : function() {
 						var fileName = $("#uploadFile").val();
 						if (fileName == "") {
@@ -309,13 +309,13 @@
 		$('#dg').datagrid('reload');
 	}
 	function exportUser() {
-		var url = "${pageContext.request.contextPath}/exportExcelForUser";
+		var url = "${pageContext.request.contextPath}/admin/exportExcelForUser";
 		window.open(url);
 	}
 	function checkUniqNo(){
 		var userno =  $("#userno").val();
 		$.ajax({   
-		    url:'${pageContext.request.contextPath}/checkUserNoUnique',   
+		    url:'${pageContext.request.contextPath}/admin/checkUserNoUnique',   
 		    type:'post',   
 		    data:'userNo='+userno,   
 		    async : false, //默认为true 异步   

@@ -19,7 +19,6 @@
 		display: block;
 		font-weight: bold;
 		font-size:16px!important;
-		height: 36px;
 		line-height: 36px;
 		position: relative;
 	}
@@ -36,9 +35,50 @@
 	}
 	$(function(){
 	    $('#logOut').bind('click', function(){
-	    	window.location.href="${pageContext.request.contextPath}/adminLogout";
+	    	window.location.href="${pageContext.request.contextPath}/admin/adminLogout";
 	    });
 	});
+	
+	function editAdmin() {
+		$('#dlg').dialog('open').dialog('setTitle', '编辑资料');
+		$('#fm').form('clear');
+		url = "${pageContext.request.contextPath}/updateAdmin"
+		$("#username").attr("readonly", "readonly")
+		$("#username").val($.trim($("#adminName").text()));
+		$("#id").val($("#adminId").val());
+		$("#password").val("");
+	}
+	
+	function saveAdmin() {
+		$('#fm').form('submit',{
+			url : url,
+			onSubmit : function() {
+				var flag = $(this).form('validate');
+				if(!flag) {
+					return flag;
+				}
+				var password = $("#password").val();
+				var repassword = $("#repassword").val();
+				if(password != repassword) {
+					$.messager.alert('提示','两次输入密码不匹配！','info');
+					return false;
+				}
+			},
+			success : function(result) {
+				var msg = jQuery.parseJSON(result);
+				if (msg.result == "success") {
+					$('#dlg').dialog('close');
+				} else {
+					$.messager.alert('错误',msg.errorMsg,'error');
+				}
+			}
+		});
+	}
+	
+	function cancel() {
+		$('#fm').form('clear');
+		$('#dlg').dialog('close');
+	}
 </script>
 </head>
 <body class="easyui-layout">
@@ -46,9 +86,10 @@
 		<div style="float:left;font-size: 16px;font-weight: bolder;">
 			人事测评管理系统
 		</div>
-		<a href="#" class="easyui-menubutton" data-options="menu:'#mm3',iconCls:'icon-man'" style="float:right;">${Admin.username}</a>
+		<input type="text" id="adminId" value="${Admin.id }" style="display: none">
+		<a href="#" class="easyui-menubutton" data-options="menu:'#mm3',iconCls:'icon-man'" style="float:right;" id="adminName">${Admin.username}</a>
 		<div id="mm3">
-			<div>修改资料</div>
+			<div onclick="editAdmin()">修改资料</div>
 			<div id="logOut">安全退出</div>
 		</div>
 	</div>
@@ -106,6 +147,39 @@
 	<div data-options="region:'south',border:false" style="height:50px;background:#A9FACD;text-align: center;"><p>Copyright ©2017</div>
 	<div data-options="region:'center'">
 		<iframe src="${pageContext.request.contextPath}/admin/SystemManage/systemInfo.jsp" scrolling="auto" width="100%"  height="99%" style="border: 0" name="mainContent"></iframe>
+		<div id="dlg" class="easyui-dialog"
+			style="width: 280px; height: 210px; padding: 10px 20px" closed="true" buttons="#dlg-buttons">
+			
+			<form id="fm" method="post">
+				<input id=id name=id  style="display:none">
+				<table>
+					<tr>
+						<td style="height: 28px" width=80>用户名：</td>
+						<td style="height: 28px" width=150>
+							<input id=username
+								style="width: 130px" name=username class="easyui-validatebox" required="true">
+						</td>
+					</tr>
+					<tr>
+						<td style="height: 28px">密码：</td>
+						<td style="height: 28px"><input id=password style="width: 130px"
+							type=password name=password></td>
+					</tr>
+					<tr>
+						<td style="height: 28px">确认密码：</td>
+						<td style="height: 28px"><input id=repassword style="width: 130px"
+							type=password name=repassword></td>
+					</tr>
+				</table>
+			</form>
+			
+		</div>
+		<div id="dlg-buttons">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+				onclick="saveAdmin()">保存</a>
+			<a href="#" class="easyui-linkbutton"
+				iconCls="icon-cancel" onclick="cancel();">取消</a>
+		</div>
 	</div>
 </body>
 </html>

@@ -29,7 +29,7 @@ public class RuleManageController {
 		binder.setFieldDefaultPrefix("rule.");    
 	}
 	
-	@RequestMapping("addRule")
+	@RequestMapping("/admin/addRule")
 	public @ResponseBody Map<String,String> addRule(@ModelAttribute Rule rule){
 		Map<String, String> result = new HashMap<String,String>();
 		int count = 0;
@@ -47,7 +47,7 @@ public class RuleManageController {
 		return result;
 	}
 	
-	@RequestMapping("rulePreview")
+	@RequestMapping("/admin/rulePreview")
 	public ModelAndView rulePreview(HttpServletRequest request){
 		ModelAndView modelAndView = new ModelAndView();
 		String ruleId = request.getParameter("ruleId");
@@ -57,7 +57,7 @@ public class RuleManageController {
 		return modelAndView;
 	}
 	
-	@RequestMapping("updateRule")
+	@RequestMapping("/admin/updateRule")
 	public @ResponseBody Map<String,String> updateRule(@ModelAttribute Rule rule){
 		int count = 0;
 		Map<String, String> result = new HashMap<String,String>();

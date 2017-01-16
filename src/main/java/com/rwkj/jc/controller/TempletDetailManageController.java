@@ -45,7 +45,7 @@ public class TempletDetailManageController {
 		binder.setFieldDefaultPrefix("templetDetail.");    
 	}    
 	
-	@RequestMapping("templetPreview")
+	@RequestMapping("/admin/templetPreview")
 	public ModelAndView templetPreview(HttpServletRequest request){
 		
 		ModelAndView modelAndView = new ModelAndView();
@@ -55,7 +55,7 @@ public class TempletDetailManageController {
 		modelAndView.setViewName("admin/SystemManage/templetPreview");
 		return modelAndView;
 	}
-	@RequestMapping("templetDetailList")
+	@RequestMapping("/admin/templetDetailList")
 	public @ResponseBody Object getTempletList(HttpServletRequest request, 
 			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
             @RequestParam(required = false, defaultValue = "10") Integer rows){
@@ -109,7 +109,7 @@ public class TempletDetailManageController {
 		return result;
 	}
 	
-	@RequestMapping("addTempletDetail")
+	@RequestMapping("/admin/addTempletDetail")
 	public @ResponseBody Map<String,String> addTempletDetail(HttpServletRequest request,@ModelAttribute TempletDetail templetDetail){
 		Map<String, String> result = new HashMap<String,String>();
 		int count = 0;
@@ -128,7 +128,17 @@ public class TempletDetailManageController {
 		return result;
 	}
 	
-	@RequestMapping("updateTempletDetail")
+	@RequestMapping("/admin/getTempletDetailNo")
+	public @ResponseBody Map<String,String> getTempletDetailNo(HttpServletRequest request){
+		Map<String, String> result = new HashMap<String,String>();
+		HttpSession session = request.getSession(true);
+		String templetId = (String)session.getAttribute("templetId");
+		int total = templetDetailService.getTempletDetailsCount(templetId);
+		result.put("total", String.valueOf(total+1));
+		return result;
+	}
+	
+	@RequestMapping("/admin/updateTempletDetail")
 	public @ResponseBody Map<String,String> updateTempletDetail(@ModelAttribute TempletDetail templetDetail){
 		int count = 0;
 		Map<String, String> result = new HashMap<String,String>();
@@ -142,19 +152,31 @@ public class TempletDetailManageController {
 		return result;
 	}
 	
-	@RequestMapping("deleteTempletDetail")
-	public @ResponseBody Map<String,String> deleteTempletDetail(@RequestParam("id") String id){
+	@RequestMapping("/admin/deleteTempletDetail")
+	public @ResponseBody Map<String,String> deleteTempletDetail(HttpServletRequest request,@RequestParam("id") String id){
 		Map<String,String> map = new HashMap<String,String>();
+		TempletDetail templetDetail = templetDetailService.getTempletDetailById(id);
+		int questionNo = templetDetail.getQuestionno();
+		HttpSession session = request.getSession(true);
+		String templetId = (String)session.getAttribute("templetId");
+		List<TempletDetail> templetDetails = templetDetailService.getTempletDetailsByTempletId(templetId);
 		int count = templetDetailService.deleteTempletDetails(id);
 		if(count>0){
 			map.put("result", "success");
+			for(TempletDetail tempTempletDetail:templetDetails) {
+				int tempQuestionNo = tempTempletDetail.getQuestionno();
+				if(tempQuestionNo>questionNo) {
+					tempTempletDetail.setQuestionno(tempQuestionNo-1);
+				}
+			}
+			templetDetailService.batchInsert(templetDetails);
 		}else {
 			map.put("result", "failed");
 		}
 		return map;
 	}
 	
-	@RequestMapping("checkTempletDetailNameUnique")
+	@RequestMapping("/admin/checkTempletDetailNameUnique")
 	public @ResponseBody Map<String,String> checkTempletDetailNameUnique(HttpServletRequest request,@RequestParam("name") String name){
 		Map<String,String> map = new HashMap<String,String>();
 		HttpSession session = request.getSession(true);
@@ -167,7 +189,7 @@ public class TempletDetailManageController {
 		return map;
 	}
 	
-	@RequestMapping("exportExcelForTempletDetail")
+	@RequestMapping("/admin/exportExcelForTempletDetail")
 	public void exportExcel(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String fileName = "模板题目一览表";
 		HttpSession session = request.getSession(true);
@@ -191,7 +213,7 @@ public class TempletDetailManageController {
         out.close();  
 	}
 	
-	 @RequestMapping("uploadExcelForTempletDetail")  
+	 @RequestMapping("/admin/uploadExcelForTempletDetail")  
 	 public @ResponseBody Map<String,String> upload(HttpServletRequest request, HttpServletResponse response)  
     {
 		 int count = 0;

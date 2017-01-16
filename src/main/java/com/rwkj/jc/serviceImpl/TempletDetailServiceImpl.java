@@ -65,4 +65,8 @@ public class TempletDetailServiceImpl implements TempletDetailService {
 	public int batchInsert(List<TempletDetail> list) {
 		return templetDetailDao.batchInsert(list);
 	}
+
+	public TempletDetail getTempletDetailById(String templetDetailId) {
+		return templetDetailDao.selectByPrimaryKey(templetDetailId);
+	}
 }

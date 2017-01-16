@@ -28,7 +28,7 @@ public class CodeController {
 	      'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
 	      'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
-	  @RequestMapping("/code")
+	  @RequestMapping("/admin/code")
 	  public void getCode(HttpServletRequest req, HttpServletResponse resp)
 	      throws IOException {
 

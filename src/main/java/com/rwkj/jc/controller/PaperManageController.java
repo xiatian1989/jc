@@ -51,7 +51,7 @@ public class PaperManageController {
 		binder.setFieldDefaultPrefix("paper.");    
 	}    
 	
-	@RequestMapping("paperList")
+	@RequestMapping("/admin/paperList")
 	public @ResponseBody Object getPaperList(HttpServletRequest request, 
 			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
             @RequestParam(required = false, defaultValue = "10") Integer rows){
@@ -84,7 +84,7 @@ public class PaperManageController {
 		return result;
 	}
 	
-	@RequestMapping("paperListForPaper")
+	@RequestMapping("/admin/paperListForPaper")
 	public ModelAndView paperListForPaper(HttpServletRequest request, 
 			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
 			@RequestParam(required = false, defaultValue = "10") Integer rows){
@@ -109,7 +109,7 @@ public class PaperManageController {
 		return modelAndView;
 	}
 	
-	@RequestMapping("addPaper")
+	@RequestMapping("/admin/addPaper")
 	public @ResponseBody Map<String,String> addPaper(@ModelAttribute Paper paper){
 		Map<String, String> result = new HashMap<String,String>();
 		int count = 0;
@@ -126,7 +126,7 @@ public class PaperManageController {
 		return result;
 	}
 	
-	@RequestMapping("addPaperByTemplet")
+	@RequestMapping("/admin/addPaperByTemplet")
 	public @ResponseBody Map<String,String> addPaperByTemplet(@ModelAttribute Paper paper){
 		Map<String, String> result = new HashMap<String,String>();
 		int count = 0;
@@ -160,7 +160,7 @@ public class PaperManageController {
 		return result;
 	}
 	
-	@RequestMapping("updatePaper")
+	@RequestMapping("/admin/updatePaper")
 	public @ResponseBody Map<String,String> updatePaper(@ModelAttribute Paper paper){
 		int count = 0;
 		Map<String, String> result = new HashMap<String,String>();
@@ -175,7 +175,7 @@ public class PaperManageController {
 		return result;
 	}
 	
-	@RequestMapping("deletePaper")
+	@RequestMapping("/admin/deletePaper")
 	public @ResponseBody Map<String,String> deletePaper(@RequestParam("id") String id){
 		Map<String,String> map = new HashMap<String,String>();
 		id = id.substring(0,id.length()-1);
@@ -188,7 +188,7 @@ public class PaperManageController {
 		return map;
 	}
 	
-	@RequestMapping("checkPaperNameUnique")
+	@RequestMapping("/admin/checkPaperNameUnique")
 	public @ResponseBody Map<String,String> checkPaperNameUnique(@RequestParam("name") String name){
 		Map<String,String> map = new HashMap<String,String>();
 		if(paperService.checkPaperName(name)){

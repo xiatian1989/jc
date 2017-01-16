@@ -39,7 +39,7 @@ public class DepartManageController {
 		binder.setFieldDefaultPrefix("depart.");    
 	}    
 	
-	@RequestMapping("departList")
+	@RequestMapping("/admin/departList")
 	public @ResponseBody Object getDepartList(HttpServletRequest request){
 		String parentNo = request.getParameter("id");
 		List<Depart> departs = null;
@@ -77,7 +77,7 @@ public class DepartManageController {
         }
 	}
 	
-	@RequestMapping("departListForUser")
+	@RequestMapping("/admin/departListForUser")
 	public @ResponseBody Object getDepartListForUser(HttpServletRequest request){
 		String parentNo = request.getParameter("id");
 		List<Depart> departs = null;
@@ -124,7 +124,7 @@ public class DepartManageController {
 	}
 	
 	
-	@RequestMapping("subDepartList")
+	@RequestMapping("/admin/subDepartList")
 	public @ResponseBody Object getSubDepartList(HttpServletRequest request, 
 			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
             @RequestParam(required = false, defaultValue = "10") Integer rows){
@@ -157,7 +157,7 @@ public class DepartManageController {
 		return result;
 	}
 	
-	@RequestMapping("getDepartDetail")
+	@RequestMapping("/admin/getDepartDetail")
 	public @ResponseBody Object getDepartDetail(HttpServletRequest request){
 		String departNo = request.getParameter("departNo");
 		Depart depart = null;
@@ -187,7 +187,7 @@ public class DepartManageController {
 		return jsonObject;
 	}
 	
-	@RequestMapping("addDepart")
+	@RequestMapping("/admin/addDepart")
 	public @ResponseBody Map<String,String> addDepart(@ModelAttribute Depart depart){
 		Map<String, String> result = new HashMap<String,String>();
 		Depart parentDepart = null;
@@ -218,7 +218,7 @@ public class DepartManageController {
 		return result;
 	}
 	
-	@RequestMapping("updateDepart")
+	@RequestMapping("/admin/updateDepart")
 	public @ResponseBody Map<String,String> updateAdmin(@ModelAttribute Depart depart){
 		int count = 0;
 		Map<String, String> result = new HashMap<String,String>();
@@ -232,7 +232,7 @@ public class DepartManageController {
 		return result;
 	}
 	
-	@RequestMapping("deleteDepart")
+	@RequestMapping("/admin/deleteDepart")
 	public @ResponseBody Map<String,String> deleteAdmin(@RequestParam("id") String id){
 		Map<String,String> map = new HashMap<String,String>();
 		Depart depart = departService.selectByPrimaryKey(id);
@@ -260,7 +260,7 @@ public class DepartManageController {
 		return map;
 	}
 	
-	@RequestMapping("checkDepartDepartName")
+	@RequestMapping("/admin/checkDepartDepartName")
 	public @ResponseBody Map<String,String> checkDepartDepartName(@RequestParam("departName") String departName){
 		Map<String,String> map = new HashMap<String,String>();
 		if(departService.checkDepartName(departName)){
@@ -271,7 +271,7 @@ public class DepartManageController {
 		return map;
 	}
 	
-	@RequestMapping("checkDepartDepartNo")
+	@RequestMapping("/admin/checkDepartDepartNo")
 	public @ResponseBody Map<String,String> checkDepartDepartNo(@RequestParam("departNo") String departNo){
 		Map<String,String> map = new HashMap<String,String>();
 		if(departService.checkDepartNo(departNo)){
@@ -282,7 +282,7 @@ public class DepartManageController {
 		return map;
 	}
 	
-	@RequestMapping("getDeparts")
+	@RequestMapping("/admin/getDeparts")
 	public @ResponseBody JSONArray getDeparts(){
 		List<Depart> departs = departService.getDeparts();
 		JSONArray jsonArray = new JSONArray();  
