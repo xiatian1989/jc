@@ -54,7 +54,7 @@
 				field : 'createtime',
 				width : 100,
 			},{
-				title : '创建时间',
+				title : '操作',
 				field : 'id',
 				width : 100,
 				formatter: function(value,row,index){

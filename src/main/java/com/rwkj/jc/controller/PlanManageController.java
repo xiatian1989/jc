@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -74,6 +75,24 @@ public class PlanManageController {
 		result.put("total", total);  
 	    result.put("rows",jsonArray);
 		return result;
+	}
+	
+	@RequestMapping("/admin/planListForNoStart")
+	public ModelAndView planListForNoStart(HttpServletRequest request, 
+			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
+			@RequestParam(required = false, defaultValue = "10") Integer rows){
+		String param = request.getParameter("param");
+		List<Plan> plans = null;
+		if(StringUtils.isNullOrEmpty(param)){
+			plans = planService.getPlansForNoStart((page-1)*rows, rows);
+		}else{
+			plans = planService.getPlansByPlanTitleForNoStart("%"+param+"%", (page-1)*rows, rows);
+		}
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("plans",plans);
+		modelAndView.setViewName("admin/EvaluationManage/planListForChoose");
+		return modelAndView;
 	}
 	
 	@RequestMapping("/admin/addPlan")

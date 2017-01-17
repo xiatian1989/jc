@@ -215,9 +215,6 @@
 	#win,body{
 		padding:0px;
 	}
-	.panel-body{
-		overflow: hidden!important;
-	}
 </style>
 </head>
 <body>

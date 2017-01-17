@@ -32,10 +32,10 @@
 		<input type="radio" name="${paperDetail.questionno }" value="B" readonly="readonly">B:${paperDetail.optionb }&nbsp;&nbsp;
 		<input type="radio" name="${paperDetail.questionno }" value="C" readonly="readonly">C:${paperDetail.optionc }&nbsp;&nbsp;
 		<input type="radio" name="${paperDetail.questionno }" value="D" readonly="readonly">D:${paperDetail.optiond }&nbsp;&nbsp;
-		<c:if test="${paperDetail.optione != null }">
+		<c:if test="${paperDetail.optione != '' }">
 			<input type="radio" name="${paperDetail.questionno }" value="E" readonly="readonly">E:${paperDetail.optione }&nbsp;&nbsp;
 		</c:if>
-		<c:if test="${paperDetail.optionf != null }">
+		<c:if test="${paperDetail.optionf != '' }">
 			<input type="radio" name="${paperDetail.questionno }" value="F" readonly="readonly">F:${paperDetail.optionf }&nbsp;&nbsp;
 		</c:if>
 		<c:if test="${paperDetail.issuggest}">

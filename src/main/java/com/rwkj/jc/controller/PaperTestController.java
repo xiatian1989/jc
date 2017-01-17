@@ -47,8 +47,9 @@ public class PaperTestController {
 		resultForTest.setId(CommonUtils.getUUID());
 		resultForTest.setRelationId(relationId);
 		NumberFormat numberFormat = NumberFormat.getInstance();
-		numberFormat.setMaximumFractionDigits(2);  
-		resultForTest.setAnswerproportion(Integer.parseInt(numberFormat.format((float) Integer.parseInt(answerTotal) / (float) Integer.parseInt(total) * 100)));
+		numberFormat.setMaximumFractionDigits(2); 
+		double answerproportion = Double.parseDouble(numberFormat.format(Double.parseDouble(answerTotal)/Double.parseDouble(total)))* 100;
+		resultForTest.setAnswerproportion((int)answerproportion);
 		resultForTest.setResultmessage(StringUtils.isEmpty(resultMessage)?resultMessage:resultMessage.substring(1));
 		resultForTest.setExtrameassge(StringUtils.isEmpty(extraMeassge)?extraMeassge:extraMeassge.substring(1));
 		

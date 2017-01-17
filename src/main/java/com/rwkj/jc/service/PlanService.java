@@ -12,9 +12,13 @@ public interface PlanService {
 	boolean checkPlantitle(String planTitle);
 	
 	List<Plan> getPlans(int pageIndex, int pageSize);
+	List<Plan> getPlansForNoStart(int pageIndex, int pageSize);
 	List<Plan> getPlansByPlanTitle(String planTitle,int pageIndex, int pageSize);
+	List<Plan> getPlansByPlanTitleForNoStart(String planTitle,int pageIndex, int pageSize);
 	int getPlansCount();
+	int getPlansCountForNoStart();
 	int getPlansCountByPlanTitle(String planTitle);
+	int getPlansCountByPlanTitleForNoStart(String planTitle);
 	
 	Plan getPlanByPlanTitle(String planTitle);
 	

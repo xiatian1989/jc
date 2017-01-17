@@ -31,7 +31,7 @@
 		$.messager.alert("提示", "该对象已经被测评了，请选择其他人员测评！", "info");
 		window.open("${pageContext.request.contextPath}/client/planStatus","mainContent");
 	}
-	function notice(){
+	function notice1(){
 		$.messager.alert("提示", "测评还未开始，请等待测评开始！", "info");
 		window.open("${pageContext.request.contextPath}/client/planStatus","mainContent");
 	}
@@ -48,7 +48,7 @@
 		$("#webchat").val($("#userwebchat").val());
 		$("#id").val($("#userid").val());
 		$("#password").val("")
-		url = "${pageContext.request.contextPath}/updateUser"
+		url = "${pageContext.request.contextPath}/admin/updateUser"
 	}
 	
 	function saveUser() {
@@ -144,12 +144,12 @@
 													<a href="javascript:void(0)" onclick="notice()">
 												</c:when>
 												<c:otherwise>
-													<a href="${pageContext.request.contextPath}/paperTest?paperId=${relation.paperId}&relationId=${relation.id}&type=${relation.paper.type}" target="mainContent">
+													<a href="${pageContext.request.contextPath}/client/paperTest?paperId=${relation.paperId}&relationId=${relation.id}&type=${relation.paper.type}" target="mainContent">
 												</c:otherwise>
 											</c:choose>
 										</c:when>
 										<c:otherwise>
-											<a href="javascript:void(0)" onclick="notice()">
+											<a href="javascript:void(0)" onclick="notice1()">
 										</c:otherwise>
 									</c:choose>
 									

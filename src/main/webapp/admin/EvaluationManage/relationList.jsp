@@ -240,6 +240,14 @@
 		$('#winForpaper').window('open');
 		$('#winForpaper').window('refresh', '${pageContext.request.contextPath}/admin/paperListForPaper');
 	}
+	function choosePlan(){
+		$('#winForPlan').window('open');
+		$('#winForPlan').window('refresh', '${pageContext.request.contextPath}/admin/planListForNoStart');
+	}
+	function makeSurePlan(planId){
+		$("#planId").val(planId);
+		$('#winForPlan').window('close');
+	}
 	function changeColumnForpaper() {
 		var column = $("#columnForpaper").val();
 		if (column == 'type') {
@@ -351,8 +359,13 @@
 	function createRelation(){
 		debugger;
 		var ruleId = $("#ruleId").val(); 
+		var planId = $("#planId").val();
 		var paperId = $("#paperId").val();
 		var type = $("#type").val();
+		if(planId==""){
+			$.messager.alert('错误', "请先选择测评计划", 'error');
+			return;
+		}
 		if(paperId==""){
 			$.messager.alert('错误', "请先添加测评试卷", 'error');
 			return;
@@ -455,7 +468,7 @@
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="doSearch()">搜索</a>
 		</div>
 	</div>
-	<div id="win" class="easyui-window" title="添加测评关系" style="width:980px;height:520px"
+	<div id="win" class="easyui-window" title="添加测评关系" style="width:1005px;height:520px"
    	 	data-options="iconCls:'icon-save',modal:true,closed:true,cache: false">
 	</div>
 	<div id="winForRelationPaper" class="easyui-window" title="预览测评试卷" style="width:1000px;height:460px"

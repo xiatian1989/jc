@@ -25,7 +25,8 @@ public class AdminFilter implements Filter {
         
         if (servletPath.equals("admin/login.jsp") || servletPath.endsWith("admin/login.jsp") 
         		|| servletPath.endsWith("/admin/adminLogin") || servletPath.endsWith("/admin/adminLogin") 
-        		|| servletPath.endsWith("/admin/code") || servletPath.endsWith("/admin/code")) {
+        		|| servletPath.endsWith("/admin/code") || servletPath.endsWith("/admin/code")
+        		|| servletPath.endsWith("/admin/updateUser") || servletPath.endsWith("/admin/updateUser")) {
             chain.doFilter(req, res);
             return;
         }

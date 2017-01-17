@@ -68,9 +68,6 @@
 	<input type="text" id="total" value="${fn:length(paperDetails)}" style="display: none">
 	<input type="text" id="relationId" value="${relationId}" style="display: none">
 	<input type="text" id="type" value="${type}" style="display: none">
-	<div style="position:absolute; top:0; right:0; z-index:1000;">
-		<input type="button" value="提交" onclick="submit()">
-	</div>
 	<c:forEach items="${paperDetails }" var="paperDetail">
 		${paperDetail.questionno }:${paperDetail.question }
 		<p >
@@ -78,10 +75,10 @@
 		<input type="radio" name="${paperDetail.questionno }" value="B">B:${paperDetail.optionb }&nbsp;&nbsp;
 		<input type="radio" name="${paperDetail.questionno }" value="C">C:${paperDetail.optionc }&nbsp;&nbsp;
 		<input type="radio" name="${paperDetail.questionno }" value="D">D:${paperDetail.optiond }&nbsp;&nbsp;
-		<c:if test="${paperDetail.optione != null }">
+		<c:if test="${paperDetail.optione != '' }">
 			<input type="radio" name="${paperDetail.questionno }" value="E">E:${paperDetail.optione }&nbsp;&nbsp;
 		</c:if>
-		<c:if test="${paperDetail.optionf != null }">
+		<c:if test="${paperDetail.optionf != '' }">
 			<input type="radio" name="${paperDetail.questionno }" value="F">F:${paperDetail.optionf }&nbsp;&nbsp;
 		</c:if>
 		<c:if test="${paperDetail.issuggest}">
@@ -89,5 +86,8 @@
 		</c:if>
 		<p>
 	</c:forEach>
+	<div style="text-align: center;">
+		<input type="button" value="提交" onclick="submit()">
+	</div>
 </body>
 </html>

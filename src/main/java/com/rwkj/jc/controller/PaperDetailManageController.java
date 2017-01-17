@@ -55,7 +55,7 @@ public class PaperDetailManageController {
 		modelAndView.setViewName("admin/DataManage/paperPreview");
 		return modelAndView;
 	}
-	@RequestMapping("/admin/paperTest")
+	@RequestMapping("/client/paperTest")
 	public ModelAndView paperTest(HttpServletRequest request){
 		
 		ModelAndView modelAndView = new ModelAndView();

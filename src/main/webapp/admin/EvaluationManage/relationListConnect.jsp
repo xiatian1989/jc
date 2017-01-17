@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 </head>	
 <body>
+	<input type="text" id="planId" style="display: none">
 	<input type="text" id="paperId" style="display: none">
 	<input type="text" id="type" style="display: none">
 	<input type="text" id="ruleId" style="display: none">
@@ -29,11 +30,15 @@
 		</div>
 		<div data-options="region:'center',title:'',iconCls:'icon-ok'">
 			<div style="text-align: center;margin-top: 50px">
+				<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="choosePlan()">选择测评计划</a><br><br>
 				<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="choosePaper()">选择测评试卷</a><br><br>
 				<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="addRelationRule()" id="addRelationRule" style="display: none">添加测评规则</a><br><br>
 				<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="createRelation()">建立测评关系</a><br><br>
 			</div>
 		</div>
+	</div>
+	<div id="winForPlan" class="easyui-window" title="选择测评计划" style="width:900px;height:460px"
+   	 	data-options="iconCls:'icon-save',modal:true,closed:true,cache: false">
 	</div>
 	<div id="winForpaper" class="easyui-window" title="添加测评试卷" style="width:900px;height:460px"
    	 	data-options="iconCls:'icon-save',modal:true,closed:true,cache: false">

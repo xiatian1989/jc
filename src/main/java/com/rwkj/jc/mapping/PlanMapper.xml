@@ -119,6 +119,11 @@
     <include refid="Base_Column_List" />
     from jc_plan order by createTime desc limit #{pageIndex},#{pageSize}
   </select>
+   <select id="getPlansForNoStart" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_plan where isStart = 0 order by createTime desc limit #{pageIndex},#{pageSize}
+  </select>
    <select id="getAllPlans" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -129,6 +134,16 @@
     <include refid="Base_Column_List" />
     from jc_plan where planTitle like #{planTitle} order by createTime limit #{pageIndex},#{pageSize}
   </select>
+   <select id="getPlansByPlanTitleForNoStart" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_plan where planTitle like #{planTitle} and isStart = 0 order by createTime limit #{pageIndex},#{pageSize}
+  </select>
+   <select id="getPlansCountForNoStart" resultType="java.lang.Integer" >
+    select 
+    count(*)
+    from jc_plan where isStart = 0
+  </select>
    <select id="getPlansCount" resultType="java.lang.Integer" >
     select 
     count(*)
@@ -138,6 +153,11 @@
     select 
     count(*)
     from jc_plan where planTitle like #{planTitle}
+  </select>
+   <select id="getPlansCountByPlanTitleForNoStart" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select 
+    count(*)
+    from jc_plan where planTitle like #{planTitle} and isStart = 0
   </select>
   <select id="getPlanByPlanTitle" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

@@ -21,13 +21,21 @@ public interface PlanMapper {
     
     List<Plan> getPlans(@Param("pageIndex")int pageIndex,@Param("pageSize")int pageSize);
     
+    List<Plan> getPlansForNoStart(@Param("pageIndex")int pageIndex,@Param("pageSize")int pageSize);
+    
 	List<Plan> getPlansByPlanTitle(@Param("planTitle")String planTitle,@Param("pageIndex")int pageIndex,@Param("pageSize")int pageSize);
 	
+	List<Plan> getPlansByPlanTitleForNoStart(@Param("planTitle")String planTitle,@Param("pageIndex")int pageIndex,@Param("pageSize")int pageSize);
+	
 	int getPlansCount();
+	
+	int getPlansCountForNoStart();
 	
 	int getPlansCountByPlanTitle(@Param("planTitle")String planTitle);
 	
 	Plan getPlanByPlanTitle(String planTitle);
+	
+	int getPlansCountByPlanTitleForNoStart(@Param("planTitle")String planTitle);
 	
 	List<Plan> getAllPlans();
 }
