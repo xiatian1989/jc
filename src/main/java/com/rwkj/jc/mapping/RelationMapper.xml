@@ -195,18 +195,18 @@
   <select id="getRelationsByColumnValueForNoSureValue" resultMap="BaseResultMap">
    select 
     <include refid="Base_Column_List" />
-    from jc_relation where ${column} in #{value} order by createTime limit #{pageIndex},#{pageSize}
+    from jc_relation where ${column} in ${value} order by createTime limit #{pageIndex},#{pageSize}
   </select>
   
    <select id="getRelationsCountByColumnValueForNoSureValue" resultType="java.lang.Integer">
     select 
     count(*)
-    from jc_relation where ${column} in #{value}
+    from jc_relation where ${column} in ${value}
   </select>
   <select id="getRelationsByColumnValue" resultMap="BaseResultMap">
    select 
     <include refid="Base_Column_List" />
-    from jc_relation where ${column} = ${value} order by createTime limit #{pageIndex},#{pageSize}
+    from jc_relation where ${column} = #{value} order by createTime limit #{pageIndex},#{pageSize}
   </select>
   
   <select id="getRelationsByPlanId" resultMap="BaseResultMap">
@@ -249,7 +249,7 @@
    <select id="getRelationsCountByColumnValue" resultType="java.lang.Integer">
     select 
     count(*)
-    from jc_relation where ${column} = ${value}
+    from jc_relation where ${column} = #{value}
   </select>
   
    <update id="deleteRelationByids" parameterType="java.lang.String" >

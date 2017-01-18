@@ -91,11 +91,11 @@ public class RelationManageController {
 				}else{
 					for(User user:users){
 						uerIds.append(",");
-						uerIds.append(user.getId());
+						uerIds.append("'"+user.getUserno()+"'");
 					}
 					
-					relations = relationService.getRelationsByColumnValueForNoSureValue("beTestedPerson", uerIds.substring(1), (page-1)*rows, rows);
-					total = relationService.getRelationsCountByColumnValueForNoSureValue("beTestedPerson", uerIds.substring(1));
+					relations = relationService.getRelationsByColumnValueForNoSureValue("beTestedPerson", "("+uerIds.substring(1)+")", (page-1)*rows, rows);
+					total = relationService.getRelationsCountByColumnValueForNoSureValue("beTestedPerson","("+uerIds.substring(1)+")");
 				}
 			}else if("testPerson".equals(column)){
 				users = userService.getUsersByUserName(value);
@@ -105,11 +105,11 @@ public class RelationManageController {
 				}else{
 					for(User user:users){
 						uerIds.append(",");
-						uerIds.append(user.getId());
+						uerIds.append("'"+user.getUserno()+"'");
 					}
 					
-					relations = relationService.getRelationsByColumnValueForNoSureValue(column, uerIds.substring(1), (page-1)*rows, rows);
-					total = relationService.getRelationsCountByColumnValueForNoSureValue(column, uerIds.substring(1));
+					relations = relationService.getRelationsByColumnValueForNoSureValue(column, "("+uerIds.substring(1)+")", (page-1)*rows, rows);
+					total = relationService.getRelationsCountByColumnValueForNoSureValue(column,  "("+uerIds.substring(1)+")");
 				}
 			}else{
 				relations = relationService.getRelationsByColumnValue(column, value, (page-1)*rows, rows);
@@ -207,22 +207,17 @@ public class RelationManageController {
 		 String testPeople = request.getParameter("testPeople");
 		 String beTestObject = request.getParameter("beTestObject");
 		 String isPerson = request.getParameter("isPerson");
+		 String planId = request.getParameter("planId");
 		 String[] testPeopleArr = testPeople.split(",");
 		 String[] beTestObjectArr = beTestObject.split(",");
 		 Relation relation = null;
-		 List<Plan> plans = planService.getPlans(0, 1);
-		 if(CollectionUtils.isEmpty(plans)) {
-			 	result.put("result", "failed");
-				result.put("errorMsg", "请先添加计划！");
-				return result;
-		 }
 		 try{
 			 List<Relation> relations = new ArrayList<Relation>();
 			 for(String tempTestPeople:testPeopleArr) {
 				 for(String tempbeTestObject:beTestObjectArr) {
 					 relation = new Relation();
 					 relation.setId(CommonUtils.getUUID());
-					 relation.setPlanId(plans.get(0).getId());
+					 relation.setPlanId(planId);
 					 relation.setIsfinish(false);
 					 relation.setPaperId(paperId);
 					 relation.setRuleId(ruleId);

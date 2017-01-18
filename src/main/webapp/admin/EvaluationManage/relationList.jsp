@@ -137,7 +137,7 @@
 					if (r) {
 						var id = "";
 						for (var i = 0; i < row.length; i++) {
-							id = ","+id +"'"+ row[i].id+"'";
+							id = id+","+"'"+ row[i].id+"'";
 						}
 						$.ajax({
 								url : '${pageContext.request.contextPath}/admin/deleteRelation',
@@ -184,7 +184,7 @@
 			value= $("#param1").val();
 		}else{
 			value= $("#key").val();
-			if(value="请输入查询值") {
+			if(value=="请输入查询值") {
 				value ="";
 			}
 		}
@@ -410,7 +410,7 @@
 		$.ajax({
 			url : '${pageContext.request.contextPath}/admin/addRelations',
 			type : 'post',
-			data : 'paperId='+ paperId+"&ruleId="+ruleId+"&testPeople="+testPeople+"&beTestObject="+beTestObject+"&isPerson="+isPerson,
+			data : 'paperId='+ paperId+"&ruleId="+ruleId+"&testPeople="+testPeople+"&beTestObject="+beTestObject+"&isPerson="+isPerson+"&planId="+planId,
 			async : false, //默认为true 异步   
 			success : function(msg) {
 				if (msg.result == "success") {

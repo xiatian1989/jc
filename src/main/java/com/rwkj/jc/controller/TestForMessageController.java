@@ -58,7 +58,7 @@ public class TestForMessageController {
              JSONObject jsonObject = new JSONObject();  
              jsonObject.put("id",testForMessage.getId());
              jsonObject.put("plantitle",testForMessage.getPlan().getPlantitle());
-             jsonObject.put("testPerson",testForMessage.getRelation().getBeTestedUser().getTruename());
+             jsonObject.put("testPerson",testForMessage.getRelation().getTestUser().getTruename());
              jsonObject.put("testObject",testForMessage.getRelation().getIsperson()?testForMessage.getRelation().getBeTestedUser().getTruename():testForMessage.getRelation().getTestedDepart().getDepartName());
              jsonObject.put("isuse",testForMessage.getIsuse());
              jsonObject.put("createtime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(testForMessage.getCreatetime()));

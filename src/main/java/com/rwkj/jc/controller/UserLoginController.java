@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -59,7 +60,9 @@ public class UserLoginController {
 					List<Plan> plans = planService.getAllPlans();
 					for(Plan plan:plans) {
 						List<Relation> relations = relationService.getRelationsByPlanIdAndUserNo("'"+plan.getId()+"'", "'"+user.getUserno()+"'");
-						planForRelations.put(plan,relations);
+						if(!CollectionUtils.isEmpty(relations)) {
+							planForRelations.put(plan,relations);
+						}
 					}
 					modelAndView.addObject("planForRelations",planForRelations);
 					modelAndView.setViewName("client/main/index");
