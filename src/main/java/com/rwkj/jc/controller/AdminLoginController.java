@@ -55,9 +55,9 @@ public class AdminLoginController {
 				modelAndView.setViewName("admin/login");
 				modelAndView.addObject("message","用户名或者密码错误！");
 			}else {
-				if("0".equals(admin.getStatus())){
+				if(!admin.getStatus()){
 					modelAndView.setViewName("admin/login");
-					modelAndView.addObject("message","处于禁用状态！");
+					modelAndView.addObject("message","账号处于禁用状态！");
 				}else{
 					session.setAttribute("Admin", admin);
 					

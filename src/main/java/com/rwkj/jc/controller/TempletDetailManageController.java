@@ -246,7 +246,9 @@ public class TempletDetailManageController {
 							List<TempletDetail> templetDetails = new ExcelUtil<TempletDetail>(TempletDetail.class).readDataFromXls(path);
 							HttpSession session = request.getSession(true);
 							String templetId = (String)session.getAttribute("templetId");
+							int existCount = templetDetailService.getTempletDetailsCount(templetId);
 							for(TempletDetail templetDetail:templetDetails) {
+								templetDetail.setQuestionno(templetDetail.getQuestionno()+existCount);
 								templetDetail.setId(CommonUtils.getUUID());
 								templetDetail.setTempletId(templetId);
 							}

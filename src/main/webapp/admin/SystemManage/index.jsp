@@ -95,7 +95,7 @@
 	</div>
 	<div data-options="region:'west',split:true,title:'系统目录'" style="width:200px">
 		<div id="aa" class="easyui-accordion">
-			<div title="系统用户初始化" data-options="iconCls:'icon-tip'" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
+			<div title="系统初始化" data-options="iconCls:'icon-tip'" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
 				<div>
 					<a href="${pageContext.request.contextPath}/admin/SystemManage/adminList.jsp" target="mainContent">账号管理</a>
 				</div>
@@ -103,7 +103,7 @@
 					<a href="${pageContext.request.contextPath}/admin/SystemManage/templetList.jsp" target="mainContent">模板管理</a>
 				</div>
 			</div>
-			<div title="信息管理" data-options="iconCls:'icon-tip'" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
+			<div title="基础信息管理" data-options="iconCls:'icon-tip'" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
 				<div>
 					<a href="${pageContext.request.contextPath}/admin/DataManage/departList.jsp" target="mainContent">部门管理</a>
 				</div>
@@ -114,7 +114,7 @@
 					<a href="${pageContext.request.contextPath}/admin/DataManage/papertList.jsp" target="mainContent">问卷管理</a>
 				</div>
 			</div>
-			<div title="测评管理" data-options="iconCls:'icon-tip'" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
+			<div title="测评部署管理" data-options="iconCls:'icon-tip'" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
 				<div>
 					<a href="${pageContext.request.contextPath}/admin/EvaluationManage/planList.jsp" target="mainContent">测评计划管理</a>
 				</div>
@@ -128,13 +128,21 @@
 					<a href="${pageContext.request.contextPath}/admin/EvaluationManage/smsList.jsp" target="mainContent">测评短信管理</a>
 				</div>
 			</div>
+			<div title="测评状态监控" data-options="iconCls:'icon-tip',collapsed:false" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
+				<div>
+					<a href="${pageContext.request.contextPath}/admin/allPlanStatus" target="mainContent">测评状态监控</a>
+				</div>
+			</div>
+			<div title="测评结果确认" data-options="iconCls:'icon-tip',collapsed:false" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
+				<div>
+					<a href="${pageContext.request.contextPath}/admin/ResultManage/resultList.jsp" target="mainContent">测评答卷管理</a>
+				</div>
+				<div>
+					<a href="" target="mainContent">测评结果发布</a>
+				</div>
+			</div>
 			<div title="查询分析" data-options="iconCls:'icon-tip',collapsed:false" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
-				<div>
-					<a href="${pageContext.request.contextPath}/admin/allPlanStatus" target="mainContent">计划概况</a>
-				</div>
-				<div>
-					<a href="${pageContext.request.contextPath}/admin/ResultManage/resultList.jsp" target="mainContent">答卷管理</a>
-				</div>
+				
 				<div>
 					<a href="${pageContext.request.contextPath}/admin/ResultManage/resultSearch.jsp" target="mainContent">结果查询</a>
 				</div>
