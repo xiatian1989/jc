@@ -24,7 +24,7 @@
 			selectOnCheck:true,
 			pageSize:10,
 	        pageList:[5,10,15],
-			url:'${pageContext.request.contextPath}/admin/planList',
+			url:'${pageContext.request.contextPath}/admin/planListForMakeSure',
 			columns: [ [ 
 			{
 				title : '计划名',
@@ -39,17 +39,6 @@
 				field : 'endtime',
 				width : 100,
 			}, {
-				title : '是否开始',
-				field : 'isstart',
-				width : 100,
-				formatter: function(value,row,index){
-					if(value) {
-						return '已开始';
-					}else{
-						return '未开始';
-					}
-				}
-			}, {
 				title : '是否完成',
 				field : 'isfinish',
 				width : 100,
@@ -58,6 +47,17 @@
 						return '完成';
 					}else{
 						return '未完成';
+					}
+				}
+			}, {
+				title : '是否发布',
+				field : 'issure',
+				width : 100,
+				formatter: function(value,row,index){
+					if(value) {
+						return '已发布';
+					}else{
+						return '未发布';
 					}
 				}
 			},{

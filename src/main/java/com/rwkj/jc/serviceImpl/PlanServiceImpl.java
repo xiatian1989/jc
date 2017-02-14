@@ -71,8 +71,24 @@ public class PlanServiceImpl implements PlanService {
 	public List<Plan> getPlansByPlanTitleForNoStart(String planTitle, int pageIndex, int pageSize) {
 		return planDao.getPlansByPlanTitleForNoStart(planTitle, pageIndex, pageSize);
 	}
+	
+	public List<Plan> getPlansByPlanTitleForFinish(String planTitle, int pageIndex, int pageSize) {
+		return planDao.getPlansByPlanTitleForFinish(planTitle, pageIndex, pageSize);
+	}
 
 	public int getPlansCountByPlanTitleForNoStart(String planTitle) {
 		return planDao.getPlansCountByPlanTitleForNoStart(planTitle);
+	}
+	
+	public int getPlansCountByPlanTitleForFinish(String planTitle) {
+		return planDao.getPlansCountByPlanTitleForFinish(planTitle);
+	}
+
+	public List<Plan> getPlansForFinish(int pageIndex, int pageSize) {
+		return planDao.getPlansForFinish(pageIndex, pageSize);
+	}
+
+	public int getPlansCountForFinish() {
+		return planDao.getPlansCountForFinish();
 	}
 }

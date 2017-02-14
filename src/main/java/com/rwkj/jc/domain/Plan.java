@@ -15,6 +15,8 @@ public class Plan {
 
     private Boolean isstart;
 
+    private Boolean issure;
+
     private Date createtime;
 
     public String getId() {
@@ -63,6 +65,14 @@ public class Plan {
 
     public void setIsstart(Boolean isstart) {
         this.isstart = isstart;
+    }
+
+    public Boolean getIssure() {
+        return issure;
+    }
+
+    public void setIssure(Boolean issure) {
+        this.issure = issure;
     }
 
     public Date getCreatetime() {

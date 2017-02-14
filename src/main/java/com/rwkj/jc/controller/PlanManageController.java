@@ -76,6 +76,38 @@ public class PlanManageController {
 	    result.put("rows",jsonArray);
 		return result;
 	}
+	@RequestMapping("/admin/planListForMakeSure")
+	public @ResponseBody Object planListForMakeSure(HttpServletRequest request, 
+			@RequestParam(required = false, defaultValue = "1") Integer page, //第几页  
+			@RequestParam(required = false, defaultValue = "10") Integer rows){
+		Map<String, Object> result = new HashMap<String, Object>(2) ;
+		int total = 0;
+		String param = request.getParameter("param");
+		List<Plan> plans = null;
+		if(StringUtils.isNullOrEmpty(param)){
+			plans = planService.getPlansForFinish((page-1)*rows, rows);
+			total = planService.getPlansCountForFinish();
+		}else{
+			plans = planService.getPlansByPlanTitleForFinish("%"+param+"%", (page-1)*rows, rows);
+			total = planService.getPlansCountByPlanTitleForFinish("%"+param+"%");
+		}
+		
+		JSONArray jsonArray = new JSONArray();  
+		for(Plan plan:plans){  
+			JSONObject jsonObject = new JSONObject();  
+			jsonObject.put("id",plan.getId());
+			jsonObject.put("plantitle",plan.getPlantitle());
+			jsonObject.put("begintime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(plan.getBegintime()));
+			jsonObject.put("endtime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(plan.getEndtime()));
+			jsonObject.put("issure",plan.getIssure());
+			jsonObject.put("isfinish",plan.getIsfinish());
+			jsonObject.put("createtime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(plan.getCreatetime()));
+			jsonArray.add(jsonObject) ;  
+		}  
+		result.put("total", total);  
+		result.put("rows",jsonArray);
+		return result;
+	}
 	
 	@RequestMapping("/admin/planListForNoStart")
 	public ModelAndView planListForNoStart(HttpServletRequest request, 

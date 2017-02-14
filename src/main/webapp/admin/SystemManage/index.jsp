@@ -95,7 +95,7 @@
 	</div>
 	<div data-options="region:'west',split:true,title:'系统目录'" style="width:200px">
 		<div id="aa" class="easyui-accordion">
-			<div title="系统初始化" data-options="iconCls:'icon-tip'" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
+			<div title="系统初始操作" data-options="iconCls:'icon-tip'" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
 				<div>
 					<a href="${pageContext.request.contextPath}/admin/SystemManage/adminList.jsp" target="mainContent">账号管理</a>
 				</div>
@@ -138,10 +138,10 @@
 					<a href="${pageContext.request.contextPath}/admin/ResultManage/resultList.jsp" target="mainContent">测评答卷管理</a>
 				</div>
 				<div>
-					<a href="" target="mainContent">测评结果发布</a>
+					<a href="${pageContext.request.contextPath}/admin/ResultManage/planListForMakeSure.jsp" target="mainContent">测评结果发布</a>
 				</div>
 			</div>
-			<div title="查询分析" data-options="iconCls:'icon-tip',collapsed:false" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
+			<div title="测评查询分析" data-options="iconCls:'icon-tip',collapsed:false" style="text-align: center;line-height: 22px;Letter-spacing: 8px;">
 				
 				<div>
 					<a href="${pageContext.request.contextPath}/admin/ResultManage/resultSearch.jsp" target="mainContent">结果查询</a>

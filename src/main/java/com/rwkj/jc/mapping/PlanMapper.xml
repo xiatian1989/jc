@@ -8,10 +8,11 @@
     <result column="endTime" property="endtime" jdbcType="TIMESTAMP" />
     <result column="isFinish" property="isfinish" jdbcType="BIT" />
     <result column="isStart" property="isstart" jdbcType="BIT" />
+    <result column="isSure" property="issure" jdbcType="BIT" />
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, planTitle, beginTime, endTime, isFinish, isStart, createTime
+    id, planTitle, beginTime, endTime, isFinish, isStart, isSure, createTime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -26,10 +27,10 @@
   <insert id="insert" parameterType="com.rwkj.jc.domain.Plan" >
     insert into jc_plan (id, planTitle, beginTime, 
       endTime, isFinish, isStart, 
-      createTime)
+      isSure, createTime)
     values (#{id,jdbcType=VARCHAR}, #{plantitle,jdbcType=VARCHAR}, #{begintime,jdbcType=TIMESTAMP}, 
       #{endtime,jdbcType=TIMESTAMP}, #{isfinish,jdbcType=BIT}, #{isstart,jdbcType=BIT}, 
-      #{createtime,jdbcType=TIMESTAMP})
+      #{issure,jdbcType=BIT}, #{createtime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.rwkj.jc.domain.Plan" >
     insert into jc_plan
@@ -51,6 +52,9 @@
       </if>
       <if test="isstart != null" >
         isStart,
+      </if>
+      <if test="issure != null" >
+        isSure,
       </if>
       <if test="createtime != null" >
         createTime,
@@ -75,6 +79,9 @@
       <if test="isstart != null" >
         #{isstart,jdbcType=BIT},
       </if>
+      <if test="issure != null" >
+        #{issure,jdbcType=BIT},
+      </if>
       <if test="createtime != null" >
         #{createtime,jdbcType=TIMESTAMP},
       </if>
@@ -98,6 +105,9 @@
       <if test="isstart != null" >
         isStart = #{isstart,jdbcType=BIT},
       </if>
+      <if test="issure != null" >
+        isSure = #{issure,jdbcType=BIT},
+      </if>
       <if test="createtime != null" >
         createTime = #{createtime,jdbcType=TIMESTAMP},
       </if>
@@ -111,6 +121,7 @@
       endTime = #{endtime,jdbcType=TIMESTAMP},
       isFinish = #{isfinish,jdbcType=BIT},
       isStart = #{isstart,jdbcType=BIT},
+      isSure = #{issure,jdbcType=BIT},
       createTime = #{createtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -123,6 +134,11 @@
     select 
     <include refid="Base_Column_List" />
     from jc_plan where isStart = 0 order by createTime desc limit #{pageIndex},#{pageSize}
+  </select>
+   <select id="getPlansForFinish" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_plan where isFinish = 1 order by createTime desc limit #{pageIndex},#{pageSize}
   </select>
    <select id="getAllPlans" resultMap="BaseResultMap">
     select 
@@ -139,10 +155,20 @@
     <include refid="Base_Column_List" />
     from jc_plan where planTitle like #{planTitle} and isStart = 0 order by createTime limit #{pageIndex},#{pageSize}
   </select>
+   <select id="getPlansByPlanTitleForFinish" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jc_plan where planTitle like #{planTitle} and isFinish = 1 order by createTime limit #{pageIndex},#{pageSize}
+  </select>
    <select id="getPlansCountForNoStart" resultType="java.lang.Integer" >
     select 
     count(*)
     from jc_plan where isStart = 0
+  </select>
+   <select id="getPlansCountForFinish" resultType="java.lang.Integer" >
+    select 
+    count(*)
+    from jc_plan where isFinish = 1
   </select>
    <select id="getPlansCount" resultType="java.lang.Integer" >
     select 
@@ -158,6 +184,12 @@
     select 
     count(*)
     from jc_plan where planTitle like #{planTitle} and isStart = 0
+  </select>
+  
+   <select id="getPlansCountByPlanTitleForFinish" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select 
+    count(*)
+    from jc_plan where planTitle like #{planTitle} and isFinish = 1
   </select>
   <select id="getPlanByPlanTitle" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

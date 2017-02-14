@@ -751,17 +751,17 @@ public class ResultManageController {
 	@RequestMapping("/admin/allPlanStatus")
 	public ModelAndView allPlanStatus(HttpServletRequest request){
 		ModelAndView modelAndView = new ModelAndView();
-		Map<String,LinkedHashMap<String,String>> map = new HashMap<String,LinkedHashMap<String,String>>();
+		Map<String,LinkedHashMap<String,Object>> map = new HashMap<String,LinkedHashMap<String,Object>>();
 		List<Plan> plans = planService.getAllPlans();
 		List<Relation> relations = relationService.getAllRelations();
-		LinkedHashMap<String,String> mapForAnalysis = null;
+		LinkedHashMap<String,Object> mapForAnalysis = null;
 		int allCount;
 		int enableCount;
 		int useCount;
 		int notUseCount;
 		for(Plan plan:plans) {
 			String key = plan.getPlantitle();
-			mapForAnalysis = new LinkedHashMap<String,String>();
+			mapForAnalysis = new LinkedHashMap<String,Object>();
 			allCount = 0;
 			enableCount = 0;
 			useCount = 0;
@@ -779,10 +779,12 @@ public class ResultManageController {
 					}
 				}
 			}
+			mapForAnalysis.put("plan", plan);
 			mapForAnalysis.put("allCount", "总共建立了"+allCount+"对测评关系");
 			mapForAnalysis.put("enableCount", "存在"+enableCount+"对有效测评关系");
 			mapForAnalysis.put("useCount", "完成了"+useCount+"对测评关系");
 			mapForAnalysis.put("notUseCount", "还有"+notUseCount+"对测评关系需要完成");
+			
 			map.put(key, mapForAnalysis);
 		}
 		
