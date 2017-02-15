@@ -159,6 +159,12 @@ public class RelationManageController {
 	public @ResponseBody Map<String,String> openSMSRelationByid(@RequestParam("id") String id){
 		
 		Map<String,String> map = new HashMap<String,String>();
+		Plan plan = planService.getPlanById(id);
+		if(plan.getIsfinish()) {
+			map.put("result", "failed");
+			map.put("errorMsg", "测评计划已经结束了，不能启用短信!");
+			return map;
+		}
 		int count = relationService.openSMSRelationByPlanId(id);
 		List<Relation> relations = relationService.getRelationsByPlanId(id);
 		List<TestForMessage> testForMessages = new ArrayList<TestForMessage>();
@@ -178,6 +184,7 @@ public class RelationManageController {
 			testForMessageService.batchInsert(testForMessages);
 		}else {
 			map.put("result", "failed");
+			map.put("errorMsg", "短信启用失败，请刷新以后重试!");
 		}
 		return map;
 	}
@@ -187,12 +194,18 @@ public class RelationManageController {
 		
 		Map<String,String> map = new HashMap<String,String>();
 		int count = relationService.disabledSMSRelationByPlanId(id);
-		
+		Plan plan = planService.getPlanById(id);
+		if(plan.getIsfinish()) {
+			map.put("result", "failed");
+			map.put("errorMsg", "测评计划已经结束了，不能禁用短信！");
+			return map;
+		}
 		if(count>0){
 			map.put("result", "success");
 			testForMessageService.deleteTestForMessage(id);
 		}else {
 			map.put("result", "failed");
+			map.put("errorMsg", "短信禁用失败，请刷新以后重试!");
 		}
 		return map;
 	}

@@ -160,6 +160,23 @@ public class PlanManageController {
 		return result;
 	}
 	
+	@RequestMapping("/admin/makeSurePlan")
+	public @ResponseBody Map<String,String> makeSurePlan(@RequestParam("id") String id){
+		int count = 0;
+		Map<String, String> result = new HashMap<String,String>();
+		Plan plan  = new Plan();
+		plan.setId(id);
+		plan.setIssure(true);
+		count = planService.updatePlan(plan);
+		if(count>0){
+			result.put("result", "success");
+		}else{
+			result.put("result", "failed");
+			result.put("errorMsg", "发布测评结果失败！");
+		}
+		return result;
+	}
+	
 	@RequestMapping("/admin/deletePlan")
 	public @ResponseBody Map<String,String> deletePlan(@RequestParam("id") String id){
 		Map<String,String> map = new HashMap<String,String>();

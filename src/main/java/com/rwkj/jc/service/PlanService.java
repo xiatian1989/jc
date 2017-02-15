@@ -27,4 +27,6 @@ public interface PlanService {
 	Plan getPlanByPlanTitle(String planTitle);
 	
 	List<Plan> getAllPlans();
+	
+	Plan getPlanById(String id);
 }

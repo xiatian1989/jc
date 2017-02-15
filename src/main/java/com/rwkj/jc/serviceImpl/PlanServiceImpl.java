@@ -91,4 +91,8 @@ public class PlanServiceImpl implements PlanService {
 	public int getPlansCountForFinish() {
 		return planDao.getPlansCountForFinish();
 	}
+
+	public Plan getPlanById(String id) {
+		return planDao.selectByPrimaryKey(id);
+	}
 }

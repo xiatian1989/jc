@@ -263,12 +263,19 @@ public class ResultManageController {
 			results = new ArrayList<Result>();
 		}else{
 			for(Relation relation:relations) {
+				if(!relation.getPlan().getIssure()) {
+					continue;
+				}
 				relationIds.append(",");
 				relationIds.append("'");
 				relationIds.append(relation.getId());
 				relationIds.append("'");
 			}
-			results = resultService.getResultsByRelationIds("("+relationIds.substring(1)+")");
+			if(relationIds.length()>0) {
+				results = resultService.getResultsByRelationIds("("+relationIds.substring(1)+")");
+			}else{
+				results = new ArrayList<Result>();
+			}
 		}
 		Map<String,Map<String,Map<String,LinkedHashMap<String,String>>>> map = new LinkedHashMap<String,Map<String,Map<String,LinkedHashMap<String,String>>>>();
 		
@@ -760,6 +767,9 @@ public class ResultManageController {
 		int useCount;
 		int notUseCount;
 		for(Plan plan:plans) {
+			if(plan.getIssure()){
+				continue;
+			}
 			String key = plan.getPlantitle();
 			mapForAnalysis = new LinkedHashMap<String,Object>();
 			allCount = 0;
@@ -797,6 +807,13 @@ public class ResultManageController {
 	public ModelAndView initResultExportSearch(HttpServletRequest request){
 		ModelAndView modelAndView = new ModelAndView();
 		List<Plan> plans = planService.getAllPlans();
+		Iterator<Plan> iterator = plans.iterator();
+		while(iterator.hasNext()) {
+			Plan plan = iterator.next();
+			if(!plan.getIssure()) {
+				iterator.remove();
+			}
+		}
 		modelAndView.addObject("plans", plans);
 		modelAndView.setViewName("admin/ResultManage/resultExportSearch");
 		return modelAndView;

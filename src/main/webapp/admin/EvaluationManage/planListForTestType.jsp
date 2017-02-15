@@ -80,7 +80,7 @@
 		    	if(msg.result=="success") {
 		    		$.messager.alert('提示','短信启用成功!','info')
 		    	}else{
-		    		$.messager.alert('错误','短信启用失败，请刷新以后重试!','error');
+		    		$.messager.alert('错误',msg.errorMsg,'error');
 		    	}
 		    }
 		});
@@ -96,7 +96,7 @@
 		    	if(msg.result=="success") {
 		    		$.messager.alert('提示','短信取消成功!','info')
 		    	}else{
-		    		$.messager.alert('错误','短信取消失败，请刷新以后重试!','error');
+		    		$.messager.alert('错误',msg.errorMsg,'error');
 		    	}
 		    }
 		});
