@@ -561,12 +561,19 @@ public class ResultManageController {
 			results = new ArrayList<Result>();
 		}else{
 			for(Relation relation:relations) {
+				if(!relation.getPlan().getIssure()) {
+					continue;
+				}
 				relationIds.append(",");
 				relationIds.append("'");
 				relationIds.append(relation.getId());
 				relationIds.append("'");
 			}
-			results = resultService.getResultsByRelationIds("("+relationIds.substring(1)+")");
+			if(relationIds.length()>0) {
+				results = resultService.getResultsByRelationIds("("+relationIds.substring(1)+")");
+			}else{
+				results = new ArrayList<Result>();
+			}
 		}
 		Map<String,Map<String,Map<String,LinkedHashMap<String,String>>>> map = new LinkedHashMap<String,Map<String,Map<String,LinkedHashMap<String,String>>>>();
 		

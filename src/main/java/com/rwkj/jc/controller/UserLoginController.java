@@ -59,6 +59,9 @@ public class UserLoginController {
 					session.setAttribute("user", user);
 					List<Plan> plans = planService.getAllPlans();
 					for(Plan plan:plans) {
+						if(plan.getIsfinish()) {
+							continue;
+						}
 						List<Relation> relations = relationService.getRelationsByPlanIdAndUserNo("'"+plan.getId()+"'", "'"+user.getUserno()+"'");
 						if(!CollectionUtils.isEmpty(relations)) {
 							planForRelations.put(plan,relations);

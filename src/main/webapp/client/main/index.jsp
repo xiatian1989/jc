@@ -138,7 +138,7 @@
 							<li>
 								<span>
 									<c:choose>
-										<c:when test="${map.key.isstart && !map.key.isfinish}">
+										<c:when test="${map.key.isstart}">
 											<c:choose>
 												<c:when test="${relation.isfinish}">
 													<a href="javascript:void(0)" onclick="notice()">
