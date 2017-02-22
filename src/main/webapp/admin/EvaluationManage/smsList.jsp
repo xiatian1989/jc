@@ -44,13 +44,13 @@
 				field : 'plantitle',
 				width : 80,
 			}, {
-				title : '测评人',
-				field : 'testPerson',
-				width : 100,
-			}, {
 				title : '被测评对象',
 				field : 'testObject',
 				width : 140,
+			}, {
+				title : '测评人',
+				field : 'testPerson',
+				width : 100,
 			}, {
 				title : '是否已发送',
 				field : 'isuse',

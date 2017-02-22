@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>人事测评管理系统</title>
+<title>人事测评系统</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/easyui/themes/icon.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/easyui/demo/demo.css">

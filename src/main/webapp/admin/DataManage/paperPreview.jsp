@@ -26,10 +26,10 @@
 		<input type="radio" disabled="disabled">B:${paperDetail.optionb }&nbsp;&nbsp;
 		<input type="radio" disabled="disabled">C:${paperDetail.optionc }&nbsp;&nbsp;
 		<input type="radio" disabled="disabled">D:${paperDetail.optiond }&nbsp;&nbsp;
-		<c:if test="${paperDetail.optione != null }">
+		<c:if test="${paperDetail.optione != null && paperDetail.optione != '' }">
 			<input type="radio" disabled="disabled">E:${paperDetail.optione }&nbsp;&nbsp;
 		</c:if>
-		<c:if test="${paperDetail.optionf != null }">
+		<c:if test="${paperDetail.optionf != null && paperDetail.optionf != ''}">
 			<input type="radio" disabled="disabled">F:${paperDetail.optionf }&nbsp;&nbsp;
 		</c:if>
 		<c:if test="${paperDetail.issuggest}">

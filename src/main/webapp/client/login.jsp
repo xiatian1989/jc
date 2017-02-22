@@ -6,14 +6,17 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title></title>
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/htmleaf-demo.css">
+	<title>人事测评系统</title>
+<%-- 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css"> --%>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/htmleaf-demo.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/normalize.css">
 	<style type="text/css">
-		.form-bg{
-		    background: #00b4ef;
-		}
+		/* .form-bg{
+		   background: #00b4ef;
+		} */
 		.form-horizontal{
 		    background: #fff;
 		    padding-bottom: 40px;

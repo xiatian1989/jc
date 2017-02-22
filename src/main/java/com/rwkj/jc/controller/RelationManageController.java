@@ -173,7 +173,7 @@ public class RelationManageController {
 			testForMessage = new TestForMessage();
 			testForMessage.setId(CommonUtils.getUUID());
 			testForMessage.setPlanId(id);
-			testForMessage.setIsuse(false);
+			testForMessage.setIsuse(true);
 			testForMessage.setRelationId(relation.getId());
 			testForMessage.setCreatetime(new Date());
 			testForMessages.add(testForMessage);

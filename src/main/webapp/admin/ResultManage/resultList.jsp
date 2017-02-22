@@ -35,12 +35,12 @@
 				field : 'plantitle',
 				width : 100,
 			},{
-				title : '测评人',
-				field : 'testperson',
-				width : 60,
-			},{
 				title : '被测评对象',
 				field : 'betestedobject',
+				width : 60,
+			},{
+				title : '测评人',
+				field : 'testperson',
 				width : 60,
 			}, {
 				title : '答题比例',
