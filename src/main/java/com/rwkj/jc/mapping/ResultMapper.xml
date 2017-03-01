@@ -9,11 +9,13 @@
     <result column="extraMeassge" property="extrameassge" jdbcType="VARCHAR" />
     <result column="score" property="score" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="BIT" />
+    <result column="isSure" property="issure" jdbcType="BIT" />
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
     <association property="relation" column="relation_id" select="com.rwkj.jc.IDao.RelationMapper.selectByPrimaryKey"/>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, relation_id, answerproportion, resultMessage, extraMeassge, score, status, createTime
+    id, relation_id, answerproportion, resultMessage, extraMeassge, score, status, isSure, 
+    createTime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -28,10 +30,12 @@
   <insert id="insert" parameterType="com.rwkj.jc.domain.Result" >
     insert into jc_result (id, relation_id, answerproportion, 
       resultMessage, extraMeassge, score, 
-      status, createTime)
+      status, isSure, createTime
+      )
     values (#{id,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}, #{answerproportion,jdbcType=INTEGER}, 
       #{resultmessage,jdbcType=VARCHAR}, #{extrameassge,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, 
-      #{status,jdbcType=BIT}, #{createtime,jdbcType=TIMESTAMP})
+      #{status,jdbcType=BIT}, #{issure,jdbcType=BIT}, #{createtime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.rwkj.jc.domain.Result" >
     insert into jc_result
@@ -83,6 +87,9 @@
       <if test="status != null" >
         #{status,jdbcType=BIT},
       </if>
+      <if test="issure != null" >
+        #{issure,jdbcType=BIT},
+      </if>
       <if test="createtime != null" >
         #{createtime,jdbcType=TIMESTAMP},
       </if>
@@ -109,6 +116,9 @@
       <if test="status != null" >
         status = #{status,jdbcType=BIT},
       </if>
+      <if test="issure != null" >
+        isSure = #{issure,jdbcType=BIT},
+      </if>
       <if test="createtime != null" >
         createTime = #{createtime,jdbcType=TIMESTAMP},
       </if>
@@ -123,6 +133,7 @@
       extraMeassge = #{extrameassge,jdbcType=VARCHAR},
       score = #{score,jdbcType=INTEGER},
       status = #{status,jdbcType=BIT},
+      isSure = #{issure,jdbcType=BIT},
       createTime = #{createtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -130,54 +141,54 @@
    <select id="getResults" resultMap="BaseResultMap">
    select 
     <include refid="Base_Column_List" />
-    from jc_result order by createTime limit #{pageIndex},#{pageSize}
+    from jc_result where isSure = 0 order by createTime limit #{pageIndex},#{pageSize}
   </select>
   
    <select id="getResultsCount" resultType="java.lang.Integer">
     select 
     count(*)
-    from jc_result
+    from jc_result and isSure = 0
   </select> 
    <select id="getResultsByRegion" resultMap="BaseResultMap">
    select 
     <include refid="Base_Column_List" />
-   <![CDATA[ from jc_result where ${column} <= ${value} order by createTime  limit #{pageIndex},#{pageSize} ]]> 
+   <![CDATA[ from jc_result where ${column} <= ${value} and isSure = 0 order by createTime  limit #{pageIndex},#{pageSize} ]]> 
   </select>
   
    <select id="getResultsCountByRegion" resultType="java.lang.Integer">
    <![CDATA[ select 
     count(*)
-    from jc_result where ${column} <= ${value} ]]> 
+    from jc_result where ${column} <= ${value} and isSure = 0]]>  
   </select> 
   
     <select id="getResultsCountByColumnValue" resultType="java.lang.Integer">
     select 
     count(*)
-    from jc_result where ${column} = #{value}
+    from jc_result where ${column} = #{value} and isSure = 0
   </select>
   
    <select id="getResultsByColumnValue" resultMap="BaseResultMap">
    select 
     <include refid="Base_Column_List" />
-    from jc_result where ${column} = #{value} order by createTime limit #{pageIndex},#{pageSize}
+    from jc_result where ${column} = #{value} and isSure = 0 order by createTime limit #{pageIndex},#{pageSize}
   </select>
   
     <select id="getResultsCountByRelationIds" resultType="java.lang.Integer">
     select 
     count(*)
-    from jc_result where relation_id in ${value}
+    from jc_result where relation_id in ${value} and isSure = 0
   </select>
   
    <select id="getResultsByRelationIds" resultMap="BaseResultMap">
    select 
     <include refid="Base_Column_List" />
-    from jc_result where relation_id in ${value} order by createTime limit #{pageIndex},#{pageSize}
+    from jc_result where relation_id in ${value} and isSure = 0 order by createTime limit #{pageIndex},#{pageSize}
   </select>
   
    <select id="getResultsByRelationIdsNoPage" resultMap="BaseResultMap">
    select 
     <include refid="Base_Column_List" />
-    from jc_result where relation_id in ${value} and status = 1 order by createTime
+    from jc_result where relation_id in ${value} and status = 1 and isSure = 0 order by createTime
   </select>
   
     <update id="ensabledResultByids" parameterType="java.lang.String" >

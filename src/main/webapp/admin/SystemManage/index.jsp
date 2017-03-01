@@ -154,7 +154,7 @@
 	</div>
 	<div data-options="region:'south',border:false" style="height:50px;background:#A9FACD;text-align: center;"><p>Copyright ©2017</div>
 	<div data-options="region:'center'">
-		<iframe src="${pageContext.request.contextPath}/admin/SystemManage/systemInfo.jsp" scrolling="auto" width="100%"  height="99%" style="border: 0" name="mainContent"></iframe>
+		<iframe src="${pageContext.request.contextPath}/admin/SystemManage/welcome.jsp" scrolling="auto" width="100%"  height="99%" style="border: 0" name="mainContent"></iframe>
 		<div id="dlg" class="easyui-dialog"
 			style="width: 280px; height: 210px; padding: 10px 20px" closed="true" buttons="#dlg-buttons">
 			

@@ -67,4 +67,8 @@ public class ResultServiceImpl implements ResultService {
 		return resultDao.getResultsByRelationIdsNoPage(value);
 	}
 
+	public int updateResult(Result result) {
+		return resultDao.updateByPrimaryKeySelective(result);
+	}
+
 }

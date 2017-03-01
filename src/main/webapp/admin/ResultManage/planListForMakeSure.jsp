@@ -84,7 +84,7 @@
 	       });  
 	}
 
-	function makeSurePlan() {
+	/* function makeSurePlan() {
 		
 		var row = $('#dg').datagrid('getSelected');
 		
@@ -115,6 +115,67 @@
 					}
 			});
 		}
+	} */
+	
+	function editPlan() {
+		var selRow = $('#dg').datagrid('getSelected');
+		if (selRow) { 
+			$('#dlg').dialog('open').dialog('setTitle', '发布测评结果');
+			$('#fm').form('clear');
+			$('#fm').form('load', selRow);
+			url = "${pageContext.request.contextPath}/admin/makeSurePlan"
+			model="update";
+		}
+
+	}
+	
+	function getNowFormatDate() {
+	    var date = new Date();
+	    var seperator1 = "-";
+	    var seperator2 = ":";
+	    var month = date.getMonth() + 1;
+	    var strDate = date.getDate();
+	    if (month >= 1 && month <= 9) {
+	        month = "0" + month;
+	    }
+	    if (strDate >= 0 && strDate <= 9) {
+	        strDate = "0" + strDate;
+	    }
+	    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+	            + " " + date.getHours() + seperator2 + date.getMinutes()
+	            + seperator2 + date.getSeconds();
+	    return currentdate;
+	}
+	
+	function savePlan() {
+		$('#fm').form('submit',{
+			url : url,
+			onSubmit : function() {
+				var flag = $(this).form('validate');
+				if(!flag) {
+					return flag;
+				}
+				var endviewtime = $('#endviewtime').datetimebox('getValue');
+				if(getNowFormatDate()>endviewtime) {
+					$.messager.alert('错误',"查询结果结束时间不能早于当前时间",'error');
+					return false;
+				}
+			},
+			success : function(result) {
+				var msg = jQuery.parseJSON(result);
+				if (msg.result == "success") {
+					$('#dlg').dialog('close');
+					$('#dg').datagrid('reload');
+				} else {
+					$.messager.alert('错误',msg.errorMsg,'error');
+				}
+			}
+		});
+	}
+	
+	function cancel() {
+		$('#fm').form('clear');
+		$('#dlg').dialog('close');
 	}
 
 </script>
@@ -129,12 +190,33 @@
 		
 	</table>
 	<div id="toolbar">
-		<a href="#" class="easyui-linkbutton" iconCls="icon-redo" plain="true" onclick="makeSurePlan()">发布测评结果</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-redo" plain="true" onclick="editPlan()">发布测评结果</a>
 		<div style="float:right;">
 			<input type="text" id="key" name="key" value="请输入计划名称" onFocus="if(value==defaultValue){value='';this.style.color='#000'}" 
 			onBlur="if(!value){value=defaultValue;this.style.color='#999'}" style="color:#999999">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="doSearch()">搜索</a>
 		</div>
+	</div>
+	
+	<div id="dlg" class="easyui-dialog"
+		style="width: 380px; height: 140px; padding: 10px 20px" closed="true" buttons="#dlg-buttons">
+		
+		<form id="fm" method="post">
+			<input id=id name=id  style="display:none">
+			<table>
+				<tr>
+					<td style="height: 28px">用户查询结果截止时间：</td>
+					<td style="height: 28px"><input id=endviewtime style="width: 180px"
+						class="easyui-datetimebox" data-options="required:true,showSeconds:false" name=endviewtime></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<div id="dlg-buttons">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+			onclick="savePlan()">保存</a>
+		<a href="#" class="easyui-linkbutton"
+			iconCls="icon-cancel" onclick="cancel();">取消</a>
 	</div>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.rwkj.jc.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,9 @@ public class PlanStatusForUserController {
 		for(Relation relation:relations) {
 			Plan plan = relation.getPlan();
 			if(!plan.getIsstart() || plan.getIsfinish()) {
+				continue;
+			}
+			if(new Date().after(plan.getEndviewtime())){
 				continue;
 			}
 			planTitle = plan.getPlantitle();

@@ -23,7 +23,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mysql.jdbc.StringUtils;
 import com.rwkj.jc.domain.Plan;
+import com.rwkj.jc.domain.Relation;
+import com.rwkj.jc.domain.Result;
 import com.rwkj.jc.service.PlanService;
+import com.rwkj.jc.service.RelationService;
+import com.rwkj.jc.service.ResultService;
 import com.rwkj.jc.util.CommonUtils;
 
 @Controller
@@ -31,6 +35,10 @@ public class PlanManageController {
 	
 	@Resource
 	private PlanService planService;
+	@Resource
+	private RelationService relationService;
+	@Resource
+	private ResultService resultService;
 	
 	@InitBinder("plan")    
 	public void initBinder2(WebDataBinder binder) {    
@@ -161,13 +169,25 @@ public class PlanManageController {
 	}
 	
 	@RequestMapping("/admin/makeSurePlan")
-	public @ResponseBody Map<String,String> makeSurePlan(@RequestParam("id") String id){
+	public @ResponseBody Map<String,String> makeSurePlan(@ModelAttribute Plan plan){
 		int count = 0;
 		Map<String, String> result = new HashMap<String,String>();
-		Plan plan  = new Plan();
-		plan.setId(id);
 		plan.setIssure(true);
 		count = planService.updatePlan(plan);
+		List<Relation> relations = relationService.getRelationsByPlanId(plan.getId());
+		StringBuffer relationIds = new StringBuffer();
+		for(Relation relation:relations) {
+			relationIds.append(",");
+			relationIds.append(relation.getId());
+		}
+		if(relationIds.length()>0){
+			List<Result> results = resultService.getResultsByRelationIds(relationIds.substring(1));
+			for(Result tempResult:results) {
+				tempResult.setIssure(true);
+				resultService.updateResult(tempResult);
+			}
+		}
+		
 		if(count>0){
 			result.put("result", "success");
 		}else{

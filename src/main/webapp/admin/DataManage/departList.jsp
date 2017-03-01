@@ -256,9 +256,6 @@
 	}
 </script>
 <style type="text/css">
-	body{
-		padding:10px;
-	}
 </style>
 </head>
 <body>
@@ -266,7 +263,7 @@
 	    <div data-options="region:'west',title:'部门列表',split:true" style="width:150px;">
 			<ul class="easyui-tree" data-options="url:'${pageContext.request.contextPath}/admin/departList'" id="tt" ></ul>
 	    </div>
-	    <div data-options="region:'center',title:'部门详情'" style="padding:5px;background:#eee;">
+	    <div data-options="region:'center',title:'部门详情'" style="background:#eee;">
 	    	<table id="dd" title="详细信息" style="width: 100%">
 				<tr>
 					<td>部门编号</td>

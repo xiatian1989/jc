@@ -17,6 +17,8 @@ public class Plan {
 
     private Boolean issure;
 
+    private Date endviewtime;
+
     private Date createtime;
 
     public String getId() {
@@ -73,6 +75,14 @@ public class Plan {
 
     public void setIssure(Boolean issure) {
         this.issure = issure;
+    }
+
+    public Date getEndviewtime() {
+        return endviewtime;
+    }
+
+    public void setEndviewtime(Date endviewtime) {
+        this.endviewtime = endviewtime;
     }
 
     public Date getCreatetime() {

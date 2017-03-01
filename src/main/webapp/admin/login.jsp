@@ -1,131 +1,94 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+	pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>人事测评管理系统</title>
-<script type="text/javascript" src="${pageContext.request.contextPath}/easyui/jquery.easyui.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>欢迎人事测评管理系统</title>
+<link href="${pageContext.request.contextPath}/css/style.css"
+	rel="stylesheet" type="text/css" />
+<script language="JavaScript"
+	src="${pageContext.request.contextPath}/js/jquery.js"></script>
+<script src="${pageContext.request.contextPath}/js/cloud.js"
+	type="text/javascript"></script>
 <style type="text/css">
-BODY {
-	FONT-SIZE: 12px;
-	COLOR: #ffffff;
-	FONT-FAMILY: 宋体
-}
-
-TD {
-	FONT-SIZE: 12px;
-	COLOR: #ffffff;
-	FONT-FAMILY: 宋体
-}
 </style>
 <script type="text/javascript">
-	function refreshCode(obj){
+/* 	function refreshCode(obj){
 		var day = new Date();
 		var t = day.getTime();
 		obj.src="${pageContext.request.contextPath}/admin/code?t="+t;
-	}
+	} */
 	
 	function submitBefore(){
 		var submitFlag = true;
 		
-		$("#RequiredFieldtxtName").hide();
+	/* 	$("#RequiredFieldtxtName").hide();
 		$("#RequiredFieldtxtPwd").hide();
 		$("#RequiredFieldtxtCode").hide();
-		$("#message").html("");
+		$("#message").html(""); */
 		
 		if($("#txtName").val() ==""){
-			$("#RequiredFieldtxtName").show();
 			submitFlag =  false;
 		}
 		if($("#txtPwd").val() ==""){
-			$("#RequiredFieldtxtPwd").show();
 			submitFlag =  false;
 		}
-		if($("#txtcode").val() =="") {
+		/* if($("#txtcode").val() =="") {
 			$("#RequiredFieldtxtCode").show();
 			submitFlag =  false;
-		}
+		} */
 		
 		return submitFlag;
 	}
 	
+	$(function(){
+	    $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
+		$(window).resize(function(){  
+	    $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
+	    })  
+	});  
+	
 </script>
 </head>
-<body>
-	<DIV>&nbsp;&nbsp;</DIV>
-	<DIV>
-		<TABLE cellSpacing=0 cellPadding=0 width=900 align=center border=0>
-			<TBODY>
-				<TR>
-					<TD style="HEIGHT: 105px"><IMG src="${pageContext.request.contextPath}/image/login.jpg"
-						border=0></TD>
-				</TR>
-				<TR>
-					<TD background="${pageContext.request.contextPath}/image/login_2.jpg" height=300>
-						<TABLE height=300 cellPadding=0 width=900 border=0>
-							<TBODY>
-								<TR>
-									<TD colSpan=2 height=35></TD>
-								</TR>
-								<TR>
-									<TD width=360></TD>
-									<TD>
-										<form action="${pageContext.request.contextPath}/admin/adminLogin" method="post" id="form1" onsubmit="return submitBefore()">
-											<TABLE cellSpacing=0 cellPadding=2 border=0>
-												<TBODY>
-														<TR>
-															<TD style="HEIGHT: 28px" width=80>登 录 名：</TD>
-															<TD style="HEIGHT: 28px" width=150><INPUT id=txtName
-																style="WIDTH: 130px" name=txtName></TD>
-															<TD style="HEIGHT: 28px" width=370><SPAN
-																id=RequiredFieldtxtName
-																style="FONT-WEIGHT: bold; display: none; COLOR: red">请输入登录名</SPAN></TD>
-														</TR>
-														<TR>
-															<TD style="HEIGHT: 28px">登录密码：</TD>
-															<TD style="HEIGHT: 28px"><INPUT id=txtPwd
-																style="WIDTH: 130px" type=password name=txtPwd></TD>
-															<TD style="HEIGHT: 28px"><SPAN
-																id=RequiredFieldtxtPwd
-																style="FONT-WEIGHT: bold; display: none; COLOR: red">请输入密码</SPAN></TD>
-														</TR>
-														<TR>
-															<TD style="HEIGHT: 28px">验证码：</TD>
-															<TD style="HEIGHT: 28px"><INPUT id=txtcode
-																style="WIDTH: 130px" name=txtcode ></TD>
-															<TD style="HEIGHT: 28px"><img src="${pageContext.request.contextPath}/admin/code" onclick="refreshCode(this)"/><SPAN
-																id=RequiredFieldtxtCode
-																style="FONT-WEIGHT: bold; display: none; COLOR: red;">&nbsp;请输入验证码</SPAN></TD>
-														</TR>
-														<TR>
-															<TD style="HEIGHT: 18px" colspan="2" align="center"><SPAN
-																id=message
-																style="FONT-WEIGHT: bold; COLOR: red" >${message}</SPAN></TD>
-															<TD style="HEIGHT: 28px"></TD>
-														</TR>
-														<TR>
-															<TD></TD>
-															<TD><INPUT id=btn
-																style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px"
-																type=image src="${pageContext.request.contextPath}/image/login_button.gif" name=btn>
-															</TD>
-														</TR>
-												</TBODY>
-											</TABLE>
-										</form>
-									</TD>
-								</TR>
-							</TBODY>
-						</TABLE>
-					</TD>
-				</TR>
-				<TR>
-					<TD><IMG src="${pageContext.request.contextPath}/image/login_3.jpg" border=0></TD>
-				</TR>
-			</TBODY>
-		</TABLE>
-	</DIV>
+<body
+	style="background-color:#1c77ac; background-image:url(${pageContext.request.contextPath}/images/light.png); background-repeat:no-repeat; background-position:center top; overflow:hidden;">
+
+
+
+	<div id="mainBody">
+		<div id="cloud1" class="cloud"></div>
+		<div id="cloud2" class="cloud"></div>
+	</div>
+
+
+<!-- 	<div class="logintop">
+		<span>欢迎登录人事测评管理平台</span>
+		<ul>
+			<li><a href="#">帮助</a></li>
+			<li><a href="#">关于</a></li>
+		</ul>
+	</div> -->
+
+	<div class="loginbody">
+
+		<span class="systemlogo"></span>
+
+		<div class="loginbox">
+			<form action="${pageContext.request.contextPath}/admin/adminLogin" method="post" id="form1" onsubmit="return submitBefore()">
+				<ul>
+					<li><input name="txtName" type="text" class="loginuser" value="admin" onclick="JavaScript:this.value=''" /></li>
+					<li><input name="txtPwd" type="password" class="loginpwd" value="password" onclick="JavaScript:this.value=''" /></li>
+					<li><input name="" type="submit" class="loginbtn" value="登录"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="" type="reset" class="loginbtn" value="重置"/></li>
+				</ul>
+			</form>
+		</div>
+	</div>
+	<div class="loginbm">
+		版权所有 2016 <a href="#">公司</a>
+	</div>
+
+
 </body>
 </html>

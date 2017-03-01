@@ -8,6 +8,8 @@ public interface ResultService {
 	
 	int addResult(Result result);
 	
+	int updateResult(Result result);
+	
 	List<Result> getResults(int pageIndex,int pageSize);
 	    
 	int getResultsCount();

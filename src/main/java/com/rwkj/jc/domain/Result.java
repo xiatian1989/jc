@@ -17,6 +17,8 @@ public class Result {
 
     private Boolean status;
 
+    private Boolean issure;
+
     private Date createtime;
     
     private Relation relation;
@@ -75,6 +77,14 @@ public class Result {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public Boolean getIssure() {
+        return issure;
+    }
+
+    public void setIssure(Boolean issure) {
+        this.issure = issure;
     }
 
     public Date getCreatetime() {

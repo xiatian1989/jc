@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mysql.jdbc.StringUtils;
 import com.rwkj.jc.bean.SystemInfo;
 import com.rwkj.jc.domain.Admin;
 import com.rwkj.jc.service.AdminService;
@@ -29,10 +28,10 @@ public class AdminLoginController {
 		ModelAndView modelAndView = new ModelAndView();
 		String username = req.getParameter("txtName");
 		String password = req.getParameter("txtPwd");
-		String code = req.getParameter("txtcode");
+/*		String code = req.getParameter("txtcode");*/
 		
 		HttpSession session = req.getSession(true);
-		String sessionCode = (String)session.getAttribute("code");
+		/*String sessionCode = (String)session.getAttribute("code");
 		
 		if(StringUtils.isNullOrEmpty(sessionCode)){
 			modelAndView.setViewName("admin/login");
@@ -43,7 +42,7 @@ public class AdminLoginController {
 			modelAndView.setViewName("admin/login");
 			modelAndView.addObject("message","验证码错误！");
 			return modelAndView;
-		}
+		}*/
 		
 		Admin admin = adminService.getAdminByUserName(username);
 		
@@ -61,9 +60,9 @@ public class AdminLoginController {
 				}else{
 					session.setAttribute("Admin", admin);
 					
-					modelAndView.setViewName("admin/SystemManage/index");
+					modelAndView.setViewName("admin/SystemManage/main");
 					
-					SystemInfo systemInfo = new SystemInfo();
+					/*SystemInfo systemInfo = new SystemInfo();
 					
 					systemInfo.setoS(System.getenv("OS"));
 					systemInfo.setServerName(System.getenv("COMPUTERNAME"));
@@ -83,7 +82,7 @@ public class AdminLoginController {
 					systemInfo.setServerPort(req.getServerPort()+"");
 					systemInfo.setServerTime(new Date(System.currentTimeMillis()).toString());
 					
-					session.setAttribute("systemInfo", systemInfo);
+					session.setAttribute("systemInfo", systemInfo);*/
 				}
 			}
 		}
