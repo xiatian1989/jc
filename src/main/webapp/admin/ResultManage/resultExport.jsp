@@ -29,11 +29,7 @@
 			pageList : [ 5, 10, 15 ],
 			url : '${pageContext.request.contextPath}/admin/resultListForExport?planId='+$("#planId").val(),
 
-			columns : [ [ {
-				title : '测评计划名称',
-				field : 'plantitle',
-				width : 80,
-			},{
+			columns : [ [{
 				title : '测评试卷名称',
 				field : 'papertitle',
 				width : 80,

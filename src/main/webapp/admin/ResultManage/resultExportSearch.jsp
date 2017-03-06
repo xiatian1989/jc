@@ -28,7 +28,8 @@
 	<script>
 		function search(){
 			var planId = $("#planId").val();
-			window.location.href="${pageContext.request.contextPath}/admin/ResultManage/resultExport.jsp?planId="+planId;
+			$("#result").show()
+			window.open("${pageContext.request.contextPath}/admin/ResultManage/resultExport.jsp?planId="+planId,"result");
 		}
 	</script>
 </head>
@@ -41,5 +42,6 @@
 		</select>
 		<input type="button" value="搜索" onclick="search()"> 
 	</div>
+	<iframe src="" id="result" name="result" scrolling="no" noresize="noresize" width="99%" height="auto" style="display: none"></iframe>
 </body>
 </html>
