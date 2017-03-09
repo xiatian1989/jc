@@ -45,7 +45,7 @@ public class PlanStatusForUserController {
 			if(!plan.getIsstart() || plan.getIsfinish()) {
 				continue;
 			}
-			if(new Date().after(plan.getEndviewtime())){
+			if(plan.getIssure() && new Date().after(plan.getEndviewtime())){
 				continue;
 			}
 			planTitle = plan.getPlantitle();

@@ -82,6 +82,7 @@ public class PaperTestController {
 		}
 		resultForTest.setStatus(true);
 		resultForTest.setCreatetime(new Date());
+		resultForTest.setIssure(false);
 		
 		count = resultService.addResult(resultForTest);
 		

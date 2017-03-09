@@ -68,10 +68,34 @@ public class UserLoginController {
 						}
 					}
 					modelAndView.addObject("planForRelations",planForRelations);
-					modelAndView.setViewName("client/main/index");
+					modelAndView.setViewName("client/main/main");
 				}
 			}
 		}
+		return modelAndView;
+	}
+	
+	@RequestMapping("/client/left")
+	public ModelAndView left(HttpServletRequest req){
+		
+		ModelAndView modelAndView = new ModelAndView();
+		Map<Plan,List<Relation>> planForRelations = new LinkedHashMap<Plan,List<Relation>>();
+		
+		HttpSession session = req.getSession(true);
+		
+		User user = (User)session.getAttribute("user");
+		List<Plan> plans = planService.getAllPlans();
+		for(Plan plan:plans) {
+			if(plan.getIsfinish()) {
+				continue;
+			}
+			List<Relation> relations = relationService.getRelationsByPlanIdAndUserNo("'"+plan.getId()+"'", "'"+user.getUserno()+"'");
+			if(!CollectionUtils.isEmpty(relations)) {
+				planForRelations.put(plan,relations);
+			}
+		}
+		modelAndView.addObject("planForRelations",planForRelations);
+		modelAndView.setViewName("client/main/left");
 		return modelAndView;
 	}
 	

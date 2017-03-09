@@ -1,171 +1,94 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="zh">
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>人事测评系统</title>
-<%-- 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css"> --%>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/htmleaf-demo.css">
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/normalize.css">
-	<style type="text/css">
-		/* .form-bg{
-		   background: #00b4ef;
-		} */
-		.form-horizontal{
-		    background: #fff;
-		    padding-bottom: 40px;
-		    border-radius: 15px;
-		    text-align: center;
-		}
-		.form-horizontal .heading{
-		    display: block;
-		    font-size: 35px;
-		    font-weight: 700;
-		    padding: 35px 0;
-		    border-bottom: 1px solid #f0f0f0;
-		    margin-bottom: 30px;
-		}
-		.form-horizontal .form-group{
-		    padding: 0 40px;
-		    margin: 0 0 25px 0;
-		    position: relative;
-		}
-		.form-horizontal .form-control{
-		    background: #f0f0f0;
-		    border: none;
-		    border-radius: 20px;
-		    box-shadow: none;
-		    padding: 0 20px 0 45px;
-		    height: 40px;
-		    transition: all 0.3s ease 0s;
-		}
-		.form-horizontal .form-control:focus{
-		    background: #e0e0e0;
-		    box-shadow: none;
-		    outline: 0 none;
-		}
-		.form-horizontal .form-group i{
-		    position: absolute;
-		    top: 12px;
-		    left: 60px;
-		    font-size: 17px;
-		    color: #c8c8c8;
-		    transition : all 0.5s ease 0s;
-		}
-		.form-horizontal .form-control:focus + i{
-		    color: #00b4ef;
-		}
-		.form-horizontal .fa-question-circle{
-		    display: inline-block;
-		    position: absolute;
-		    top: 12px;
-		    right: 60px;
-		    font-size: 20px;
-		    color: #808080;
-		    transition: all 0.5s ease 0s;
-		}
-		.form-horizontal .fa-question-circle:hover{
-		    color: #000;
-		}
-		.form-horizontal .main-checkbox{
-		    float: left;
-		    width: 20px;
-		    height: 20px;
-		    background: #11a3fc;
-		    border-radius: 50%;
-		    position: relative;
-		    margin: 5px 0 0 5px;
-		    border: 1px solid #11a3fc;
-		}
-		.form-horizontal .main-checkbox label{
-		    width: 20px;
-		    height: 20px;
-		    position: absolute;
-		    top: 0;
-		    left: 0;
-		    cursor: pointer;
-		}
-		.form-horizontal .main-checkbox label:after{
-		    content: "";
-		    width: 10px;
-		    height: 5px;
-		    position: absolute;
-		    top: 5px;
-		    left: 4px;
-		    border: 3px solid #fff;
-		    border-top: none;
-		    border-right: none;
-		    background: transparent;
-		    opacity: 0;
-		    -webkit-transform: rotate(-45deg);
-		    transform: rotate(-45deg);
-		}
-		.form-horizontal .text{
-		    float: left;
-		    margin-left: 7px;
-		    line-height: 20px;
-		    padding-top: 5px;
-		    text-transform: capitalize;
-		}
-		.form-horizontal .btn{
-		    float: right;
-		    font-size: 14px;
-		    color: #fff;
-		    background: #00b4ef;
-		    border-radius: 30px;
-		    padding: 10px 25px;
-		    border: none;
-		    text-transform: capitalize;
-		    transition: all 0.5s ease 0s;
-		}
-		@media only screen and (max-width: 479px){
-		    .form-horizontal .form-group{
-		        padding: 0 25px;
-		    }
-		    .form-horizontal .form-group i{
-		        left: 45px;
-		    }
-		    .form-horizontal .btn{
-		        padding: 10px 20px;
-		    }
-		}
-	</style>
-	<!--[if IE]>
-		<script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-	<![endif]-->
-</head>
-<body>
-	<div class="htmleaf-container">
-		<div class="demo form-bg" style="padding: 20px 0;">
-		        <div class="container">
-		            <div class="row">
-		                <div class="col-md-offset-3 col-md-6">
-		                    <form class="form-horizontal" action="${pageContext.request.contextPath}/client/userLogin" method="post">
-		                        <span class="heading">用户登录</span>
-		                        <div class="form-group">
-		                            <input type="text" class="form-control" id="username" name="username" placeholder="用户编号">
-		                            <i class="fa fa-user"></i>
-		                        </div>
-		                        <div class="form-group help">
-		                            <input type="password" class="form-control" id="password" name="password" placeholder="密　码">
-		                            <i class="fa fa-lock"></i>
-		                        </div>
-		                        <div class="form-group">
-		                            <input type="reset" class="btn btn-default" value="重置"></input>&nbsp;&nbsp;&nbsp;
-		                            <input type="submit" class="btn btn-default" value="登录"></input>
-		                        </div>
-		                    </form>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
-	</div>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>欢迎人事测评管理系统</title>
+<link href="${pageContext.request.contextPath}/css/style.css"
+	rel="stylesheet" type="text/css" />
+<script language="JavaScript"
+	src="${pageContext.request.contextPath}/js/jquery.js"></script>
+<script src="${pageContext.request.contextPath}/js/cloud.js"
+	type="text/javascript"></script>
+<style type="text/css">
+</style>
+<script type="text/javascript">
+/* 	function refreshCode(obj){
+		var day = new Date();
+		var t = day.getTime();
+		obj.src="${pageContext.request.contextPath}/admin/code?t="+t;
+	} */
 	
+	function submitBefore(){
+		var submitFlag = true;
+		
+	/* 	$("#RequiredFieldtxtName").hide();
+		$("#RequiredFieldtxtPwd").hide();
+		$("#RequiredFieldtxtCode").hide();
+		$("#message").html(""); */
+		
+		if($("#txtName").val() ==""){
+			submitFlag =  false;
+		}
+		if($("#txtPwd").val() ==""){
+			submitFlag =  false;
+		}
+		/* if($("#txtcode").val() =="") {
+			$("#RequiredFieldtxtCode").show();
+			submitFlag =  false;
+		} */
+		
+		return submitFlag;
+	}
+	
+	$(function(){
+	    $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
+		$(window).resize(function(){  
+	    $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
+	    })  
+	});  
+	
+</script>
+</head>
+<body
+	style="background-color:#1c77ac; background-image:url(${pageContext.request.contextPath}/images/light.png); background-repeat:no-repeat; background-position:center top; overflow:hidden;">
+
+
+
+	<div id="mainBody">
+		<div id="cloud1" class="cloud"></div>
+		<div id="cloud2" class="cloud"></div>
+	</div>
+
+
+<!-- 	<div class="logintop">
+		<span>欢迎登录人事测评管理平台</span>
+		<ul>
+			<li><a href="#">帮助</a></li>
+			<li><a href="#">关于</a></li>
+		</ul>
+	</div> -->
+
+	<div class="loginbody">
+
+		<span class="systemlogo"></span>
+
+		<div class="loginbox">
+			<form action="${pageContext.request.contextPath}/client/userLogin" method="post" id="form1" onsubmit="return submitBefore()">
+				<ul>
+					<li><input name="username" type="text" class="loginuser" value="admin" onclick="JavaScript:this.value=''" /></li>
+					<li><input name="password" type="password" class="loginpwd" value="password" onclick="JavaScript:this.value=''" /></li>
+					<li><input name="" type="submit" class="loginbtn" value="登录"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="" type="reset" class="loginbtn" value="重置"/></li>
+				</ul>
+			</form>
+		</div>
+	</div>
+	<div class="loginbm">
+		版权所有 2016 <a href="#">公司</a>
+	</div>
+
+
 </body>
 </html>

@@ -1,0 +1,143 @@
+*{margin: 0px;padding: 0px;}
+body{font-family: "helvetica neue",arial,sans-serif;font-size: 14px;color: #444;background-color: #E8EFF3;}
+.clear{clear: both;}
+
+.header{}
+.header .headname{width: 100%; padding-left:1%; font-size: 20px;font-weight: bold;text-align: left;background-color: #2982ba;color: #fff;line-height: 36px; clear:both}
+.headname{width: 100%;font-size: 22px;font-weight: bold;text-align: center;background-color: #2982ba;color: #fff;line-height: 35px; clear:both}
+.ment1{width: 32%;background-color: #f4b615;float: left;height: 96px;color: white;margin-top:1%;font-size: 20px;font-weight: bolder;}
+.ment2{width: 32%;background-color: #ff8a4a;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
+.ment3{width: 32%;background-color: #fc5265;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
+.ment4{width: 32%;background-color: #84d018;float: left;height: 96px;color: white;margin-top: 1%;font-size: 20px;font-weight: bolder;}
+.ment5{width: 32%;background-color: #14c761;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
+.ment6{width: 32%;background-color: #36aae7;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
+.ment7{width: 32%;background-color: #688ce2;float: left;height: 96px;color: white;margin-top: 1%;font-size: 20px;font-weight: bolder;}
+.ment8{width: 32%;background-color: #8d67e0;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
+.ment9{width: 32%;background-color: #6C57CA;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
+.ment10{width: 98%;background-color: #ff8a4a;float: left;height: 96px;color: white;margin: 1% auto 1% auto;padding:33px;font-size: 20px;font-weight: bolder;position: relative;text-align: center; white-space:nowrap;}
+
+.mentable{width:100%; height:96px; position:relative;text-align:center; margin-left:-width/2;margin-top:- height/2;}
+
+/*登录页面css*/
+.log{}
+.log .log-div{}
+.log .log-div .log-logo{width: 190px;height: 190px;margin: 40px auto;overflow: hidden;margin-bottom: 0px;;}
+.log .log-div .log-logo img{width: 100%;height: 100%;}
+.log .log-div .log-name{width: 86%;margin: 0px auto;margin-top: 10px;}
+.log .log-div .log-name input{width: 100%;height: 50px;border-radius: 4px;font-size: 20px;text-indent: 10px;line-height: 54px;border: 1px solid #e0e0e0;color: #333;}
+.log .log-div .log-pwd{width: 86%;margin: 0px auto;margin-top: 8px;}
+.log .log-div .log-pwd input{width: 100%;height: 50px;border: none;border-radius: 4px;font-size: 20px;text-indent: 10px;line-height: 54px;border: 1px solid #e0e0e0;color: #333;}
+.log .log-div .log-btn{width: 86%;margin: 0px auto;margin-top: 20px; text-align:center}
+.log .log-div .log-btn button{width: 100%;height: 44px;font-size: 18px;color: #fff;background-color: #2982ba;border: none;border-radius: 4px;}
+.log .log-div .log-forget{width: 86%;margin: 20px auto;text-align: right;}
+.log .log-div .log-forget a{font-size: 16px;color: #2982ba;text-decoration: none;}
+.log-help{font-size: 12px;color: #2982ba;}
+
+
+.page-head-div{width: 100%;height:71px;background-color: #2982ba;color: #fff;text-align: center;line-height: 71px;margin-bottom: 10px;}
+.page-head-div .page-head{}
+.page-head-div .page-head .page-head-left{width: 8%;float: left;text-align: center;color: #fff;}
+.page-head-div .page-head .page-head-right{width: 8%;float: right;text-align: center;color: #fff;}
+.page-head-div .page-head .page-head-title{width: 92%;display: inline-block;overflow: hidden;}
+
+
+
+.version{width: 100%; margin-top:1%; background-color: #cccccc;color: #fff;text-align: center;font-size: 12px;position: fixed;right: 0px;bottom: 0px; z-index: 0;}
+
+/*forget.css*/
+.forget{}
+.forget .forget-div{width: 86%;margin: 0px auto;margin-top: 30px;}
+.forget .forget-div .fgt-phone{width: 100%;position: relative;}
+.forget .forget-div .fgt-phone .fgt-phone-int{width: 100%;height: 50px;border-radius: 4px;font-size: 16px;text-indent: 10px;line-height: 54px;border: 1px solid #e0e0e0;color: #333;}
+.forget .forget-div .fgt-phone .regP1{display:none;position: absolute;top: 18px;right: 10px;}
+.forget .forget-div .fgt-phone .regP2{display:none;position: absolute;top: 18px;right: 10px;}
+.forget .forget-div .fgt-yzm{margin-top: 10px;}
+.forget .forget-div .fgt-yzm .fgt-yzm-int{width: 70%;height: 50px;border-radius: 4px;font-size: 16px;text-indent: 10px;line-height: 54px;border: 1px solid #e0e0e0;color: #333;}
+.forget .forget-div .fgt-yzm .fgt-get-yzm{width: 29%;display: inline-block;text-align: center;background-color: #2982ba;color: #fff;height: 49px;line-height: 49px;border-radius: 4px;margin-left: 1%;border: 0px;font-size: 12px;}
+.forget .forget-div .fgt-new{margin-top: 10px;}
+.forget .forget-div .fgt-new .fgt-new-int{width: 100%;height: 50px;border-radius: 4px;font-size: 16px;text-indent: 10px;line-height: 54px;border: 1px solid #e0e0e0;color: #333;}
+.forget .forget-div .fgt-help{font-size: 12px;color: #2982ba;}
+.forget .forget-div .fgt-btn{}
+.forget .forget-div .fgt-btn button{width: 100%;display: inline-block;text-align: center;background-color: #2982ba;color: #fff;height: 49px;line-height: 49px;border-radius: 4px;border: 0px;margin-top: 20px;}
+
+
+.menuson{display:none; margin-left:-20px}
+dd:first-child .menuson{display:block;}
+.menuson {line-height:30px; font-weight:normal; }
+.menuson li{cursor:pointer; list-style-type:none;}
+
+
+
+.test_con{background-color:#f6f6f6;padding:30px 0px 10px 0px; height:300px;}
+.item{background-color:#fff;padding:10px 10px;}
+.item .tit{font-size:16px;color:#363636;margin:10px 0px;}
+.item .tit span{font-size:18px;}
+.item_con{background-color:#fff;padding:10px 0px;}
+.item_con li{font-size:14px;border-bottom:1px solid #dddddd;padding:10px 10px 10px 10px;line-height:22px;}
+.item_con li span{font-size:14px;margin:0px 15px 0px 10px;font-weight:700;}
+.item_con .on{background-color:#a94442;color:#fff}
+.item_con .bn{border-bottom:none;}
+.item_con .rad{width:15px;height:20px;vertical-align:middle;}
+.item_con label{font-size:14px;}
+
+
+.btn-style-01{
+	margin-top:1%;
+    border-style:none;
+    padding:8px 30px;
+    line-height:24px;
+    color:#fff;
+    font:16px "Microsoft YaHei", Verdana, Geneva, sans-serif;
+    cursor:pointer;
+    border:1px #2982ba solid;
+    -webkit-box-shadow:inset 0px 0px 1px #fff;
+    -moz-box-shadow:inset 0px 0px 1px #fff;
+    box-shadow:inset 0px 0px 1px #fff;/*内发光效果*/
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;/*边框圆角*/
+    text-shadow:1px 1px 0px #b67f01;/*字体阴影效果*/
+    background-color:#2982ba;
+
+}
+.chat-div-my {width: 100%; text-align:center;}
+
+
+
+
+
+
+
+
+
+
+
+/*适配大小屏手机显示*/
+/*6   6s*/
+@media(max-width: 375px) {
+.log .log-div .log-logo{width: 160px;height: 160px;margin-top: 35px;}
+.log .log-div .log-name input{height: 45px;line-height: 45px;font-size: 18px;}
+.log .log-div .log-pwd input{height: 45px;line-height: 45px;font-size: 18px;}
+.tags-div .tags-text .tags-money span.monN{font-size: 18px;}
+.data-style .data-img img{width: 90px;height: 90px;}
+.data-style .gwc-btn{top: 55px;}
+.chat-msg .chat-div-my .chat-msg-msg{width: 100%; text-align:center;}
+}
+/*5   5s*/
+@media(max-width: 320px) {
+.log .log-div .log-logo{width: 150px;height: 150px;margin-top: 30px;}
+.log .log-div .log-name input{height: 40px;line-height: 40px;font-size: 16px;}
+.log .log-div .log-pwd input{height: 40px;line-height: 40px;font-size: 16px;}
+.tags-div .tags-text .tags-money span.monN{font-size: 14px;}
+.data-style .data-img img{width: 76px;height: 76px;}
+.data-style .gwc-btn{width: 60px;top: 42px;right: 15px;}
+.chat-msg .chat-div-my .chat-msg-msg{width: 100%; text-align:center;}
+}
+
+
+
+
+
+
+
+

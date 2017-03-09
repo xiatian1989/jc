@@ -143,6 +143,7 @@ public class PlanManageController {
 		plan.setCreatetime(new Date(System.currentTimeMillis()));
 		plan.setIsfinish(false);
 		plan.setIsstart(false);
+		plan.setIssure(false);
 		count = planService.addPlan(plan);
 		
 		if(count>0){
@@ -178,10 +179,12 @@ public class PlanManageController {
 		StringBuffer relationIds = new StringBuffer();
 		for(Relation relation:relations) {
 			relationIds.append(",");
+			relationIds.append("'");
 			relationIds.append(relation.getId());
+			relationIds.append("'");
 		}
 		if(relationIds.length()>0){
-			List<Result> results = resultService.getResultsByRelationIds(relationIds.substring(1));
+			List<Result> results = resultService.getResultsByRelationIds("("+relationIds.substring(1)+")");
 			for(Result tempResult:results) {
 				tempResult.setIssure(true);
 				resultService.updateResult(tempResult);

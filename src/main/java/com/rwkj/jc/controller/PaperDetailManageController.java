@@ -66,7 +66,7 @@ public class PaperDetailManageController {
 		modelAndView.addObject("paperDetails",paperDetails);
 		modelAndView.addObject("relationId",relationId);
 		modelAndView.addObject("type",type);
-		modelAndView.setViewName("client/main/paperTest");
+		modelAndView.setViewName("client/main/question");
 		return modelAndView;
 	}
 	@RequestMapping("/admin/paperDetailList")
