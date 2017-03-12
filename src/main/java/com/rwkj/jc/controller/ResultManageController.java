@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import jxl.write.WritableWorkbook;
 
@@ -545,13 +546,17 @@ public class ResultManageController {
 	@RequestMapping("/client/resultSearchForSingle")
 	public ModelAndView resultSearchForSingle(HttpServletRequest request) throws UnsupportedEncodingException{
 		ModelAndView modelAndView = new ModelAndView();
-		String userno = request.getParameter("userno");
+		
+		HttpSession session = request.getSession(true);
+		User user = (User)session.getAttribute("user");
+		String userno = user.getUserno();
+		String id = request.getParameter("id");
 		List<Relation> relations = new ArrayList<Relation>();
 		List<Result> results = new ArrayList<Result>();
 		List<Result> tempResults = null;
 		List<Relation> tempRelations = null;
 		if(!StringUtils.isEmpty(userno)) {
-			tempRelations = relationService.getRelationsByBeTestedUserNo("'"+userno+"'");
+			tempRelations = relationService.getRelationsByBeTestedUserNoAndPlanId("'"+userno+"'","'"+id+"'");
 			relations.addAll(tempRelations);
 			modelAndView.addObject("userno", userno);
 		}

@@ -235,6 +235,11 @@
     <include refid="Base_Column_List" />
     from jc_relation where beTestedPerson = ${userNo} and status = 1 order by createTime
   </select>
+  <select id="getRelationsByBeTestedUserNoAndPlanId" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from jc_relation where beTestedPerson = ${userNo} and plan_id = ${planId}  and status = 1 order by createTime
+  </select>
   <select id="getRelationsByBeTestedUserNos" resultMap="BaseResultMap">
    select 
     <include refid="Base_Column_List" />

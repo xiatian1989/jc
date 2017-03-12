@@ -36,7 +36,6 @@ public class UserLoginController {
 	public ModelAndView userLogin(HttpServletRequest req){
 		
 		ModelAndView modelAndView = new ModelAndView();
-		Map<Plan,List<Relation>> planForRelations = new LinkedHashMap<Plan,List<Relation>>();
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 		
@@ -57,17 +56,6 @@ public class UserLoginController {
 					modelAndView.addObject("message","用户处于禁用状态！");
 				}else{
 					session.setAttribute("user", user);
-					List<Plan> plans = planService.getAllPlans();
-					for(Plan plan:plans) {
-						if(plan.getIsfinish()) {
-							continue;
-						}
-						List<Relation> relations = relationService.getRelationsByPlanIdAndUserNo("'"+plan.getId()+"'", "'"+user.getUserno()+"'");
-						if(!CollectionUtils.isEmpty(relations)) {
-							planForRelations.put(plan,relations);
-						}
-					}
-					modelAndView.addObject("planForRelations",planForRelations);
 					modelAndView.setViewName("client/main/main");
 				}
 			}
@@ -86,9 +74,6 @@ public class UserLoginController {
 		User user = (User)session.getAttribute("user");
 		List<Plan> plans = planService.getAllPlans();
 		for(Plan plan:plans) {
-			if(plan.getIsfinish()) {
-				continue;
-			}
 			List<Relation> relations = relationService.getRelationsByPlanIdAndUserNo("'"+plan.getId()+"'", "'"+user.getUserno()+"'");
 			if(!CollectionUtils.isEmpty(relations)) {
 				planForRelations.put(plan,relations);

@@ -49,6 +49,8 @@ public interface RelationMapper {
     
     List<Relation> getRelationsByBeTestedUserNo(@Param("userNo") String userNo);
     
+    List<Relation> getRelationsByBeTestedUserNoAndPlanId(@Param("userNo") String userNo,@Param("planId") String planId);
+    
     List<Relation> getRelationsByBeTestedUserNos(@Param("userNos") String userNos);
     
     List<Relation> getRelationsByBeTestedDepartNo(@Param("departNo") String departNo);

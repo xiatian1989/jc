@@ -22,6 +22,7 @@ public interface RelationService {
     List<Relation> getRelationsByUserNo(String userNo);
     List<Relation> getRelationsByUserNos(String userNos);
     List<Relation> getRelationsByBeTestedUserNo(String userNo);
+    List<Relation> getRelationsByBeTestedUserNoAndPlanId(String userNo,String planId);
     List<Relation> getRelationsByBeTestedUserNos(String userNos);
     List<Relation> getRelationsByBeTestedDepartNo(String departNo);
     Relation getRelationById(String id);

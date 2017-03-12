@@ -20,6 +20,20 @@
 		var t = day.getTime();
 		obj.src="${pageContext.request.contextPath}/admin/code?t="+t;
 	} */
+	function IsPC() {
+	    var userAgentInfo = navigator.userAgent;
+	    var Agents = ["Android", "iPhone",
+	                "SymbianOS", "Windows Phone",
+	                "iPad", "iPod"];
+	    var flag = true;
+	    for (var v = 0; v < Agents.length; v++) {
+	        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+	            flag = false;
+	            break;
+	        }
+	    }
+	    return flag;
+	}
 	
 	function submitBefore(){
 		var submitFlag = true;
@@ -29,10 +43,10 @@
 		$("#RequiredFieldtxtCode").hide();
 		$("#message").html(""); */
 		
-		if($("#txtName").val() ==""){
+		if($("#username").val() ==""){
 			submitFlag =  false;
 		}
-		if($("#txtPwd").val() ==""){
+		if($("#password").val() ==""){
 			submitFlag =  false;
 		}
 		/* if($("#txtcode").val() =="") {
@@ -44,6 +58,9 @@
 	}
 	
 	$(function(){
+		if(!IsPC()){
+			window.location.href="${pageContext.request.contextPath}/client/loginForPhone.jsp"
+		}
 	    $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
 		$(window).resize(function(){  
 	    $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
@@ -78,8 +95,8 @@
 		<div class="loginbox">
 			<form action="${pageContext.request.contextPath}/client/userLogin" method="post" id="form1" onsubmit="return submitBefore()">
 				<ul>
-					<li><input name="username" type="text" class="loginuser" value="admin" onclick="JavaScript:this.value=''" /></li>
-					<li><input name="password" type="password" class="loginpwd" value="password" onclick="JavaScript:this.value=''" /></li>
+					<li><input name="username"  id="username" type="text" class="loginuser" value="admin" onclick="JavaScript:this.value=''" /></li>
+					<li><input name="password" id="password" type="password" class="loginpwd" value="password" onclick="JavaScript:this.value=''" /></li>
 					<li><input name="" type="submit" class="loginbtn" value="登录"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="" type="reset" class="loginbtn" value="重置"/></li>
 				</ul>
 			</form>

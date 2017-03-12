@@ -55,7 +55,7 @@
 				</div>
 			</c:when>
 			<c:otherwise>
-				<div>系统没有您的测评结果</div>
+				<div>系统没有您的被测评结果</div>
 			</c:otherwise>
 		</c:choose>
 	</div>

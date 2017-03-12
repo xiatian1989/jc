@@ -84,6 +84,9 @@ public class RelationServiceImpl implements RelationService {
 	public List<Relation> getRelationsByBeTestedUserNo(String userNo) {
 		return relationDao.getRelationsByBeTestedUserNo(userNo);
 	}
+	public List<Relation> getRelationsByBeTestedUserNoAndPlanId(String userNo,String planId) {
+		return relationDao.getRelationsByBeTestedUserNoAndPlanId(userNo, planId);
+	}
 
 	public List<Relation> getRelationsByBeTestedDepartNo(String departNo) {
 		return relationDao.getRelationsByBeTestedDepartNo(departNo);
@@ -96,4 +99,5 @@ public class RelationServiceImpl implements RelationService {
 	public List<Relation> getRelationsByBeTestedUserNos(String userNos) {
 		return relationDao.getRelationsByBeTestedUserNos(userNos);
 	}
+
 }

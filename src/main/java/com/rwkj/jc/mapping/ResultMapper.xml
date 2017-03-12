@@ -147,7 +147,7 @@
    <select id="getResultsCount" resultType="java.lang.Integer">
     select 
     count(*)
-    from jc_result and isSure = 0
+    from jc_result where isSure = 0
   </select> 
    <select id="getResultsByRegion" resultMap="BaseResultMap">
    select 

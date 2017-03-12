@@ -25,7 +25,9 @@ public class UserFilter implements Filter {
         
         if (servletPath.equals("/client/login.jsp") || servletPath.endsWith("client/login.jsp")
         		|| servletPath.endsWith("/client/userLogin") || servletPath.endsWith("/client/userLogin")
-        		|| servletPath.endsWith("/client/userLoginByWebChat") || servletPath.endsWith("/client/userLoginByWebChat")) {
+        		|| servletPath.endsWith("/client/userLoginByWebChat") || servletPath.endsWith("/client/userLoginByWebChat")
+        		|| servletPath.equals("/client/loginForPhone.jsp") || servletPath.endsWith("client/loginForPhone.jsp")
+        		|| servletPath.equals("/client/forget.jsp") || servletPath.endsWith("client/forget.jsp")) {
             chain.doFilter(req, res);
             return;
         }
