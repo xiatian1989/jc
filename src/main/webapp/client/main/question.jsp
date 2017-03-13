@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>人事测评系统</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/amazeui.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/index.css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
@@ -49,14 +49,32 @@
 				async : false, //默认为true 异步   
 				success : function(msg) {
 					if (msg.result == "success") {
-						alert('成功',"提交成功！");
-						parent.document.location.reload();
+						alert("提交成功！");
+						if(IsPC()) {
+							parent.document.location.reload();
+						}else{
+							window.open("${pageContext.request.contextPath}/client/left","_self");
+						}
 					} else {
-						alert('成功',"提交失败！");
+						alert("提交失败！");
 					}
 				}
 			});
 		}
+	}
+	function IsPC() {
+	    var userAgentInfo = navigator.userAgent;
+	    var Agents = ["Android", "iPhone",
+	                "SymbianOS", "Windows Phone",
+	                "iPad", "iPod"];
+	    var flag = true;
+	    for (var v = 0; v < Agents.length; v++) {
+	        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+	            flag = false;
+	            break;
+	        }
+	    }
+	    return flag;
 	}
 </script>
 </head>

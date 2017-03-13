@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>学费管理系统</title>
+	<title>人事测评系统</title>
 	<meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/easyui/themes/icon.css">
@@ -14,7 +14,30 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/easyui/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/easyui/locale/easyui-lang-zh_CN.js"></script>
-	<style>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/amazeui.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/index.css" />
+<script type="text/javascript">
+	function IsPC() {
+	    var userAgentInfo = navigator.userAgent;
+	    var Agents = ["Android", "iPhone",
+	                "SymbianOS", "Windows Phone",
+	                "iPad", "iPod"];
+	    var flag = true;
+	    for (var v = 0; v < Agents.length; v++) {
+	        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+	            flag = false;
+	            break;
+	        }
+	    }
+	    return flag;
+	}
+	$(function(){
+		if(!IsPC()) {
+			$("#bottom").html('<div class="chat-msg"><div class="chat-div-my"><input type="submit" class="btn-style-01" value="返回" onclick="javascript:history.go(-1)"/></div></div>');
+		}
+	});
+</script>
+<style>
 	html, body {
 		margin: 0;
 		padding: 0
@@ -59,5 +82,6 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
+	<div id="bottom"></div>
 </body>
 </html>

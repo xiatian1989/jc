@@ -20,6 +20,7 @@ import com.rwkj.jc.domain.User;
 import com.rwkj.jc.service.PlanService;
 import com.rwkj.jc.service.RelationService;
 import com.rwkj.jc.service.UserService;
+import com.rwkj.jc.util.CheckIsPhone;
 import com.rwkj.jc.util.CommonUtils;
 
 @Controller
@@ -56,7 +57,21 @@ public class UserLoginController {
 					modelAndView.addObject("message","用户处于禁用状态！");
 				}else{
 					session.setAttribute("user", user);
-					modelAndView.setViewName("client/main/main");
+					String userAgent = req.getHeader("user-agent");
+					if(CheckIsPhone.check(userAgent)) {
+						Map<Plan,List<Relation>> planForRelations = new LinkedHashMap<Plan,List<Relation>>();
+						List<Plan> plans = planService.getAllPlans();
+						for(Plan plan:plans) {
+							List<Relation> relations = relationService.getRelationsByPlanIdAndUserNo("'"+plan.getId()+"'", "'"+user.getUserno()+"'");
+							if(!CollectionUtils.isEmpty(relations)) {
+								planForRelations.put(plan,relations);
+							}
+						}
+						modelAndView.addObject("planForRelations",planForRelations);
+						modelAndView.setViewName("client/main/indexm");
+					}else{
+						modelAndView.setViewName("client/main/main");
+					}
 				}
 			}
 		}
@@ -80,7 +95,12 @@ public class UserLoginController {
 			}
 		}
 		modelAndView.addObject("planForRelations",planForRelations);
-		modelAndView.setViewName("client/main/left");
+		String userAgent = req.getHeader("user-agent");
+		if(CheckIsPhone.check(userAgent)) {
+			modelAndView.setViewName("client/main/indexm");
+		}else{
+			modelAndView.setViewName("client/main/left");
+		}
 		return modelAndView;
 	}
 	
