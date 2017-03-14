@@ -5,6 +5,7 @@
 <html>
 <head>
 <title>人事测评系统</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/> 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/amazeui.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/index.css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
