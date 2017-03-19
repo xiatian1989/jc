@@ -143,68 +143,84 @@
 			frozenColumns : [ [ {
 				field : 'ck',
 				checkbox : true,
-				width : '30'
+				width : 30,
+				align:'center',
 			}, {
 				title : '题号',
 				field : 'questionno',
 				width : 30,
+				align:'center',
 			}, {
 				title : '题目',
 				field : 'question',
 				width : 260,
+				align:'center',
 			}] ],
 			columns : [ [{
 				title : '选项A',
 				field : 'optiona',
 				width : 120,
+				align:'center',
 			}, {
 				title : '分数',
 				field : 'optionascore',
 				width : 30,
+				align:'center',
 			}, {
 				title : '选项B',
 				field : 'optionb',
 				width : 120,
+				align:'center',
 			}, {
 				title : '分数',
 				field : 'optionbscore',
 				width : 30,
+				align:'center',
 			}, {
 				title : '选项C',
 				field : 'optionc',
 				width : 120,
+				align:'center',
 			}, {
 				title : '分数',
 				field : 'optioncscore',
 				width : 30,
+				align:'center',
 			}, {
 				title : '选项D',
 				field : 'optiond',
 				width : 120,
+				align:'center',
 			}, {
 				title : '分数',
 				field : 'optiondscore',
 				width : 30,
+				align:'center',
 			}, {
 				title : '选项E',
 				field : 'optione',
 				width : 100,
+				align:'center',
 			}, {
 				title : '分数',
 				field : 'optionescore',
 				width : 30,
+				align:'center',
 			}, {
 				title : '选项F',
 				field : 'optionf',
 				width : 120,
+				align:'center',
 			}, {
 				title : '分数',
 				field : 'optionfscore',
 				width : 30,
+				align:'center',
 			}, {
 				title : '是否添加建议项',
 				field : 'issuggest',
 				width : 90,
+				align:'center',
 				formatter : function(value, row, index) {
 					if (value) {
 						return '是';
@@ -213,6 +229,7 @@
 					}
 				}
 			}   ] ],
+			fitColumns : true,
 			pagination : true,
 			toolbar : '#toolbar',
 			onLoadSuccess : function() {

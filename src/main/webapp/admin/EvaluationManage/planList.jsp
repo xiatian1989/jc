@@ -30,18 +30,22 @@
 				title : '计划名',
 				field : 'plantitle',
 				width : 100,
+				align:'center',
 			},{
 				title : '开始时间',
 				field : 'begintime',
 				width : 100,
+				align:'center',
 			},{
 				title : '结束时间',
 				field : 'endtime',
 				width : 100,
+				align:'center',
 			}, {
 				title : '是否开始',
 				field : 'isstart',
 				width : 100,
+				align:'center',
 				formatter: function(value,row,index){
 					if(value) {
 						return '已开始';
@@ -53,6 +57,7 @@
 				title : '是否完成',
 				field : 'isfinish',
 				width : 100,
+				align:'center',
 				formatter: function(value,row,index){
 					if(value) {
 						return '完成';
@@ -64,6 +69,7 @@
 				title : '创建时间',
 				field : 'createtime',
 				width : 100,
+				align:'center',
 			}] ],
 			fitColumns:true,
 			pagination:true,

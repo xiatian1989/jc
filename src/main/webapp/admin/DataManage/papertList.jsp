@@ -151,19 +151,23 @@
 			columns : [ [ {
 				field : 'ck',
 				checkbox : true,
-				width : '30'
+				width : 30,
+				align:'center',
 			}, {
 				title : '试卷标题',
 				field : 'papertitle',
 				width : 80,
+				align:'center',
 			}, {
 				title : '创建时间',
 				field : 'createtime',
 				width : 90,
+				align:'center',
 			}, {
 				title : '类型',
 				field : 'type',
 				width : 40,
+				align:'center',
 				formatter : function(value, row, index) {
 					if (value) {
 						return '人事考核';
@@ -175,6 +179,7 @@
 				title : '状态',
 				field : 'status',
 				width : 30,
+				align:'center',
 				formatter : function(value, row, index) {
 					if (value) {
 						return '启用';
@@ -186,8 +191,9 @@
 				title : '操作',
 				field : 'id',
 				width : 90,
+				align:'center',
 				formatter : function(value, row, index) {
-					return '<a href="javaScript:void(0)" onClick="openView('+"'"+value+"'"+')">预览试卷</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/admin/DataManage/paperDetailList.jsp?value='+value+'" target="mainContent">编辑试卷详情</a>';
+					return '<a href="javaScript:void(0)" onClick="openView('+"'"+value+"'"+')">预览试卷</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/admin/DataManage/paperDetailList.jsp?value='+value+'" target="rightFrame">编辑试卷详情</a>';
 				}
 			} ] ],
 			fitColumns : true,
@@ -297,6 +303,20 @@
 <style type="text/css">
 	body{
 		padding:0px;
+	}
+	a {
+		cursor: pointer;
+		text-decoration: none;
+		hide-focus: expression(this.hideFocus = true);
+		outline: none;
+	}
+	
+	a:link, a:visited, a:hover, a:active {
+		text-decoration: none;
+	}
+	
+	a:focus {
+		outline: 0;
 	}
 </style>
 </head>

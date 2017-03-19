@@ -28,24 +28,29 @@
 			columns: [ [ {
 				field : 'ck',
 				checkbox : true,
-				width : '30'
+				width : 30,
+				align:'center',
 			}, 	
 			{
 				title : '计划名',
 				field : 'plantitle',
 				width : 100,
+				align:'center',
 			},{
 				title : '被测评对象',
 				field : 'betestedobject',
 				width : 60,
+				align:'center',
 			},{
 				title : '测评人',
 				field : 'testperson',
 				width : 60,
+				align:'center',
 			}, {
 				title : '答题比例',
 				field : 'answerproportion',
 				width : 60,
+				align:'center',
 				formatter : function(value, row, index) {
 					return value+"%";
 				}
@@ -54,10 +59,12 @@
 				title : '创建时间',
 				field : 'createtime',
 				width : 100,
+				align:'center',
 			},{
 				title : '状态',
 				field : 'status',
 				width : 30,
+				align:'center',
 				formatter : function(value, row, index) {
 					if (value) {
 						return '有效';
@@ -69,6 +76,7 @@
 				title : '查看详情',
 				field : 'id',
 				width : 60,
+				align:'center',
 				formatter : function(value, row, index) {
 					return '<a href="javaScript:void(0)" onClick="openPaperForTest('+"'"+value+"'"+')">测评详情</a>';
 				}

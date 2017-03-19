@@ -29,10 +29,10 @@
 		rownumbers="true" striped="true" pagination="true" fitColumns="true">
 		<thead>
 			<tr>
-				<th field="papertitle" width="60">试卷标题</th>
-				<th field="createtime" width="100">创建时间</th>
-				<th field="type" width="40">类型</th>
-				<th field="id" width="90">操作</th>
+				<th field="papertitle" width="60" align="center">试卷标题</th>
+				<th field="createtime" width="100" align="center">创建时间</th>
+				<th field="type" width="40" align="center">类型</th>
+				<th field="id" width="90" align="center">操作</th>
 			</tr>
 		</thead>
 			<tbody>

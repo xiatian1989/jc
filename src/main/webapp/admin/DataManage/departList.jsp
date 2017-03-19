@@ -256,6 +256,9 @@
 	}
 </script>
 <style type="text/css">
+	body{
+		padding:0;
+	}
 </style>
 </head>
 <body>

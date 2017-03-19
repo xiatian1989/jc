@@ -212,27 +212,33 @@
 			columns : [ [ {
 				field : 'ck',
 				checkbox : true,
-				width : '30'
+				width : 30,
+				align:'center',
 			}, {
 				title : '部门名称',
 				field : 'departName',
 				width : 80,
+				align:'center',
 			}, {
 				title : '姓名',
 				field : 'truename',
 				width : 60,
+				align:'center',
 			}, {
 				title : '用户编号',
 				field : 'userno',
 				width : 60,
+				align:'center',
 			}, {
 				title : '上级领导',
 				field : 'leaderName',
 				width : 60,
+				align:'center',
 			}, {
 				title : '性别',
 				field : 'sex',
 				width : 30,
+				align:'center',
 				formatter : function(value, row, index) {
 					if (value) {
 						return '女';
@@ -244,18 +250,22 @@
 				title : '手机号码',
 				field : 'phone',
 				width : 80,
+				align:'center',
 			}, {
 				title : '微信号',
 				field : 'webchat',
 				width : 80,
+				align:'center',
 			}, {
 				title : '创建时间',
 				field : 'createtime',
 				width : 100,
+				align:'center',
 			}, {
 				title : '状态',
 				field : 'status',
 				width : 50,
+				align:'center',
 				formatter : function(value, row, index) {
 					if (value) {
 						return '启用';

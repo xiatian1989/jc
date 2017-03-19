@@ -213,6 +213,7 @@
 					}
 				}
 			}  ] ],
+			fitColumns : true,
 			pagination : true,
 			toolbar : '#toolbar',
 			onLoadSuccess : function() {

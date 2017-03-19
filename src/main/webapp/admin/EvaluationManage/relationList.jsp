@@ -28,24 +28,29 @@
 			columns: [ [ {
 				field : 'ck',
 				checkbox : true,
-				width : '30'
+				width : 30,
+				align:'center',
 			}, 	
 			{
 				title : '计划名',
 				field : 'plantitle',
 				width : 100,
+				align:'center',
 			},{
 				title : '被测评对象',
 				field : 'betestedobject',
 				width : 60,
+				align:'center',
 			},{
 				title : '测评人',
 				field : 'testperson',
 				width : 60,
+				align:'center',
 			}, {
 				title : '被测评是否是人',
 				field : 'isperson',
 				width : 60,
+				align:'center',
 				formatter : function(value, row, index) {
 					if (value) {
 						return '是';
@@ -58,6 +63,7 @@
 				title : '是否完成',
 				field : 'isfinish',
 				width : 60,
+				align:'center',
 				formatter : function(value, row, index) {
 					if (value) {
 						return '是';
@@ -69,6 +75,7 @@
 				title : '是否支持短信考试',
 				field : 'issupportsms',
 				width : 80,
+				align:'center',
 				formatter : function(value, row, index) {
 					if (value) {
 						return '是';
@@ -76,6 +83,7 @@
 						return '否';
 					}
 				}
+			
 			},{
 				title : '创建时间',
 				field : 'createtime',
@@ -95,6 +103,7 @@
 				title : '规则',
 				field : 'ruleId',
 				width : 60,
+				align:'center',
 				formatter : function(value, row, index) {
 					return '<a href="javaScript:void(0)" onClick="openRule('+"'"+value+"'"+')">查看规则</a>';
 				}
@@ -103,6 +112,7 @@
 				title : '试卷',
 				field : 'paperId',
 				width : 60,
+				align:'center',
 				formatter : function(value, row, index) {
 					return '<a href="javaScript:void(0)" onClick="openPaperForRelation('+"'"+value+"'"+')">预览试卷</a>';
 				}
@@ -435,6 +445,20 @@
 <style type="text/css">
 	#win,body{
 		padding:0px;
+	}
+	a {
+		cursor: pointer;
+		text-decoration: none;
+		hide-focus: expression(this.hideFocus = true);
+		outline: none;
+	}
+	
+	a:link, a:visited, a:hover, a:active {
+		text-decoration: none;
+	}
+	
+	a:focus {
+		outline: 0;
 	}
 </style>
 </head>

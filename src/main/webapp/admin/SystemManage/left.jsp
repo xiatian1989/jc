@@ -64,8 +64,8 @@ $(function(){
     	<ul class="menuson">
           <li class="active"><cite></cite><a href="${pageContext.request.contextPath}/admin/EvaluationManage/planList.jsp" target="rightFrame">测评计划管理</a><i></i></li>
           <li class="active"><cite></cite><a href="${pageContext.request.contextPath}/admin/EvaluationManage/relationList.jsp" target="rightFrame">测评关系管理</a><i></i></li>
-          <li class="active"><cite></cite><a href="${pageContext.request.contextPath}/admin/EvaluationManage/planListForTestType.jsp" target="rightFrame">测评方式管理</a><i></i></li>
-          <li class="active"><cite></cite><a href="${pageContext.request.contextPath}/admin/EvaluationManage/smsList.jsp" target="rightFrame">测评短信管理</a><i></i></li>
+        <%--   <li class="active"><cite></cite><a href="${pageContext.request.contextPath}/admin/EvaluationManage/planListForTestType.jsp" target="rightFrame">测评方式管理</a><i></i></li>
+          <li class="active"><cite></cite><a href="${pageContext.request.contextPath}/admin/EvaluationManage/smsList.jsp" target="rightFrame">测评短信管理</a><i></i></li> --%>
         </ul>    
     </dd> 
     

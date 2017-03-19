@@ -26,13 +26,13 @@
 		rownumbers="true" striped="true" pagination="true" fitColumns="true">
 		<thead>
 			<tr>
-				<th field="plantitle" width="100">计划名</th>
-				<th field="begintime" width="100">开始时间</th>
-				<th field="endtime" width="100">结束时间</th>
-				<th field="isstart" width="60">是否开始</th>
-				<th field="isfinish" width="60">是否完成</th>
-				<th field="createtime" width="100">创建时间</th>
-				<th field="id" width="60">操作</th>
+				<th field="plantitle" width="100" align="center">计划名</th>
+				<th field="begintime" width="100" align="center">开始时间</th>
+				<th field="endtime" width="100" align="center">结束时间</th>
+				<th field="isstart" width="60" align="center">是否开始</th>
+				<th field="isfinish" width="60" align="center">是否完成</th>
+				<th field="createtime" width="100" align="center">创建时间</th>
+				<th field="id" width="60" align="center">操作</th>
 			</tr>
 		</thead>
 			<tbody>
