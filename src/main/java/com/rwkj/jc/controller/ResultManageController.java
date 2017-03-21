@@ -826,10 +826,11 @@ public class ResultManageController {
 					allCount++;
 					if(tempRelation.getStatus()){
 						enableCount++;
+						if(!tempRelation.getIsfinish()){
+							notUseCount++;
+						}
 					}
-					if(tempRelation.getIsfinish()){
-						notUseCount++;
-					}
+					
 					isPerson= tempRelation.getIsperson();
 					if(isPerson){
 						name = tempRelation.getBeTestedUser().getTruename();
@@ -839,7 +840,7 @@ public class ResultManageController {
 						no = tempRelation.getBetesteddepart();
 					}
 				}
-				planStatusBean.setPerson(isPerson);
+				planStatusBean.setIsPerson(isPerson);
 				planStatusBean.setBetestedObejct(name);
 				planStatusBean.setBetestedObejctNo(no);
 				planStatusBean.setTotalRelation(allCount);
@@ -852,6 +853,31 @@ public class ResultManageController {
 		
 		modelAndView.addObject("map", planForPlanStatusBeans);
 		modelAndView.setViewName("admin/ResultManage/planStatus");
+		return modelAndView;
+	}
+	
+	@RequestMapping("/admin/viewNofinish")
+	public ModelAndView viewNofinish(HttpServletRequest request){
+		ModelAndView modelAndView = new ModelAndView();
+		String type = request.getParameter("type");
+		String no = request.getParameter("no");
+		String planId = request.getParameter("planId");
+		List<Relation> relations = null;
+		if("0".equals(type)) {
+			relations = relationService.getRelationsByBeTestedUserNoAndPlanId(no, "'"+planId+"'");
+		}else{
+			relations = relationService.getRelationsByBeTestedDepartNoAndPlanId(no, "'"+planId+"'");
+		}
+		Iterator<Relation> iterator = relations.iterator();
+		while(iterator.hasNext()){
+			Relation relation = iterator.next();
+			if(!relation.getStatus() || relation.getIsfinish()){
+				iterator.remove();
+			}
+		}
+		
+		modelAndView.addObject("relations", relations);
+		modelAndView.setViewName("admin/ResultManage/relationListForNoFinish");
 		return modelAndView;
 	}
 	

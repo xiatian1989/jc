@@ -71,7 +71,8 @@
 						return '否';
 					}
 				}
-			},{
+			}
+/* 			,{
 				title : '是否支持短信考试',
 				field : 'issupportsms',
 				width : 80,
@@ -84,7 +85,8 @@
 					}
 				}
 			
-			},{
+			} */
+			,{
 				title : '创建时间',
 				field : 'createtime',
 				width : 100,

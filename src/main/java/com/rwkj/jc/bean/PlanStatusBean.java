@@ -9,10 +9,10 @@ public class PlanStatusBean {
 	private long validateRelation;
 	private long noFinishRelation;
 	
-	public boolean isPerson() {
+	public boolean getIsPerson() {
 		return isPerson;
 	}
-	public void setPerson(boolean isPerson) {
+	public void setIsPerson(boolean isPerson) {
 		this.isPerson = isPerson;
 	}
 	public String getBetestedObejct() {
@@ -20,6 +20,12 @@ public class PlanStatusBean {
 	}
 	public void setBetestedObejct(String betestedObejct) {
 		this.betestedObejct = betestedObejct;
+	}
+	public String getBetestedObejctNo() {
+		return betestedObejctNo;
+	}
+	public void setBetestedObejctNo(String betestedObejctNo) {
+		this.betestedObejctNo = betestedObejctNo;
 	}
 	public long getTotalRelation() {
 		return totalRelation;
@@ -39,10 +45,7 @@ public class PlanStatusBean {
 	public void setNoFinishRelation(long noFinishRelation) {
 		this.noFinishRelation = noFinishRelation;
 	}
-	public String getBetestedObejctNo() {
-		return betestedObejctNo;
-	}
-	public void setBetestedObejctNo(String betestedObejctNo) {
-		this.betestedObejctNo = betestedObejctNo;
-	}
+	
+	
+	
 }

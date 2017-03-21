@@ -250,6 +250,11 @@
     <include refid="Base_Column_List" />
     from jc_relation where beTestedDepart = ${departNo} and status = 1 order by createTime
   </select>
+  <select id="getRelationsByBeTestedDepartNoAndPlanId" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from jc_relation where beTestedDepart = ${departNo} and status = 1 and plan_id = ${planId} order by createTime
+  </select>
   
    <select id="getRelationsCountByColumnValue" resultType="java.lang.Integer">
     select 

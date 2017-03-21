@@ -30,8 +30,7 @@
 		
 		.t1 tr th {
 			color: #0d487b;
-			background: #f2f4f8 url(../CSS/Table/images/sj_title_pp.jpg) repeat-x
-				left bottom;
+			background: #f2f4f8;
 			line-height: 28px;
 			border-bottom: 1px solid #9cb6cf;
 			border-top: 1px solid #e9edf3;
@@ -118,13 +117,14 @@
 								<td>${planStatusBean.validateRelation }</td>
 								<td>
 									<c:choose>
-										<c:when test="${planStatusBean.isPerson }">
-											<a href="${pageContext.request.contextPath}/viewNofinish?type=0&no="${planStatusBean.betestedObejctNo }></a>
+										<c:when test="${planStatusBean.isPerson}">
+											<a href="${pageContext.request.contextPath}/admin/viewNofinish?type=0&no=${planStatusBean.betestedObejctNo }&planId=${map.key.id }">${planStatusBean.noFinishRelation }</a>
 										</c:when>
 										<c:otherwise>
+											<a href="${pageContext.request.contextPath}/admin/viewNofinish?type=1&no=${planStatusBean.betestedObejctNo }&planId=${map.key.id }">${planStatusBean.noFinishRelation }</a>
 										</c:otherwise>
 									</c:choose>
-									${planStatusBean.noFinishRelation }
+									
 								</td>
 							</tr>		
 						</c:forEach>

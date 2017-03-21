@@ -100,4 +100,8 @@ public class RelationServiceImpl implements RelationService {
 		return relationDao.getRelationsByBeTestedUserNos(userNos);
 	}
 
+	public List<Relation> getRelationsByBeTestedDepartNoAndPlanId(String departNo, String planId) {
+		return relationDao.getRelationsByBeTestedDepartNoAndPlanId(departNo, planId);
+	}
+
 }
