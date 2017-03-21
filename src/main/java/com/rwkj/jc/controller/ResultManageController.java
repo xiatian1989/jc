@@ -30,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.rwkj.jc.bean.PlanStatusBean;
 import com.rwkj.jc.bean.ResultBean;
 import com.rwkj.jc.domain.Depart;
 import com.rwkj.jc.domain.Paper;
@@ -770,47 +771,86 @@ public class ResultManageController {
 	@RequestMapping("/admin/allPlanStatus")
 	public ModelAndView allPlanStatus(HttpServletRequest request){
 		ModelAndView modelAndView = new ModelAndView();
-		Map<String,LinkedHashMap<String,Object>> map = new HashMap<String,LinkedHashMap<String,Object>>();
 		List<Plan> plans = planService.getAllPlans();
 		List<Relation> relations = relationService.getAllRelations();
-		LinkedHashMap<String,Object> mapForAnalysis = null;
+		Map<Plan,List<Relation>> planForRelations = new LinkedHashMap<Plan,List<Relation>>();
+		Map<Plan,List<PlanStatusBean>> planForPlanStatusBeans = new LinkedHashMap<Plan,List<PlanStatusBean>>();
+		List<Relation> tempRelations = null;
 		int allCount;
 		int enableCount;
-		int useCount;
 		int notUseCount;
 		for(Plan plan:plans) {
 			if(plan.getIssure()){
 				continue;
 			}
+			tempRelations = new ArrayList<Relation>();
 			String key = plan.getPlantitle();
-			mapForAnalysis = new LinkedHashMap<String,Object>();
-			allCount = 0;
-			enableCount = 0;
-			useCount = 0;
-			notUseCount = 0;
 			for(Relation relation:relations) {
 				if(key.equals(relation.getPlan().getPlantitle())) {
-					allCount++;
-					if(relation.getStatus()){
-						enableCount++;
-						if(relation.getIsfinish()) {
-							useCount++;
-						}else{
-							notUseCount++;
-						}
-					}
+					tempRelations.add(relation);
 				}
 			}
-			mapForAnalysis.put("plan", plan);
-			mapForAnalysis.put("allCount", "总共建立了"+allCount+"对测评关系");
-			mapForAnalysis.put("enableCount", "存在"+enableCount+"对有效测评关系");
-			mapForAnalysis.put("useCount", "完成了"+useCount+"对测评关系");
-			mapForAnalysis.put("notUseCount", "还有"+notUseCount+"对测评关系需要完成");
-			
-			map.put(key, mapForAnalysis);
+			planForRelations.put(plan, tempRelations);
 		}
 		
-		modelAndView.addObject("map", map);
+		for(Entry<Plan, List<Relation>> entry:planForRelations.entrySet()){
+			tempRelations = entry.getValue();
+			Map<String,List<Relation>> mapForKey = new HashMap<String,List<Relation>>();
+			for(Relation relation:tempRelations) {
+				String key = "";
+				if(relation.getIsperson()){
+					key = relation.getBetestedperson();
+				}else{
+					key = relation.getBetesteddepart();
+				}
+				if(mapForKey.containsKey(key)){
+					List<Relation> bakRelations = mapForKey.get(key);
+					bakRelations.add(relation);
+					mapForKey.put(key, bakRelations);
+				}else{
+					List<Relation> bakRelations = new ArrayList<Relation>();
+					bakRelations.add(relation);
+					mapForKey.put(key, bakRelations);
+				}
+			}
+			List<PlanStatusBean> planStatusBeans = new ArrayList<PlanStatusBean>();
+			for(Entry<String, List<Relation>> entryForRelation:mapForKey.entrySet()){
+				allCount = 0;
+				enableCount = 0;
+				notUseCount = 0;
+				boolean isPerson = false;
+				String name = "";
+				String no = "";
+				PlanStatusBean planStatusBean = new PlanStatusBean();
+				for(Relation tempRelation:entryForRelation.getValue()){
+					allCount++;
+					if(tempRelation.getStatus()){
+						enableCount++;
+					}
+					if(tempRelation.getIsfinish()){
+						notUseCount++;
+					}
+					isPerson= tempRelation.getIsperson();
+					if(isPerson){
+						name = tempRelation.getBeTestedUser().getTruename();
+						no = tempRelation.getBetestedperson();
+					}else{
+						name = tempRelation.getTestedDepart().getDepartName();
+						no = tempRelation.getBetesteddepart();
+					}
+				}
+				planStatusBean.setPerson(isPerson);
+				planStatusBean.setBetestedObejct(name);
+				planStatusBean.setBetestedObejctNo(no);
+				planStatusBean.setTotalRelation(allCount);
+				planStatusBean.setValidateRelation(enableCount);
+				planStatusBean.setNoFinishRelation(notUseCount);
+				planStatusBeans.add(planStatusBean);
+			}
+			planForPlanStatusBeans.put(entry.getKey(), planStatusBeans);
+		}
+		
+		modelAndView.addObject("map", planForPlanStatusBeans);
 		modelAndView.setViewName("admin/ResultManage/planStatus");
 		return modelAndView;
 	}

@@ -1,9 +1,10 @@
 package com.rwkj.jc.bean;
 
-public class planStatusBean {
+public class PlanStatusBean {
 	
 	private boolean isPerson;
 	private String betestedObejct;
+	private String betestedObejctNo;
 	private long totalRelation;
 	private long validateRelation;
 	private long noFinishRelation;
@@ -37,5 +38,11 @@ public class planStatusBean {
 	}
 	public void setNoFinishRelation(long noFinishRelation) {
 		this.noFinishRelation = noFinishRelation;
+	}
+	public String getBetestedObejctNo() {
+		return betestedObejctNo;
+	}
+	public void setBetestedObejctNo(String betestedObejctNo) {
+		this.betestedObejctNo = betestedObejctNo;
 	}
 }

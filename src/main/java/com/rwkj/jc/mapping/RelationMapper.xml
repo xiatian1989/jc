@@ -274,7 +274,7 @@
   <select id="getAllRelations" resultMap="BaseResultMap" parameterType="java.lang.String">
     select 
     <include refid="Base_Column_List" />
-    from jc_relation order by createTime
+    from jc_relation order by plan_id,beTestedPerson,beTestedDepart
   </select>
   
    <insert id="batchInsert" parameterType="java.util.List">
