@@ -223,6 +223,20 @@
 	#win,body{
 		padding:0px;
 	}
+	a {
+		cursor: pointer;
+		text-decoration: none;
+		hide-focus: expression(this.hideFocus = true);
+		outline: none;
+	}
+	
+	a:link, a:visited, a:hover, a:active {
+		text-decoration: none;
+	}
+	
+	a:focus {
+		outline: 0;
+	}
 </style>
 </head>
 <body>

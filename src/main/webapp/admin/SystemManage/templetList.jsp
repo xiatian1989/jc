@@ -208,7 +208,7 @@
 				width : 90,
 				align:'center',
 				formatter : function(value, row, index) {
-					return '<a href="javaScript:void(0)" onClick="openView('+"'"+value+"'"+')">预览模板</a><a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newTemplet()">添加模板</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/admin/SystemManage/templetDetailList.jsp?value='+value+'" target="rightFrame">编辑模板详情</a>';
+					return '<a href="javaScript:void(0)" onClick="openView('+"'"+value+"'"+')">预览模板</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/admin/SystemManage/templetDetailList.jsp?value='+value+'" target="rightFrame">编辑模板详情</a>';
 				}
 			} ] ],
 			fitColumns : true,
