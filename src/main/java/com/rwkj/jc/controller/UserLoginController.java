@@ -14,6 +14,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSON;
+import com.rwkj.jc.bean.WxResultBean;
 import com.rwkj.jc.domain.Plan;
 import com.rwkj.jc.domain.Relation;
 import com.rwkj.jc.domain.User;
@@ -22,6 +24,7 @@ import com.rwkj.jc.service.RelationService;
 import com.rwkj.jc.service.UserService;
 import com.rwkj.jc.util.CheckIsPhone;
 import com.rwkj.jc.util.CommonUtils;
+import com.rwkj.jc.util.HttpUtils;
 
 @Controller
 public class UserLoginController {
@@ -74,6 +77,35 @@ public class UserLoginController {
 					}
 				}
 			}
+		}
+		return modelAndView;
+	}
+	
+	@RequestMapping("/client/validateCode")
+	public ModelAndView code(HttpServletRequest req){
+		
+		String code = req.getParameter("code");
+		String result = HttpUtils.sendGet("https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code="+code+"&grant_type=authorization_code");
+		WxResultBean wxResultBean = JSON.parseObject(result, WxResultBean.class);
+		ModelAndView modelAndView = new ModelAndView();
+		Map<Plan,List<Relation>> planForRelations = new LinkedHashMap<Plan,List<Relation>>();
+		
+		HttpSession session = req.getSession(true);
+		
+		User user = (User)session.getAttribute("user");
+		List<Plan> plans = planService.getAllPlans();
+		for(Plan plan:plans) {
+			List<Relation> relations = relationService.getRelationsByPlanIdAndUserNo("'"+plan.getId()+"'", "'"+user.getUserno()+"'");
+			if(!CollectionUtils.isEmpty(relations)) {
+				planForRelations.put(plan,relations);
+			}
+		}
+		modelAndView.addObject("planForRelations",planForRelations);
+		String userAgent = req.getHeader("user-agent");
+		if(CheckIsPhone.check(userAgent)) {
+			modelAndView.setViewName("client/main/indexm");
+		}else{
+			modelAndView.setViewName("client/main/left");
 		}
 		return modelAndView;
 	}
