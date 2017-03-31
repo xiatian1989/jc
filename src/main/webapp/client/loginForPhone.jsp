@@ -67,6 +67,7 @@ function submitBefore(){
 		<div class="log-logo"><img src="${pageContext.request.contextPath}/images/hezuo.png" /></div>
 		<div class="log-name"><input type="text" class="log-names" id="username" placeholder="请输入用户名" name="username" /></div>
 		<div class="log-pwd"><input type="password" id ="username" class="log-pwds" placeholder="请输入密码" name="password"/></div>
+		<input type="hidden" id ="webchat" name="webchat" value="${webchat}"/>
 		<div class="log-btn"><input type="submit" class="btn-style-01" value="&nbsp;&nbsp;&nbsp;&nbsp;登录/绑定&nbsp;&nbsp;&nbsp;&nbsp;" /></form></div></form>
 		<div class="log-forget"><a href="${pageContext.request.contextPath}/client/forget.jsp">忘记密码？</a></div>
 	</div>

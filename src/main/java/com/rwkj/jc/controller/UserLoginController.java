@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.StringUtil;
 import com.rwkj.jc.bean.WxResultBean;
 import com.rwkj.jc.domain.Plan;
 import com.rwkj.jc.domain.Relation;
@@ -42,6 +43,11 @@ public class UserLoginController {
 		ModelAndView modelAndView = new ModelAndView();
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
+		String webchat = req.getParameter("webchat");
+		if(StringUtil.isNotEmpty(webchat)){
+			System.out.println(webchat);
+			modelAndView.addObject("webchat",webchat);
+		}
 		
 		HttpSession session = req.getSession(true);
 		
@@ -55,6 +61,11 @@ public class UserLoginController {
 				modelAndView.setViewName("client/login");
 				modelAndView.addObject("message","用户编号或者密码错误！");
 			}else {
+				if(StringUtil.isNotEmpty(webchat)){
+					user.setWebchat(webchat);
+					userService.updateUser(user);
+				}
+				
 				if("0".equals(user.getStatus())){
 					modelAndView.setViewName("client/login");
 					modelAndView.addObject("message","用户处于禁用状态！");
@@ -82,30 +93,42 @@ public class UserLoginController {
 	}
 	
 	@RequestMapping("/client/validateCode")
-	public ModelAndView code(HttpServletRequest req){
-		
+	public ModelAndView validateCode(HttpServletRequest req){
 		String code = req.getParameter("code");
-		String result = HttpUtils.sendGet("https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code="+code+"&grant_type=authorization_code");
+		System.out.println(code);
+		String result = HttpUtils.sendGet("https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxadad8ac4420b4492&secret=98a9b5c1873e14091af9361087a979b1&code="+code+"&grant_type=authorization_code");
 		WxResultBean wxResultBean = JSON.parseObject(result, WxResultBean.class);
 		ModelAndView modelAndView = new ModelAndView();
-		Map<Plan,List<Relation>> planForRelations = new LinkedHashMap<Plan,List<Relation>>();
-		
+		String webchat = wxResultBean.getOpenid();
+		System.out.println(webchat);
 		HttpSession session = req.getSession(true);
-		
-		User user = (User)session.getAttribute("user");
-		List<Plan> plans = planService.getAllPlans();
-		for(Plan plan:plans) {
-			List<Relation> relations = relationService.getRelationsByPlanIdAndUserNo("'"+plan.getId()+"'", "'"+user.getUserno()+"'");
-			if(!CollectionUtils.isEmpty(relations)) {
-				planForRelations.put(plan,relations);
+		int count = userService.getUserCountByColumnValue("webChat",webchat);
+		if(count == 1) {
+			User user = userService.getUserByWebChat(webchat);
+			if("0".equals(user.getStatus())){
+				modelAndView.addObject("errorMsg", "用户处于禁用状态，请联系管理员进行处理！");
+				modelAndView.setViewName("client/main/error");
+			}else{
+				session.setAttribute("user", user);
+				String userAgent = req.getHeader("user-agent");
+				if(CheckIsPhone.check(userAgent)) {
+					Map<Plan,List<Relation>> planForRelations = new LinkedHashMap<Plan,List<Relation>>();
+					List<Plan> plans = planService.getAllPlans();
+					for(Plan plan:plans) {
+						List<Relation> relations = relationService.getRelationsByPlanIdAndUserNo("'"+plan.getId()+"'", "'"+user.getUserno()+"'");
+						if(!CollectionUtils.isEmpty(relations)) {
+							planForRelations.put(plan,relations);
+						}
+					}
+					modelAndView.addObject("planForRelations",planForRelations);
+					modelAndView.setViewName("client/main/indexm");
+				}else{
+					modelAndView.setViewName("client/main/main");
+				}
 			}
-		}
-		modelAndView.addObject("planForRelations",planForRelations);
-		String userAgent = req.getHeader("user-agent");
-		if(CheckIsPhone.check(userAgent)) {
-			modelAndView.setViewName("client/main/indexm");
 		}else{
-			modelAndView.setViewName("client/main/left");
+			modelAndView.addObject("webchat", webchat);
+			modelAndView.setViewName("client/main/main");
 		}
 		return modelAndView;
 	}

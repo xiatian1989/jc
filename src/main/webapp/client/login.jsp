@@ -95,8 +95,9 @@
 		<div class="loginbox">
 			<form action="${pageContext.request.contextPath}/client/userLogin" method="post" id="form1" onsubmit="return submitBefore()">
 				<ul>
-					<li><input name="username"  id="username" type="text" class="loginuser" value="admin" onclick="JavaScript:this.value=''" /></li>
+					<li><input name="username"  id="username" type="text" class="loginuser" value="user" onclick="JavaScript:this.value=''" /></li>
 					<li><input name="password" id="password" type="password" class="loginpwd" value="password" onclick="JavaScript:this.value=''" /></li>
+					<input type="hidden" id ="webchat" name="webchat" value="${webchat}"/>
 					<li><input name="" type="submit" class="loginbtn" value="登录"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="" type="reset" class="loginbtn" value="重置"/></li>
 				</ul>
 			</form>

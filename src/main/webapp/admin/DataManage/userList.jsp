@@ -251,11 +251,11 @@
 				field : 'phone',
 				width : 80,
 				align:'center',
-			}, {
+		/* 	}, {
 				title : '微信号',
 				field : 'webchat',
 				width : 80,
-				align:'center',
+				align:'center', */
 			}, {
 				title : '创建时间',
 				field : 'createtime',

@@ -4,6 +4,7 @@ public class WxResultBean {
 	private String access_token;
 	private String expires_in;
 	private String refresh_token;
+	private String openid;
 	private String scope;
 	private String unionid;
 	
@@ -24,6 +25,12 @@ public class WxResultBean {
 	}
 	public void setRefresh_token(String refresh_token) {
 		this.refresh_token = refresh_token;
+	}
+	public String getOpenid() {
+		return openid;
+	}
+	public void setOpenid(String openid) {
+		this.openid = openid;
 	}
 	public String getScope() {
 		return scope;
