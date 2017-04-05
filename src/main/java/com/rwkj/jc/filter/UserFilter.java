@@ -27,7 +27,8 @@ public class UserFilter implements Filter {
         		|| servletPath.endsWith("/client/userLogin") || servletPath.endsWith("/client/userLogin")
         		|| servletPath.endsWith("/client/userLoginByWebChat") || servletPath.endsWith("/client/userLoginByWebChat")
         		|| servletPath.equals("/client/loginForPhone.jsp") || servletPath.endsWith("client/loginForPhone.jsp")
-        		|| servletPath.equals("/client/forget.jsp") || servletPath.endsWith("client/forget.jsp")) {
+        		|| servletPath.equals("/client/forget.jsp") || servletPath.endsWith("client/forget.jsp")
+        		|| servletPath.equals("/MP_verify_I0yEUNgyLxZKMKi2.txt") || servletPath.endsWith("MP_verify_I0yEUNgyLxZKMKi2.txt")) {
             chain.doFilter(req, res);
             return;
         }
