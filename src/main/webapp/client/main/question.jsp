@@ -110,10 +110,10 @@
 	                      <li class="bn">
 	                          <input type="radio" name="${paperDetail.questionno }" id="" class="rad" value="D"><span>D</span>${paperDetail.optiond }
 	                      </li>
-	                      <c:if test="${paperDetail.optione != '' }">
+	                      <c:if test="${paperDetail.optione != '' && paperDetail.optione != null }">
 	                      		<input type="radio" name="${paperDetail.questionno }" id="" class="rad" value="E"><span>E</span>${paperDetail.optione }
 	                      </c:if>
-	                      <c:if test="${paperDetail.optione != '' }">
+	                      <c:if test="${paperDetail.optionf != '' && paperDetail.optionf != null  }">
 	                      		<input type="radio" name="${paperDetail.questionno }" id="" class="rad" value="E"><span>F</span>${paperDetail.optionf }
 	                      </c:if>
 	                      <c:if test="${paperDetail.issuggest}">
