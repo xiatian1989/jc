@@ -14,11 +14,28 @@ body{font-family: "helvetica neue",arial,sans-serif;font-size: 14px;color: #444;
 .ment7{width: 32%;background-color: #688ce2;float: left;height: 96px;color: white;margin-top: 1%;font-size: 20px;font-weight: bolder;}
 .ment8{width: 32%;background-color: #8d67e0;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
 .ment9{width: 32%;background-color: #6C57CA;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
-.ment10{width: 98%;background-color: #ff8a4a;float: left;height: 96px;color: white;margin: 1% auto 1% auto;padding:33px;font-size: 20px;font-weight: bolder;position: relative;text-align: center; white-space:nowrap;}
-
+.ment10{width: 32%;background-color: #f4b615;float: left;height: 96px;color: white;margin-top:1%;font-size: 20px;font-weight: bolder;}
+.ment11{width: 32%;background-color: #ff8a4a;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
+.ment12{width: 32%;background-color: #fc5265;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
+.ment13{width: 32%;background-color: #84d018;float: left;height: 96px;color: white;margin-top: 1%;font-size: 20px;font-weight: bolder;}
+.ment14{width: 32%;background-color: #14c761;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
+.ment15{width: 32%;background-color: #36aae7;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
+.ment16{width: 32%;background-color: #688ce2;float: left;height: 96px;color: white;margin-top: 1%;font-size: 20px;font-weight: bolder;}
+.ment17{width: 32%;background-color: #8d67e0;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
+.ment18{width: 32%;background-color: #6C57CA;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
+.ment19{width: 32%;background-color: #f4b615;float: left;height: 96px;color: white;margin-top:1%;font-size: 20px;font-weight: bolder;}
+.ment20{width: 32%;background-color: #ff8a4a;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
+.ment21{width: 32%;background-color: #fc5265;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
+.ment22{width: 32%;background-color: #84d018;float: left;height: 96px;color: white;margin-top: 1%;font-size: 20px;font-weight: bolder;}
+.ment23{width: 32%;background-color: #14c761;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
+.ment24{width: 32%;background-color: #36aae7;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
+.ment25{width: 32%;background-color: #688ce2;float: left;height: 96px;color: white;margin-top: 1%;font-size: 20px;font-weight: bolder;}
+.ment26{width: 32%;background-color: #8d67e0;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
+.ment27{width: 32%;background-color: #6C57CA;float: left;height: 96px;color: white;margin-top: 1%;margin-left: 1%;font-size: 20px;font-weight: bolder;}
+.ment28{width: 98%;background-color: #ff8a4a;float: left;height: 96px;color: white;margin: 1% auto 1% auto;padding:33px;font-size: 20px;font-weight: bolder;position: relative;text-align: center; white-space:nowrap;}
 .mentable{width:100%; height:96px; position:relative;text-align:center; margin-left:-width/2;margin-top:- height/2;}
 
-/*登录页面css*/
+/*鐧诲綍椤甸潰css*/
 .log{}
 .log .log-div{}
 .log .log-div .log-logo{width: 190px;height: 190px;margin: 40px auto;overflow: hidden;margin-bottom: 0px;;}
@@ -92,11 +109,11 @@ dd:first-child .menuson{display:block;}
     border:1px #2982ba solid;
     -webkit-box-shadow:inset 0px 0px 1px #fff;
     -moz-box-shadow:inset 0px 0px 1px #fff;
-    box-shadow:inset 0px 0px 1px #fff;/*内发光效果*/
+    box-shadow:inset 0px 0px 1px #fff;/*鍐呭彂鍏夋晥鏋�*/
     -webkit-border-radius:4px;
     -moz-border-radius:4px;
-    border-radius:4px;/*边框圆角*/
-    text-shadow:1px 1px 0px #b67f01;/*字体阴影效果*/
+    border-radius:4px;/*杈规鍦嗚*/
+    text-shadow:1px 1px 0px #b67f01;/*瀛椾綋闃村奖鏁堟灉*/
     background-color:#2982ba;
 
 }
@@ -112,7 +129,7 @@ dd:first-child .menuson{display:block;}
 
 
 
-/*适配大小屏手机显示*/
+/*閫傞厤澶у皬灞忔墜鏈烘樉绀�*/
 /*6   6s*/
 @media(max-width: 375px) {
 .log .log-div .log-logo{width: 160px;height: 160px;margin-top: 35px;}

@@ -121,7 +121,7 @@
 									</c:when>
 									 <c:otherwise>
 										
-										 <div class="ment1"><table class="mentable"><tr><td><p class="newIcon am-icon-user"></p>${relation.testedDepart.departName}<br>
+										 <div class="ment28"><table class="mentable"><tr><td><p class="newIcon am-icon-user"></p>${relation.testedDepart.departName}<br>
 											 <c:choose>
 												<c:when test="${relation.isfinish}">
 													(已测评)
